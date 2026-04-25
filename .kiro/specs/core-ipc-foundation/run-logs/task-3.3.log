@@ -1,0 +1,246 @@
+OK
+3.3 ClientSessionManager の実装（接続・切断検知・再接続駆動） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ClientSessionManager.cs
+    Public sealed class implementing IAsyncDisposable. Drives the
+    client-side IPC session lifecycle: initial connect, receive
+    loop, drop detection, exponential-backoff reconnect, max-attempt
+    PermanentlyDisconnected, and Shutdown-as-clean-Disconnected per
+    requirements 2.4 / 5.2 / 5.4 / 5.5 / 5.8.
+
+    Constructor parameters:
+        - ITransportAdapter transport     : injected I/O port
+        - ClientBindOptions bindOptions   : host/port/connect timeout
+        - ConnectionStateMachine sm       : 5-state connection FSM
+                                            (task 3.1)
+        - ReconnectBackoff backoff        : retry schedule (task 3.2)
+        - Func<TimeSpan, CancellationToken, Task>? delay = null
+            Optional injection point so unit tests can substitute
+            Task.Delay with an instant or never-returning awaitable;
+            defaults to System.Threading.Tasks.Task.Delay.
+        - Action<ReadOnlyMemory<byte>>? onMessageReceived = null
+            Inbound frame sink. Task 7.1 will wire this to
+            SystemTextJsonCodec.Decode → MainThreadDispatchQueue.
+        - Action<string>? logWarning / logError
+            Pluggable log sinks (CoreIpcLogger from task 5.3 will
+            adapt Unity's Debug.Log into these callbacks).
+
+    Public surface:
+        Task StartAsync(CancellationToken externalToken = default)
+            Spawns the worker Task that drives connect / receive /
+            reconnect. Throws InvalidOperationException on second
+            invocation; throws ObjectDisposedException after Dispose.
+        Task ShutdownAsync()
+            Sets the shutdown flag, cancels the internal CTS,
+            disposes the live IClientConnection if any, awaits the
+            worker to drain, then issues a single
+            ConnectionState.Disconnected transition with
+            isShutdown=true (Req 5.8).
+        ValueTask DisposeAsync()
+            Calls ShutdownAsync (idempotent) and disposes the CTS.
+        IClientConnection? CurrentConnection { get; }
+        bool IsShutdownRequested { get; }
+        Task RunLoopTask { get; }
+
+    Internal flow (RunAsync on the worker):
+        Phase 1 — initial connect:
+            1. Disconnected → Connecting.
+            2. Loop: ITransportAdapter.ConnectClientAsync.
+               - On success: cache IClientConnection, Reset backoff,
+                 Connecting → Connected, exit phase 1.
+               - On failure: log warning, check ExceededMaxAttempts
+                 (give up if true; PermanentlyDisconnected is not
+                 reachable from Connecting per task 3.1 — see note
+                 below), else NextDelay() + await delay, then
+                 Connecting → Disconnected → Connecting and retry.
+        Phase 2 — receive + reconnect:
+            3. Iterate IClientConnection.ReceiveAsync(ct) and forward
+               each frame to onMessageReceived. Handler exceptions
+               are swallowed and logged so a single bad envelope
+               cannot tear down the loop (Req 5.7 spirit, applied
+               client-side).
+            4. On clean enumeration end (drop) or thrown exception:
+               dispose the connection, clear the cache, transition
+               Connected → Reconnecting.
+            5. Inner retry loop while in Reconnecting:
+               - if backoff.ExceededMaxAttempts:
+                   Reconnecting → PermanentlyDisconnected, exit (Req
+                   5.5).
+               - else NextDelay() + await delay (cancellation-aware).
+               - try ConnectClientAsync; on failure stay in
+                 Reconnecting and continue (the state machine's hard
+                 constraint forbids Connecting → Reconnecting, so
+                 failed reconnect attempts keep the FSM in
+                 Reconnecting and defer the transient Connecting
+                 visit until success).
+               - on success: Reconnecting → Connecting → Connected,
+                 Reset backoff, return to step 3.
+        Cancellation / shutdown:
+            - All awaits propagate the worker CancellationToken; the
+              never-returning delay used by tests is canceled via
+              ct.Register so ShutdownAsync drains promptly.
+            - ShutdownAsync issues the final Disconnected transition
+              with isShutdown=true regardless of which state the
+              worker observed last (Connecting / Connected /
+              Reconnecting all have valid edges to Disconnected per
+              task 3.1's IsValidTransition).
+            - PermanentlyDisconnected is sticky — once reached, no
+              Disconnected transition is forced (the FSM rejects it
+              and the test in task 3.1 already covers that contract).
+
+    Note on initial-attempt PermanentlyDisconnected:
+        The state machine produced by task 3.1 only allows the
+        Reconnecting → PermanentlyDisconnected edge, so the
+        "永久不在サーバへの初回接続" path cannot reach
+        PermanentlyDisconnected without ever achieving Connected.
+        Task 3.3's required scenarios all start from a successful
+        Connected (タスクの "接続成功→切断→再接続成功" /
+        "上限超過での PermanentlyDisconnected") so this is consistent
+        with the FSM as built. If task 8.2's
+        "クライアント先行起動→サーバ後発起動" scenario needs to reach
+        PermanentlyDisconnected from a never-connected state, that
+        either (a) needs ReconnectBackoff to retry indefinitely
+        without a permanent-failure verdict, or (b) needs the FSM to
+        gain a Disconnected → PermanentlyDisconnected edge. The
+        current implementation logs an error and gives up silently
+        when initial connect attempts are exhausted.
+
+    Threading:
+        - The worker runs on Task.Run; its CancellationTokenSource
+          is created lazily inside StartAsync and disposed at the
+          end of DisposeAsync.
+        - _currentConnection / _shutdownRequested / _disposed are
+          all guarded by a single instance lock; the FSM has its
+          own internal lock so we never hold both at once.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ClientSessionManager.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ClientSessionManagerTests.cs
+    Nine NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor.
+    Uses two private fakes (FakeTransport implementing
+    ITransportAdapter, FakeClientConnection implementing
+    IClientConnection) so the tests stay in the Tests.Editor
+    asmdef without depending on Tests.Runtime/TestSupport.
+
+    The four scenarios mandated by tasks.md §3.3:
+        Scenario1_ConnectSucceeds_TransitionsToConnected
+            One queued success → state log
+            [Connecting, Connected]; backoff.AttemptCount = 0
+            (reset on connect).
+        Scenario2_DropAfterConnected_RecoversThroughReconnecting
+            Two queued successes; SimulateDrop on the first
+            connection → state log
+            [Connecting, Connected, Reconnecting,
+             Connecting, Connected]; old connection disposed;
+            ConnectAttemptCount = 2; backoff reset on second
+            success.
+        Scenario3_AttemptsExceedMax_TransitionsToPermanentlyDisconnected
+            One success + maxAttempts (=3) failures → state log
+            [Connecting, Connected, Reconnecting,
+             PermanentlyDisconnected]; ConnectAttemptCount =
+            1 + maxAttempts; backoff.ExceededMaxAttempts true.
+        Scenario4_ShutdownDuringReconnect_StopsRetriesAndCleanlyDisconnects
+            One success + 100 queued failures, with a delay
+            function that never returns until ct cancels.
+            Drop, wait for Reconnecting, call ShutdownAsync().
+            Asserts state == Disconnected, ShutdownRequested,
+            and ConnectAttemptCount unchanged (no retries fired
+            after shutdown).
+
+    Additional coverage:
+        ReceivedFrames_AreForwardedToCallback
+            FakeClientConnection.PushFrame(...) drains through the
+            receive loop and the onMessageReceived callback in FIFO
+            order.
+        Constructor_NullTransport_Throws
+        Constructor_NullStateMachine_Throws
+        Constructor_NullBackoff_Throws
+            Argument-null validation per parameter.
+        StartAsync_CalledTwice_Throws
+            Second StartAsync invocation throws
+            InvalidOperationException.
+
+    Test infrastructure:
+        - InstantDelay() : returns Task.CompletedTask immediately so
+          backoff math runs without real sleeps.
+        - NeverReturningDelay() : returns a TaskCompletionSource that
+          only completes via cancellation; used to pin the worker
+          inside the reconnect delay so the shutdown test can verify
+          it preempts pending retries.
+        - WaitForAsync(predicate, timeout, description) : polls the
+          predicate every 10 ms with a 5 s default timeout; this
+          avoids the StateChanged-event race window that briefly
+          appears between SimulateDrop() and the worker's transition
+          to Reconnecting.
+        - AttachStateLog(sm, sync) : subscribes a thread-safe log
+          before StartAsync so every transition is captured for the
+          end-of-test sequence assertion.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ClientSessionManagerTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- ClientSessionManager closes the loop opened by tasks 3.1 and 3.2:
+  ConnectionStateMachine owns the FSM, ReconnectBackoff owns the
+  retry schedule, and ClientSessionManager composes both with
+  ITransportAdapter to drive a single client session through its
+  full lifecycle (connect → receive → drop → reconnect → permanent
+  failure or shutdown).
+- The class is pure C# on the existing
+  VTuberSystemBase.CoreIpc.Core asmdef. No Unity engine references,
+  so it runs in EditMode tests directly without PlayerLoop pumping.
+- Per Req 5.4 the *Publish* path on Bus is responsible for the
+  NotConnected error during disconnects; ClientSessionManager only
+  drives state and forwards inbound frames, leaving send-side
+  precheck to CoreIpcBus (already implemented in task 2.5).
+- The injected delay function and the optional
+  onMessageReceived/log callbacks make the class fully unit-testable
+  without spinning a real WebSocket. Task 4.5 will plug in
+  WebSocketTransportAdapter; task 7.1 will plug in the codec/queue.
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 9 new tests
+    ClientSessionManagerTests : 9 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-3.3-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-3.3-editmode.log
+    Result XML: 178 tests, 178 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (new)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-3.3-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-3.3-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+  Pre-existing CS1998 warning in RequestCorrelationRegistryTests.cs
+  (task 2.3) is unrelated.
+
+Result: OK
