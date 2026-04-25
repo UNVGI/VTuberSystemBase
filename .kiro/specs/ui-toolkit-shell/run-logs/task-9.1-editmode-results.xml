@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="16" result="Passed" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.1012759">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="658" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.101276" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1299" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="275" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.088681" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="42756" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1300" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="275" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.087052" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1301" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="275" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.083301" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1302" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="275" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.081770" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1303" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="275" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.080337" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1061" name="NotificationBarControllerTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.072606" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1069" name="CloseButton_Click_DismissesItem" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.CloseButton_Click_DismissesItem" methodname="CloseButton_Click_DismissesItem" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="154332023" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.050052" asserts="0">
+                  <properties>
+                    <property name="Description" value="閉じるボタンクリックで通知行が一時非表示化される（Requirement 9.5 操作要件）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="Connection_Disconnect_ShowsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_Disconnect_ShowsWarning" methodname="Connection_Disconnect_ShowsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1182505091" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000675" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続断（Connected → Disconnected）で接続警告が 1 件追加される（Requirement 9.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="Connection_FailedPermanently_ShowsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_FailedPermanently_ShowsWarning" methodname="Connection_FailedPermanently_ShowsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1435923187" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000349" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続恒常断（FailedPermanently）で接続警告が表示される（Requirement 9.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1068" name="Connection_MultipleTransitions_DedupeToSingleItem" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_MultipleTransitions_DedupeToSingleItem" methodname="Connection_MultipleTransitions_DedupeToSingleItem" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1269413225" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000389" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続警告は遷移を重ねても 1 件に集約される（同一カテゴリは縦積みしない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="Connection_Reconnecting_ShowsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_Reconnecting_ShowsWarning" methodname="Connection_Reconnecting_ShowsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1643214729" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000653" asserts="0">
+                  <properties>
+                    <property name="Description" value="再接続中（Reconnecting）で接続警告が表示される（Requirement 9.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="Connection_RecoveredToConnected_ClearsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_RecoveredToConnected_ClearsWarning" methodname="Connection_RecoveredToConnected_ClearsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="517293437" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000471" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続復旧（→ Connected）で既存の接続警告が消える" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1070" name="Connection_ReNotify_AfterDismiss_RestoresWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Connection_ReNotify_AfterDismiss_RestoresWarning" methodname="Connection_ReNotify_AfterDismiss_RestoresWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="88174588" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000503" asserts="0">
+                  <properties>
+                    <property name="Description" value="閉じても状態が継続して再通知が来たら警告が再表示される（Requirement 9.5 再表示条件）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="Constructor_InitialState_NoItemsRendered" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Constructor_InitialState_NoItemsRendered" methodname="Constructor_InitialState_NoItemsRendered" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="263968483" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000414" asserts="0">
+                  <properties>
+                    <property name="Description" value="初期状態（接続未確立 / プリロード未完了 / フォールバックなし）では通知行を 0 件で開始する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="Constructor_NullArgs_Throw" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Constructor_NullArgs_Throw" methodname="Constructor_NullArgs_Throw" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="748994756" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.002548" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null host / connection / registry / logger を拒否する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1074" name="DisplayFallback_Clear_RemovesWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.DisplayFallback_Clear_RemovesWarning" methodname="DisplayFallback_Clear_RemovesWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1109707939" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000398" asserts="0">
+                  <properties>
+                    <property name="Description" value="ClearDisplayFallback で同 key の警告が消える（fallback 解除時の挙動）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1073" name="DisplayFallback_Show_AddsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.DisplayFallback_Show_AddsWarning" methodname="DisplayFallback_Show_AddsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="753046904" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000301" asserts="0">
+                  <properties>
+                    <property name="Description" value="Display 1 フォールバック警告は ShowDisplayFallback で公開 API 経由で追加される（Requirement 9.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1075" name="DisplayFallback_Show_SameKey_DoesNotDuplicate" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.DisplayFallback_Show_SameKey_DoesNotDuplicate" methodname="DisplayFallback_Show_SameKey_DoesNotDuplicate" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1581564239" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000276" asserts="0">
+                  <properties>
+                    <property name="Description" value="ShowDisplayFallback は同 key に対しては差し替え（重複追加しない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1077" name="Dispose_UnsubscribesFromEvents" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.Dispose_UnsubscribesFromEvents" methodname="Dispose_UnsubscribesFromEvents" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="634140274" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.001017" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose 後は OnStatusChanged / OnPreloadChanged を購読解除し、後続イベントで描画されない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1076" name="FourWarnings_RenderMaxThree_LogOverflow" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.FourWarnings_RenderMaxThree_LogOverflow" methodname="FourWarnings_RenderMaxThree_LogOverflow" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="614653734" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.001344" asserts="0">
+                  <properties>
+                    <property name="Description" value="4 種警告（接続断 + Display フォールバック + プリロード失敗 ×2）の同時発生で 3 件まで縦積みされ、超過分は診断パネル（ログ）へ流れる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1071" name="PreloadFailure_AddsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.PreloadFailure_AddsWarning" methodname="PreloadFailure_AddsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="1166049599" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000323" asserts="0">
+                  <properties>
+                    <property name="Description" value="タブのプリロード失敗で警告が追加される（Requirement 6.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1072" name="PreloadFailure_TwoTabs_StackVertically" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests.PreloadFailure_TwoTabs_StackVertically" methodname="PreloadFailure_TwoTabs_StackVertically" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.NotificationBarControllerTests" runstate="Runnable" seed="32582501" result="Passed" start-time="2026-04-25 20:02:08Z" end-time="2026-04-25 20:02:08Z" duration="0.000350" asserts="0">
+                  <properties>
+                    <property name="Description" value="複数タブの失敗ごとに別個の警告が縦積みされる（同カテゴリでもタブ ID 単位で別件）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

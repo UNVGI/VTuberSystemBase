@@ -252,7 +252,7 @@
 
 ## 9. Core: 通知バー / メイン出力監視 / フェイルセーフ
 
-- [ ] 9.1 (P) `NotificationBarController` を TDD で実装する
+- [x] 9.1 (P) `NotificationBarController` を TDD で実装する
   - TDD: 接続断・再接続中・Display フォールバック・プリロード失敗の 4 種警告を縦積みで表示し、閉じるボタンで一時非表示化できることを検証する
   - 縦積みは最大 3 件、それ以上は診断パネルに流すことをテストで固定する
   - 観測可能な完了状態: `IConnectionStatus` をフェイクで変動させ、UI 上の警告要素数が期待通りになる PlayMode テストが緑
