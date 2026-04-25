@@ -1,19 +1,18 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine.UIElements;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 
 namespace VTuberSystemBase.UiToolkitShell.Panels
 {
     /// <summary>
     /// Default <see cref="ITabPanelRegistry"/> implementation. Tracks the
-    /// per-tab preload state across the three shell tabs and exposes the
+    /// per-tab preload state across the three shell tabs, exposes the
     /// <see cref="ITabLifecycleHandle"/> tab specs use to subscribe to
-    /// activation events. Display-switching responsibilities (task 8.3) will
-    /// extend this class incrementally; the present scope (task 8.2) covers
-    /// preload progression, registration, disposal, and the
-    /// <c>OnPreloadChanged</c> event surface (Requirements 2.1, 3.1, 3.3,
-    /// 3.4, 3.5, 3.6, 3.7, 5.7, 10.1, 10.2).
+    /// activation events, and switches the visible tab via
+    /// <c>style.display</c> swaps only (Requirement 2.3, 2.4, 2.5, 2.8, 3.6).
     /// </summary>
     /// <remarks>
     /// <para>
@@ -34,6 +33,19 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
     /// <c>IsPreloadComplete</c> per Requirement 3.5: failed tabs do not
     /// block the rest of the shell from booting.
     /// </para>
+    /// <para>
+    /// <b>Display swap contract.</b> <see cref="SwitchTo"/> only mutates the
+    /// <c>style.display</c> of bound <see cref="VisualElement"/> roots — it
+    /// never re-clones a VisualTreeAsset, never re-binds a UIDocument, and
+    /// never replaces the cached element reference. Tab specs that capture
+    /// their root in <c>OnActivated</c> can rely on the same instance
+    /// surviving across an arbitrary number of switches (Requirement 2.4,
+    /// 3.6). Lifecycle dispatch order on a successful switch is:
+    /// (1) hide outgoing root, (2) raise <c>OnDeactivated</c> on outgoing
+    /// handle, (3) show incoming root, (4) update <see cref="ActiveTab"/>,
+    /// (5) raise <c>OnActivated</c> on incoming handle, (6) raise
+    /// <c>OnTabSwitched</c>.
+    /// </para>
     /// </remarks>
     public sealed class TabPanelRegistry : ITabPanelRegistry
     {
@@ -47,6 +59,8 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
         private readonly IDiagnosticsLogger _logger;
         private readonly Dictionary<TabId, TabState> _states;
         private readonly Dictionary<TabId, TabLifecycleHandle> _handles;
+        private readonly Dictionary<TabId, VisualElement> _roots;
+        private TabId? _activeTab;
 
         public TabPanelRegistry(IDiagnosticsLogger logger)
         {
@@ -54,6 +68,7 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
             _logger = logger;
             _states = new Dictionary<TabId, TabState>(AllTabs.Length);
             _handles = new Dictionary<TabId, TabLifecycleHandle>(AllTabs.Length);
+            _roots = new Dictionary<TabId, VisualElement>(AllTabs.Length);
             foreach (var tab in AllTabs)
             {
                 _states[tab] = TabState.Pending;
@@ -64,7 +79,11 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
 
         public bool IsPreloadComplete => CountResolved() == AllTabs.Length;
 
+        public TabId? ActiveTab => _activeTab;
+
         public event Action<PreloadEvent>? OnPreloadChanged;
+
+        public event Action<TabSwitchEvent>? OnTabSwitched;
 
         public PreloadProgress GetPreloadProgress()
         {
@@ -120,6 +139,20 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
             RaisePreloadEvent(tabId, PreloadOutcome.Succeeded);
         }
 
+        public void NotifyTabMounted(TabId tabId, VisualElement rootVisualElement)
+        {
+            if (rootVisualElement is null)
+            {
+                throw new ArgumentNullException(nameof(rootVisualElement));
+            }
+            // Bind the visual element regardless of mount state so that a
+            // re-entrant OnEnable can still update the binding without
+            // double-firing the preload event.
+            _roots[tabId] = rootVisualElement;
+            rootVisualElement.style.display = DisplayStyle.None;
+            NotifyTabMounted(tabId);
+        }
+
         public void MarkTabFailed(TabId tabId, string reason)
         {
             if (string.IsNullOrEmpty(reason))
@@ -140,6 +173,79 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
             RaisePreloadEvent(tabId, PreloadOutcome.Failed);
         }
 
+        public SwitchResult SwitchTo(TabId target)
+        {
+            if (!IsPreloadComplete)
+            {
+                _logger.Log(
+                    LogLevel.Warning,
+                    LogCategory.TabSwitch,
+                    $"SwitchTo({target}) rejected: preload incomplete " +
+                    $"({CountResolved()}/{AllTabs.Length}).");
+                return SwitchResult.Failed(SwitchErrorCode.PreloadIncomplete);
+            }
+            if (_states[target] == TabState.Failed)
+            {
+                _logger.Log(
+                    LogLevel.Warning,
+                    LogCategory.TabSwitch,
+                    $"SwitchTo({target}) rejected: tab is in failed state.");
+                return SwitchResult.Failed(SwitchErrorCode.TabDisabled);
+            }
+            if (_activeTab.HasValue && _activeTab.Value == target)
+            {
+                return SwitchResult.Failed(SwitchErrorCode.AlreadyActive);
+            }
+
+            var stopwatch = Stopwatch.StartNew();
+            var from = _activeTab;
+
+            // (1) Hide the outgoing tab's root.
+            if (from.HasValue && _roots.TryGetValue(from.Value, out var outgoingRoot))
+            {
+                outgoingRoot.style.display = DisplayStyle.None;
+            }
+
+            // (2) Raise OnDeactivated on the outgoing handle (if any) before
+            //     the incoming activation so tab specs can save state without
+            //     racing against their own OnActivated.
+            if (from.HasValue && _handles.TryGetValue(from.Value, out var outgoingHandle))
+            {
+                outgoingHandle.RaiseDeactivated();
+            }
+
+            // (3) Show the incoming tab's root.
+            if (_roots.TryGetValue(target, out var incomingRoot))
+            {
+                incomingRoot.style.display = DisplayStyle.Flex;
+            }
+
+            // (4) Update the active-tab pointer before activation events fire
+            //     so subscribers reading ActiveTab see the new value.
+            _activeTab = target;
+
+            // (5) Raise OnActivated on the incoming handle.
+            if (_handles.TryGetValue(target, out var incomingHandle))
+            {
+                incomingHandle.RaiseActivated();
+            }
+
+            stopwatch.Stop();
+            var duration = stopwatch.Elapsed;
+            var evt = new TabSwitchEvent(from, target, duration);
+
+            _logger.Log(
+                LogLevel.Info,
+                LogCategory.TabSwitch,
+                $"Tab switch {(from.HasValue ? from.Value.ToString() : "<none>")} -> {target} " +
+                $"in {duration.TotalMilliseconds:F3}ms.");
+
+            // (6) Publish OnTabSwitched.
+            RaiseTabSwitched(evt);
+
+            return SwitchResult.Ok();
+        }
+
         private void RaisePreloadEvent(TabId tabId, PreloadOutcome outcome)
         {
             var handler = OnPreloadChanged;
@@ -157,6 +263,27 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
                         LogLevel.Error,
                         LogCategory.Preload,
                         $"OnPreloadChanged subscriber threw for tab {tabId}: {ex.Message}",
+                        ex);
+                }
+            }
+        }
+
+        private void RaiseTabSwitched(TabSwitchEvent evt)
+        {
+            var handler = OnTabSwitched;
+            if (handler is null) return;
+            foreach (var subscriber in handler.GetInvocationList())
+            {
+                try
+                {
+                    ((Action<TabSwitchEvent>)subscriber)(evt);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(
+                        LogLevel.Error,
+                        LogCategory.TabSwitch,
+                        $"OnTabSwitched subscriber threw for {evt.To}: {ex.Message}",
                         ex);
                 }
             }
@@ -220,6 +347,52 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
                 _onActivated = null;
                 _onDeactivated = null;
                 _owner.UnregisterHandle(TabId);
+            }
+
+            internal void RaiseActivated()
+            {
+                if (_disposed) return;
+                IsActive = true;
+                var handlers = _onActivated;
+                if (handlers is null) return;
+                foreach (var h in handlers.GetInvocationList())
+                {
+                    try
+                    {
+                        ((Action)h)();
+                    }
+                    catch (Exception ex)
+                    {
+                        _owner._logger.Log(
+                            LogLevel.Error,
+                            LogCategory.TabSwitch,
+                            $"OnActivated subscriber threw for {TabId}: {ex.Message}",
+                            ex);
+                    }
+                }
+            }
+
+            internal void RaiseDeactivated()
+            {
+                if (_disposed) return;
+                IsActive = false;
+                var handlers = _onDeactivated;
+                if (handlers is null) return;
+                foreach (var h in handlers.GetInvocationList())
+                {
+                    try
+                    {
+                        ((Action)h)();
+                    }
+                    catch (Exception ex)
+                    {
+                        _owner._logger.Log(
+                            LogLevel.Error,
+                            LogCategory.TabSwitch,
+                            $"OnDeactivated subscriber threw for {TabId}: {ex.Message}",
+                            ex);
+                    }
+                }
             }
         }
     }

@@ -1,16 +1,15 @@
 #nullable enable
 using System;
+using UnityEngine.UIElements;
 
 namespace VTuberSystemBase.UiToolkitShell.Panels
 {
     /// <summary>
     /// Service contract for the shell-owned registry that tracks per-tab
-    /// preload state, exposes lifecycle handles to tab specs, and (in task
-    /// 8.3) coordinates display switching. This task scope (8.2) covers the
-    /// preload-completion judgment, registration, and disposal contracts.
-    /// Display-switching members (e.g. <c>SwitchTo</c>, <c>ActiveTab</c>,
-    /// <c>OnTabSwitched</c>) will extend this interface in task 8.3 once the
-    /// <c>style.display</c> swap path is added.
+    /// preload state, exposes lifecycle handles to tab specs, and coordinates
+    /// display switching via <c>style.display</c> only — VisualTreeAsset
+    /// references are bound once during preload and never re-cloned for tab
+    /// switches (Requirement 2.4, 3.6).
     /// </summary>
     /// <remarks>
     /// All members must be invoked on the Unity main thread (design.md
@@ -65,6 +64,43 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
         /// a no-op so the failure record wins.
         /// </summary>
         void NotifyTabMounted(TabId tabId);
+
+        /// <summary>
+        /// Bootstrapper hook used in production: signals tab mount and binds
+        /// the tab content's <see cref="VisualElement"/> root so subsequent
+        /// <see cref="SwitchTo"/> calls can toggle <c>style.display</c>
+        /// against the same instance (Requirement 2.4, 3.6). The element is
+        /// initialised to <see cref="DisplayStyle.None"/> on bind so the tab
+        /// remains hidden until <c>TabBarController</c> activates it.
+        /// </summary>
+        void NotifyTabMounted(TabId tabId, VisualElement rootVisualElement);
+
+        /// <summary>
+        /// Identifies the tab whose root <see cref="VisualElement"/> is
+        /// currently visible. <c>null</c> until <see cref="SwitchTo"/>
+        /// completes successfully for the first time — at startup the shell
+        /// keeps every tab hidden so that an early-arriving IPC payload
+        /// cannot leak a partially initialised tab (Requirement 3.2, 3.3).
+        /// </summary>
+        TabId? ActiveTab { get; }
+
+        /// <summary>
+        /// Switches the visible tab using only <c>style.display</c> swaps —
+        /// <see cref="VisualElement"/> roots and the underlying VisualTreeAsset
+        /// references are not touched (Requirement 2.4, 3.6). Returns
+        /// <see cref="SwitchResult"/>; on failure the active tab is left
+        /// unchanged. Completes synchronously on the Unity main thread and
+        /// publishes <see cref="OnTabSwitched"/> within the same frame.
+        /// </summary>
+        SwitchResult SwitchTo(TabId target);
+
+        /// <summary>
+        /// Fires once per successful <see cref="SwitchTo"/> call after the
+        /// <c>style.display</c> mutation and lifecycle-handle dispatch
+        /// complete. Subscribers receive the elapsed registry-side duration
+        /// for diagnostics logging (Requirement 11.2).
+        /// </summary>
+        event Action<TabSwitchEvent> OnTabSwitched;
 
         /// <summary>
         /// Bootstrapper / SkinValidator hook: marks the tab as failed for the
