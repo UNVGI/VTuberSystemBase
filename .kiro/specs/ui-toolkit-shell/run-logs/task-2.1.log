@@ -1,0 +1,93 @@
+Task 2.1 IPC 抽象向けのフェイククライアント（FakeIpcClient）とメインスレッドディスパッチヘルパをテスト側に用意する — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Tracked files (committed by prior partial run 7788b6b "Add task-2.1-editmode.log,
+FakeIpcClientSmokeTests.cs, FakeIpcClient.cs +1 more"):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport/FakeIpcClient.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport/MainThreadAffinity.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/FakeIpcClientSmokeTests.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/UiToolkitShell.Tests.asmdef
+  (asmdef は CoreIpc.Abstractions / TestRunner / Editor / CommonUi / Runtime asmdef を参照)
+
+Newly committed by this run:
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport/FakeIpcClient.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport/MainThreadAffinity.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/FakeIpcClientSmokeTests.cs.meta
+  (Unity 6000.3.10f1 が前回バッチモード時に自動生成した GUID 付き .meta を
+   そのまま追跡対象に追加。フォルダ .meta は folderAsset:yes / DefaultImporter
+   セクションを含む完全形、.cs .meta は GUID のみのストリッピング形式で
+   いずれも次回 Unity 起動時に補完される正規メタファイル。)
+
+Implementation summary:
+- FakeIpcClient (TestSupport/FakeIpcClient.cs)
+  - VTuberSystemBase.CoreIpc.Abstractions.ICoreIpcBus を実装したテストダブル。
+  - 制御可能項目:
+    * 接続状態: SetConnectionState(ConnectionState) で
+      Disconnected/Connecting/Connected/Reconnecting/FailedPermanently 等を
+      自由に遷移させ、IConnectionDiagnostics.ConnectionStateChanged を発火。
+    * 送信結果: SendInterceptor で PublishState/PublishEvent/RequestAsync の
+      IpcResult を任意置換可能。未接続時は CoreIpcError.NotConnected を返す。
+      topic 空文字は CoreIpcError.InvalidTopic を返す。
+    * 受信注入: InjectState<TPayload>(topic, payload) /
+      InjectEvent<TPayload>(topic, payload) で購読側へ同期配信。
+    * 相関 ID マッチング: RequestAsync は内部で連番 correlation id を採番し
+      pendingRequests に保管。RespondToRequest(correlationId, response) /
+      RespondToLastRequest(response) / FailRequest(correlationId, error) で
+      個別/直近の TaskCompletionSource を解決可能。
+      RequestOptions.Timeout 指定時は CoreIpcError.RequestTimeout を返却。
+      CancellationToken にも対応。
+  - 取得 API: SentMessages（送信全件）, PendingRequestCorrelationIds（保留中
+    correlation id 一覧）。Diagnostics は内部 FakeConnectionDiagnostics で
+    PendingRequestCount / StateSlotCount / EventQueueCount などを露出し
+    DiagnosticsSnapshot を生成可能。
+  - スレッド安全: 内部状態は object syncRoot による排他で保護、
+    購読配信は snapshot コピー後に呼び出し側スレッドで実行。
+
+- MainThreadAffinity (TestSupport/MainThreadAffinity.cs)
+  - Thread.CurrentThread.ManagedThreadId を記録するユーティリティ。
+  - 静的 API: Capture() / Reset() / CapturedThreadId / CurrentThreadId /
+    IsOnCapturedThread。EditMode テストでは [SetUp] でメインスレッドを捕捉し、
+    callback がメインスレッドで発火することを後続テスト 4.1〜4.6 で検証する。
+  - インスタンス API: Recorder クラスが ObservedThreadId / CallCount /
+    Matches(expectedThreadId) を提供し、複数 callback の独立検証を支援。
+
+- FakeIpcClientSmokeTests (Tests/Runtime/FakeIpcClientSmokeTests.cs)
+  - 3 件のスモークテスト:
+    * RoundTrip_PublishState_To_Subscriber_DeliversPayloadOnMainThread
+      接続状態に遷移→購読登録→PublishState→InjectState 注入→購読 callback が
+      キャプチャ済みメインスレッド ID で発火することを検証 (Requirement 10.6)。
+    * PublishState_WhileDisconnected_ReturnsNotConnectedError
+      未接続状態で PublishState が CoreIpcError.NotConnected を返却することを
+      検証 (Requirement 9.4 への基礎ケース)。
+    * RequestAsync_RespondsToCorrelationId
+      RequestAsync 発行→PendingRequestCorrelationIds から ID 取得→
+      RespondToRequest で Task 完了→IpcResult<int>.Value=42 を確認
+      (Requirement 10.3 / 10.6)。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-2.1-editmode-results.xml
+             -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-2.1-editmode.log
+  - Result: 検証実行不可。
+  - 原因: 並行して走った別 spec (output-renderer-shell task 2.1 PlayMode) の
+    Unity バッチモードプロセス (PID 45900, 6000.3.10f1) が同一プロジェクトを
+    開いた状態で Temp/UnityLockfile を保持したまま 23:36:52 から 1 時間以上
+    ハング状態 (CPU 累計 64s / WS 1.7GB / ログ未進行)。
+    OutputSceneRootsTests.cs(146,33) の CS0012 (VolumeProfile 参照欠落) で
+    コンパイル失敗→「Application will terminate with return code 1」を
+    ログに残しつつプロセスは終了せず、UnityLockfile を排他保持。
+    Unity バッチ起動を試みると "Multiple Unity instances cannot open the same
+    project" で即時 abort (exit code 1)。
+    本 task は scope を ui-toolkit-shell パッケージに限定されており当該
+    output-renderer-shell コードを修正できず、また stuck プロセスの強制終了は
+    サンドボックスで拒否されたため、検証フェーズを完了できなかった。
+
+Result: FAIL (verification blocked; implementation files are committed and
+ready for re-verification once the project lock is released and tests can run)
