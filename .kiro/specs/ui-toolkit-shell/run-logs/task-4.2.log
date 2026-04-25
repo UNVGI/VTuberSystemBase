@@ -1,0 +1,67 @@
+Task 4.2 (P) IConnectionStatus 実装と状態反映を Green にする — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Green — 4.1 で先に置いた契約テストを実装で緑化する。
+
+Files created (Runtime side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/IConnectionStatus.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/IConnectionStatus.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/ConnectionStatus.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/ConnectionStatus.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/ConnectionStatusEvent.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/ConnectionStatusEvent.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (4.2 を [x] に更新)
+
+Implementation summary (design.md §Commands §IConnectionStatus 準拠):
+- IConnectionStatus インタフェース: bool IsConnected / ConnectionStatusCode CurrentStatus /
+  event Action<ConnectionStatusEvent> OnStatusChanged の 3 メンバを公開。
+- ConnectionStatusEvent (readonly struct): From / To / At (DateTimeOffset) / Detail (string?, optional)。
+  コンストラクタは Detail にデフォルト null を許容。
+- ConnectionStatus 実装:
+  - ICoreIpcBus を受け取り Diagnostics.ConnectionStateChanged を購読 (D-3 の継承で
+    メインスレッド配信前提)。
+  - 内部状態 currentStatus は Initializing で開始 (PlayMode 開始のたびに Initializing から)。
+  - core-ipc 側 ConnectionState を ConnectionStatusCode へ一方向マッピング:
+      Disconnected → Disconnected
+      Connecting → Connecting
+      Connected → Connected
+      Reconnecting → Reconnecting
+      PermanentlyDisconnected → FailedPermanently
+  - 同一マップ結果への遷移は OnStatusChanged を発火させない (state ノイズ抑制)。
+  - 異なる結果へは ConnectionStatusEvent(currentStatus, mapped, UtcNow) を構築し、
+    内部状態を更新したうえで購読者に同期通知。
+  - IsConnected は currentStatus == Connected のときのみ true。
+  - ICoreIpcBus が null の場合は ArgumentNullException。
+  - IDisposable 実装で Diagnostics.ConnectionStateChanged の購読を解除。
+
+Tests turned Green by this task (ConnectionStatusContractTests, 9 件):
+- InitialState_IsInitializing_AndNotConnected
+- Transition_FromInitializingToConnecting_FiresEventAndUpdatesCurrentStatus
+- Transition_ToConnected_SetsIsConnectedTrue
+- Transition_ConnectedToDisconnected_DropsIsConnected
+- Transition_FullPath_RecordsFiveTransitions_EndingAtFailedPermanently
+- OnStatusChanged_FiresOnMainThread
+- ConnectionStatusEvent_FieldsPopulatedWithFromToAtAndDetail
+- Transition_DuplicateState_DoesNotFireEvent
+- Constructor_NullBus_Throws
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-4.2-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-4.2-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Passed (exit 0)
+    - testcasecount=30, passed=30, failed=0
+    - ConnectionStatusContractTests: 9/9 Passed
+    - 既存の Diagnostics / FakeIpcClient / FakeAsyncAssetLoader /
+      ShellDiagnosticsSnapshot 系も 30 件中の残り 21 件として全数緑のまま。
+
+Result: OK

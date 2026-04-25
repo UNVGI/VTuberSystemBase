@@ -1,0 +1,72 @@
+#nullable enable
+using System;
+using VTuberSystemBase.CoreIpc.Abstractions;
+
+namespace VTuberSystemBase.UiToolkitShell.Commands
+{
+    /// <summary>
+    /// Adapter that converts core-ipc-foundation's <see cref="IConnectionDiagnostics.ConnectionStateChanged"/>
+    /// transitions into UI-facing <see cref="ConnectionStatusCode"/> transitions and forwards them
+    /// through <see cref="OnStatusChanged"/> on the same thread the upstream event fires on
+    /// (the Unity main thread per the core-ipc-foundation D-3 inheritance).
+    /// See design.md §Commands §IConnectionStatus.
+    /// </summary>
+    public sealed class ConnectionStatus : IConnectionStatus, IDisposable
+    {
+        private readonly ICoreIpcBus bus;
+        private readonly Action<ConnectionState, ConnectionState> stateChangedHandler;
+        private ConnectionStatusCode currentStatus;
+        private bool disposed;
+
+        public ConnectionStatus(ICoreIpcBus bus)
+        {
+            if (bus is null) throw new ArgumentNullException(nameof(bus));
+            this.bus = bus;
+            currentStatus = ConnectionStatusCode.Initializing;
+            stateChangedHandler = HandleConnectionStateChanged;
+            bus.Diagnostics.ConnectionStateChanged += stateChangedHandler;
+        }
+
+        public bool IsConnected => currentStatus == ConnectionStatusCode.Connected;
+
+        public ConnectionStatusCode CurrentStatus => currentStatus;
+
+        public event Action<ConnectionStatusEvent>? OnStatusChanged;
+
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+            bus.Diagnostics.ConnectionStateChanged -= stateChangedHandler;
+        }
+
+        private void HandleConnectionStateChanged(ConnectionState previous, ConnectionState current)
+        {
+            var mapped = Map(current);
+            if (mapped == currentStatus) return;
+
+            var transition = new ConnectionStatusEvent(currentStatus, mapped, DateTimeOffset.UtcNow);
+            currentStatus = mapped;
+            OnStatusChanged?.Invoke(transition);
+        }
+
+        private static ConnectionStatusCode Map(ConnectionState state)
+        {
+            switch (state)
+            {
+                case ConnectionState.Disconnected:
+                    return ConnectionStatusCode.Disconnected;
+                case ConnectionState.Connecting:
+                    return ConnectionStatusCode.Connecting;
+                case ConnectionState.Connected:
+                    return ConnectionStatusCode.Connected;
+                case ConnectionState.Reconnecting:
+                    return ConnectionStatusCode.Reconnecting;
+                case ConnectionState.PermanentlyDisconnected:
+                    return ConnectionStatusCode.FailedPermanently;
+                default:
+                    return ConnectionStatusCode.Disconnected;
+            }
+        }
+    }
+}

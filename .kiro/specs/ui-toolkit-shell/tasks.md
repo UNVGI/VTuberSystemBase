@@ -79,7 +79,7 @@
   - _Requirements: 5.9, 9.3, 9.5, 11.6_
   - _Boundary: Commands/ConnectionStatus_
 
-- [ ] 4.2 (P) `IConnectionStatus` 実装と状態反映を Green にする
+- [x] 4.2 (P) `IConnectionStatus` 実装と状態反映を Green にする
   - `ConnectionStatusCode` enum・`ConnectionStatusEvent` struct と状態保持ロジックを実装する
   - `core-ipc-foundation` の接続イベントからの一方向変換（Adapter）を実装する
   - 観測可能な完了状態: 4.1 の遷移テストが全て緑、`IsConnected` の読取がメインスレッド発火の遷移通知と整合する
