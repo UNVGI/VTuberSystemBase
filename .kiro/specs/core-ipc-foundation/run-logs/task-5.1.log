@@ -1,0 +1,190 @@
+OK
+5.1 InMemoryLoopbackTransport の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/Loopback/InMemoryLoopbackTransport.cs
+    ITransportAdapter のインメモリ実装。Core asmdef 配下、namespace
+    VTuberSystemBase.CoreIpc.Core.Transport.Loopback。テスト・自己
+    ループ検証専用 (Req 8.1)。プロダクション runtime では使用しない。
+
+    主要 API:
+        InMemoryLoopbackTransport : ITransportAdapter
+            ctor()
+                依存ゼロ。codec / options を持たない（自己ループ
+                検証はバイト列を素通しで交換するため）。
+            Task StartServerAsync(ServerBindOptions, CancellationToken)
+                Interlocked で二重起動を拒否
+                (InvalidOperationException)。Disposed 後は
+                ObjectDisposedException。サーバ実体は持たず、
+                単に「サーバ準備完了」フラグを立てるだけ
+                (本トランスポートは仮想接続)。
+            Task<IClientConnection> ConnectClientAsync(ClientBindOptions, CancellationToken)
+                StartServerAsync 未実行の場合は InvalidOperationException
+                を throw。LoopbackPair (server/client 双方向の
+                LoopbackByteQueue × 2) を生成し、サーバ側
+                IClientConnection を ClientConnected で発火、
+                クライアント側を返す。
+            event Action<IClientConnection> ClientConnected
+            event Action<IClientConnection> ClientDisconnected
+                発火時のハンドラ例外は catch + 黙殺 (transport
+                契約を壊さない)。
+            ValueTask DisposeAsync()
+                IAsyncDisposable で内包する全 LoopbackPair を
+                対称解放し、内部辞書を Clear。多重 Dispose は
+                Interlocked で no-op。
+            bool IsServerRunning            // サーバ起動中
+            int  ConnectedClientCount       // 接続中ペア数
+
+    内部構造:
+        - LoopbackPair: server/client 双方向の LoopbackByteQueue を
+          2 本保持し、ClientSide / ServerSide の LoopbackEndpoint
+          (IClientConnection 実装) を生成する。Endpoint の Dispose
+          または Pair.DisposeAsync で両キューを Complete し、
+          ClientDisconnected をオーナーに通知 (重複通知ガード付き)。
+        - LoopbackEndpoint: IClientConnection 実装。
+            SendAsync(ReadOnlyMemory<byte>, ct):
+                outgoing キューに ToArray() 後の byte[] を Enqueue
+                (送信側のメモリ寿命に依存しない安全コピー)。
+                Disposed なら ObjectDisposedException。
+            ReceiveAsync(ct): incoming キューから IAsyncEnumerable
+                でテキストフレームを yield。キュー Complete または
+                ct キャンセルで break。
+            DisposeAsync: Interlocked で 1 回限り、Pair に通知。
+        - LoopbackByteQueue: System.Threading.Channels が Unity 6
+          の unityaot/unityjit プロファイルで利用不可のため
+          (task 2.2 ログで確認済み)、WebSocketClient の InboundQueue
+          と同等の Queue<byte[]> + TaskCompletionSource パターンで
+          実装。Enqueue は thread-safe、ReadAllAsync は単一
+          コンシューマ前提で WaitToReadAsync 相当の async 待機を
+          提供する。
+
+    実 WebSocket フレーミングは使用せず、CoreIpcBus が encode した
+    エンベロープ byte 列をそのままキュー越しに交換する。
+    LoopbackRoundTripTests (task 8.1) で SystemTextJsonCodec と
+    組み合わせた state/event/request-response の完全往復に使う。
+
+    依存:
+        - VTuberSystemBase.CoreIpc.Abstractions.ITransportAdapter
+        - VTuberSystemBase.CoreIpc.Abstractions.IClientConnection
+        - VTuberSystemBase.CoreIpc.Abstractions.ServerBindOptions / ClientBindOptions
+        (Core asmdef 内追加。Abstractions のみ参照、新規プラグイン無し)
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/Loopback/InMemoryLoopbackTransport.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/Loopback.meta
+    新規フォルダ用 meta。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/InMemoryLoopbackTransportTests.cs
+    NUnit テスト 8 本 (Tests.Editor asmdef)。SystemTextJsonCodec
+    と組み合わせて state/event/request-response の自己ループを
+    検証する。
+
+    Coverage map (8 tests):
+        StartServer_ThenConnectClient_RaisesClientConnected
+            StartServer 後の ConnectClient で ClientConnected
+            イベントが発火し、ConnectedClientCount=1、
+            IsServerRunning=true を確認
+        ConnectClient_BeforeStartServer_Throws
+            StartServer 未実行の状態での ConnectClient は
+            InvalidOperationException
+        StartServer_Twice_Throws
+            同一インスタンスで 2 回 StartServer は
+            InvalidOperationException
+        SelfLoop_RoundTripsStateEnvelope
+            state エンベロープ (slot/1/assignment) を client→server
+            に送信し、SystemTextJsonCodec で decode した結果が
+            送信時と一致 (Kind/Topic/Payload)
+        SelfLoop_RoundTripsEventEnvelope
+            event エンベロープ (lighting/preset) のラウンド
+            トリップ
+        SelfLoop_RoundTripsRequestThenResponse
+            request エンベロープを client→server、対応する
+            response を server→client、両方向で相関 ID と
+            payload が保存されることを確認
+        SelfLoop_PreservesFifoOrderAcrossManyEvents
+            "0".."255" のテキストフレームを連続送信し、
+            受信側で 0..255 の順序が完全保存されることを確認
+            (FIFO 性質の確認)
+        DisposeAsync_IsIdempotent_AndReleasesPair
+            DisposeAsync 2 回呼び出しは no-op、Dispose 後
+            ConnectedClientCount=0 / IsServerRunning=false、
+            StartServer は ObjectDisposedException
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/InMemoryLoopbackTransportTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- ITransportAdapter のテスト用ループバック実装。design.md
+  §Transport Adapter Layer / InMemoryLoopbackTransport の契約に
+  従い、サーバ／クライアント両方向に LoopbackByteQueue を 1 本ずつ
+  持って encode 済みエンベロープ byte 列を素通しで交換する。
+  実 WebSocket フレーミングを使わない (Req 8.1 / design 表 8.1)。
+- 内部キュー実装は task 2.2 で判明した Unity 6 制約 (unityaot/
+  unityjit が System.Threading.Channels を含まない) を踏襲し、
+  Queue<byte[]> + TaskCompletionSource ベースの単一コンシューマ
+  非同期キュー (WebSocketClient.InboundQueue と同形)。これにより
+  追加プラグインを必要とせず Core asmdef 内で完結する。
+- SendAsync は ReadOnlyMemory<byte>.ToArray() で送信側の
+  メモリ寿命から切り離した byte[] を Enqueue する (将来 ArrayPool
+  化する場合も契約は変わらない)。
+- ConnectClientAsync の戻り値はクライアント側 IClientConnection
+  であり、ClientConnected イベントにはサーバ側 IClientConnection
+  を渡す (実 WebSocket adapter の挙動と同一)。LoopbackRoundTripTests
+  (task 8.1) はこの形を前提に server.SendAsync / client.ReceiveAsync
+  を組み合わせる。
+- DisposeAsync は対称解放を保証。Endpoint→Pair→Owner の片方向
+  通知で ClientDisconnected が 1 ペアにつき 1 回だけ発火 (再
+  Dispose では発火しない)。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 8 new tests
+    InMemoryLoopbackTransportTests : 8 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+    (本タスクは pure C# 単体テストで自己ループ検証が成立する。
+     end-to-end の PlayMode 検証は task 8.1 LoopbackRoundTripTests
+     で実施する設計。)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.1-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.1-editmode.log
+    Result XML: 264 tests, 264 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        InMemoryLoopbackTransportTests : 8/8 (new)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.1-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.1-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
