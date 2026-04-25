@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="13" result="Failed(Child)" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.1482251">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="712" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.148225" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1357" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="329" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.128254" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="56880" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1358" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="329" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.122864" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1359" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="329" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.117839" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1360" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="329" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.113061" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestSuite" id="1361" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="329" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.108211" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="TestFixture" id="1265" name="UiShellLifecycleDriverTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" testcasecount="13" result="Failed" site="Child" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.099404" total="13" passed="10" failed="3" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1275" name="PlayMode_StartStop_FiveTimes_DoesNotLeak" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.PlayMode_StartStop_FiveTimes_DoesNotLeak" methodname="PlayMode_StartStop_FiveTimes_DoesNotLeak" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="374063838" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.070806" asserts="0">
+                  <properties>
+                    <property name="Description" value="PlayMode Start/Stop を 5 回繰り返してもリーク兆候なし (Requirement 8.4 / observable 完了状態)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1278" name="SimulatedEditModeTransitions_DoNotStartShell" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.SimulatedEditModeTransitions_DoNotStartShell" methodname="SimulatedEditModeTransitions_DoNotStartShell" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1990607363" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001351" asserts="0">
+                  <properties>
+                    <property name="Description" value="EnteredPlayMode / ExitingEditMode は Start を引き起こさない (Requirement 8.5)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1277" name="SimulatedEnteredEditMode_AfterStop_IsSafeNoOp" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.SimulatedEnteredEditMode_AfterStop_IsSafeNoOp" methodname="SimulatedEnteredEditMode_AfterStop_IsSafeNoOp" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1125336282" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.002138" asserts="0">
+                  <properties>
+                    <property name="Description" value="EnteredEditMode はディフェンシブな二重 Stop でも例外を出さない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1276" name="SimulatedExitingPlayMode_StopsShell" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.SimulatedExitingPlayMode_StopsShell" methodname="SimulatedExitingPlayMode_StopsShell" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="188299943" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001513" asserts="0">
+                  <properties>
+                    <property name="Description" value="PlayMode 終了 (ExitingPlayMode) で StopShell が走る (Requirement 8.3)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1269" name="StartShell_BootstrapperFactoryThrows_StaysDormant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_BootstrapperFactoryThrows_StaysDormant" methodname="StartShell_BootstrapperFactoryThrows_StaysDormant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1129305220" result="Failed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.003028" asserts="0">
+                  <properties>
+                    <property name="Description" value="bootstrapper factory が例外を投げた場合も driver が握り潰し dormant のまま" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[Unhandled log message: '[Error] [Error][Lifecycle] UiShellLifecycleDriver: bootstrapper factory threw — shell will remain dormant: expected'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+                    <stack-trace><![CDATA[VTuberSystemBase.UiToolkitShell.Diagnostics.DiagnosticsLogger:Log (VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel,VTuberSystemBase.UiToolkitShell.Diagnostics.LogCategory,string,object) (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/DiagnosticsLogger.cs:58)
+VTuberSystemBase.UiToolkitShell.Bootstrap.UiShellLifecycleDriver:StartShell () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Bootstrap/UiShellLifecycleDriver.cs:255)
+VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests/<>c:<StartShell_BootstrapperFactoryThrows_StaysDormant>b__15_1 () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiShellLifecycleDriverTests.cs:144)
+NUnit.Framework.Constraints.ThrowsConstraint/VoidInvocationDescriptor:Invoke ()
+NUnit.Framework.Constraints.ThrowsConstraint/ExceptionInterceptor:Intercept (object)
+NUnit.Framework.Constraints.ThrowsNothingConstraint:ApplyTo (object)
+NUnit.Framework.Assert:That<object> (object,NUnit.Framework.Constraints.IResolveConstraint,string,object[])
+NUnit.Framework.Assert:That (NUnit.Framework.TestDelegate,NUnit.Framework.Constraints.IResolveConstraint,string,object[])
+NUnit.Framework.Assert:DoesNotThrow (NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:DoesNotThrow (NUnit.Framework.TestDelegate)
+VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests:StartShell_BootstrapperFactoryThrows_StaysDormant () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiShellLifecycleDriverTests.cs:144)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+]]></stack-trace>
+                  </failure>
+                  <output><![CDATA[[Error][Lifecycle] UiShellLifecycleDriver: bootstrapper factory threw — shell will remain dormant: expected
+]]></output>
+                </test-case>
+                <test-case id="1270" name="StartShell_BootstrapResultFails_KeepsDriverDormant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_BootstrapResultFails_KeepsDriverDormant" methodname="StartShell_BootstrapResultFails_KeepsDriverDormant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="693947921" result="Failed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001335" asserts="0">
+                  <properties>
+                    <property name="Description" value="BootstrapResult が失敗を返したら IsRunning は false に保たれる (Requirement 9.7 連携)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[Unhandled log message: '[Error] [Error][Lifecycle] UiShellLifecycleDriver: StartShell failed: SkinProfileMissing deliberate failure for tests'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+                    <stack-trace><![CDATA[VTuberSystemBase.UiToolkitShell.Diagnostics.DiagnosticsLogger:Log (VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel,VTuberSystemBase.UiToolkitShell.Diagnostics.LogCategory,string,object) (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/DiagnosticsLogger.cs:58)
+VTuberSystemBase.UiToolkitShell.Bootstrap.UiShellLifecycleDriver:StartShell () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Bootstrap/UiShellLifecycleDriver.cs:275)
+VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests:StartShell_BootstrapResultFails_KeepsDriverDormant () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiShellLifecycleDriverTests.cs:157)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+]]></stack-trace>
+                  </failure>
+                  <output><![CDATA[[Error][Lifecycle] UiShellLifecycleDriver: StartShell failed: SkinProfileMissing deliberate failure for tests
+]]></output>
+                </test-case>
+                <test-case id="1267" name="StartShell_ConfigProviderReturnsNull_StaysDormant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_ConfigProviderReturnsNull_StaysDormant" methodname="StartShell_ConfigProviderReturnsNull_StaysDormant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1469750461" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.000670" asserts="0">
+                  <properties>
+                    <property name="Description" value="config provider が null を返した場合は dormant のまま (フェイルセーフ)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Warning][Lifecycle] UiShellLifecycleDriver: config provider returned null — shell will remain dormant.
+]]></output>
+                </test-case>
+                <test-case id="1268" name="StartShell_ConfigProviderThrows_StaysDormant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_ConfigProviderThrows_StaysDormant" methodname="StartShell_ConfigProviderThrows_StaysDormant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1038662116" result="Failed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.000910" asserts="0">
+                  <properties>
+                    <property name="Description" value="config provider が例外を投げた場合は driver が握り潰し dormant のまま (UI クラッシュ禁止)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[Unhandled log message: '[Error] [Error][Lifecycle] UiShellLifecycleDriver: config provider threw — shell will remain dormant: expected'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+                    <stack-trace><![CDATA[VTuberSystemBase.UiToolkitShell.Diagnostics.DiagnosticsLogger:Log (VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel,VTuberSystemBase.UiToolkitShell.Diagnostics.LogCategory,string,object) (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/DiagnosticsLogger.cs:58)
+VTuberSystemBase.UiToolkitShell.Bootstrap.UiShellLifecycleDriver:StartShell () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Bootstrap/UiShellLifecycleDriver.cs:236)
+VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests/<>c:<StartShell_ConfigProviderThrows_StaysDormant>b__14_1 () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiShellLifecycleDriverTests.cs:132)
+NUnit.Framework.Constraints.ThrowsConstraint/VoidInvocationDescriptor:Invoke ()
+NUnit.Framework.Constraints.ThrowsConstraint/ExceptionInterceptor:Intercept (object)
+NUnit.Framework.Constraints.ThrowsNothingConstraint:ApplyTo (object)
+NUnit.Framework.Assert:That<object> (object,NUnit.Framework.Constraints.IResolveConstraint,string,object[])
+NUnit.Framework.Assert:That (NUnit.Framework.TestDelegate,NUnit.Framework.Constraints.IResolveConstraint,string,object[])
+NUnit.Framework.Assert:DoesNotThrow (NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:DoesNotThrow (NUnit.Framework.TestDelegate)
+VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests:StartShell_ConfigProviderThrows_StaysDormant () (at ./Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiShellLifecycleDriverTests.cs:132)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+]]></stack-trace>
+                  </failure>
+                  <output><![CDATA[[Error][Lifecycle] UiShellLifecycleDriver: config provider threw — shell will remain dormant: expected
+]]></output>
+                </test-case>
+                <test-case id="1272" name="StartShell_TwiceWhileRunning_IsNoOp" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_TwiceWhileRunning_IsNoOp" methodname="StartShell_TwiceWhileRunning_IsNoOp" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="73586212" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001318" asserts="0">
+                  <properties>
+                    <property name="Description" value="StartShell の二重呼び出しは bootstrapper を再生成しない (Requirement 8.4)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1271" name="StartShell_WithConfigure_StartsBootstrapper" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_WithConfigure_StartsBootstrapper" methodname="StartShell_WithConfigure_StartsBootstrapper" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="2084944387" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001969" asserts="0">
+                  <properties>
+                    <property name="Description" value="Configure 後の StartShell は bootstrapper.StartShell を呼び IsRunning を true にする" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1266" name="StartShell_WithoutConfigure_IsDormant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StartShell_WithoutConfigure_IsDormant" methodname="StartShell_WithoutConfigure_IsDormant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1666920457" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.000300" asserts="0">
+                  <properties>
+                    <property name="Description" value="Configure 未実施の StartShell は dormant (Requirement 8.5 / Edit モード相当)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1273" name="StopShell_AfterStart_TearsDownBootstrapper" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StopShell_AfterStart_TearsDownBootstrapper" methodname="StopShell_AfterStart_TearsDownBootstrapper" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="1519614478" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001120" asserts="0">
+                  <properties>
+                    <property name="Description" value="StopShell は IsRunning を false に戻し bootstrapper を Dispose する (Requirement 8.3)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1274" name="StopShell_CalledTwice_IsSafe" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests.StopShell_CalledTwice_IsSafe" methodname="StopShell_CalledTwice_IsSafe" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.UiShellLifecycleDriverTests" runstate="Runnable" seed="535790520" result="Passed" start-time="2026-04-25 20:36:27Z" end-time="2026-04-25 20:36:27Z" duration="0.001199" asserts="0">
+                  <properties>
+                    <property name="Description" value="StopShell の二重呼び出しは安全に no-op" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
