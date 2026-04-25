@@ -1,0 +1,75 @@
+# 1.2 CoreIpcOptions と CoreIpcError の抽象定義 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/CoreIpcOptions.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/CoreIpcError.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/Results/IpcResult.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/IsExternalInit.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcOptionsDefaultsTests.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcErrorVariantsTests.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/IpcResultTests.cs
+- (matching .meta files for each)
+
+Implementation summary:
+- `CoreIpcOptions` (sealed record with init-only properties) defines all default
+  parameters mandated by design.md §"CoreIpcConfigLoader":
+    Host=127.0.0.1, Port=61874, DefaultRequestTimeout=5s,
+    ReconnectInitialDelay=250ms, ReconnectMultiplier=2.0,
+    ReconnectMaxDelay=5s, ReconnectMaxAttempts=20,
+    MaxMessageSizeBytes=1_048_576, EventQueueWarningThresholdPerTopic=1000,
+    LogLevel=Info. The accompanying `LogLevel` enum exposes 5 levels
+    (Trace, Debug, Info, Warning, Error) per Req 7.4.
+- `CoreIpcError` is an abstract record carrying (Code, Message). Nine sealed
+  variants implement the discriminated union per design.md §"Error Strategy":
+    NotConnected, SizeLimitExceeded(actual, limit), InvalidTopic(topic),
+    InvalidEnvelope(reason), RequestTimeout(elapsed), PortInUse(port),
+    ProtocolVersionMismatch(received, expected), TransportFailure(details),
+    HandlerException(details). Stable codes (NOT_CONNECTED, SIZE_LIMIT, ...)
+    are preserved for log/diagnostic correlation.
+- `IpcResult` and `IpcResult<T>` are immutable readonly structs that expose
+  `Ok` / `Fail` factories and equality semantics. Generic `Fail` returns
+  default value, non-generic `Fail` rejects null errors via ArgumentNullException.
+- `IsExternalInit` shim is added so init-only properties / records compile
+  cleanly under the Unity 6.3 / .NET Standard 2.1 target without the BCL
+  shipping `System.Runtime.CompilerServices.IsExternalInit`.
+
+Tests added (NUnit, EditMode, Tests/Editor):
+- `CoreIpcOptionsDefaultsTests`
+    DefaultInstance_ExposesContractDefaults — observable completion criterion:
+      Host=127.0.0.1, Port=61874, DefaultRequestTimeout=5s,
+      MaxMessageSizeBytes=1_048_576.
+    DefaultInstance_ExposesReconnectAndLoggingDefaults — verifies all reconnect
+      defaults + EventQueueWarningThresholdPerTopic=1000 + LogLevel=Info.
+    With_PartialOverride_PreservesOtherDefaults — `with`-style init pattern
+      keeps other defaults intact.
+- `CoreIpcErrorVariantsTests`
+    AllVariants_AreSubtypesOfCoreIpcError_AndCarryStableCodes — covers all 9
+      variants and the 9 expected codes.
+    SizeLimitExceeded_PreservesActualAndLimit, RequestTimeout_PreservesElapsed,
+    Records_WithSamePayload_AreEqual — verify record equality / payload
+      preservation.
+- `IpcResultTests`
+    Ok / Fail behaviour for both `IpcResult` and `IpcResult<T>`,
+    null-error guard for `IpcResult.Fail`, and default-value behaviour for
+    `IpcResult<T>.Fail`.
+
+Verification: Unity Test Runner (EditMode, batchmode)
+- Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+           -testPlatform EditMode -testResults task-1.2-editmode-results.xml
+           -logFile task-1.2-unity.log
+  (Note: `-quit` is NOT combined with `-runTests`; with `-quit` Unity exits
+   before tests run. `-runTests` already auto-exits after the run.)
+- Unity exit code: 0
+- Test result XML: 12 tests, 12 passed, 0 failed, 0 skipped
+    - CoreIpcErrorVariantsTests : 4/4 passed
+    - CoreIpcOptionsDefaultsTests : 3/3 passed
+    - IpcResultTests : 5/5 passed
+- Compilation: Abstractions.dll and Tests.Editor.dll built without warnings;
+  only the standard "no scripts associated" informational warnings for the
+  still-empty Core / Editor / Tests.Runtime asmdefs (those are populated by
+  later tasks 1.3–1.5).
+
+Result: OK
