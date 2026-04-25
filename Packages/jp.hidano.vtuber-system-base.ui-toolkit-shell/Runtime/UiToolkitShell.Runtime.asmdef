@@ -3,7 +3,8 @@
     "rootNamespace": "VTuberSystemBase.UiToolkitShell",
     "references": [
         "VTuberSystemBase.CoreIpc.Abstractions",
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
