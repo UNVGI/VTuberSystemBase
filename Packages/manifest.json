@@ -6,6 +6,7 @@
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.imgui": "1.0.0",
     "com.unity.modules.jsonserialize": "1.0.0",
-    "com.vtuber-system-base.core-ipc-foundation": "file:com.vtuber-system-base.core-ipc-foundation"
+    "com.vtuber-system-base.core-ipc-foundation": "file:com.vtuber-system-base.core-ipc-foundation",
+    "com.vtubersystembase.output-renderer-shell": "file:com.vtubersystembase.output-renderer-shell"
   }
 }

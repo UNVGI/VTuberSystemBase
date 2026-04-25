@@ -1,0 +1,17 @@
+{
+    "name": "UiToolkitShell.Runtime",
+    "rootNamespace": "VTuberSystemBase.UiToolkitShell",
+    "references": [
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "Unity.Addressables"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

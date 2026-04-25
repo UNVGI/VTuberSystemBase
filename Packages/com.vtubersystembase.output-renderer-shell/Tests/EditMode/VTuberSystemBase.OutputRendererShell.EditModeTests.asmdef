@@ -1,0 +1,25 @@
+{
+    "name": "VTuberSystemBase.OutputRendererShell.EditModeTests",
+    "rootNamespace": "VTuberSystemBase.OutputRendererShell.EditModeTests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "VTuberSystemBase.OutputRendererShell.Runtime",
+        "VTuberSystemBase.CoreIpc.Abstractions"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

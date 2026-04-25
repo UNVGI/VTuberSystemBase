@@ -1,0 +1,26 @@
+{
+  "name": "com.vtubersystembase.output-renderer-shell",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase Output Renderer Shell",
+  "description": "Composition root and minimal scene shell for the main output process (Display 2). Provides scene roots (Stage / Characters / Lights / Cameras / Volume), default URP camera/light/global volume, IDisplayRoutingService abstraction, IOutputCommandDispatcher (state/event/request-response), and IOutputDiagnostics. Receives commands from the UI process via VTuberSystemBase.CoreIpc abstractions; never renders any UI overlay onto the main output surface.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "output",
+    "renderer",
+    "urp",
+    "scene-shell",
+    "output-renderer-shell"
+  ],
+  "samples": [
+    {
+      "displayName": "Minimal Main Output Scene",
+      "description": "Minimal PlayMode scene with a single OutputSceneBootstrapper. Open in PlayMode to verify the full Requirement 1-9 behavior end-to-end (scene roots, default URP camera/light, global volume, display routing, dispatcher, diagnostics).",
+      "path": "Samples~/MinimalMainOutputScene"
+    }
+  ]
+}

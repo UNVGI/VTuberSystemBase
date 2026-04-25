@@ -40,6 +40,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.vtubersystembase.output-renderer-shell": {
+      "version": "file:com.vtubersystembase.output-renderer-shell",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.imgui": {
       "version": "1.0.0",
       "depth": 0,
