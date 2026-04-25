@@ -1,0 +1,26 @@
+{
+    "name": "VTuberSystemBase.CoreIpc.Tests.Editor",
+    "rootNamespace": "VTuberSystemBase.CoreIpc.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "VTuberSystemBase.CoreIpc.Core",
+        "VTuberSystemBase.CoreIpc.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

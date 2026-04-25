@@ -1,0 +1,19 @@
+{
+    "name": "VTuberSystemBase.CoreIpc.Editor",
+    "rootNamespace": "VTuberSystemBase.CoreIpc.Editor",
+    "references": [
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "VTuberSystemBase.CoreIpc.Core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

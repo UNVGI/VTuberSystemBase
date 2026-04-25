@@ -1,0 +1,36 @@
+Task 1.1 UPM パッケージと asmdef 階層の作成 — run log
+=======================================================
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/package.json
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/VTuberSystemBase.CoreIpc.Abstractions.asmdef
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/VTuberSystemBase.CoreIpc.Core.asmdef
+- Packages/com.vtuber-system-base.core-ipc-foundation/Editor/VTuberSystemBase.CoreIpc.Editor.asmdef
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/VTuberSystemBase.CoreIpc.Tests.Runtime.asmdef
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/VTuberSystemBase.CoreIpc.Tests.Editor.asmdef
+
+Host Unity project skeleton (required so Unity can resolve the package):
+- Packages/manifest.json (depends on com.unity.test-framework + the new package via file:)
+- ProjectSettings/ProjectVersion.txt (6000.3.10f1)
+- Assets/.gitkeep
+
+Asmdef dependency direction (matches design.md "Dependency direction"):
+- Abstractions: references=[], noEngineReferences=true (pure C#)
+- Core: references=[Abstractions]
+- Editor: references=[Abstractions, Core], includePlatforms=[Editor]
+- Tests.Runtime: references=[UnityEngine.TestRunner, UnityEditor.TestRunner, Abstractions, Core], TestAssemblies (UNITY_INCLUDE_TESTS + nunit precompiled)
+- Tests.Editor: references=[..., Abstractions, Core, Editor], includePlatforms=[Editor], TestAssemblies
+
+Verification: Unity Test Runner (EditMode, batchmode)
+- Command: Unity.exe -batchmode -nographics -quit -projectPath . -runTests -testPlatform EditMode -testResults task-1.1-editmode-results.xml -logFile task-1.1-unity.log
+- Unity exit code: 0
+- Package recognized in resolution: "com.vtuber-system-base.core-ipc-foundation@file:..."
+- All 5 asmdefs imported successfully (no parser errors, no CS errors)
+- Note: "Assembly will not be compiled, because it has no scripts associated with it" is informational
+  and expected for task 1.1; scripts are added by tasks 1.2–1.5.
+- Tests run: 0 (test classes do not exist yet — added by task 1.5 onwards)
+
+Result: OK

@@ -1,0 +1,16 @@
+{
+    "name": "VTuberSystemBase.CoreIpc.Core",
+    "rootNamespace": "VTuberSystemBase.CoreIpc",
+    "references": [
+        "VTuberSystemBase.CoreIpc.Abstractions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
