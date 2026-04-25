@@ -29,7 +29,15 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
             var builder = new RootUiDocumentBuilder(logger);
-            var build = builder.Build(skinProfile, requestedTargetDisplay);
+
+            // The bootstrapper has already resolved this value through
+            // IDisplayAssignmentStrategy (Requirement 1.6), so use it as-is rather than
+            // routing through RootUiDocumentBuilder.CreateSharedPanelSettings (which
+            // forces non-zero values back to 0 as a safety net for direct callers).
+            var panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
+            panelSettings.name = RootUiDocumentBuilder.DefaultPanelSettingsName;
+            panelSettings.targetDisplay = requestedTargetDisplay;
+            var build = builder.Build(skinProfile, panelSettings);
 
             var hostGameObject = build.HostGameObject;
             var uiDocument = build.UIDocument;

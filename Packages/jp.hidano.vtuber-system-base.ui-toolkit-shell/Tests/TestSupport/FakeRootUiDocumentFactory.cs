@@ -24,6 +24,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
         public VisualElement? LastNotificationHost { get; private set; }
         public int CreateInvocationCount { get; private set; }
         public int DisposeInvocationCount { get; private set; }
+        public int LastRequestedTargetDisplay { get; private set; }
 
         public RootUiDocumentArtifacts Create(
             UiToolkitShellSkinProfile skinProfile,
@@ -31,6 +32,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
             IDiagnosticsLogger logger)
         {
             CreateInvocationCount++;
+            LastRequestedTargetDisplay = requestedTargetDisplay;
 
             if (ShouldThrow)
             {
@@ -44,7 +46,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
 
             var panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
             panelSettings.name = "FakeRootPanelSettings";
-            panelSettings.targetDisplay = 0;
+            panelSettings.targetDisplay = requestedTargetDisplay;
             LastPanelSettings = panelSettings;
 
             var root = new VisualElement { name = "fake-root" };

@@ -92,6 +92,21 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
         public MainOutputStatusWatcher? OutputStatusWatcher { get; private set; }
         public SkinValidationReport? SkinValidationReport { get; private set; }
 
+        /// <summary>
+        /// The <see cref="IDisplayAssignmentStrategy"/> applied during the most recent
+        /// <see cref="StartShell"/> (Requirement 1.6, design.md §UiShellBootstrapper.DisplayAssignmentHook).
+        /// Surfaces <see cref="FixedDisplayZeroStrategy.Instance"/> when the config omits one.
+        /// </summary>
+        public IDisplayAssignmentStrategy? DisplayAssignmentStrategy { get; private set; }
+
+        /// <summary>
+        /// The target display the bootstrapper resolved through
+        /// <see cref="DisplayAssignmentStrategy"/> for the current run. Tests assert this
+        /// to confirm a swapped-in strategy actually overrides the default Display 0 pin
+        /// (Requirement 1.6).
+        /// </summary>
+        public int? EffectiveTargetDisplay { get; private set; }
+
         // ---- StartShell --------------------------------------------------------
 
         public BootstrapResult StartShell(UiShellConfig config)
@@ -127,11 +142,31 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
             }
             _steps.Add(BootstrapStep.CommonUiRegistered);
 
+            // ---- Display assignment hook (Requirement 1.6) ----------------
+            // The strategy is the authoritative source for the final targetDisplay so the
+            // future runtime-display-selector-integration spec (#7) can swap in display
+            // selection without re-shaping the bootstrap. The default
+            // FixedDisplayZeroStrategy keeps the "Display 1 only" guarantee for now.
+            var displayStrategy = config.DisplayAssignmentStrategy ?? FixedDisplayZeroStrategy.Instance;
+            DisplayAssignmentStrategy = displayStrategy;
+            int effectiveDisplay;
+            try
+            {
+                effectiveDisplay = displayStrategy.ResolveTargetDisplay(config.RequestedTargetDisplay);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(LogLevel.Warning, LogCategory.Lifecycle,
+                    $"IDisplayAssignmentStrategy.ResolveTargetDisplay threw; falling back to Display 0: {ex.Message}", ex);
+                effectiveDisplay = 0;
+            }
+            EffectiveTargetDisplay = effectiveDisplay;
+
             // ---- Root UIDocument ------------------------------------------
             RootUiDocumentArtifacts rootArtifacts;
             try
             {
-                rootArtifacts = _rootUiDocumentFactory.Create(skinProfile, config.RequestedTargetDisplay, logger);
+                rootArtifacts = _rootUiDocumentFactory.Create(skinProfile, effectiveDisplay, logger);
             }
             catch (Exception ex)
             {
@@ -363,6 +398,8 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
             PanelSettings = null;
             RootVisualElement = null;
             SkinValidationReport = null;
+            DisplayAssignmentStrategy = null;
+            EffectiveTargetDisplay = null;
         }
 
         private void PushDisposable(string name, IDisposable disposable)
