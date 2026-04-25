@@ -1,0 +1,125 @@
+OK
+6.2 IpcDispatchStep と MainThreadDispatchQueue 連動の配線 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Modified files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/IpcDispatchStep.cs
+    Task 6.1 で空 static class（PlayerLoopSystem.type マーカー）として
+    導入した IpcDispatchStep を、`MainThreadDispatchQueue` を保持する
+    `sealed class` に発展させる。インスタンスは Tick() で
+    queue.Flush() を try/catch 越しに呼び、PlayerLoopSystem の
+    updateDelegate に紐付けるための `Install/Uninstall` を提供する。
+    - コンストラクタ: (MainThreadDispatchQueue queue,
+        Action<string, Exception>? logError = null)
+        queue が null なら ArgumentNullException。
+    - Tick(): queue.Flush() を呼ぶ。Flush から例外が漏れても捕捉して
+        logError コールバックへ通知し、更に上のループ（PlayerLoop の
+        PreUpdate）には伝播させない。これにより engine ループの停止
+        を防ぐ（Req 1.7 / 9.1 / 9.2 の安定配信契約）。
+        ハンドラ単位の例外隔離は MainThreadDispatchQueue.Flush() 内で
+        既に try/catch されているため、IpcDispatchStep は外周ガードと
+        してのみ機能する（二重保険）。
+    - Install(Action<string>? logWarning = null): PlayerLoopInstaller.
+        Install(Tick, logWarning) を呼んで PreUpdate 配下に登録する。
+        重複インストール時の警告ハンドラを呼出元へ委譲できる。
+    - Uninstall(): PlayerLoopInstaller.Uninstall() に委譲。
+    - IsInstalled: PlayerLoopInstaller.IsInstalled を bool で公開。
+    typeof(IpcDispatchStep) を使う既存 PlayerLoopInstaller の経路は
+    sealed class 化後も型識別子として変わらず機能する。
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/IpcDispatchStepTests.cs
+    NUnit 8 本（Tests.Editor asmdef）。FakeHandlerLookup と
+    BuildEnvelope ヘルパで MainThreadDispatchQueue + PlayerLoop の
+    実機構を直接駆動して観測する。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/IpcDispatchStepTests.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/IpcDispatchStepPlayModeTests.cs
+    UnityTest 4 本（Tests.Runtime asmdef）。yield return null で
+    PlayerLoop を 1 フレーム回し、PreUpdate に挿入された IpcDispatchStep
+    の updateDelegate が実際にエンジンループから駆動されることを
+    観測する。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/IpcDispatchStepPlayModeTests.cs.meta
+
+Test coverage map (12 tests):
+
+EditMode (Tests.Editor) — IpcDispatchStepTests (8 new):
+    Constructor_NullQueue_Throws
+        queue 引数が null のとき ArgumentNullException
+    Tick_InvokesQueueFlush_AndDispatchesHandlers
+        Tick 1 回で state スロットがハンドラへ配信され、StateSlotCount
+        が 0 に戻る
+    Tick_HandlerExceptionIsIsolatedByQueue_AndStepDoesNotThrow
+        Task 6.2 観測条件: ハンドラ内例外が Step まで伝播せず、後続
+        ハンドラの配信が継続されること（Req 1.7 / 9.x）
+    Install_RegistersStepUnderPreUpdate
+        Install 後に IsInstalled=true、PreUpdate 配下に IpcDispatchStep
+        が 1 つ存在
+    Install_DrivenByPlayerLoopUpdateDelegate_FlushesQueue
+        Task 6.2 観測条件: PlayerLoop の updateDelegate を呼び出すと、
+        state coalesce（10 件 → 最新 1 件）と event FIFO（順序保存）が
+        共に観測される
+    Uninstall_RemovesStepFromPlayerLoop
+        Uninstall 後に IsInstalled=false、PreUpdate から IpcDispatchStep
+        が消える
+    RepeatedInstallUninstall_RemainsSymmetric
+        Install/Uninstall を 5 回繰り返しても挿入数が 1↔0 で対称遷移
+    Install_TwiceWithCustomLogWarning_RoutesToCaller
+        2 回目 Install で警告コールバックが呼ばれ、結果として
+        IpcDispatchStep は 1 つだけ残る（既存置換）
+
+PlayMode (Tests.Runtime) — IpcDispatchStepPlayModeTests (4 new):
+    PublishedState_DeliveredWithinOneFrame_ToSubscribedHandler
+        Task 6.2 観測条件: state を Enqueue 後に yield return null で
+        1 フレーム待つと、購読ハンドラに届く（Req 1.7）
+    PublishedEvents_PreserveFifoOrder_AcrossFrame
+        Task 6.2 観測条件: 50 件の event を Enqueue した後 1 フレームで
+        全件配信され、順序が保たれる（Req 9.2）
+    CoalescedState_SingleDeliveryPerFrame_ForSameTopic
+        同一 topic の state 10 件 → 1 フレーム経過時に最新 1 件のみ
+        配信（Req 9.1 / 9.4）
+    HandlerException_DuringFrameTick_DoesNotPropagate
+        ハンドラ例外時も 1 フレーム単位で他のハンドラ配信が継続し、
+        Step がエンジンループへ例外を漏らさない
+
+Implementation notes:
+- IpcDispatchStep は `sealed class` 化したが、PlayerLoopInstaller が
+  使う `typeof(IpcDispatchStep)` のマーカー意味は変わらない（型は
+  PlayerLoopSystem.type フィールドへの識別子としてのみ使われる）。
+- Tick 内の try/catch は外周ガード。MainThreadDispatchQueue.Flush() が
+  既にハンドラ毎に例外を try/catch するため、通常運用では外周 catch
+  に到達しない。Defense-in-depth として、想定外の例外（例: Flush
+  内部のアサーション失敗、依存実装の不具合）が PlayerLoop の
+  PreUpdate に漏れないようにする。
+- Install/Uninstall は PlayerLoopInstaller への薄いラッパ。
+  PlayerLoopInstaller 側で重複挿入の警告と既存置換、Uninstall の
+  冪等性が既に保証されている（task 6.1）ので、IpcDispatchStep 側で
+  追加の状態管理は持たない。
+- 後続タスク（6.3 CoreIpcRuntime, 6.4 RuntimeBootstrap）が
+  CoreIpcRuntime.InitializeAsync 内で IpcDispatchStep を生成して
+  Install を呼ぶ統合配線を担う。本タスクはその橋渡し機構の
+  単体ふるまいまでを観測対象とする。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.2-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.2-editmode.log
+    Result XML: 323 tests, 323 passed, 0 failed, 0 skipped, 0 inconclusive
+        IpcDispatchStepTests : 8/8 (new)
+        既存 22 テストフィクスチャ : 315/315 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.2-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.2-playmode.log
+    Result XML: 21 tests, 21 passed, 0 failed, 0 skipped, 0 inconclusive
+        IpcDispatchStepPlayModeTests : 4/4 (new)
+        既存 PlayMode 4 フィクスチャ : 17/17 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll,
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll, および
+  VTuberSystemBase.CoreIpc.Tests.Runtime.dll がエラーなくビルド完了。
+
+Result: OK

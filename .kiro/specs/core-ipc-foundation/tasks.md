@@ -242,7 +242,7 @@
   - _Requirements: 1.7, 4.6_
   - _Boundary: PlayerLoopInstaller_
 
-- [ ] 6.2 IpcDispatchStep と MainThreadDispatchQueue 連動の配線
+- [x] 6.2 IpcDispatchStep と MainThreadDispatchQueue 連動の配線
   - `IpcDispatchStep` を PlayerLoopSystem に挿入可能な `updateDelegate` 付き subSystem として定義する
   - `PreUpdate` フェーズで `MainThreadDispatchQueue.Flush()` を呼び、state coalesce + event FIFO + request/response 解決を 1 フレームで消化する
   - Flush 内例外は各ハンドラ単位で隔離し、`IpcDispatchStep` 自体は例外を投げない
