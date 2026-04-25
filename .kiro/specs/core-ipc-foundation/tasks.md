@@ -302,7 +302,7 @@
 
 ## 8. 検証フェーズ（機能テスト・回帰テスト・ライフサイクルテスト）
 
-- [ ] 8.1 (P) LoopbackRoundTrip / CoalesceSemantics / FifoOrdering / RequestTimeout 統合テスト
+- [x] 8.1 (P) LoopbackRoundTrip / CoalesceSemantics / FifoOrdering / RequestTimeout 統合テスト
   - `InMemoryLoopbackTransport` を用いて state/event/request-response の完全往復を検証する
   - 同一 topic の state 100 件連続送信で、1 フレームあたり最新 1 件のみ購読ハンドラに届くことを検証する
   - event 1000 件連続送信で、受信順が送信順と完全一致することを検証する
