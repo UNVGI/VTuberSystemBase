@@ -1,0 +1,144 @@
+OK
+2.4 TopicSubscriptionRegistry と SubscriptionToken の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Subscription.meta
+    New folder asset entry inside the existing
+    VTuberSystemBase.CoreIpc.Core asmdef.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Subscription/SubscriptionToken.cs
+    Pure C# implementation of ISubscriptionToken (Abstractions).
+    Public sealed class with an internal constructor that accepts the
+    unregister callback supplied by the registry. Dispose semantics:
+        - First Dispose call wins atomically via Interlocked.Exchange
+          and runs the unregister callback exactly once.
+        - Subsequent Dispose calls are observable no-ops (no second
+          unregister, no exception, IsDisposed remains true).
+        - The callback reference is cleared after invocation so that
+          captured closures become eligible for GC even if the token
+          itself is held longer.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Subscription/SubscriptionToken.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Subscription/TopicSubscriptionRegistry.cs
+    Pure C# topic × kind subscription registry. Implements
+    IDispatchHandlerLookup so MainThreadDispatchQueue can use it as
+    its handler lookup directly. Public API:
+        - Register(topic, kind, handler, payloadType?) →
+          ISubscriptionToken. Adds a Registration (handler delegate
+          + optional payload Type metadata for future typed-bus
+          wrapping in task 2.5) to the (topic, kind) bucket. Returns
+          a SubscriptionToken whose Dispose performs a constant-time
+          unregister of exactly that Registration instance — even if
+          the same delegate has been registered multiple times.
+        - TryGetHandlers(topic, kind, out handlers) — Returns a
+          DispatchHandler[] snapshot of the bucket so that mid-
+          dispatch Dispose calls do not mutate the array
+          MainThreadDispatchQueue is iterating. Snapshot order
+          matches registration order, so handlers fire in a
+          deterministic order under Flush.
+        - CountFor(topic, kind) — registration count for a single
+          key, used by the test suite to assert idempotent Dispose
+          and concurrent registration visibility.
+        - RegistrationCount / RegisteredKeyCount — totals across
+          all buckets, exposed for diagnostics and tests.
+    Concurrency model:
+        - All Dictionary mutations and snapshot construction occur
+          inside a single private lock. This is simpler than a
+          copy-on-write array per (topic, kind) and is more than
+          fast enough for subscription churn, which is rare compared
+          with envelope dispatch. The hot path (TryGetHandlers from
+          Flush on the main thread) takes the lock only long enough
+          to copy the list.
+        - Empty buckets are removed on the last unregistration so
+          RegisteredKeyCount accurately reflects live keys.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Subscription/TopicSubscriptionRegistry.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/TopicSubscriptionRegistryTests.cs
+    17 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that
+    exercise the contract called out in tasks.md §2.4 plus
+    defensive cases:
+        Register_Then_TryGetHandlers_ReturnsHandler
+        Register_DispatchedHandler_ReceivesEnvelope_AfterRegistrationOnly
+        TryGetHandlers_AfterDispose_ReturnsFalse
+        SubscriptionToken_Dispose_IsIdempotent
+        Register_SameTopic_MultipleHandlers_AllInvokedInRegistrationOrder
+        Register_DistinctKindsForSameTopic_AreIsolated
+        Register_DistinctTopicsForSameKind_AreIsolated
+        TryGetHandlers_UnknownTopicOrKind_ReturnsFalseAndEmptyList
+        TryGetHandlers_NullTopic_ReturnsFalse
+        TryGetHandlers_ReturnsSnapshot_NotLiveView
+        Register_RejectsNullTopicNullHandlerOrEmptyTopic
+        Register_PayloadTypeOverload_StoresMetadataWithoutAffectingDispatch
+        Register_SameDelegateInstanceTwice_RegistersIndependently
+        Register_ConcurrentRegistrationsForSameTopic_AreAllVisible
+        Registry_IsUsableAsHandlerLookup_ForDispatchQueue
+        Register_AllKinds_CanCoexistForSameTopic
+        Dispose_AfterFlushIsInProgress_DoesNotAffectInFlightDispatch
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/TopicSubscriptionRegistryTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- New namespace VTuberSystemBase.CoreIpc.Core.Subscription inside the
+  existing VTuberSystemBase.CoreIpc.Core asmdef. No asmdef change is
+  required: Core already references Abstractions and the new files
+  use only BCL types plus VTuberSystemBase.CoreIpc.Core.Dispatch
+  (DispatchHandler / IDispatchHandlerLookup).
+- ISubscriptionToken stays in the Abstractions asmdef as defined in
+  ICoreIpcBus.cs (design.md §509). The concrete SubscriptionToken
+  lives in Core so Abstractions remains free of implementation
+  details (Req 1.6).
+- Registry implements IDispatchHandlerLookup directly; this is the
+  integration point design.md §613 calls for. Wiring into a real
+  CoreIpcBus comes later in task 2.5.
+- The optional payloadType parameter on Register is metadata only
+  (matches "delegate + payload Type" in tasks.md §2.4 and the
+  SubscriptionRegistration entity in design.md §972). It is stored
+  on the Registration record so a future CoreIpcBus implementation
+  can use it during JsonElement → TPayload deserialization without
+  reshaping the registry API.
+- Dispose semantics follow the "多重 Dispose は no-op" requirement
+  from tasks.md §2.4: Interlocked.Exchange ensures the unregister
+  callback runs exactly once even under concurrent Dispose races.
+- TryGetHandlers returns a fresh DispatchHandler[] snapshot, not a
+  live view of the internal List. This is what makes mid-flush
+  Dispose safe: a handler invoked during Flush can dispose another
+  subscription without mutating the array MainThreadDispatchQueue is
+  currently iterating (the queue stores the snapshot in a local).
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 17 new tests
+    TopicSubscriptionRegistryTests : 17 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-2.4-editmode-results.xml
+             -logFile task-2.4-editmode.log
+    Result XML: 103 tests, 103 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-2.4-playmode-results.xml
+             -logFile task-2.4-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without
+  warnings or errors.
+
+Result: OK
