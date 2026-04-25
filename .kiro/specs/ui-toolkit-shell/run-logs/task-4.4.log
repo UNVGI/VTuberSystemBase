@@ -1,0 +1,97 @@
+Task 4.4 UiCommandClient を実装して Green にし、送信ログを発行する — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Green — 4.3 で先に置いた契約テスト 10 件を実装で緑化する。
+
+Files created (Runtime side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/IUiCommandClient.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/IUiCommandClient.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/UiCommandClient.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/UiCommandClient.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/SendResult.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/SendResult.cs.meta
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/RequestResult.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/RequestResult.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (4.4 を [x] に更新)
+
+Implementation summary (design.md §Commands §UiCommandClient 準拠):
+- IUiCommandClient インタフェース: PublishState<TPayload> / PublishEvent<TPayload> /
+  RequestAsync<TRequest, TResponse>(timeout?, cancellationToken?) の 3 経路を公開。
+- SendResult / SendError / SendErrorCode (NotConnected, PayloadTooLarge,
+  SerializationFailed, TopicInvalid, ShellNotRunning) を readonly struct + enum で実装。
+- RequestResult<TResponse> / RequestError / RequestErrorCode (NotConnected, Timeout,
+  PayloadTooLarge, SerializationFailed, TopicInvalid, ShellNotRunning, Cancelled)
+  を readonly struct + enum で実装。
+- UiCommandClient 実装:
+  - コンストラクタで ICoreIpcBus / IConnectionStatus / IDiagnosticsLogger を受ける。
+    いずれかが null なら ArgumentNullException。
+  - Topic バリデーション: 空文字 / null / ASCII 英数 + / + - + _ 以外を含む文字列を
+    すべて TopicInvalid として即時返却 (regex `^[A-Za-z0-9/_-]+$`, design.md
+    §UiCommandClient Validation)。
+  - 接続状態は _bus.Diagnostics.CurrentState == Connected で判定し、未接続時は
+    SendError.NotConnected / RequestError.NotConnected を即時返却 (Requirement 9.4)。
+    IConnectionStatus は ConnectionStatus プロパティ経由で外部公開し、購読 API として
+    保持 (送信パスでは使わない: Initializing 開始の status は Connected 同期前に
+    送信が走り得るため bus 側 diagnostics を参照)。
+  - PublishState/Event は ICoreIpcBus.PublishState/PublishEvent へ委譲し、
+    IpcResult.Success → SendResult.Ok / IpcResult.Fail → MapSendError。
+  - RequestAsync は ICoreIpcBus.RequestAsync(options.Timeout) へ委譲し、
+    IpcResult<TResponse>.Success → RequestResult.Ok / Fail → MapRequestError。
+    OperationCanceledException は Cancelled、それ以外の Exception は
+    SerializationFailed として吸収し例外を外に投げない (Requirement 5.9, 9.4)。
+  - core-ipc 側の CoreIpcError → UI 側 *ErrorCode のマッピング:
+      NotConnected → NotConnected
+      RequestTimeout → Timeout
+      SizeLimitExceeded → PayloadTooLarge
+      InvalidTopic → TopicInvalid
+      HandlerException("Cancelled") → Cancelled
+      その他 → SerializationFailed
+  - 送信 1 回ごとに DiagnosticsLogger に LogCategory.Ipc で 2 件のログを発行
+    (Requirement 11.4):
+      SendStarted: "topic=... kind=... [correlationId=...]" (Info)
+      SendResult:  "topic=... kind=... [correlationId=...] ok|fail=<Code>"
+                   (成功時 Info / 失敗時 Warning)
+  - using LogLevel = ... の名前空間エイリアスで CoreIpc.Abstractions.LogLevel との
+    曖昧参照を回避。
+  - 直接トランスポート (WebSocket 等) への呼び出し経路は Runtime asmdef 参照禁止
+    で構造的に阻止 (Requirement 5.10): UiToolkitShell.Runtime asmdef は
+    VTuberSystemBase.CoreIpc.Abstractions と Unity.Addressables のみを参照し、
+    具体実装 asmdef を引けない。
+
+Tests turned Green by this task (UiCommandClientContractTests, 10 件):
+- PublishState_WhenConnected_ReturnsSuccess_AndForwardsToBus
+- PublishEvent_WhenConnected_ReturnsSuccess_AndForwardsToBus
+- PublishState_WhenNotConnected_ReturnsNotConnected_NoException
+- PublishEvent_WhenNotConnected_ReturnsNotConnected_NoException
+- PublishState_WithEmptyTopic_ReturnsTopicInvalid_NoException
+- PublishState_WithInvalidTopicCharacters_ReturnsTopicInvalid
+- RequestAsync_WhenConnected_ReturnsSuccessfulResponse
+- RequestAsync_WhenNotConnected_ReturnsNotConnectedError_NoException
+- RequestAsync_OnTimeout_ReturnsTimeoutError_NoException
+- Constructor_NullBus_Throws
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-4.4-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-4.4-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Passed (test-run result="Passed")
+    - testcasecount=40, passed=40, failed=0, inconclusive=0, skipped=0
+    - UiCommandClientContractTests: 10/10 Passed (新規緑化)
+    - ConnectionStatusContractTests: 9/9 Passed (継続緑)
+    - DiagnosticsLoggerContractTests: 6/6 Passed (継続緑)
+    - その他 (FakeIpcClient / FakeAsyncAssetLoader /
+      ShellDiagnosticsSnapshot 系) も残り 15 件として全数緑のまま。
+  - 初回試行は LogLevel が Diagnostics.LogLevel と
+    CoreIpc.Abstractions.LogLevel で曖昧 (CS0104) となり失敗したが、
+    using LogLevel = ... のエイリアス追加で解消し再試行で緑。
+
+Result: OK

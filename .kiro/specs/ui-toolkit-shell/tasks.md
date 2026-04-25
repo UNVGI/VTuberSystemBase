@@ -94,7 +94,7 @@
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.9, 9.4_
   - _Boundary: Commands/UiCommandClient_
 
-- [ ] 4.4 `UiCommandClient` を実装して Green にし、送信ログを発行する
+- [x] 4.4 `UiCommandClient` を実装して Green にし、送信ログを発行する
   - `SendResult` / `SendError` / `RequestResult<T>` / `RequestError` を実装し、`ICoreIpcClient` 抽象へ委譲する
   - Topic 文字種バリデーション（ASCII 英数 + `/` / `-` / `_`）を実装する
   - 送信成否・相関 ID・topic を `DiagnosticsLogger` へ `LogCategory.Ipc` で出力する
