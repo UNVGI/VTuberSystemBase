@@ -253,7 +253,12 @@ namespace VTuberSystemBase.UiToolkitShell.AssetLoading
                     releaseUnderlying = true;
                 }
             }
-            if (releaseUnderlying) entry.ReleaseUnderlying();
+            if (releaseUnderlying)
+            {
+                entry.ReleaseUnderlying();
+                _logger.Log(LogLevel.Info, LogCategory.AssetLoad,
+                    $"AssetUnloaded key={entry.AddressableKey} type={entry.AssetType.Name}");
+            }
         }
 
         private readonly struct EntryKey : IEquatable<EntryKey>
