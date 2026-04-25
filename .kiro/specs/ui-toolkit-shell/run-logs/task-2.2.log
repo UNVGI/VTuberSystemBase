@@ -1,0 +1,92 @@
+Task 2.2 Addressables 抽象向けのフェイクローダ（FakeAsyncAssetLoader）をテスト側に用意する — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Files created (Runtime side — IAsyncAssetLoader 抽象とサポート型):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/AssetLoading/IAsyncAssetLoader.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/AssetLoading/IAssetLoadHandle.cs
+  (AssetLoadState 列挙含む)
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/AssetLoading/AssetLoadResult.cs
+  (AssetLoadResult<T> / LoadError / LoadErrorCode を 1 ファイルに集約)
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/AssetLoading/AssetLoaderSnapshot.cs
+
+Files created (Tests side — フェイクとスモークテスト):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/TestSupport/FakeAsyncAssetLoader.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/FakeAsyncAssetLoaderSmokeTests.cs
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (2.2 を [x] に更新)
+
+Implementation summary:
+- IAsyncAssetLoader 抽象 (Runtime/AssetLoading)
+  - LoadAsync<T>(key, scopeId, callback) → IAssetLoadHandle, Release / ReleaseAll(scopeId),
+    GetSnapshot() の 4 メソッドのみを公開する Facade。
+  - design.md §AssetLoading の契約をそのまま反映:
+    * Completion は callback 経由のみ（同期戻り値での asset 受け渡し不可）
+    * 同一ハンドルの callback 発火回数 ≦ 1
+    * scope 単位の解放を ReleaseAll で集約
+  - AssetLoadResult<T> は Ok(asset) / Fail(error) ファクトリで構築、Success フラグで判別。
+  - LoadError は LoadErrorCode { KeyNotFound, AssetTypeMismatch, Cancelled, IoFailure,
+    AddressablesNotInitialized, Unknown } と key/詳細/InnerException を保持。
+  - AssetLoaderSnapshot は PendingCount / CompletedCount / FailedCount /
+    PendingByScope の 4 フィールドを保持する読み取り専用 struct。
+    Empty 静的プロパティで空スナップショットを提供。
+
+- FakeAsyncAssetLoader (Tests/TestSupport)
+  - VTuberSystemBase.UiToolkitShell.AssetLoading.IAsyncAssetLoader を実装したテストダブル。
+  - 制御可能項目 (Requirement 10.7):
+    * 完了タイミング: Mode = Immediate でロード即時解決、Deferred で保留して
+      テスト側から手動解決。デフォルトは Deferred。
+    * 即時モード時の動作: RegisterAsset(key, asset) で予約された資産は成功配信、
+      RegisterFailure(key, error) で予約された失敗は失敗配信、未登録 key は
+      LoadErrorCode.KeyNotFound で配信、型不一致は AssetTypeMismatch を返却。
+    * 任意失敗注入: FailWith(handle, LoadError) で保留中ハンドルを手動失敗させる。
+      RegisterFailure の事前登録方式と CompleteWith / FailWith の事後解決方式の
+      両系統に対応。
+    * キャンセル: handle.Cancel() で AssetLoadState.Cancelled へ遷移し
+      callback に LoadErrorCode.Cancelled を配信。settle 後の Cancel は no-op
+      （callback 重複発火なし）。
+    * Release / ReleaseAll: 保留中の handle を Released へ遷移し callback 配信、
+      完了済 handle はカウンタのみ更新。
+    * スナップショット差替え: SnapshotOverride プロパティに代替値を入れると
+      GetSnapshot() がそれを返却、null クリアで live スナップショットへ復帰。
+  - ライブカウンタ: CompletedCount / FailedCount / CancelledCount /
+    ReleasedCount は Interlocked で更新、PendingHandles はスナップショット
+    コピーを返却。
+  - スレッド安全: 内部状態は object syncRoot による排他で保護、内部 IFakeHandle /
+    FakeHandle<T> で型安全な配信経路を提供。
+
+- FakeAsyncAssetLoaderSmokeTests (Tests/Runtime)
+  - 4 件のスモークテスト:
+    * LoadAsync_ImmediateMode_RegisteredAsset_DeliversSuccessResultSynchronously
+      Immediate モード + RegisterAsset で LoadAsync 戻る前に成功 callback が発火し、
+      AssetLoadResult.Asset が登録 Texture2D と同一参照になることを検証
+      (Requirement 10.7 / 4.7 成功経路)。
+    * LoadAsync_DeferredMode_FailWith_InjectsFailureOnExplicitTrigger
+      Deferred モードで LoadAsync は保留、FailWith で LoadError(KeyNotFound) を
+      手動注入すると callback が一度だけ失敗で発火し、State=Failed・
+      FailedCount=1 になることを検証 (Requirement 10.7 / 4.4)。
+    * Cancel_PendingHandle_DispatchesCancelledErrorAndUpdatesCounters
+      handle.Cancel() で LoadErrorCode.Cancelled が callback 配信され
+      State=Cancelled へ遷移、settle 後の二度目の Cancel が no-op であることを
+      検証 (Requirement 4.7 縮退経路)。
+    * GetSnapshot_ReflectsLiveCounters_AndSnapshotOverrideTakesPrecedence
+      live カウンタ（PendingByScope を含む）と SnapshotOverride 差替えの
+      両モードを検証 (Requirement 4.9)。
+  - TearDown で Texture2D を DestroyImmediate して残留資源を防止。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-2.2-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-2.2-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: total=7 passed=7 failed=0 inconclusive=0 skipped=0 (PASS, exit 0)
+    新規 4 件 + 既存 FakeIpcClientSmokeTests 3 件すべて緑。
+  - Result XML: .kiro/specs/ui-toolkit-shell/run-logs/task-2.2-editmode-results.xml
+
+Result: OK

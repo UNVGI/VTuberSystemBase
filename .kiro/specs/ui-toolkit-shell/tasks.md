@@ -35,7 +35,7 @@
   - 観測可能な完了状態: Tests asmdef のテストランナーで `FakeIpcClient` を利用したスモークテストが緑になる
   - _Requirements: 10.6, 10.3_
 
-- [ ] 2.2 Addressables 抽象向けのフェイクローダ（`FakeAsyncAssetLoader`）をテスト側に用意する
+- [x] 2.2 Addressables 抽象向けのフェイクローダ（`FakeAsyncAssetLoader`）をテスト側に用意する
   - `IAsyncAssetLoader` 抽象に対して、即時完了・遅延完了・任意失敗注入・キャンセルを制御可能なフェイク実装を追加する
   - スナップショット（`AssetLoaderSnapshot` 相当）の差替えも可能にする
   - 観測可能な完了状態: フェイクローダを使った 1 件のサンプルテスト（成功と失敗注入）が緑になる
