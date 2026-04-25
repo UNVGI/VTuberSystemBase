@@ -41,7 +41,7 @@
   - 観測可能な完了状態: フェイクローダを使った 1 件のサンプルテスト（成功と失敗注入）が緑になる
   - _Requirements: 10.7, 4.7, 4.9_
 
-- [ ] 2.3 PlayMode 手動検証用の最小シーン `UiShellPlayModeSample` をテストアセットとして置く
+- [x] 2.3 PlayMode 手動検証用の最小シーン `UiShellPlayModeSample` をテストアセットとして置く
   - Tests/PlayMode 下に `UiShellPlayModeSample.unity` を作成し、空の GameObject 1 つを配置する（具体コンポーネント割当はタスク 9 で実施）
   - 観測可能な完了状態: Unity Editor で当該シーンを開くとエラーなく読み込める
   - _Requirements: 10.4_
