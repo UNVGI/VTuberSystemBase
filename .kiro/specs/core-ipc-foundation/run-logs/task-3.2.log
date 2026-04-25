@@ -1,0 +1,151 @@
+OK
+3.2 ReconnectBackoff の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ReconnectBackoff.cs
+    Pure C# exponential backoff calculator that drives the
+    ClientSessionManager retry loop (task 3.3 will compose it).
+    Public API mirrors the design.md sketch:
+        - ReconnectBackoff(TimeSpan initialDelay, double multiplier,
+                           TimeSpan maxDelay, int maxAttempts)
+        - public TimeSpan NextDelay()
+        - public bool ExceededMaxAttempts { get; }
+        - public void Reset()
+    Two diagnostic accessors (AttemptCount, MaxAttempts) are also
+    exposed so CoreIpcDiagnostics (task 5.4) can publish the live
+    retry counter without re-implementing the math.
+
+    Series semantics:
+        delayMs = initialDelay * multiplier^attemptCount, then capped
+        at maxDelay. Math.Pow on attemptCount keeps the formula
+        explicit; NaN / +Infinity (overflow guard) collapses to
+        maxDelay so degenerate parameters never produce non-finite
+        TimeSpans. With the design defaults (250ms, ×2, 5s, 20) the
+        emitted series is:
+            250ms → 500ms → 1s → 2s → 4s → 5s × 15
+        i.e. exponential growth for attempts 0..4, then the cap holds
+        for the remaining 15 attempts up to the 20-call limit.
+
+    Max-attempts contract:
+        ExceededMaxAttempts becomes true once attemptCount reaches
+        maxAttempts (after the maxAttempts-th NextDelay() call).
+        Calling NextDelay() past that point throws
+        InvalidOperationException; per design "ExceededMaxAttempts が
+        true になった後は NextDelay() を呼ばず上位が
+        PermanentlyDisconnected 遷移を選ぶ契約とする" the upper
+        layer (ClientSessionManager) is expected to inspect the flag
+        instead. Reset() clears attemptCount back to 0, restarting
+        the series from initialDelay; this is what
+        ClientSessionManager calls on a successful reconnect.
+
+    Constructor validation:
+        - initialDelay >= TimeSpan.Zero
+        - multiplier real and >= 1.0 (rejects NaN as well to keep the
+          series monotonic non-decreasing)
+        - maxDelay >= initialDelay
+        - maxAttempts > 0
+        Each violation throws ArgumentOutOfRangeException with the
+        offending value.
+
+    Thread safety: an internal lock guards _attemptCount so the
+    upcoming ClientSessionManager worker Task can safely call
+    NextDelay() from a background thread while other components
+    inspect ExceededMaxAttempts / AttemptCount from the main thread.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ReconnectBackoff.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ReconnectBackoffTests.cs
+    21 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that
+    exercise tasks.md §3.2's required scenarios. Tests:
+        Initial state:
+            InitialState_AttemptCountIsZero_AndNotExceeded
+        Series (the 250ms → 500ms → 1s → 2s → 4s → 5s(cap) → 5s × n
+        sequence from tasks.md §3.2):
+            NextDelay_FirstCall_ReturnsInitialDelay
+            NextDelay_FirstFiveCalls_ProduceExponentialSeries
+            NextDelay_SixthCall_AppliesMaxDelayCap
+            NextDelay_AfterCapApplied_StaysAtMaxDelay
+            NextDelay_FullSeries_MatchesDesignedSequence
+        Max attempts (20 calls → ExceededMaxAttempts=true):
+            ExceededMaxAttempts_IsFalse_BeforeReachingLimit
+            ExceededMaxAttempts_BecomesTrue_AfterMaxAttemptsCalls
+            NextDelay_AfterExceededMaxAttempts_ThrowsInvalidOperationException
+        Reset (Reset 後の再計算):
+            Reset_AfterPartialAttempts_RestartsSeriesFromInitial
+            Reset_AfterExceedingMaxAttempts_AllowsNextDelayAgain
+            Reset_BeforeAnyCall_IsIdempotent
+            Reset_DoubleReset_DoesNotChangeBehavior
+        Constructor validation:
+            Constructor_NegativeInitialDelay_Throws
+            Constructor_MultiplierBelowOne_Throws
+            Constructor_MultiplierIsNaN_Throws
+            Constructor_MaxDelayBelowInitialDelay_Throws
+            Constructor_NonPositiveMaxAttempts_Throws
+        Custom parameters:
+            NextDelay_HonorsCustomMultiplierAndCap
+            NextDelay_MultiplierExactlyOne_AlwaysReturnsInitialDelay
+            NextDelay_MaxAttemptsOne_ExceedsAfterSingleCall
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ReconnectBackoffTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- ReconnectBackoff lives next to ConnectionStateMachine inside the
+  VTuberSystemBase.CoreIpc.Core.Connection namespace, on the existing
+  VTuberSystemBase.CoreIpc.Core asmdef. It is pure C# with no Unity
+  engine references, so the EditMode tests construct and drive it
+  directly without any PlayerLoop dependency.
+- The class is sealed and stateless apart from the attempt counter,
+  so the same instance can be shared between the connect path and
+  the reconnect loop in ClientSessionManager (task 3.3): success
+  calls Reset(), each retry calls NextDelay(), and the manager
+  switches the ConnectionStateMachine to PermanentlyDisconnected
+  when ExceededMaxAttempts goes true.
+- The cap math is intentionally evaluated as Math.Pow rather than
+  a running multiplication so the series for attempt N is independent
+  of how many earlier values were observed; this avoids floating
+  point drift accumulating over the 20-attempt window.
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 21 new tests
+    ReconnectBackoffTests : 21 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-3.2-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-3.2-editmode.log
+    Result XML: 169 tests, 169 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (new)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-3.2-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-3.2-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without
+  errors. Pre-existing CS1998 warning in
+  RequestCorrelationRegistryTests.cs (task 2.3) is unrelated.
+
+Result: OK
