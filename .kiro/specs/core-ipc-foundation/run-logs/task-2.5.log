@@ -1,0 +1,176 @@
+OK
+2.5 CoreIpcBus の実装（送信プリチェック、購読委譲、Request 発行） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/IIpcOutboundChannel.cs
+    Pure C# port that abstracts the byte-level send path so CoreIpcBus
+    stays Unity- and transport-agnostic. Exposes:
+        - bool IsConnected { get; }
+        - ValueTask SendAsync(ReadOnlyMemory<byte> bytes, CancellationToken ct)
+    Concrete adapters (WebSocket, InMemoryLoopback) implement this in
+    later tasks (4.x / 5.1) and the runtime composition (task 7.1)
+    wires it up. Tests inject a fake implementation to drive the bus.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/IIpcOutboundChannel.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/CoreIpcBus.cs
+    Pure C# implementation of ICoreIpcBus. Constructor dependencies:
+        - CoreIpcOptions (max message size + default request timeout)
+        - IMessageCodec (envelope encode)
+        - IIpcOutboundChannel (transport send)
+        - RequestCorrelationRegistry (request correlation + timeout)
+        - TopicSubscriptionRegistry (topic × kind handler delegation)
+        - IConnectionDiagnostics (Diagnostics passthrough)
+        - optional Func<long> timestampProvider (deterministic tests)
+        - optional JsonSerializerOptions for payload (camelCase default)
+        - optional logError callback
+    Public API behavior:
+        - PublishState/PublishEvent: validate non-empty topic →
+          NotConnected check → BuildAndEncode → size limit check
+          on encoded bytes (Req 3.9) → fire-and-forget SendAsync.
+          Returns IpcResult.Fail(InvalidTopic|NotConnected|
+          SizeLimitExceeded|TransportFailure) on any precheck miss
+          or sync send failure; never throws (Req 5.4).
+        - RequestAsync<TRequest,TResponse>: same prechecks + correlation
+          id allocation (GUID-N) + RegisterPending(timeout, ct) +
+          SendAsync. Awaits the pending JsonElement result and
+          deserializes into TResponse. Honors RequestOptions.Timeout
+          override (D-8) and falls back to CoreIpcOptions
+          .DefaultRequestTimeout (= 5s). Send failures call
+          FailPending(TransportFailure) so the awaiter resolves
+          immediately and pending count stays at 0.
+        - SubscribeState/SubscribeEvent<TPayload>: register a
+          DispatchHandler under (topic, MessageKind.State|Event) that
+          deserializes the JsonElement payload via the bus's payload
+          serializer and invokes the typed callback. Returns the
+          ISubscriptionToken from the registry directly.
+        - RegisterRequestHandler<TRequest,TResponse>: register under
+          (topic, MessageKind.Request) a DispatchHandler that fires
+          the user's async handler, then encodes a Response envelope
+          carrying the same correlationId and SendAsyncs it. Errors
+          are isolated and logged via the optional logError hook.
+        - Diagnostics returns the injected IConnectionDiagnostics.
+    Internals:
+        - BuildAndEncode is shared between Publish/Request/Response
+          paths so the size check is uniform across all kinds.
+        - Payload serializer defaults to camelCase + case-insensitive
+          property matching so SystemTextJsonCodec round-trips with
+          PoCo records. JsonElement payloads are passed through
+          without re-serialization.
+        - Synchronous SendAsync paths surface failures as
+          TransportFailure; async sends are observed via a
+          ContinueWith → logError to avoid swallowing background
+          exceptions.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/CoreIpcBus.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcBusTests.cs
+    24 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that
+    exercise tasks.md §2.5's required scenarios plus defensive cases.
+    Tests use a TestHarness that wires the real SystemTextJsonCodec,
+    RequestCorrelationRegistry, TopicSubscriptionRegistry,
+    MainThreadDispatchQueue, a FakeOutboundChannel, and a
+    StubDiagnostics around the bus. The harness uses a fixed
+    timestamp provider for determinism and a 200 ms default request
+    timeout so misbehaving requests fail fast. Tests:
+        Constructor / null-arg validation:
+            Ctor_NullOptions_Throws
+            Ctor_NullCodec_Throws
+            Ctor_NullOutbound_Throws
+            Diagnostics_ReturnsInjectedInstance
+        NotConnected (Req 5.4):
+            PublishState_WhenNotConnected_ReturnsNotConnected
+            PublishEvent_WhenNotConnected_ReturnsNotConnected
+            RequestAsync_WhenNotConnected_ReturnsNotConnected
+        InvalidTopic:
+            PublishState_WithEmptyTopic_ReturnsInvalidTopic
+            PublishEvent_WithNullTopic_ReturnsInvalidTopic
+            RequestAsync_WithEmptyTopic_ReturnsInvalidTopic
+        SizeLimitExceeded (Req 3.9):
+            PublishState_WithOversizedPayload_ReturnsSizeLimitExceeded
+            PublishEvent_AtOrUnderLimit_Succeeds_ButOverLimit_Fails
+        Successful publish encodes correct envelope (Req 1.3 / 9.6):
+            PublishState_Success_SendsEncodedStateEnvelope
+            PublishEvent_Success_SendsEncodedEventEnvelope
+        RequestAsync correlation / timeout / send failure (Req 1.5):
+            RequestAsync_AllocatesCorrelationId_AndSendsRequestEnvelope
+            RequestAsync_NoResponse_ReturnsRequestTimeout
+            RequestAsync_SendThrows_FailsPending_AndReturnsTransportFailure
+        Subscriptions delegated to TopicSubscriptionRegistry (Req 1.1 / 1.4):
+            SubscribeState_DelegatesToRegistry_AndDispatchInvokesHandlerWithDeserializedPayload
+            SubscribeEvent_DelegatesToRegistry_AndDispatchInvokesHandler
+            Subscribe_DisposeToken_RemovesRegistration
+            Subscribe_NullTopicOrEmpty_Throws
+            Subscribe_NullHandler_Throws
+        RegisterRequestHandler:
+            RegisterRequestHandler_RegistersUnderRequestKind_AndSendsResponseEnvelope
+            RegisterRequestHandler_NullArgs_Throws
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcBusTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- CoreIpcBus is the single entry point (Req 1.1, design.md §446) and
+  is implemented in pure C# inside the existing
+  VTuberSystemBase.CoreIpc.Core asmdef, with no Unity engine
+  references — verified by the test harness which constructs and
+  exercises the bus directly from EditMode without touching any
+  PlayerLoop or MonoBehaviour.
+- IIpcOutboundChannel is the new abstraction that decouples the bus
+  from the concrete ITransportAdapter / IClientConnection topology.
+  This keeps the bus testable today and lets the runtime composition
+  task (7.1) decide whether to multiplex sends across multiple
+  IClientConnections without changing the bus contract.
+- The send precheck order is: empty/null topic → NotConnected →
+  payload serialization → codec encode → size limit check on the
+  ENCODED bytes → SendAsync. The size check operates on the encoded
+  byte length so it matches what the receiving codec sees on the
+  wire (Req 3.9 / 3.10 symmetry).
+- RegisterRequestHandler delegates to TopicSubscriptionRegistry
+  under MessageKind.Request as the registration key. The runtime
+  composition (task 7.1) is responsible for routing inbound Request
+  envelopes to that registry — MainThreadDispatchQueue intentionally
+  rejects Request/Response envelopes today (it routes only State
+  and Event), and the request handler test simulates that routing
+  by invoking the registered DispatchHandler directly.
+- Tests use a regular SamplePayload class (not a record) because
+  Abstractions' IsExternalInit polyfill is internal and not visible
+  to the test assembly, and adding another polyfill copy in the
+  test asmdef would just duplicate code.
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 24 new tests
+    CoreIpcBusTests : 24 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-2.5-editmode-results.xml
+             -logFile task-2.5-editmode.log
+    Result XML: 127 tests, 127 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        CoreIpcBusTests : 24/24 (new)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-2.5-playmode-results.xml
+             -logFile task-2.5-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without
+  warnings or errors.
+
+Result: OK
