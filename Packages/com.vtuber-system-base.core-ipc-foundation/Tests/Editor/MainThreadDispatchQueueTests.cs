@@ -285,7 +285,7 @@ namespace VTuberSystemBase.CoreIpc.Tests.Editor
         }
 
         [Test]
-        public void Enqueue_RequestOrResponseKind_IsDroppedAndLoggedAsWarning()
+        public void Enqueue_ResponseKind_IsDroppedAndLoggedAsWarning()
         {
             var warnings = new List<string>();
             var queue = new MainThreadDispatchQueue(
@@ -293,14 +293,60 @@ namespace VTuberSystemBase.CoreIpc.Tests.Editor
                 logWarning: warnings.Add,
                 logError: null);
 
-            queue.Enqueue(BuildEnvelope(MessageKind.Request, "topic/req", 1, correlationId: "c-1"));
             queue.Enqueue(BuildEnvelope(MessageKind.Response, "topic/req", 2, correlationId: "c-1"));
 
             Assert.AreEqual(0, queue.StateSlotCount);
             Assert.AreEqual(0, queue.EventQueueCount);
-            Assert.AreEqual(2, warnings.Count);
-            StringAssert.Contains("Request", warnings[0]);
-            StringAssert.Contains("Response", warnings[1]);
+            Assert.AreEqual(0, queue.RequestQueueCount);
+            Assert.AreEqual(1, warnings.Count);
+            StringAssert.Contains("Response", warnings[0]);
+        }
+
+        [Test]
+        public void Enqueue_RequestKind_IsBufferedAndDispatchedOnFlush()
+        {
+            var queue = new MainThreadDispatchQueue();
+            var lookup = new FakeHandlerLookup();
+            var received = new List<(int payload, string? cid)>();
+            lookup.Register("topic/req", MessageKind.Request, env =>
+                received.Add((env.Payload.GetInt32(), env.CorrelationId)));
+            queue.SetHandlerLookup(lookup);
+
+            queue.Enqueue(BuildEnvelope(MessageKind.Request, "topic/req", 1, correlationId: "c-1"));
+            queue.Enqueue(BuildEnvelope(MessageKind.Request, "topic/req", 2, correlationId: "c-2"));
+
+            Assert.AreEqual(2, queue.RequestQueueCount,
+                "Request envelopes should be buffered FIFO until Flush.");
+
+            queue.Flush();
+
+            Assert.AreEqual(0, queue.RequestQueueCount, "Request queue must drain on Flush.");
+            CollectionAssert.AreEqual(
+                new[] { (1, (string?)"c-1"), (2, (string?)"c-2") },
+                received,
+                "Request envelopes must be dispatched in FIFO order on Flush.");
+        }
+
+        [Test]
+        public void Flush_DeliversRequestBatchAfterStateAndEvent()
+        {
+            var queue = new MainThreadDispatchQueue();
+            var lookup = new FakeHandlerLookup();
+            var trace = new List<string>();
+            lookup.Register("t/state", MessageKind.State, env => trace.Add("state:" + env.Payload.GetInt32()));
+            lookup.Register("t/event", MessageKind.Event, env => trace.Add("event:" + env.Payload.GetInt32()));
+            lookup.Register("t/req", MessageKind.Request, env => trace.Add("req:" + env.Payload.GetInt32()));
+            queue.SetHandlerLookup(lookup);
+
+            queue.Enqueue(BuildEnvelope(MessageKind.Request, "t/req", 5, correlationId: "c"));
+            queue.Enqueue(BuildEnvelope(MessageKind.Event, "t/event", 1));
+            queue.Enqueue(BuildEnvelope(MessageKind.State, "t/state", 7));
+
+            queue.Flush();
+
+            CollectionAssert.AreEqual(
+                new[] { "state:7", "event:1", "req:5" }, trace,
+                "Flush must deliver state batch first, then events, then requests.");
         }
 
         [Test]

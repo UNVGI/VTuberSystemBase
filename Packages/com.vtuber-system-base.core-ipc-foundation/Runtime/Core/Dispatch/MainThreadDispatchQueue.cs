@@ -10,6 +10,7 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
     {
         private readonly ConcurrentDictionary<string, MessageEnvelope> _stateSlots = new();
         private readonly ConcurrentQueue<MessageEnvelope> _eventQueue = new();
+        private readonly ConcurrentQueue<MessageEnvelope> _requestQueue = new();
         private readonly ConcurrentDictionary<string, int> _eventQueueDepthByTopic = new();
 
         private readonly int _eventQueueWarningThresholdPerTopic;
@@ -44,6 +45,8 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
         public int StateSlotCount => _stateSlots.Count;
 
         public int EventQueueCount => _eventQueue.Count;
+
+        public int RequestQueueCount => _requestQueue.Count;
 
         public void SetHandlerLookup(IDispatchHandlerLookup? lookup)
         {
@@ -80,11 +83,14 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
                     break;
 
                 case MessageKind.Request:
+                    _requestQueue.Enqueue(envelope);
+                    break;
+
                 case MessageKind.Response:
                     _logWarning?.Invoke(
                         "Dispatch queue dropped envelope of kind " + envelope.Kind +
                         " for topic '" + envelope.Topic +
-                        "' (request/response is delivered via correlation registry).");
+                        "' (response is delivered via correlation registry).");
                     break;
 
                 default:
@@ -99,6 +105,7 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
         {
             var stateBatch = SnapshotAndClearStateSlots();
             var eventBatch = DrainEventQueue();
+            var requestBatch = DrainRequestQueue();
 
             var lookup = _handlerLookup;
             if (lookup is null)
@@ -114,6 +121,11 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
             for (int i = 0; i < eventBatch.Count; i++)
             {
                 DispatchTo(lookup, eventBatch[i]);
+            }
+
+            for (int i = 0; i < requestBatch.Count; i++)
+            {
+                DispatchTo(lookup, requestBatch[i]);
             }
         }
 
@@ -140,6 +152,16 @@ namespace VTuberSystemBase.CoreIpc.Core.Dispatch
                     envelope.Topic,
                     addValue: 0,
                     updateValueFactory: (_, current) => current > 0 ? current - 1 : 0);
+            }
+            return batch;
+        }
+
+        private List<MessageEnvelope> DrainRequestQueue()
+        {
+            var batch = new List<MessageEnvelope>();
+            while (_requestQueue.TryDequeue(out var envelope))
+            {
+                batch.Add(envelope);
             }
             return batch;
         }

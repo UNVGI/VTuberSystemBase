@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,6 +42,7 @@ namespace VTuberSystemBase.CoreIpc.Core
         private ITransportAdapter? _transport;
         private ClientSessionManager? _clientSession;
         private IpcDispatchStep? _dispatchStep;
+        private ServerInboundRouter? _serverInbound;
 
         public CoreIpcRuntimeHost(
             Func<CoreIpcOptions, ITransportAdapter>? transportFactory = null,
@@ -117,6 +119,7 @@ namespace VTuberSystemBase.CoreIpc.Core
             ITransportAdapter? transport = null;
             ClientSessionManager? clientSession = null;
             IpcDispatchStep? dispatchStep = null;
+            ServerInboundRouter? serverInbound = null;
 
             try
             {
@@ -165,6 +168,21 @@ namespace VTuberSystemBase.CoreIpc.Core
 
                 cancellationToken.ThrowIfCancellationRequested();
 
+                var codecRef = codec;
+                var correlationCallbackRef = correlation;
+                var subscriptionsRef = subscriptions;
+                var dispatchQueueRef = dispatchQueue;
+
+                serverInbound = new ServerInboundRouter(
+                    transport,
+                    bytes => RouteInboundBytes(
+                        bytes,
+                        codecRef,
+                        correlationCallbackRef,
+                        dispatchQueueRef),
+                    _logWarning);
+                serverInbound.Attach();
+
                 await transport.StartServerAsync(
                     new ServerBindOptions(options.Host, options.Port),
                     cancellationToken).ConfigureAwait(false);
@@ -173,11 +191,6 @@ namespace VTuberSystemBase.CoreIpc.Core
                     options.Host,
                     options.Port,
                     TimeSpan.FromSeconds(5));
-
-                var codecRef = codec;
-                var correlationCallbackRef = correlation;
-                var subscriptionsRef = subscriptions;
-                var dispatchQueueRef = dispatchQueue;
 
                 clientSession = new ClientSessionManager(
                     transport,
@@ -217,6 +230,7 @@ namespace VTuberSystemBase.CoreIpc.Core
                     _transport = transport;
                     _clientSession = clientSession;
                     _dispatchStep = dispatchStep;
+                    _serverInbound = serverInbound;
                     _state = RuntimeState.Running;
                 }
 
@@ -235,7 +249,8 @@ namespace VTuberSystemBase.CoreIpc.Core
                     clientSession,
                     transport,
                     correlation,
-                    diagnostics).ConfigureAwait(false);
+                    diagnostics,
+                    serverInbound).ConfigureAwait(false);
 
                 lock (_sync)
                 {
@@ -265,6 +280,7 @@ namespace VTuberSystemBase.CoreIpc.Core
             CoreIpcDiagnostics? diagnostics;
             IpcDispatchStep? dispatchStep;
             RuntimeOutboundChannel? outbound;
+            ServerInboundRouter? serverInbound;
             bool shouldClearSingleton;
 
             lock (_sync)
@@ -279,6 +295,7 @@ namespace VTuberSystemBase.CoreIpc.Core
                 diagnostics = _diagnostics;
                 dispatchStep = _dispatchStep;
                 outbound = _outbound;
+                serverInbound = _serverInbound;
                 shouldClearSingleton = true;
             }
 
@@ -293,6 +310,19 @@ namespace VTuberSystemBase.CoreIpc.Core
                     {
                         _logWarning?.Invoke(
                             $"CoreIpcRuntime: dispatch step uninstall threw: {ex.Message}");
+                    }
+                }
+
+                if (serverInbound is not null)
+                {
+                    try
+                    {
+                        await serverInbound.DisposeAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logWarning?.Invoke(
+                            $"CoreIpcRuntime: server inbound dispose threw: {ex.Message}");
                     }
                 }
 
@@ -358,6 +388,7 @@ namespace VTuberSystemBase.CoreIpc.Core
                     _transport = null;
                     _clientSession = null;
                     _dispatchStep = null;
+                    _serverInbound = null;
                     _state = RuntimeState.Disposed;
                 }
 
@@ -373,7 +404,8 @@ namespace VTuberSystemBase.CoreIpc.Core
             ClientSessionManager? clientSession,
             ITransportAdapter? transport,
             RequestCorrelationRegistry? correlation,
-            CoreIpcDiagnostics? diagnostics)
+            CoreIpcDiagnostics? diagnostics,
+            ServerInboundRouter? serverInbound)
         {
             if (dispatchStep is not null)
             {
@@ -382,6 +414,19 @@ namespace VTuberSystemBase.CoreIpc.Core
                 {
                     _logWarning?.Invoke(
                         $"CoreIpcRuntime: init-failure dispatch uninstall threw: {ex.Message}");
+                }
+            }
+
+            if (serverInbound is not null)
+            {
+                try
+                {
+                    await serverInbound.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logWarning?.Invoke(
+                        $"CoreIpcRuntime: init-failure server inbound dispose threw: {ex.Message}");
                 }
             }
 
@@ -473,6 +518,143 @@ namespace VTuberSystemBase.CoreIpc.Core
         {
             var codec = new SystemTextJsonCodec(options);
             return new WebSocketTransportAdapter(codec);
+        }
+
+        private sealed class ServerInboundRouter : IAsyncDisposable
+        {
+            private readonly ITransportAdapter _transport;
+            private readonly Action<ReadOnlyMemory<byte>> _onMessageReceived;
+            private readonly Action<string>? _logWarning;
+
+            private readonly object _sync = new();
+            private readonly ConcurrentDictionary<IClientConnection, ConnectionContext> _connections = new();
+            private readonly CancellationTokenSource _cts = new();
+            private int _disposed;
+            private int _attached;
+
+            public ServerInboundRouter(
+                ITransportAdapter transport,
+                Action<ReadOnlyMemory<byte>> onMessageReceived,
+                Action<string>? logWarning)
+            {
+                _transport = transport ?? throw new ArgumentNullException(nameof(transport));
+                _onMessageReceived = onMessageReceived
+                    ?? throw new ArgumentNullException(nameof(onMessageReceived));
+                _logWarning = logWarning;
+            }
+
+            public int ActiveConnectionCount => _connections.Count;
+
+            public void Attach()
+            {
+                if (Interlocked.CompareExchange(ref _attached, 1, 0) != 0) return;
+                _transport.ClientConnected += OnClientConnected;
+                _transport.ClientDisconnected += OnClientDisconnected;
+            }
+
+            public async ValueTask DisposeAsync()
+            {
+                if (Interlocked.CompareExchange(ref _disposed, 1, 0) != 0) return;
+
+                if (Volatile.Read(ref _attached) == 1)
+                {
+                    _transport.ClientConnected -= OnClientConnected;
+                    _transport.ClientDisconnected -= OnClientDisconnected;
+                }
+
+                try { _cts.Cancel(); }
+                catch (ObjectDisposedException) { }
+
+                ConnectionContext[] snapshot;
+                lock (_sync)
+                {
+                    snapshot = new ConnectionContext[_connections.Count];
+                    int i = 0;
+                    foreach (var ctx in _connections.Values)
+                    {
+                        snapshot[i++] = ctx;
+                    }
+                    _connections.Clear();
+                }
+
+                foreach (var ctx in snapshot)
+                {
+                    try
+                    {
+                        await ctx.ReceiveTask.ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        _logWarning?.Invoke(
+                            $"CoreIpcRuntime.ServerInboundRouter: receive task ended with error: {ex.Message}");
+                    }
+                }
+
+                _cts.Dispose();
+            }
+
+            private void OnClientConnected(IClientConnection connection)
+            {
+                if (Volatile.Read(ref _disposed) != 0) return;
+                if (connection is null) return;
+
+                var ctx = new ConnectionContext(connection);
+                if (!_connections.TryAdd(connection, ctx))
+                {
+                    return;
+                }
+
+                ctx.ReceiveTask = Task.Run(() => RunReceiveLoopAsync(ctx, _cts.Token));
+            }
+
+            private void OnClientDisconnected(IClientConnection connection)
+            {
+                if (connection is null) return;
+                _connections.TryRemove(connection, out _);
+            }
+
+            private async Task RunReceiveLoopAsync(ConnectionContext ctx, CancellationToken ct)
+            {
+                try
+                {
+                    await foreach (var frame in ctx.Connection.ReceiveAsync(ct).WithCancellation(ct))
+                    {
+                        try
+                        {
+                            _onMessageReceived(frame);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logWarning?.Invoke(
+                                $"CoreIpcRuntime.ServerInboundRouter: message handler threw: {ex.Message}");
+                        }
+                    }
+                }
+                catch (OperationCanceledException) when (ct.IsCancellationRequested)
+                {
+                }
+                catch (Exception ex)
+                {
+                    _logWarning?.Invoke(
+                        $"CoreIpcRuntime.ServerInboundRouter: receive loop terminated with error: {ex.Message}");
+                }
+                finally
+                {
+                    _connections.TryRemove(ctx.Connection, out _);
+                }
+            }
+
+            private sealed class ConnectionContext
+            {
+                public IClientConnection Connection { get; }
+                public Task ReceiveTask { get; set; } = Task.CompletedTask;
+
+                public ConnectionContext(IClientConnection connection)
+                {
+                    Connection = connection;
+                }
+            }
         }
 
         private sealed class RuntimeOutboundChannel : IIpcOutboundChannel

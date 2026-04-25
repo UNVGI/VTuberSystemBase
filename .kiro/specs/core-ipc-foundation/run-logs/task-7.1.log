@@ -1,0 +1,89 @@
+OK
+7.1 エンドツーエンド配線（Runtime ⇄ Bus ⇄ Transport ⇄ Codec ⇄ DispatchQueue） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Summary:
+本タスクは、5.x / 6.x で実装した個別コンポーネント
+（Codec / DispatchQueue / Correlation / Subscription / StateMachine /
+ClientSession / Transport / DispatchStep）を CoreIpcRuntimeHost 経由で
+端から端まで通電させ、WebSocket トランスポートを介して state /
+event / request-response の各経路がメインスレッドの購読／ハンドラ
+まで届くことを PlayMode テストで観測可能にした。
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/EndToEndWiringPlayModeTests.cs
+    新規 PlayMode テスト 3 本（Tests.Runtime asmdef, [UnityTest]）。
+    本番の WebSocketTransportAdapter + SystemTextJsonCodec を使い、
+    CoreIpcRuntimeHost を installPlayerLoop=true で初期化し、
+    Diagnostics.CurrentState==Connected を待った上で各経路を検証する。
+    - PublishState_DeliveredToSubscriber_OverWebSocketLoopback
+        SubscribeState で登録した購読ハンドラが PublishState 後に
+        メインスレッド上で起動し、payload が一致することを確認する
+        （Req 1.1, 1.3, 1.4, 9.1）。
+    - PublishEvent_FifoOrderPreservedAcrossFrames_OverWebSocketLoopback
+        32 件の event を連投したのち、購読ハンドラが FIFO 順で
+        全件を受信することを確認する（Req 1.4, 9.2）。
+    - RequestAsync_ReceivesResponseFromMainThreadHandler_OverWebSocketLoopback
+        RegisterRequestHandler でメインスレッドハンドラを登録し、
+        RequestAsync が response を相関 ID 経由で完成させて返すことを
+        確認する（Req 1.5, 3.6, 9.3）。
+
+Modified files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/MainThreadDispatchQueue.cs
+    Request envelope を FIFO バッファ（_requestQueue）に積み、Flush で
+    state→event→request の順に購読ハンドラへ配信するよう拡張。
+    Response は引き続き correlation registry 経由のため drop+log とした
+    （design.md Flow 2 / task 6.2 の "request/response 解決を 1 フレームで
+    消化する" 要件に整合）。RequestQueueCount を公開して観測可能性を担保。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/MainThreadDispatchQueueTests.cs
+    既存の "Enqueue_RequestOrResponseKind_IsDroppedAndLoggedAsWarning" を
+    Response のみ drop を検証する形に分離し、Request の FIFO バッファリング
+    と Flush 配信を検証する 2 本（Enqueue_RequestKind_IsBufferedAndDispatchedOnFlush
+    / Flush_DeliversRequestBatchAfterStateAndEvent）を追加。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/CoreIpcRuntimeHost.cs
+    サーバ側 accepted IClientConnection の受信ループを担う
+    内部 sealed class ServerInboundRouter を追加。
+    InitializeAsync で transport.ClientConnected を購読し、各 accepted
+    connection ごとに Task.Run で ReceiveAsync ループを回し、既存の
+    RouteInboundBytes（kind=Response → correlation, それ以外 → dispatch
+    queue）に流し込む。Dispose / Cleanup から ServerInboundRouter を
+    確実に廃棄するよう DisposeInternal / CleanupOnInitFailureAsync に
+    結線。これにより Wave 1 の単一プロセス・ループバック構成で
+    Bus.RequestAsync が WebSocket 越しの round-trip で完成する。
+
+Test coverage map:
+
+EditMode (Tests.Editor) — 353 tests passed (前回の合計に MainThreadDispatchQueueTests
+への 2 本追加・1 本リネームを含む)。
+
+PlayMode (Tests.Runtime) — 25 tests passed:
+- EndToEndWiringPlayModeTests（新規 3 本、本タスクで追加）
+- IpcDispatchStepPlayModeTests（既存）
+- WebSocketTransportAdapterPlayModeTests（既存）
+- EditorPlayModeBridgePlayModeTests（既存）
+- RuntimeAssemblySmokeTests（既存）
+
+Implementation notes:
+- ServerInboundRouter を CoreIpcRuntimeHost の private sealed class として
+  同居させ、共有 _logWarning / RouteInboundBytes に直接アクセスする
+  最短経路で配線した。トランスポート抽象のシグネチャを変えていない
+  ため、InMemoryLoopbackTransport でも同一フローが成立する（Wave 1
+  単一プロセス前提）。
+- Wave 1 の単一プロセス構成では request handler の response も runtime
+  の _outbound（client）経路で送信され、SAC の receive loop が
+  RouteInboundBytes 経由で correlation.MatchResponse に流す。これにより
+  Server→Client の論理経路が「同一チャネルでの折返し」として実装上は
+  完結する。多プロセス対応が必要になる場面（将来 Wave）では response
+  routing を per-connection にする拡張が別途必要だが、本 Wave 1 の
+  Req は満たす。
+- Diagnostics.CurrentState が Connected に到達してからテスト本体を
+  進めるため、テスト先頭で WaitForConnected ヘルパを噛ませる。
+  InitializeAsync が return した時点では client session の Run loop が
+  Task.Run で背景開始しただけで、ハンドシェイクと state machine 遷移
+  完了までは別フレームかかる。
+
+Run-time results:
+- task-7.1-editmode-results.xml: 353 passed / 0 failed
+- task-7.1-playmode-results.xml: 25 passed / 0 failed
