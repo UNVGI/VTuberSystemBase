@@ -240,7 +240,7 @@
   - _Boundary: Panels/TabPanelRegistry_
   - _Depends: 8.2_
 
-- [ ] 8.4 `TabBarController` で 3 ボタン UI・アクティブ表示・非活性制御を実装する
+- [x] 8.4 `TabBarController` で 3 ボタン UI・アクティブ表示・非活性制御を実装する
   - TDD: プリロード未完了時は `.vsb-tab-bar__button--disabled` が付与され操作不可、完了時に活性化し初期タブ（Character）がアクティブ化するテストを書く
   - アクティブタブのボタンに `.vsb-tab-bar__button--active` が付くことを検証する
   - ボタンクリックで `TabPanelRegistry.SwitchTo` が呼ばれることをフェイク経由で検証する

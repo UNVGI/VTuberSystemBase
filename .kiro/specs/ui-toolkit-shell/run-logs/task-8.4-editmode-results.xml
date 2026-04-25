@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="19" result="Passed" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.1148341">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="642" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.114834" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1282" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="259" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.095138" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="46616" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1283" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="259" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.092356" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1284" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="259" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.089645" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1285" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="259" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.087194" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1286" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="259" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.083967" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1125" name="TabBarControllerTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.073309" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1140" name="Button_Click_DispatchesToRegistrySwitchTo" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Button_Click_DispatchesToRegistrySwitchTo" methodname="Button_Click_DispatchesToRegistrySwitchTo" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1098066699" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.049588" asserts="0">
+                  <properties>
+                    <property name="Description" value="Button.clicked にコントローラのハンドラが結線され、Action 起動経由で SwitchTo が走る（Requirement 2.6 配線確認）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1137" name="Click_AfterPreloadComplete_MovesActiveClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_AfterPreloadComplete_MovesActiveClass" methodname="Click_AfterPreloadComplete_MovesActiveClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1148803919" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000694" asserts="0">
+                  <properties>
+                    <property name="Description" value="クリック切替後は active クラスが新タブのボタンに移動する（Requirement 2.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1136" name="Click_AfterPreloadComplete_SwitchesActiveTab" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_AfterPreloadComplete_SwitchesActiveTab" methodname="Click_AfterPreloadComplete_SwitchesActiveTab" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1084245849" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000505" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード完了後の他タブクリックで SwitchTo が呼ばれて ActiveTab が更新される（Requirement 2.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1135" name="Click_BeforePreloadComplete_IsIgnored" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_BeforePreloadComplete_IsIgnored" methodname="Click_BeforePreloadComplete_IsIgnored" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1965776080" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000359" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード完了前のクリックは無視され、SwitchTo は呼ばれない（Requirement 2.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1141" name="Click_BeforePreloadComplete_LogsTabSwitchCategory" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_BeforePreloadComplete_LogsTabSwitchCategory" methodname="Click_BeforePreloadComplete_LogsTabSwitchCategory" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="676812071" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000590" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード未完了クリックは TabSwitch カテゴリのログを残す" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1138" name="Click_FailedTab_DoesNotSwitch" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_FailedTab_DoesNotSwitch" methodname="Click_FailedTab_DoesNotSwitch" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1708461155" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.001060" asserts="0">
+                  <properties>
+                    <property name="Description" value="失敗マーク済みタブのボタンクリックは ActiveTab を変えず、active クラスも移らない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1139" name="Click_OnAlreadyActiveTab_LeavesUiConsistent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Click_OnAlreadyActiveTab_LeavesUiConsistent" methodname="Click_OnAlreadyActiveTab_LeavesUiConsistent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1494431945" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000413" asserts="0">
+                  <properties>
+                    <property name="Description" value="既にアクティブなタブのクリックは AlreadyActive で拒否されてもボタン状態は崩れない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1128" name="Constructor_BeforePreloadComplete_AllButtonsHaveDisabledClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_BeforePreloadComplete_AllButtonsHaveDisabledClass" methodname="Constructor_BeforePreloadComplete_AllButtonsHaveDisabledClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="532401195" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000387" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード未完了の初期状態では 3 ボタン全てに disabled クラスが付与される（Requirement 2.7, 3.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="Constructor_BeforePreloadComplete_ButtonsAreNotEnabledSelf" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_BeforePreloadComplete_ButtonsAreNotEnabledSelf" methodname="Constructor_BeforePreloadComplete_ButtonsAreNotEnabledSelf" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1667682803" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000311" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード未完了で SetEnabled(false) によりボタン操作が UI レベルでも無効化される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1129" name="Constructor_BeforePreloadComplete_NoActiveClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_BeforePreloadComplete_NoActiveClass" methodname="Constructor_BeforePreloadComplete_NoActiveClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1962290595" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000314" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード未完了の初期状態ではどのボタンにも active クラスが付かない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="Constructor_MissingButton_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_MissingButton_Throws" methodname="Constructor_MissingButton_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="312698395" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.001546" asserts="0">
+                  <properties>
+                    <property name="Description" value="ホストに必要なボタンが存在しない場合は InvalidOperationException で失敗する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1126" name="Constructor_NullArgs_Throw" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_NullArgs_Throw" methodname="Constructor_NullArgs_Throw" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="335251745" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000428" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null registry / host / logger を拒否する（DI 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1134" name="Constructor_PreloadAlreadyComplete_ActivatesInitialTab" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Constructor_PreloadAlreadyComplete_ActivatesInitialTab" methodname="Constructor_PreloadAlreadyComplete_ActivatesInitialTab" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1201418030" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000371" asserts="0">
+                  <properties>
+                    <property name="Description" value="コントローラ生成時に既にプリロードが完了していても初期タブが活性化される（晩生成のフェイルセーフ）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1144" name="Dispose_DoubleDispose_DoesNotThrow" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Dispose_DoubleDispose_DoesNotThrow" methodname="Dispose_DoubleDispose_DoesNotThrow" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="364319026" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000888" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose は二重呼出に対して例外を投げない（Idempotent）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1143" name="Dispose_HandleClickIsNoop" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Dispose_HandleClickIsNoop" methodname="Dispose_HandleClickIsNoop" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1753575595" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000605" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose 後のクリックハンドラ呼出しは何もしない（idempotent）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1142" name="Dispose_StopsRespondingToPreloadEvents" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.Dispose_StopsRespondingToPreloadEvents" methodname="Dispose_StopsRespondingToPreloadEvents" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1500108292" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000372" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose 後はレジストリのプリロード完了通知に反応しない（イベント解除）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1132" name="PreloadComplete_ActivatesInitialCharacterTab" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.PreloadComplete_ActivatesInitialCharacterTab" methodname="PreloadComplete_ActivatesInitialCharacterTab" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1462862365" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000409" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード完了時に初期タブ（Character）がアクティブ化され active クラスが付く（Requirement 3.3, 2.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1133" name="PreloadComplete_FailedTab_KeepsDisabledClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.PreloadComplete_FailedTab_KeepsDisabledClass" methodname="PreloadComplete_FailedTab_KeepsDisabledClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="1814500866" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000377" asserts="0">
+                  <properties>
+                    <property name="Description" value="失敗マークされたタブはプリロード完了後も disabled クラスを保持する（Requirement 3.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1131" name="PreloadComplete_RemovesDisabledClass_FromAllSuccessTabs" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests.PreloadComplete_RemovesDisabledClass_FromAllSuccessTabs" methodname="PreloadComplete_RemovesDisabledClass_FromAllSuccessTabs" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabBarControllerTests" runstate="Runnable" seed="636676503" result="Passed" start-time="2026-04-25 19:51:27Z" end-time="2026-04-25 19:51:27Z" duration="0.000391" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード完了で 3 ボタンの disabled クラスが除去される（Requirement 3.3）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
