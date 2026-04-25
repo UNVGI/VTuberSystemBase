@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "UiToolkitShell.Runtime",
         "UiToolkitShell.CommonUi",
-        "UiToolkitShell.Editor"
+        "UiToolkitShell.Editor",
+        "VTuberSystemBase.CoreIpc.Abstractions"
     ],
     "includePlatforms": [
         "Editor"
