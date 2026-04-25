@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VsbNumberedList 既定 UXML テンプレート (design.md §CommonUi §VsbNumberedList)。
+  C# 側 (VsbNumberedList.cs) が AddItem で行コンテナを動的生成するため、
+  本ファイルはタブ spec が UXML から参照する際の最小サンプルを兼ねる。
+  ルート要素として <VsbNumberedList> を直接配置すれば C# コンストラクタが
+  vsb-numbered-list クラスを付与し、AddItem 時に
+  vsb-numbered-list__item / vsb-numbered-list__index / vsb-numbered-list__content
+  を子要素として組み立てる。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:vsb="VTuberSystemBase.UiToolkitShell.CommonUi.Controls"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
+    <vsb:VsbNumberedList />
+</UXML>

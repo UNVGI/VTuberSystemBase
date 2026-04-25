@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="13" result="Passed" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.0849422">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="529" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.084942" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1162" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="146" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.071049" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="11416" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1163" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="146" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.068402" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1164" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="146" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.065927" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1165" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="146" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.063422" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1166" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="146" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.061036" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1131" name="VsbNumberedListTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.055961" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1137" name="AddItem_AutoNumbersBadgeStartingAtOne" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.AddItem_AutoNumbersBadgeStartingAtOne" methodname="AddItem_AutoNumbersBadgeStartingAtOne" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="1601918790" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.033104" asserts="0">
+                  <properties>
+                    <property name="Description" value="AddItem は番号バッジを 1 始まりで自動採番する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1133" name="AddItem_BuildsItemContainerWithBemClasses" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.AddItem_BuildsItemContainerWithBemClasses" methodname="AddItem_BuildsItemContainerWithBemClasses" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="1436438455" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.001855" asserts="0">
+                  <properties>
+                    <property name="Description" value="AddItem 後に行コンテナ・index バッジ・content スロットの BEM 必須クラスが揃う（design.md USS セレクタ規約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1136" name="AddItem_FiresItemAddedOnce_WithIndexAndItem" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.AddItem_FiresItemAddedOnce_WithIndexAndItem" methodname="AddItem_FiresItemAddedOnce_WithIndexAndItem" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="1631325188" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000913" asserts="0">
+                  <properties>
+                    <property name="Description" value="AddItem 完了直後に ItemAdded(index, item) が 1 回発火する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1138" name="AddItem_NullItem_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.AddItem_NullItem_Throws" methodname="AddItem_NullItem_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="378733000" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.001858" asserts="0">
+                  <properties>
+                    <property name="Description" value="AddItem(null) は ArgumentNullException を投げて UI クラッシュではなく明示的に失敗する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1132" name="Constructor_AppliesVsbNumberedListClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.Constructor_AppliesVsbNumberedListClass" methodname="Constructor_AppliesVsbNumberedListClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="749236517" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000292" asserts="0">
+                  <properties>
+                    <property name="Description" value="インスタンス化直後にブロッククラス vsb-numbered-list が付与されている（vsb- プレフィクス契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1134" name="DiagnosticsLogger_CanBeInjectedViaConstructor" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.DiagnosticsLogger_CanBeInjectedViaConstructor" methodname="DiagnosticsLogger_CanBeInjectedViaConstructor" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="247532309" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000929" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタで IDiagnosticsLogger を受け取れる（VsbControlBase 共通の DI 集約点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1139" name="RemoveAt_FiresItemRemovedAndRenumbers" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.RemoveAt_FiresItemRemovedAndRenumbers" methodname="RemoveAt_FiresItemRemovedAndRenumbers" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="1559445055" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.001915" asserts="0">
+                  <properties>
+                    <property name="Description" value="RemoveAt 完了直後に ItemRemoved(index) が 1 回発火し、後続要素の番号が再採番される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1140" name="RemoveAt_OutOfRange_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.RemoveAt_OutOfRange_Throws" methodname="RemoveAt_OutOfRange_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="1247802757" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000537" asserts="0">
+                  <properties>
+                    <property name="Description" value="RemoveAt は範囲外 index で ArgumentOutOfRangeException を投げる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1141" name="Reorder_FiresItemReorderedAndRenumbers" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.Reorder_FiresItemReorderedAndRenumbers" methodname="Reorder_FiresItemReorderedAndRenumbers" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="573963581" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.001485" asserts="0">
+                  <properties>
+                    <property name="Description" value="Reorder 完了直後に ItemReordered(from, to) が 1 回発火し、要素順序と番号バッジが更新される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1143" name="Reorder_OutOfRange_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.Reorder_OutOfRange_Throws" methodname="Reorder_OutOfRange_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="2106407092" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000341" asserts="0">
+                  <properties>
+                    <property name="Description" value="Reorder は範囲外 index で ArgumentOutOfRangeException を投げる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1142" name="Reorder_SameIndex_DoesNotFire" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.Reorder_SameIndex_DoesNotFire" methodname="Reorder_SameIndex_DoesNotFire" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="308707892" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000549" asserts="0">
+                  <properties>
+                    <property name="Description" value="Reorder で from == to の場合はイベント発火せず、副作用も生じない（idempotency）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1144" name="Scenario_AddThreeReorderRemove_FiresEventsInOrder_AndKeepsAutoNumbering" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.Scenario_AddThreeReorderRemove_FiresEventsInOrder_AndKeepsAutoNumbering" methodname="Scenario_AddThreeReorderRemove_FiresEventsInOrder_AndKeepsAutoNumbering" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="79607672" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000707" asserts="0">
+                  <properties>
+                    <property name="Description" value="3 要素追加→並び替え→削除のシナリオでイベント順序と最終状態が期待通りになる（tasks.md 7.3 観測可能な完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1135" name="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests.SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" methodname="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbNumberedListTests" runstate="Runnable" seed="315040665" result="Passed" start-time="2026-04-25 18:53:20Z" end-time="2026-04-25 18:53:20Z" duration="0.000173" asserts="0">
+                  <properties>
+                    <property name="Description" value="UXML から default ctor で生成された後でも SetDiagnosticsLogger で注入できる（UxmlFactory 経路の DI）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

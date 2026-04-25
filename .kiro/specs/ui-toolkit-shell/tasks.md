@@ -191,7 +191,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_
   - _Boundary: CommonUi/VsbColorPicker_
 
-- [ ] 7.3 (P) `VsbNumberedList`（可変長整列リスト）を実装する
+- [x] 7.3 (P) `VsbNumberedList`（可変長整列リスト）を実装する
   - TDD: `AddItem` / `RemoveAt` / `Reorder` で `ItemAdded` / `ItemRemoved` / `ItemReordered` が発火し、自動採番が保たれることを検証する
   - 観測可能な完了状態: 3 要素追加→並び替え→削除のシナリオでイベント順序が期待通りになる緑テストがある
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_

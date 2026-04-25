@@ -1,0 +1,37 @@
+/*
+ * VsbNumberedList 既定 USS (design.md §CommonUi §VsbNumberedList; Requirement 6.2 / 7.3)。
+ * 利用者プロジェクトのスキン USS は本ファイルのセレクタ群を起点として
+ * 上書きする想定。クラス名 (vsb-numbered-list / vsb-numbered-list__item /
+ * vsb-numbered-list__index / vsb-numbered-list__content) は SemVer 上の
+ * 安定 API として扱う (UI-3 / SkinValidationRules)。
+ */
+
+.vsb-numbered-list {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 120px;
+    padding: 2px;
+}
+
+.vsb-numbered-list__item {
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 4px;
+    margin-bottom: 1px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 2px;
+}
+
+.vsb-numbered-list__index {
+    min-width: 24px;
+    -unity-text-align: middle-right;
+    margin-right: 6px;
+    color: rgb(180, 180, 180);
+    -unity-font-style: bold;
+}
+
+.vsb-numbered-list__content {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+}
