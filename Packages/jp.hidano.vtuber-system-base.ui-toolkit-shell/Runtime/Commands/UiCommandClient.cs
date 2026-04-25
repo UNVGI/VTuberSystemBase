@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using LogLevel = VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel;
+using IpcMessageKind = VTuberSystemBase.CoreIpc.Abstractions.MessageKind;
 
 namespace VTuberSystemBase.UiToolkitShell.Commands
 {
@@ -54,12 +55,12 @@ namespace VTuberSystemBase.UiToolkitShell.Commands
 
         public SendResult PublishState<TPayload>(string topic, TPayload payload)
         {
-            return SendInternal(MessageKind.State, topic, () => _bus.PublishState(topic, payload));
+            return SendInternal(IpcMessageKind.State, topic, () => _bus.PublishState(topic, payload));
         }
 
         public SendResult PublishEvent<TPayload>(string topic, TPayload payload)
         {
-            return SendInternal(MessageKind.Event, topic, () => _bus.PublishEvent(topic, payload));
+            return SendInternal(IpcMessageKind.Event, topic, () => _bus.PublishEvent(topic, payload));
         }
 
         public async Task<RequestResult<TResponse>> RequestAsync<TRequest, TResponse>(
@@ -69,7 +70,7 @@ namespace VTuberSystemBase.UiToolkitShell.Commands
             CancellationToken cancellationToken = default)
         {
             var correlationId = Interlocked.Increment(ref _correlationCounter).ToString();
-            LogStarted(MessageKind.Request, topic, correlationId);
+            LogStarted(IpcMessageKind.Request, topic, correlationId);
 
             RequestResult<TResponse> result;
             if (!IsTopicValid(topic))
@@ -117,11 +118,11 @@ namespace VTuberSystemBase.UiToolkitShell.Commands
                 }
             }
 
-            LogResult(MessageKind.Request, topic, correlationId, result.Success, result.Error?.Code.ToString());
+            LogResult(IpcMessageKind.Request, topic, correlationId, result.Success, result.Error?.Code.ToString());
             return result;
         }
 
-        private SendResult SendInternal(MessageKind kind, string topic, Func<IpcResult> publish)
+        private SendResult SendInternal(IpcMessageKind kind, string topic, Func<IpcResult> publish)
         {
             LogStarted(kind, topic, correlationId: null);
 
@@ -157,7 +158,7 @@ namespace VTuberSystemBase.UiToolkitShell.Commands
             return result;
         }
 
-        private void LogStarted(MessageKind kind, string topic, string? correlationId)
+        private void LogStarted(IpcMessageKind kind, string topic, string? correlationId)
         {
             var message = correlationId is null
                 ? $"SendStarted topic={DisplayTopic(topic)} kind={kind}"
@@ -165,7 +166,7 @@ namespace VTuberSystemBase.UiToolkitShell.Commands
             _logger.Log(LogLevel.Info, LogCategory.Ipc, message);
         }
 
-        private void LogResult(MessageKind kind, string topic, string? correlationId, bool success, string? errorCode)
+        private void LogResult(IpcMessageKind kind, string topic, string? correlationId, bool success, string? errorCode)
         {
             var status = success ? "ok" : ("fail=" + (errorCode ?? "Unknown"));
             var message = correlationId is null

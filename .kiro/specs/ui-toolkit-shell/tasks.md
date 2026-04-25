@@ -112,7 +112,7 @@
   - _Requirements: 5.6, 5.7_
   - _Boundary: Commands/UiSubscriptionClient_
 
-- [ ] 4.6 `UiSubscriptionClient` を実装して Green にし、受信ログを発行する
+- [x] 4.6 `UiSubscriptionClient` を実装して Green にし、受信ログを発行する
   - `MessageEnvelope<TPayload>` / `MessageKind` / `ISubscriptionToken` を実装する
   - `ICoreIpcClient.Subscribe` を内包し、callback 実行を try-catch で保護する
   - 到着メッセージの種別・topic を `DiagnosticsLogger` へ `LogCategory.Ipc` で出力する

@@ -7,6 +7,7 @@ using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.UiToolkitShell.Commands;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using VTuberSystemBase.UiToolkitShell.Tests.TestSupport;
+using IpcMessageKind = VTuberSystemBase.CoreIpc.Abstractions.MessageKind;
 
 namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
 {
@@ -68,7 +69,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
             Assert.That(result.Success, Is.True);
             Assert.That(result.Error, Is.Null);
             Assert.That(bus.SentMessages.Count, Is.EqualTo(1));
-            Assert.That(bus.SentMessages[0].Kind, Is.EqualTo(MessageKind.State));
+            Assert.That(bus.SentMessages[0].Kind, Is.EqualTo(IpcMessageKind.State));
             Assert.That(bus.SentMessages[0].Topic, Is.EqualTo("ui/test/state"));
         }
 
@@ -84,7 +85,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
             Assert.That(result.Success, Is.True);
             Assert.That(result.Error, Is.Null);
             Assert.That(bus.SentMessages.Count, Is.EqualTo(1));
-            Assert.That(bus.SentMessages[0].Kind, Is.EqualTo(MessageKind.Event));
+            Assert.That(bus.SentMessages[0].Kind, Is.EqualTo(IpcMessageKind.Event));
             Assert.That(bus.SentMessages[0].Topic, Is.EqualTo("ui/test/event"));
         }
 

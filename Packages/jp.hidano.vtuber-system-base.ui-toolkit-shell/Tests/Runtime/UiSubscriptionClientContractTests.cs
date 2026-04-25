@@ -12,6 +12,7 @@ using VTuberSystemBase.UiToolkitShell.Tests.TestSupport;
 using IUiSubscriptionClient = VTuberSystemBase.UiToolkitShell.Commands.IUiSubscriptionClient;
 using UiSubscriptionClient = VTuberSystemBase.UiToolkitShell.Commands.UiSubscriptionClient;
 using UiMessageKind = VTuberSystemBase.UiToolkitShell.Commands.MessageKind;
+using LogLevel = VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel;
 
 namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
 {
