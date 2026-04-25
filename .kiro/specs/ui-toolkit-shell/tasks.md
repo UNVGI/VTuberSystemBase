@@ -6,7 +6,7 @@
 
 ## 1. Foundation: パッケージ骨格とアセンブリ境界の確立
 
-- [ ] 1.1 パッケージディレクトリと Runtime 向け asmdef を作成する
+- [x] 1.1 パッケージディレクトリと Runtime 向け asmdef を作成する
   - `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/` 配下に Runtime / Runtime.UxmlUss / Runtime.CommonUi / Editor / Tests のルートフォルダを用意する
   - `UiToolkitShell.Runtime.asmdef` を作成し、参照先を UI Toolkit（`UnityEngine.UIElements`）、Unity Addressables、`core-ipc-foundation` の抽象 asmdef に限定する
   - `core-ipc-foundation` 具体実装 asmdef・`output-renderer-shell`・タブ spec への参照が引けない構成であることを asmdef 設定画面で確認する
