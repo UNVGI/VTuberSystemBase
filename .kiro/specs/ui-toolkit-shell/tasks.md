@@ -104,7 +104,7 @@
   - _Boundary: Commands/UiCommandClient_
   - _Depends: 4.3_
 
-- [ ] 4.5 `IUiSubscriptionClient` の契約テストを先に書く
+- [x] 4.5 `IUiSubscriptionClient` の契約テストを先に書く
   - `Subscribe(topic, kind, callback)` で `ISubscriptionToken` を返し、`Dispose` 後は callback が呼ばれないことを検証する
   - callback がメインスレッドで発火することを検証する
   - callback 内の例外が他購読に波及せず、ログに記録されることを検証する

@@ -1,0 +1,76 @@
+Task 4.5 IUiSubscriptionClient の契約テストを先に書く — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Red — 契約テストのみを先に置き、実装は 4.6 で追加する。
+
+Files created (Tests side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiSubscriptionClientContractTests.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiSubscriptionClientContractTests.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (4.5 を [x] に更新)
+
+Test inventory (UiSubscriptionClientContractTests.cs, 7 cases):
+- Subscribe_State_ReturnsActiveToken_AndDeliversInjectedMessageWithEnvelope
+    Subscribe(State) は IsActive=true / Topic=指定 topic のトークンを返し、
+    その後 FakeIpcClient.InjectState で注入された state メッセージを
+    Topic / Kind=State / Payload 付きの MessageEnvelope<T> として callback に
+    届ける（Req 5.6; design.md §UiSubscriptionClient Service Interface）。
+- Subscribe_StateAndEvent_AreRoutedSeparatelyByKind
+    同一 topic に対して State / Event の 2 つを購読したとき、
+    InjectState は State 購読のみを 1 回、InjectEvent は Event 購読のみを
+    1 回だけ呼び出す（design.md §UiSubscriptionClient kind 別ルーティング）。
+- Token_Dispose_StopsCallbackInvocation_AndFlipsIsActiveToFalse
+    ISubscriptionToken.Dispose 後は IsActive=false へ単調遷移し、
+    以降のメッセージ注入で callback は呼ばれない
+    （Req 5.7; design.md §UiSubscriptionClient Invariants）。
+- Subscribe_CallbackInvokedOnCapturedMainThread
+    callback は MainThreadAffinity.Capture で記録した Unity メインスレッド
+    上で発火する（Req 5.6; design.md §UiSubscriptionClient: core-ipc D-3
+    継承の通過パス）。
+- Subscribe_CallbackException_DoesNotPropagate_AndOtherSubscribersStillReceive
+    ある callback が例外を投げても他の購読者には影響せず、
+    bus.InjectState 呼出し自体も例外を外に投げない
+    （Req 5.7; design.md §UiSubscriptionClient Risks/Validation）。
+- Subscribe_CallbackException_IsLoggedAtErrorLevel_AndSubscriptionRemainsActive
+    callback 内で送出された例外は DiagnosticsLogger に Error レベルで記録され、
+    購読自体は継続して 2 回目以降の注入でも callback が呼び出される
+    （Req 5.7; design.md §UiSubscriptionClient Validation）。
+- Subscribe_InvalidArguments_ThrowImmediately
+    null callback は ArgumentNullException、空 topic は ArgumentException を
+    Subscribe 呼出し時点で即座に投げる
+    （design.md §UiSubscriptionClient Preconditions）。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-4.5-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-4.5-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Compile-fail (exit 1, "Scripts have compiler errors")
+    UiToolkitShell.Tests asmdef のコンパイルが
+      CS0234: The type or namespace name 'IUiSubscriptionClient' does not exist
+              in the namespace 'VTuberSystemBase.UiToolkitShell.Commands'
+      CS0234: The type or namespace name 'UiSubscriptionClient' does not exist
+              in the namespace 'VTuberSystemBase.UiToolkitShell.Commands'
+      CS0234: The type or namespace name 'MessageKind' does not exist
+              in the namespace 'VTuberSystemBase.UiToolkitShell.Commands'
+    で失敗。test results XML は生成されない（=テスト探索前にコンパイルが
+    落ちる Red 状態）。
+  - 期待される失敗: 7 件のテストが参照する型 IUiSubscriptionClient /
+    UiSubscriptionClient / MessageKind / MessageEnvelope<TPayload> /
+    ISubscriptionToken（いずれも VTuberSystemBase.UiToolkitShell.Commands
+    名前空間配下、4.6 で追加予定）が未定義のため、テスト本体のシンボル解決前に
+    コンパイルが停止する。
+  - これは TDD Red 状態（型未定義による失敗）として task 4.5 の観測可能な
+    完了条件（「テスト 5〜7 件が Red 状態」）を満たす（7 件）。
+  - 4.6 で IUiSubscriptionClient / UiSubscriptionClient / MessageKind /
+    MessageEnvelope<TPayload> / ISubscriptionToken（UI 側）を実装すれば
+    本 7 件 + 既存テストが同時に Green になる見込み。
+
+Result: OK (Red as designed)
