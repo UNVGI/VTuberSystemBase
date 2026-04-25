@@ -1,0 +1,140 @@
+OK
+ MainThreadDispatchQueue の実装（state coalesce + event FIFO） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/MainThreadDispatchQueue.cs
+    Pure C# main-thread dispatch queue. Holds two independent shared
+    structures: ConcurrentDictionary<string, MessageEnvelope> _stateSlots
+    (per-topic state slot, atomic upsert via indexer assignment) and
+    ConcurrentQueue<MessageEnvelope> _eventQueue (MPSC FIFO drain on
+    Flush). A ConcurrentDictionary<string, int> _eventQueueDepthByTopic
+    tracks per-topic residual event depth for the warning-threshold
+    crossing check. Public API:
+        - Enqueue(MessageEnvelope) — call site is any worker thread.
+            * State kind  → upserts into _stateSlots (latest wins).
+            * Event kind  → enqueues into _eventQueue, increments per-topic
+              depth atomically; emits a single warning log the moment the
+              new depth crosses options.EventQueueWarningThresholdPerTopic
+              (default 1000). Subsequent enqueues past the threshold do
+              not spam log; the warning re-fires only after the queue
+              drains back at-or-below the threshold and is crossed again.
+              Messages are never dropped (Req 9.5).
+            * Request/Response  → dropped + warning log; correlation
+              registry (task 2.3) is the dispatcher for these kinds.
+            * null Topic  → dropped + warning.
+        - Flush() — main-thread-only contract. Snapshots state slots by
+          iterating Keys and calling TryRemove for each, then drains the
+          event queue with TryDequeue, then invokes handlers via the
+          IDispatchHandlerLookup. Each handler invocation is wrapped in
+          try/catch; thrown exceptions are routed to the logError
+          callback as a CoreIpcError.HandlerException message and
+          dispatch continues to the next handler / next envelope
+          (Req 9.2 / Req 1.4).
+        - SetHandlerLookup(IDispatchHandlerLookup?) — late-binding wire
+          for the upcoming TopicSubscriptionRegistry (task 2.4).
+        - StateSlotCount / EventQueueCount — observable counters used by
+          tests and the future IConnectionDiagnostics implementation.
+    Constructor accepts CoreIpcOptions (rejects null and negative
+    thresholds) plus optional logWarning / logError callbacks
+    (Action<string> / Action<string, Exception>) so the queue can be
+    unit-tested without a live CoreIpcLogger.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/MainThreadDispatchQueue.cs.meta
+    Meta for the new dispatch source file.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/IDispatchHandlerLookup.cs
+    Defines DispatchHandler delegate (void(MessageEnvelope)) and the
+    IDispatchHandlerLookup interface that exposes
+    TryGetHandlers(topic, kind, out IReadOnlyList<DispatchHandler>).
+    The interface is the seam that task 2.4
+    (TopicSubscriptionRegistry) will satisfy; tests in task 2.2 use a
+    fake implementation.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/IDispatchHandlerLookup.cs.meta
+    Meta for the new lookup source file.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch.meta
+    New folder asset entry for the Dispatch subdirectory inside the
+    existing VTuberSystemBase.CoreIpc.Core asmdef.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/MainThreadDispatchQueueTests.cs
+    16 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor exercising
+    the contract called out in tasks.md §2.2 plus a few defensive cases.
+    Includes a private FakeHandlerLookup used to drive the queue without
+    pulling in the (still unimplemented) TopicSubscriptionRegistry.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/MainThreadDispatchQueueTests.cs.meta
+    Meta for the new test source file.
+
+Modified files:
+- (none)
+
+Implementation summary:
+- Lives in namespace VTuberSystemBase.CoreIpc.Core.Dispatch inside the
+  existing VTuberSystemBase.CoreIpc.Core asmdef. No asmdef change was
+  required because Core already references the Abstractions package and
+  System.Collections.Concurrent is available from the Unity BCL.
+- The design.md sketch of using Channel<MessageEnvelope> was replaced by
+  ConcurrentQueue<MessageEnvelope>: Unity 6's Mono runtime does not
+  ship System.Threading.Channels in the unityaot/unityjit profiles
+  (verified by globbing the Unity install), and ConcurrentQueue meets
+  the only required semantics (MPSC enqueue + FIFO drain + thread-safe
+  Count snapshot). Adding the NuGet System.Threading.Channels.dll as a
+  plugin would have introduced a dependency that the rest of the queue
+  does not need.
+- Warning-on-threshold is implemented as an exact-cross check
+  (newDepth == threshold + 1) rather than a stateful "warned-once"
+  flag, so the queue does not need an extra ConcurrentDictionary just
+  to dedup logs and the test for Req 9.5 can assert exactly one
+  warning even when many enqueues happen past the threshold.
+- Handler exceptions are wrapped into a CoreIpcError.HandlerException
+  payload before being passed to the logError callback so the eventual
+  CoreIpcLogger (task 5.3) and CoreIpcDiagnostics (task 5.4) wire the
+  same shape that other adapters will produce.
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 16 new tests
+    MainThreadDispatchQueueTests : 16
+        Enqueue_StateMessages_SameTopic_CoalesceToLatestOnFlush
+        Enqueue_StateMessages_MultipleTopics_DeliverLatestPerTopic
+        Enqueue_EventMessages_PreserveFifoOrder_OnFlush
+        Enqueue_EventMessages_AcrossTopics_PreserveGlobalEnqueueOrder
+        Flush_HandlerException_DoesNotStopSubsequentDeliveries
+        Flush_StateHandlerException_DoesNotStopEventDelivery
+        Enqueue_EventQueue_OverThreshold_LogsWarningOnceWhenCrossing
+        Enqueue_EventQueue_AtExactlyThousandThreshold_DoesNotWarn
+        Flush_WithoutHandlerLookup_DrainsQueueWithoutThrowing
+        Enqueue_RequestOrResponseKind_IsDroppedAndLoggedAsWarning
+        Enqueue_NullTopic_LogsWarningAndDrops
+        Constructor_RejectsNullOptions
+        Constructor_RejectsNegativeWarningThreshold
+        Flush_DeliversStateBatchBeforeEventBatch
+        Enqueue_FromMultipleThreads_StateRetainsLatestPerTopic_AndEventsArePreservedFifoPerTopic
+        Enqueue_StateMessages_AreObservableImmediatelyViaStateSlotCount
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-2.2-editmode-results.xml
+             -logFile task-2.2-editmode.log
+    Result XML: 65 tests, 65 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (new)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-2.2-playmode-results.xml
+             -logFile task-2.2-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without warnings
+  or errors.
+
+Result: OK

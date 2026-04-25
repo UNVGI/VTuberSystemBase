@@ -1,0 +1,173 @@
+#nullable enable
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using VTuberSystemBase.CoreIpc.Abstractions;
+
+namespace VTuberSystemBase.CoreIpc.Core.Dispatch
+{
+    public sealed class MainThreadDispatchQueue
+    {
+        private readonly ConcurrentDictionary<string, MessageEnvelope> _stateSlots = new();
+        private readonly ConcurrentQueue<MessageEnvelope> _eventQueue = new();
+        private readonly ConcurrentDictionary<string, int> _eventQueueDepthByTopic = new();
+
+        private readonly int _eventQueueWarningThresholdPerTopic;
+        private readonly Action<string>? _logWarning;
+        private readonly Action<string, Exception>? _logError;
+
+        private IDispatchHandlerLookup? _handlerLookup;
+
+        public MainThreadDispatchQueue()
+            : this(new CoreIpcOptions())
+        {
+        }
+
+        public MainThreadDispatchQueue(
+            CoreIpcOptions options,
+            Action<string>? logWarning = null,
+            Action<string, Exception>? logError = null)
+        {
+            if (options is null) throw new ArgumentNullException(nameof(options));
+            if (options.EventQueueWarningThresholdPerTopic < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(options),
+                    "CoreIpcOptions.EventQueueWarningThresholdPerTopic must be non-negative.");
+            }
+
+            _eventQueueWarningThresholdPerTopic = options.EventQueueWarningThresholdPerTopic;
+            _logWarning = logWarning;
+            _logError = logError;
+        }
+
+        public int StateSlotCount => _stateSlots.Count;
+
+        public int EventQueueCount => _eventQueue.Count;
+
+        public void SetHandlerLookup(IDispatchHandlerLookup? lookup)
+        {
+            _handlerLookup = lookup;
+        }
+
+        public void Enqueue(MessageEnvelope envelope)
+        {
+            if (envelope.Topic is null)
+            {
+                _logWarning?.Invoke("Dispatch queue dropped envelope with null topic.");
+                return;
+            }
+
+            switch (envelope.Kind)
+            {
+                case MessageKind.State:
+                    _stateSlots[envelope.Topic] = envelope;
+                    break;
+
+                case MessageKind.Event:
+                    _eventQueue.Enqueue(envelope);
+                    var newDepth = _eventQueueDepthByTopic.AddOrUpdate(
+                        envelope.Topic,
+                        addValue: 1,
+                        updateValueFactory: (_, current) => current + 1);
+                    if (newDepth == _eventQueueWarningThresholdPerTopic + 1)
+                    {
+                        _logWarning?.Invoke(
+                            "Event queue depth for topic '" + envelope.Topic +
+                            "' exceeded threshold " + _eventQueueWarningThresholdPerTopic +
+                            " (no messages dropped).");
+                    }
+                    break;
+
+                case MessageKind.Request:
+                case MessageKind.Response:
+                    _logWarning?.Invoke(
+                        "Dispatch queue dropped envelope of kind " + envelope.Kind +
+                        " for topic '" + envelope.Topic +
+                        "' (request/response is delivered via correlation registry).");
+                    break;
+
+                default:
+                    _logWarning?.Invoke(
+                        "Dispatch queue dropped envelope of unknown kind " + (int)envelope.Kind +
+                        " for topic '" + envelope.Topic + "'.");
+                    break;
+            }
+        }
+
+        public void Flush()
+        {
+            var stateBatch = SnapshotAndClearStateSlots();
+            var eventBatch = DrainEventQueue();
+
+            var lookup = _handlerLookup;
+            if (lookup is null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < stateBatch.Count; i++)
+            {
+                DispatchTo(lookup, stateBatch[i]);
+            }
+
+            for (int i = 0; i < eventBatch.Count; i++)
+            {
+                DispatchTo(lookup, eventBatch[i]);
+            }
+        }
+
+        private List<MessageEnvelope> SnapshotAndClearStateSlots()
+        {
+            var batch = new List<MessageEnvelope>(_stateSlots.Count);
+            foreach (var key in _stateSlots.Keys)
+            {
+                if (_stateSlots.TryRemove(key, out var envelope))
+                {
+                    batch.Add(envelope);
+                }
+            }
+            return batch;
+        }
+
+        private List<MessageEnvelope> DrainEventQueue()
+        {
+            var batch = new List<MessageEnvelope>();
+            while (_eventQueue.TryDequeue(out var envelope))
+            {
+                batch.Add(envelope);
+                _eventQueueDepthByTopic.AddOrUpdate(
+                    envelope.Topic,
+                    addValue: 0,
+                    updateValueFactory: (_, current) => current > 0 ? current - 1 : 0);
+            }
+            return batch;
+        }
+
+        private void DispatchTo(IDispatchHandlerLookup lookup, MessageEnvelope envelope)
+        {
+            if (!lookup.TryGetHandlers(envelope.Topic, envelope.Kind, out var handlers) || handlers is null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                var handler = handlers[i];
+                if (handler is null) continue;
+
+                try
+                {
+                    handler(envelope);
+                }
+                catch (Exception ex)
+                {
+                    var error = new CoreIpcError.HandlerException(
+                        "topic='" + envelope.Topic + "', kind=" + envelope.Kind +
+                        ", error=" + ex.GetType().Name + ": " + ex.Message);
+                    _logError?.Invoke(error.Message, ex);
+                }
+            }
+        }
+    }
+}
