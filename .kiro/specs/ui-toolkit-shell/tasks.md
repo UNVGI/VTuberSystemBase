@@ -87,7 +87,7 @@
   - _Boundary: Commands/ConnectionStatus_
   - _Depends: 4.1_
 
-- [ ] 4.3 `IUiCommandClient` の契約テストを先に書く
+- [x] 4.3 `IUiCommandClient` の契約テストを先に書く
   - `PublishState` / `PublishEvent` の即時 `SendResult` 返却、`RequestAsync` の非同期 `RequestResult<TResponse>` 返却、接続未確立時 `SendError.NotConnected` 即時返却、topic バリデーション違反時 `TopicInvalid`、タイムアウト時 `RequestError.Timeout` を検証するテストを追加する
   - 失敗時に例外を外に投げない（UI クラッシュしない）契約も明示的に検証する
   - 観測可能な完了状態: テスト 8〜10 件が Red 状態

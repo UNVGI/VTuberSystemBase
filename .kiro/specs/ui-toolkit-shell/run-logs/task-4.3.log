@@ -1,0 +1,79 @@
+Task 4.3 IUiCommandClient の契約テストを先に書く — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Red — 契約テストのみを先に置き、実装は 4.4 で追加する。
+
+Files created (Tests side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiCommandClientContractTests.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiCommandClientContractTests.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (4.3 を [x] に更新)
+
+Test inventory (UiCommandClientContractTests.cs, 10 cases):
+- PublishState_WhenConnected_ReturnsSuccess_AndForwardsToBus
+    接続確立済みのとき PublishState は SendResult.Success=true を即時返却し、
+    FakeIpcClient の SentMessages に MessageKind.State として記録される
+    （Req 5.2, 5.3）。
+- PublishEvent_WhenConnected_ReturnsSuccess_AndForwardsToBus
+    接続確立済みのとき PublishEvent は SendResult.Success=true を即時返却し、
+    FakeIpcClient の SentMessages に MessageKind.Event として記録される
+    （Req 5.2, 5.4）。
+- PublishState_WhenNotConnected_ReturnsNotConnected_NoException
+    接続未確立のとき PublishState は SendError.NotConnected を即時返却し、
+    例外を外に投げない（Req 5.9, 9.4; design.md §UiCommandClient R-5）。
+- PublishEvent_WhenNotConnected_ReturnsNotConnected_NoException
+    接続未確立のとき PublishEvent は SendError.NotConnected を即時返却し、
+    例外を外に投げない（Req 5.9, 9.4）。
+- PublishState_WithEmptyTopic_ReturnsTopicInvalid_NoException
+    空文字 topic は SendErrorCode.TopicInvalid を即時返却し、例外を外に
+    投げない（design.md §UiCommandClient Validation; Req 5.9）。
+- PublishState_WithInvalidTopicCharacters_ReturnsTopicInvalid
+    ASCII 英数 + / + - + _ 以外の文字を含む topic は SendErrorCode.TopicInvalid
+    を返却（design.md §UiCommandClient Validation: ASCII alphanumeric + / + - + _）。
+- RequestAsync_WhenConnected_ReturnsSuccessfulResponse
+    接続確立済みで RequestAsync が pending を経て応答を受信したとき
+    RequestResult<TResponse>.Success=true と Response が埋まる（Req 5.5）。
+- RequestAsync_WhenNotConnected_ReturnsNotConnectedError_NoException
+    接続未確立のとき RequestAsync は RequestErrorCode.NotConnected を返し、
+    例外を外に投げない（Req 5.9, 9.4）。
+- RequestAsync_OnTimeout_ReturnsTimeoutError_NoException
+    RequestAsync のタイムアウト超過は RequestErrorCode.Timeout を返し、
+    例外を外に投げない（core-ipc D-8 の継承; Req 5.9）。
+- Constructor_NullBus_Throws
+    ICoreIpcBus が null の場合にコンストラクタが ArgumentNullException を投げる
+    ことを検証（boundary input validation）。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-4.3-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-4.3-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Compile-fail (exit 1, "Scripts have compiler errors")
+    UiToolkitShell.Tests asmdef のコンパイルが
+      CS0246: The type or namespace name 'IUiCommandClient' could not be found
+      CS0246: The type or namespace name 'UiCommandClient' could not be found
+      CS0246: The type or namespace name 'SendResult' could not be found
+      CS0246: The type or namespace name 'RequestResult<>' could not be found
+      CS0103: The name 'SendErrorCode' does not exist in the current context
+      CS0103: The name 'RequestErrorCode' does not exist in the current context
+    で失敗。test results XML は生成されない（=テスト探索前にコンパイルが
+    落ちる Red 状態）。
+  - 期待される失敗: 10 件のテストが参照する型 IUiCommandClient / UiCommandClient
+    / SendResult / SendError / SendErrorCode / RequestResult<TResponse> /
+    RequestError / RequestErrorCode（いずれも
+    VTuberSystemBase.UiToolkitShell.Commands 名前空間配下、4.4 で追加予定）が
+    未定義のため、テスト本体のシンボル解決前にコンパイルが停止する。
+  - これは TDD Red 状態（型未定義による失敗）として task 4.3 の観測可能な
+    完了条件（「テスト 8〜10 件が Red 状態」）を満たす（10 件）。
+  - 4.4 で IUiCommandClient / UiCommandClient / SendResult / SendError /
+    SendErrorCode / RequestResult<TResponse> / RequestError / RequestErrorCode
+    を実装すれば本 10 件 + 既存の 30 件が同時に Green になる見込み。
+
+Result: OK (Red as designed)
