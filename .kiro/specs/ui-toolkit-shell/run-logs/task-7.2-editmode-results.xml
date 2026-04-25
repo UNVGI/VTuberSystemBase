@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="13" result="Passed" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.0811688">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="516" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.081169" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1148" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="133" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.067522" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="39376" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1149" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="133" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.064993" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1150" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="133" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.062689" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1151" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="133" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.060410" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1152" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="133" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.058122" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1117" name="VsbColorPickerTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.053625" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1126" name="Commit_RaisesCommittedEvent_WithCurrentValue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Commit_RaisesCommittedEvent_WithCurrentValue" methodname="Commit_RaisesCommittedEvent_WithCurrentValue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="787763826" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.031570" asserts="0">
+                  <properties>
+                    <property name="Description" value="Commit() を呼ぶと Committed イベントが現在値で発火する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1118" name="Constructor_AppliesVsbColorPickerClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Constructor_AppliesVsbColorPickerClass" methodname="Constructor_AppliesVsbColorPickerClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="679252576" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000494" asserts="0">
+                  <properties>
+                    <property name="Description" value="インスタンス化直後にブロッククラス vsb-color-picker が付与されている（vsb- プレフィクス契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1119" name="Constructor_HasPreviewAndThreeChannelsWithBemClasses" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Constructor_HasPreviewAndThreeChannelsWithBemClasses" methodname="Constructor_HasPreviewAndThreeChannelsWithBemClasses" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="349419522" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.006354" asserts="0">
+                  <properties>
+                    <property name="Description" value="内部要素にプレビューと 3 チャンネルが存在し、それぞれ BEM 風の必須クラスを持つ（design.md USS セレクタ規約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1120" name="DefaultValues_AreRgbAndBlack" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.DefaultValues_AreRgbAndBlack" methodname="DefaultValues_AreRgbAndBlack" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="26217053" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000629" asserts="0">
+                  <properties>
+                    <property name="Description" value="既定モードは RGB で、value は黒色（design.md UxmlAttribute 既定）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1121" name="DiagnosticsLogger_CanBeInjectedViaConstructor" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.DiagnosticsLogger_CanBeInjectedViaConstructor" methodname="DiagnosticsLogger_CanBeInjectedViaConstructor" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="1939756533" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000499" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタで IDiagnosticsLogger を受け取れる（VsbControlBase 共通の DI 集約点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1128" name="Mode_SetToHsv_UpdatesModifierClasses" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Mode_SetToHsv_UpdatesModifierClasses" methodname="Mode_SetToHsv_UpdatesModifierClasses" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="1719252837" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000425" asserts="0">
+                  <properties>
+                    <property name="Description" value="mode を Hsv に切り替えると vsb-color-picker--hsv モディファイアが付与され、Rgb モディファイアは外れる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="Mode_SetUnchanged_DoesNotFireValueChanged" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Mode_SetUnchanged_DoesNotFireValueChanged" methodname="Mode_SetUnchanged_DoesNotFireValueChanged" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="211887471" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000595" asserts="0">
+                  <properties>
+                    <property name="Description" value="同じ mode を再代入しても ValueChanged は発火しない（モード自身は色変更ではない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1129" name="Mode_Toggle_PreservesValue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Mode_Toggle_PreservesValue" methodname="Mode_Toggle_PreservesValue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="122861292" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000238" asserts="0">
+                  <properties>
+                    <property name="Description" value="mode を切り替えても保持中の色 (value) は不変（モードはチャンネルの解釈のみを変える）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1122" name="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" methodname="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="1290366591" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000208" asserts="0">
+                  <properties>
+                    <property name="Description" value="UXML から default ctor で生成された後でも SetDiagnosticsLogger で注入できる（UxmlFactory 経路の DI）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1125" name="Value_OutOfRangeRgb_IsClampedAndFires" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Value_OutOfRangeRgb_IsClampedAndFires" methodname="Value_OutOfRangeRgb_IsClampedAndFires" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="773302584" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000596" asserts="0">
+                  <properties>
+                    <property name="Description" value="RGB 各成分は [0,1] にクランプされ、ValueChanged はクランプ後の値で発火する（値域違反時の挙動）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1123" name="Value_SetToNewColor_FiresValueChangedOnce" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Value_SetToNewColor_FiresValueChangedOnce" methodname="Value_SetToNewColor_FiresValueChangedOnce" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="1594209281" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000284" asserts="0">
+                  <properties>
+                    <property name="Description" value="value を変更すると ValueChanged が新しい色で 1 回発火する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1124" name="Value_SetUnchanged_DoesNotFireValueChanged" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.Value_SetUnchanged_DoesNotFireValueChanged" methodname="Value_SetUnchanged_DoesNotFireValueChanged" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="1740286037" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000229" asserts="0">
+                  <properties>
+                    <property name="Description" value="同じ色を再代入しても ValueChanged は再発火しない（idempotency 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="ValueChange_AloneDoesNotRaiseCommitted" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests.ValueChange_AloneDoesNotRaiseCommitted" methodname="ValueChange_AloneDoesNotRaiseCommitted" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbColorPickerTests" runstate="Runnable" seed="78483660" result="Passed" start-time="2026-04-25 18:48:17Z" end-time="2026-04-25 18:48:17Z" duration="0.000217" asserts="0">
+                  <properties>
+                    <property name="Description" value="value を変えるだけでは Committed は発火しない（Committed は明示的な確定操作のみ）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

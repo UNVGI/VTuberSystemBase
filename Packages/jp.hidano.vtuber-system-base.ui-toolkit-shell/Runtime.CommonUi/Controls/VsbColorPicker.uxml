@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VsbColorPicker 既定 UXML テンプレート (design.md §CommonUi §VsbColorPicker)。
+  C# 側 (VsbColorPicker.cs) が preview / channel 子要素を内部生成するため、
+  本ファイルはタブ spec が UXML から参照する際の最小サンプルを兼ねる。
+  ルート要素として <VsbColorPicker> を直接配置すれば C# コンストラクタが
+  vsb-color-picker / vsb-color-picker__preview / vsb-color-picker__channel /
+  vsb-color-picker--rgb（または --hsv）のクラスを付与する。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:vsb="VTuberSystemBase.UiToolkitShell.CommonUi.Controls"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
+    <vsb:VsbColorPicker mode="Rgb" />
+</UXML>

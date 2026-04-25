@@ -1,0 +1,38 @@
+/*
+ * VsbColorPicker 既定 USS (design.md §CommonUi §VsbColorPicker; Requirement 6.2 / 7.3)。
+ * 利用者プロジェクトのスキン USS は本ファイルのセレクタ群を起点として
+ * 上書きする想定。クラス名 (vsb-color-picker / vsb-color-picker__preview /
+ * vsb-color-picker__channel / vsb-color-picker--rgb / vsb-color-picker--hsv) は
+ * SemVer 上の安定 API として扱う (UI-3 / SkinValidationRules)。
+ */
+
+.vsb-color-picker {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 120px;
+    padding: 4px;
+}
+
+.vsb-color-picker__preview {
+    height: 24px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    background-color: rgb(0, 0, 0);
+}
+
+.vsb-color-picker__channel {
+    flex-direction: row;
+    align-items: center;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.vsb-color-picker--rgb .vsb-color-picker__preview {
+    border-left-width: 2px;
+    border-left-color: rgb(220, 220, 220);
+}
+
+.vsb-color-picker--hsv .vsb-color-picker__preview {
+    border-left-width: 2px;
+    border-left-color: rgb(180, 180, 180);
+}
