@@ -1,0 +1,129 @@
+OK
+5.3 CoreIpcLogger の実装（ログレベルフィルタ） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Diagnostics.meta
+    新規フォルダ Runtime/Core/Diagnostics/ の Unity meta（design.md
+    §202 のディレクトリ構成に準拠）。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Diagnostics/CoreIpcLogger.cs
+    UnityEngine.Debug.Log/LogWarning/LogError をラップしたログレベル
+    フィルタ実装（VTuberSystemBase.CoreIpc.Core.Diagnostics 名前空間、
+    Core asmdef 配下）。Trace/Debug/Info/Warning/Error の 5 段階を
+    LogLevel enum (Abstractions) で受け、MinimumLevel を Volatile
+    Read/Write でスレッドセーフに実行時切替可能。Sink を Action
+    <LogLevel,string> として注入可能（テスト容易性目的）。デフォルト
+    Sink は Error→LogError / Warning→LogWarning / それ以外→Log に
+    分岐。LogConnectionEvent / LogConnectionStarting /
+    LogConnectionEstablished / LogConnectionClosed /
+    LogConnectionReconnecting で kind/topic/correlationId/detail を
+    含む構造化メッセージを生成（先頭タグ "[CoreIpc]"）。GUI を持た
+    ないため Req 7.3（メイン出力描画なし）が構造的に成立。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Diagnostics/CoreIpcLogger.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcLoggerTests.cs
+    NUnit 16 本（Tests.Editor asmdef）。Sink 注入で UnityEngine.Debug
+    に副作用を出さない pure C# テスト。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcLoggerTests.cs.meta
+
+Modified files:
+- (none)
+
+Test coverage map (16 tests):
+    NullSink_Throws
+        sink null で ArgumentNullException
+    DefaultMinimumLevel_IsInfo
+        引数なしコンストラクタで MinimumLevel=Info
+    IsEnabled_RespectsMinimumLevel
+        MinimumLevel=Warning で Trace/Debug/Info=false, Warning/Error=true
+    Info_AtInfoLevel_IsEmittedToSink
+        Info() がレベル一致で sink へ届く
+    TraceAndDebug_AtInfoLevel_AreFilteredOut
+        Req 7.4 / Task 5.3 観測条件: ログレベル未満は出力されない
+    WarningAndError_AtInfoLevel_ReachSinkWithCorrectLevels
+        上位レベル（Warning/Error）はそのまま sink に届く
+    AllConvenienceMethods_AtTraceLevel_RouteToCorrectLevels
+        Trace/Debug/Info/Warning/Error の 5 helper が各レベルで届く
+    Log_BelowMinimumLevel_IsSuppressed
+        汎用 Log(level, msg) でも MinimumLevel 未満は抑止
+    MinimumLevel_RuntimeChange_TakesEffectImmediately
+        Req 7.4 / Task 5.3 観測条件: 実行時切替が即時反映
+        （Info → Trace で Debug が通る → Error に上げると Warning が抑止）
+    NullMessage_IsCoercedToEmptyString
+        null メッセージは string.Empty に丸めて sink に渡す
+    LogConnectionEvent_BelowMinimumLevel_IsSuppressed
+        構造化ログでもレベルフィルタが効く
+    LogConnectionEvent_IncludesAllStructuredFields
+        kind/topic/correlationId/detail を全て含み "[CoreIpc]" で開始
+    LogConnectionEvent_OmitsEmptyOptionalFields
+        null/空フィールドは出力に含めない（最小形は "[CoreIpc] connection.starting"）
+    LogConnectionLifecycleHelpers_EmitAtExpectedLevels
+        Starting/Established/Closed=Info, Reconnecting=Warning
+        Req 7.1（接続開始・確立・切断・再接続のログ）
+    LogConnectionReconnecting_BelowWarning_IsFilteredAtInfoMinimum
+        Warning ヘルパが MinimumLevel=Error で抑止される
+    FormatConnectionEvent_StaticHelper_ProducesStableShape
+        静的フォーマッタが安定書式を返す（"[CoreIpc] {event} kind=...
+        topic=... {detail}"）
+
+Implementation summary:
+- CoreIpcLogger は sealed class で sink (Action<LogLevel,string>) と
+  MinimumLevel (LogLevel) を保持。MinimumLevel の Get/Set は
+  Volatile.Read/Write(int) で軽量な lock-free 切替を実現する。
+- IsEnabled / Emit でレベル比較し、未満なら sink を呼ばずに即 return
+  （Req 7.4 ログレベル外部切替のホットパス）。
+- LogConnectionEvent / FormatConnectionEvent で kind / topic /
+  correlationId / detail を含む構造化メッセージを生成
+  （Req 7.1 接続イベントログ、Req 7.2 診断ログのメッセージ種別・相関 ID 含有）。
+- ヘルパ LogConnectionStarting / Established / Closed は Info、
+  LogConnectionReconnecting は Warning でレベルづけ。
+- メインスレッド配信制約はなく Application UI には何も触れない
+  （Req 7.3 メイン出力に描画しないことの構造的保証）。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 16 new tests (CoreIpcLoggerTests)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.3-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.3-editmode.log
+    Result XML: 290 tests, 290 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcConfigLoaderTests : 10/10 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcLoggerTests : 16/16 (new)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        InMemoryLoopbackTransportTests : 8/8 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.3-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.3-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
