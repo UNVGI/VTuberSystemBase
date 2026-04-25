@@ -322,7 +322,7 @@
   - _Boundary: ReconnectBackoffTests, MessageSizeLimitTests, SchemaEvolutionTests_
   - _Depends: 7.1_
 
-- [ ] 8.3 PlayModeLifecycle 統合テスト
+- [x] 8.3 PlayModeLifecycle 統合テスト
   - PlayMode 開始→停止→再開始を 5 回繰り返し、ソケット/スレッド/メモリリークが発生しないことを検証する
   - 各 PlayMode 区間で `CoreIpcRuntime.State` が `Running` に到達し、停止時に `Disposed` へ遷移することを確認する
   - PlayMode 停止時の切断が再接続を試行せず、通常シャットダウンとして扱われることを検証する（Req 5.8）
