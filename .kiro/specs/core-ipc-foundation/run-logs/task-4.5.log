@@ -1,0 +1,205 @@
+OK
+4.5 WebSocketTransportAdapter の統合（server + client ファクトリ） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketTransportAdapter.cs
+    ITransportAdapter を実装する Transport Facade。Core asmdef
+    配下、namespace VTuberSystemBase.CoreIpc.Core.Transport.WebSocket。
+    WebSocketServer (task 4.3) と WebSocketClient (task 4.4) を
+    内包し、サーバ／クライアント双方を 1 インスタンスで束ねる。
+
+    主要 API:
+        WebSocketTransportAdapter : ITransportAdapter
+            ctor(IMessageCodec codec,
+                 WebSocketServerOptions?, WebSocketClientOptions?,
+                 logInfo?, logWarning?, logError?)
+            Task StartServerAsync(ServerBindOptions, CancellationToken)
+                Interlocked で二重起動を拒否し
+                (InvalidOperationException)、内部に WebSocketServer
+                を生成して StartAsync を呼び出す。失敗 IpcResult は
+                CoreIpcTransportException(error) として throw
+                (PortInUse / TransportFailure を上位で型判別可能)。
+                成功時は ClientConnected/Disconnected イベントを
+                Adapter のイベントへフォワード。
+            Task<IClientConnection> ConnectClientAsync(ClientBindOptions, CancellationToken)
+                WebSocketClient を都度新規生成して ConnectAsync を
+                呼び出す。失敗時は client を Dispose のうえ
+                CoreIpcTransportException を throw。成功した接続は
+                内部 ConcurrentDictionary に登録し、Disconnected
+                イベントで自動除去する（Dispose 時の漏れ防止）。
+            event Action<IClientConnection> ClientConnected
+            event Action<IClientConnection> ClientDisconnected
+                Server.ClientConnected/Disconnected を OnServer*
+                経由で再発火（ハンドラ例外は catch + log で隔離）。
+            ValueTask DisposeAsync()
+                IAsyncDisposable で全サブリソースを対称解放。
+                Server.DisposeAsync → 接続クライアント全件
+                DisposeAsync を順次実行し、ConcurrentDictionary を
+                Clear。多重 Dispose は Interlocked で no-op。
+            IMessageCodec Codec                  // 注入された codec を公開
+            bool IsServerRunning                 // server 起動中
+            int  BoundPort                       // 実バインド済ポート
+            int  ConnectedClientCount            // 接続中クライアント数
+
+    エラー伝搬:
+        - WebSocketServer.StartAsync が IpcResult.Fail(PortInUse)
+          / IpcResult.Fail(TransportFailure) を返した場合、
+          内部 server を Dispose したうえ CoreIpcTransportException
+          (IpcError = 元の CoreIpcError) を throw する。これにより
+          上位 CoreIpcRuntime.InitializeAsync (task 6.3) が
+          PortInUse を型 catch して描画ループに伝搬させずに
+          診断ログ化できる契約 (Req 2.6, 5.7)。
+        - WebSocketClient.ConnectAsync 失敗時も同様に
+          CoreIpcTransportException(TransportFailure) を throw。
+
+    対称解放:
+        - DisposeAsync は server / 全 client / 内部辞書を一括
+          解放。例外は catch + warn で隔離して残りの解放を続行。
+        - StartServerAsync の途中失敗時は内部で TearDownFailedServer
+          を呼び、_server 参照を null に戻して _serverStarted を
+          0 に戻す（再起動可能）。
+
+    依存:
+        - VTuberSystemBase.CoreIpc.Abstractions.ITransportAdapter
+        - VTuberSystemBase.CoreIpc.Core.Transport.WebSocket.WebSocketServer
+        - VTuberSystemBase.CoreIpc.Core.Transport.WebSocket.WebSocketClient
+        - VTuberSystemBase.CoreIpc.Abstractions.IMessageCodec (注入のみ、
+          実 encode/decode は CoreIpcBus 側の責務)
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketTransportAdapter.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/CoreIpcTransportException.cs
+    Transport 層用の sealed Exception。CoreIpcError を IpcError
+    プロパティで保持し、StartServerAsync / ConnectClientAsync の
+    失敗を型付きで上位に通知する。CoreIpcRuntime (task 6.3 で
+    実装) が PortInUse 等を catch して診断ログを出すための
+    型ハンドル。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/CoreIpcTransportException.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketTransportAdapterTests.cs
+    NUnit テスト 8 本 (Tests.Editor asmdef)。
+
+    Coverage map (8 tests):
+        Constructor_NullCodec_ThrowsArgumentNull
+            codec が null の場合 ArgumentNullException
+        StartServerAsync_OnFreePort_TransitionsToRunning
+            空きポートで起動成功し IsServerRunning=true /
+            BoundPort=port を確認
+        StartServerAsync_TwiceOnSameInstance_ThrowsInvalidOperation
+            同一インスタンスで 2 回 StartServerAsync すると
+            InvalidOperationException
+        StartServerAsync_OnHeldPort_ThrowsTransportExceptionWithPortInUse
+            ExclusiveAddressUse で占有された port に起動 →
+            CoreIpcTransportException(IpcError=PortInUse) を
+            throw、IsServerRunning=false に戻る
+        ConnectClientAsync_AgainstAdapterServer_Succeeds
+            同一 adapter で StartServer + ConnectClient を実行し
+            ClientConnected イベントが発火することを確認
+        ConnectClientAsync_NoServer_ThrowsTransportException
+            server 不在で ConnectClient → CoreIpcTransportException
+            (IpcError=TransportFailure) を throw
+        SendReceive_AcrossAdapter_RoundTripsTextPayload
+            adapter 経由で client→server のテキストラウンド
+            トリップを 1 件確認
+        DisposeAsync_IsIdempotent_AndReleasesPort
+            DisposeAsync を 2 回呼んでも no-op、Dispose 後の
+            StartServerAsync は ObjectDisposedException、
+            port が解放され他 listener から再 bind 可能
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketTransportAdapterTests.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/WebSocketTransportAdapterPlayModeTests.cs
+    UnityTest 1 本 (Tests.Runtime asmdef = PlayMode)。
+
+    Coverage:
+        RoundTrip_OneThousandMessages_AllReceivedInOrder
+            同一プロセス内で WebSocket サーバ + クライアントを
+            並行起動し、client → server → server-echo →
+            client の経路で 1000 件連続送信。サーバ側で受信した
+            payload をそのまま echo し、クライアント側で受信
+            順序を 0..999 に対して厳密比較。1000 件すべて
+            欠落・順序ずれなく届くことを確認 (TestTimeout=60s)。
+            実測 30 秒で 17 PlayMode テスト緑。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/WebSocketTransportAdapterPlayModeTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- WebSocketTransportAdapter は server/client ファクトリで、内部に
+  WebSocketServer と WebSocketClient のライフタイムを保持する
+  単一の ITransportAdapter 実装。CoreIpcRuntime.InitializeAsync
+  (task 6.3) が new WebSocketTransportAdapter(codec, options)
+  → StartServerAsync + ConnectClientAsync を並行実行する設計
+  (design.md §Transport Adapter Layer)。
+- IMessageCodec は ctor で注入（codec はサーバ／クライアントの
+  バイト列送受信には直接介在しないが、設計書の契約通り adapter
+  に保持し、外部公開プロパティとして再利用可能にする）。実際の
+  encode/decode は CoreIpcBus 側で行い、adapter は encode 済み
+  バイト列をテキストフレームとして透過送受信する（opcode 0x1
+  は WebSocketServer.SendAsync / WebSocketClient.SendAsync が
+  既に固定）。
+- StartServerAsync / ConnectClientAsync の失敗は CoreIpcTransportException
+  で throw する。これは ITransportAdapter インタフェースが
+  Task / Task<IClientConnection> を返す契約のため、IpcResult
+  を返す WebSocketServer/Client の結果を例外に変換する必要が
+  あるため。例外型は CoreIpcError を埋め込み、上位が
+  PortInUse / TransportFailure を型判別できる。
+- DisposeAsync は対称解放を保証。途中失敗時の TearDownFailedServer
+  により _server 参照と _serverStarted フラグが正しく整合する
+  ため、PortInUse 後に別ポートで再起動するシナリオも安全。
+- ClientConnected/Disconnected イベントは WebSocketServer から
+  受け取り、try/catch でハンドラ例外を隔離して再発火。これに
+  より上位ハンドラ例外が adapter / server を巻き込まない (Req 5.7)。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 8 new tests
+    WebSocketTransportAdapterTests : 8 (listed above)
+- PlayMode (Tests.Runtime asmdef): 1 new test
+    WebSocketTransportAdapterPlayModeTests.RoundTrip_OneThousandMessages_AllReceivedInOrder
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.5-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.5-editmode.log
+    Result XML: 256 tests, 256 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.5-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.5-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (new, ~30s)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll / Tests.Runtime.dll
+  built without errors.
+
+Result: OK
