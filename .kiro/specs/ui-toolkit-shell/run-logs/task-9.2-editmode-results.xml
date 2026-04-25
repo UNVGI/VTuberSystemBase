@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="10" result="Passed" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.0934872">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="668" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.093487" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1310" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="285" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.075581" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="62672" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1311" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="285" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.074027" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1312" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="285" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.072633" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1313" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="285" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.071246" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1314" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="285" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.069744" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1061" name="MainOutputStatusWatcherTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.061463" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1062" name="Constructor_NullArgs_Throw" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Constructor_NullArgs_Throw" methodname="Constructor_NullArgs_Throw" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="440419658" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.024377" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null subscription / notificationBar / logger を拒否する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="Constructor_SubscribesToFallbackTopic_NoInitialWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Constructor_SubscribesToFallbackTopic_NoInitialWarning" methodname="Constructor_SubscribesToFallbackTopic_NoInitialWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="770718491" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.006599" asserts="0">
+                  <properties>
+                    <property name="Description" value="生成直後はフォールバック警告が 0 件、購読は 1 本だけアクティブ（output/display/fallback トピック）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1071" name="Dispose_Idempotent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Dispose_Idempotent" methodname="Dispose_Idempotent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="1112622168" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.000768" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose は冪等（複数回呼び出しても例外を投げない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1070" name="Dispose_UnsubscribesFromTopic" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Dispose_UnsubscribesFromTopic" methodname="Dispose_UnsubscribesFromTopic" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="1229507418" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.013908" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose 後は購読解除され、後続の state 注入で UI が変化しない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="Receive_FallbackFalse_AfterTrue_ClearsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_FallbackFalse_AfterTrue_ClearsWarning" methodname="Receive_FallbackFalse_AfterTrue_ClearsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="1262443380" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.000454" asserts="0">
+                  <properties>
+                    <property name="Description" value="フォールバック解除 state 受信（IsFallback=false）で警告が消える（Requirement 9.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="Receive_FallbackToggle_RoundTrip_TracksState" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_FallbackToggle_RoundTrip_TracksState" methodname="Receive_FallbackToggle_RoundTrip_TracksState" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="604395106" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.000703" asserts="0">
+                  <properties>
+                    <property name="Description" value="フォールバック発生 → 解除 → 再発生 → 解除の往復で UI 状態が同期する（フェイク IPC 経由）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1069" name="Receive_FallbackTransitions_AreLogged" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_FallbackTransitions_AreLogged" methodname="Receive_FallbackTransitions_AreLogged" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="584369373" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.002179" asserts="0">
+                  <properties>
+                    <property name="Description" value="フォールバック発生・解除を診断ログに記録する（Requirement 11.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="Receive_FallbackTrue_ShowsWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_FallbackTrue_ShowsWarning" methodname="Receive_FallbackTrue_ShowsWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="2022538992" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.000450" asserts="0">
+                  <properties>
+                    <property name="Description" value="Display 1 フォールバック state 受信（IsFallback=true）で通知バーに警告が 1 件追加される（Requirement 9.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="Receive_FallbackTrue_Twice_DoesNotDuplicate" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_FallbackTrue_Twice_DoesNotDuplicate" methodname="Receive_FallbackTrue_Twice_DoesNotDuplicate" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="736173681" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.001004" asserts="0">
+                  <properties>
+                    <property name="Description" value="連続したフォールバック受信は同 key で差し替えられ、複数件にスタックしない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1068" name="Receive_OtherTopic_DoesNotAffectFallback" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests.Receive_OtherTopic_DoesNotAffectFallback" methodname="Receive_OtherTopic_DoesNotAffectFallback" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.MainOutputStatusWatcherTests" runstate="Runnable" seed="1037241113" result="Passed" start-time="2026-04-25 20:07:38Z" end-time="2026-04-25 20:07:38Z" duration="0.000262" asserts="0">
+                  <properties>
+                    <property name="Description" value="無関係なトピック（output/display/fallback 以外）の state 注入では警告が変化しない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
