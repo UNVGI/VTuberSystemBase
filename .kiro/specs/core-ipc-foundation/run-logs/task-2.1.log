@@ -1,0 +1,113 @@
+2.1 SystemTextJsonCodec の実装とラウンドトリップテスト — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Codec/SystemTextJsonCodec.cs
+    Implements IMessageCodec on top of System.Text.Json (8.0.0). The outer
+    envelope is mapped to a private EnvelopeDto whose JsonPropertyName
+    attributes pin the wire field names to camelCase (protocolVersion, kind,
+    topic, correlationId, timestampUnixMs, payload). MessageKind is encoded as
+    a lowercase string via JsonStringEnumConverter(JsonNamingPolicy.CamelCase,
+    allowIntegerValues: false), so unknown kind values surface as JsonException
+    and are mapped to InvalidEnvelope. The codec keeps the payload as
+    JsonElement so unknown payload structures pass through untouched.
+    Encode pre-checks for null protocolVersion/topic and substitutes
+    JsonValueKind.Undefined payloads with a static JSON null element to keep
+    the serializer from throwing. Decode short-circuits on
+    bytes.Length > MaxMessageSizeBytes (default 1 MiB) returning
+    SizeLimitExceeded; catches JsonException to map to InvalidEnvelope; checks
+    that protocolVersion is present, parses the leading major component, and
+    returns ProtocolVersionMismatch when the major is not 1; finally validates
+    that topic is non-empty before constructing the MessageEnvelope. Public
+    constant SupportedProtocolVersion = "1.0" lets callers reference the
+    expected version. Constructor accepts CoreIpcOptions and rejects null /
+    non-positive MaxMessageSizeBytes.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Codec.meta
+    New folder asset entry for the Codec subdirectory.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Codec/SystemTextJsonCodec.cs.meta
+    Meta for the new codec source file.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/SystemTextJsonCodecTests.cs
+    16 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that exercise
+    every contract called out in tasks.md §2.1: round-trip parity for state /
+    event / request / response (incl. correlationId preservation), explicit
+    wire-format assertions (camelCase fields, lowercase "kind"), unknown-field
+    forward compatibility (Req 3.7), 1 MB size-limit enforcement on Decode
+    plus a boundary check that an in-budget envelope decodes, major-version
+    mismatch rejection for both 2.x and 3.x payloads, malformed JSON =>
+    InvalidEnvelope, missing protocolVersion / unknown kind value =>
+    InvalidEnvelope, null protocolVersion on Encode => InvalidEnvelope, null
+    options rejected by the constructor, and default(JsonElement) payload
+    serialized as JSON null. Helper AssertEnvelopeEqual compares all fields
+    incl. payload via JsonElement.GetRawText().
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/SystemTextJsonCodecTests.cs.meta
+    Meta for the new test source file.
+
+Modified files:
+- (none)
+
+Implementation summary:
+- Lives in namespace VTuberSystemBase.CoreIpc.Core.Codec inside the existing
+  VTuberSystemBase.CoreIpc.Core asmdef. No new asmdef was needed because Core
+  already references Abstractions and System.Text.Json.dll is auto-referenced
+  through Runtime/Plugins/SystemTextJson/.
+- Encoder uses JavaScriptEncoder.UnsafeRelaxedJsonEscaping so topic strings
+  like "slot/1/assignment" are emitted with literal '/' to match the wire
+  example in design.md §Data Models.
+- Major-version parsing uses the leading dot-separated component; non-numeric
+  protocolVersion strings fall through to InvalidEnvelope rather than
+  ProtocolVersionMismatch, distinguishing "garbage" inputs from
+  "syntactically-valid-but-incompatible" inputs.
+- All exception paths inside Encode / Decode are caught and converted to
+  IpcResult.Fail(...) so the codec never propagates exceptions to callers
+  (Req 3.5 + the no-exceptions-across-API-boundary contract from design.md).
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 16 new tests
+    SystemTextJsonCodecTests : 16
+        Encode_State_RoundTrip_PreservesAllFields
+        Encode_Event_RoundTrip_PreservesAllFields
+        Encode_Request_RoundTrip_PreservesCorrelationId
+        Encode_Response_RoundTrip_PreservesCorrelationId
+        Encode_ProducesCamelCaseFieldNamesAndLowercaseKind
+        Decode_WithUnknownFields_IgnoresUnknownAndSucceeds
+        Decode_OverSizeLimit_ReturnsSizeLimitExceeded
+        Decode_AtSizeLimit_IsAccepted
+        Decode_MajorVersionMismatch_ReturnsProtocolVersionMismatch
+        Decode_HigherMajorVersion_ReturnsProtocolVersionMismatch
+        Decode_InvalidJson_ReturnsInvalidEnvelope
+        Decode_MissingProtocolVersion_ReturnsInvalidEnvelope
+        Decode_UnknownKindValue_ReturnsInvalidEnvelope
+        Encode_NullProtocolVersion_ReturnsInvalidEnvelope
+        Constructor_RejectsNullOptions
+        Encode_DefaultPayloadJsonElement_IsSerializedAsNull
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-2.1-editmode-results.xml
+             -logFile task-2.1-editmode.log
+    Result XML: 49 tests, 49 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        SystemTextJsonCodecTests : 16/16 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-2.1-playmode-results.xml
+             -logFile task-2.1-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without warnings or
+  errors.
+
+Result: OK
