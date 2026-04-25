@@ -72,7 +72,7 @@
 
 ## 4. Core: IPC 送信・購読 Facade と接続状態
 
-- [ ] 4.1 (P) `IConnectionStatus` の契約テストを先に書く
+- [x] 4.1 (P) `IConnectionStatus` の契約テストを先に書く
   - `Initializing → Connecting → Connected → Disconnected → Reconnecting → FailedPermanently` の状態遷移を `FakeIpcClient` 経由で再現するテストを追加する
   - `OnStatusChanged` がメインスレッドで発火することを 2.1 のディスパッチヘルパで検証する
   - 観測可能な完了状態: 遷移テスト 5 件以上が Red 状態で失敗する

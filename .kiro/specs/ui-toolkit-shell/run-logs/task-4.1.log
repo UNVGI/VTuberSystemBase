@@ -1,0 +1,77 @@
+Task 4.1 (P) IConnectionStatus の契約テストを先に書く — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Red — 契約テストのみを先に置き、実装は 4.2 で追加する。
+
+Files created (Tests side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/ConnectionStatusContractTests.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/ConnectionStatusContractTests.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (4.1 を [x] に更新)
+
+Test inventory (ConnectionStatusContractTests.cs, 9 cases):
+- InitialState_IsInitializing_AndNotConnected
+    構築直後の状態が ConnectionStatusCode.Initializing で IsConnected=false
+    であることを検証 (design.md §IConnectionStatus State Management;
+    "PlayMode 開始のたびに Initializing から")。
+- Transition_FromInitializingToConnecting_FiresEventAndUpdatesCurrentStatus
+    FakeIpcClient.SetConnectionState(ConnectionState.Connecting) で
+    UI 側 Initializing→Connecting の OnStatusChanged が発火し、From/To と
+    CurrentStatus が一致することを検証 (Req 5.9, 9.5, 11.6)。
+- Transition_ToConnected_SetsIsConnectedTrue
+    Connecting→Connected で IsConnected が true、From=Connecting / To=Connected
+    の遷移イベントが発火することを検証 (Req 5.9, 9.3, 11.6)。
+- Transition_ConnectedToDisconnected_DropsIsConnected
+    Connected→Disconnected で IsConnected が false に戻り、From=Connected /
+    To=Disconnected が記録されることを検証 (Req 9.3, 9.5, 11.6)。
+- Transition_FullPath_RecordsFiveTransitions_EndingAtFailedPermanently
+    Initializing→Connecting→Connected→Disconnected→Reconnecting→FailedPermanently
+    の 5 遷移を観測し、最終状態 FailedPermanently / IsConnected=false を検証
+    (Req 5.9, 9.5, 11.6; tasks.md "5 件以上" の要件)。
+- OnStatusChanged_FiresOnMainThread
+    MainThreadAffinity.Capture() / Recorder で OnStatusChanged コールバックが
+    キャプチャ済みメインスレッドで発火することを検証 (D-3 の継承;
+    design.md §IConnectionStatus Concurrency strategy)。
+- ConnectionStatusEvent_FieldsPopulatedWithFromToAtAndDetail
+    ConnectionStatusEvent struct の From / To / At / Detail フィールドが
+    通知時に埋められ、At が通知前後の DateTimeOffset.UtcNow 範囲に収まる
+    ことを検証 (design.md §IConnectionStatus State Management の struct 定義)。
+- Transition_DuplicateState_DoesNotFireEvent
+    同一状態の再設定で OnStatusChanged が発火しないことを検証
+    (state ノイズ抑制; core-ipc IConnectionDiagnostics.SetState の重複判定と整合)。
+- Constructor_NullBus_Throws
+    ICoreIpcBus が null の場合にコンストラクタが ArgumentNullException を投げる
+    ことを検証 (boundary input validation)。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-4.1-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-4.1-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Compile-fail (exit 1, "Scripts have compiler errors")
+    UiToolkitShell.Tests asmdef のコンパイルが
+      CS0246: The type or namespace name 'IConnectionStatus' could not be found
+      CS0246: The type or namespace name 'ConnectionStatus' could not be found
+      CS0246: The type or namespace name 'ConnectionStatusEvent' could not be found
+    の 3 種で失敗。test results XML は生成されない（=テスト探索前にコンパイルが
+    落ちる Red 状態）。
+  - 期待される失敗: 9 件のテストが参照する型 IConnectionStatus /
+    ConnectionStatus / ConnectionStatusEvent（いずれも
+    VTuberSystemBase.UiToolkitShell.Commands 名前空間配下、4.2 で追加予定）が
+    未定義のため、テスト本体のシンボル解決前にコンパイルが停止する。
+    既存の ConnectionStatusCode enum は本タスク以前に Commands 名前空間に
+    存在していたためここでは欠落しない。
+  - これは TDD Red 状態（型未定義による失敗）として task 4.1 の観測可能な
+    完了条件（「遷移テスト 5 件以上が Red 状態で失敗する」）を満たす。
+  - 4.2 で IConnectionStatus / ConnectionStatus / ConnectionStatusEvent を実装
+    すれば本 9 件 + 既存の Diagnostics / FakeIpcClient / FakeAsyncAssetLoader /
+    ShellDiagnosticsSnapshot 系テストが同時に Green になる見込み。
+
+Result: OK (Red as designed)
