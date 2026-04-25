@@ -91,3 +91,23 @@ Verification: Unity Test Runner (batchmode)
 
 Result: FAIL (verification blocked; implementation files are committed and
 ready for re-verification once the project lock is released and tests can run)
+
+------------------------------------------------------------------------------
+Re-verification (2026-04-26): UnityLockfile is no longer present. Re-ran
+EditMode tests with the same arguments (without -quit, which had previously
+caused Unity to short-circuit before test execution).
+
+- Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+           -testPlatform EditMode
+           -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-2.1-editmode-results.xml
+           -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-2.1-editmode.log
+           -testFilter VTuberSystemBase.UiToolkitShell.Tests
+- Result: total=3 passed=3 failed=0 inconclusive=0 skipped=0 (PASS, exit 0).
+  Tests:
+    - PublishState_WhileDisconnected_ReturnsNotConnectedError (Passed)
+    - RequestAsync_RespondsToCorrelationId (Passed)
+    - RoundTrip_PublishState_To_Subscriber_DeliversPayloadOnMainThread (Passed)
+- Result XML: .kiro/specs/ui-toolkit-shell/run-logs/task-2.1-editmode-results.xml
+- tasks.md の 2.1 チェックボックスを [x] に更新。
+
+Result: OK

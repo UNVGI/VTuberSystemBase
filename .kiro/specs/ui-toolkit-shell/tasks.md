@@ -28,7 +28,7 @@
 
 ## 2. Foundation: テスト基盤とフェイク実装の整備
 
-- [ ] 2.1 IPC 抽象向けのフェイククライアント（`FakeIpcClient`）とメインスレッドディスパッチヘルパをテスト側に用意する
+- [x] 2.1 IPC 抽象向けのフェイククライアント（`FakeIpcClient`）とメインスレッドディスパッチヘルパをテスト側に用意する
   - `core-ipc-foundation` の `ICoreIpcClient` 抽象に対するテストダブルを実装し、接続状態・送信結果・受信注入・相関 ID マッチングを制御可能にする
   - ディスパッチ周りの検証のため `Thread.CurrentThread.ManagedThreadId` を記録するユーティリティを共通化する
   - フェイクの使用例として 1 件のスモークテスト（起動→送信→受信 round-trip）を追加し成功させる
