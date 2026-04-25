@@ -1,0 +1,94 @@
+OK
+1.5 テストインフラ整備と共通テストユーティリティ — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/TestSupport/TestMainThreadPump.cs
+    Shared helper that drives Flush callbacks without relying on PlayerLoop.
+    Holds a list of Action callbacks registered through Register(Action) which
+    returns an IDisposable that removes the entry on Dispose. Pump() invokes
+    every registered callback once; Pump(int frames) invokes them frames
+    times. Negative frame counts and null callbacks throw.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/TestSupport/FakeClock.cs
+    Deterministic FakeClock for time-dependent tests. Default start is
+    2026-01-01T00:00:00+00:00; UtcNow returns the current virtual time.
+    ScheduleAfter(delay, callback) registers an Action that fires when
+    Advance(delta) reaches its due time, callbacks fire in due-time order,
+    and the returned IDisposable cancels a pending callback. Negative delay,
+    negative delta, and null callbacks throw.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/TestSupport/TestMainThreadPumpTests.cs
+    6 NUnit tests for TestMainThreadPump (Pump invokes all registered
+    callbacks, Pump(N) invokes per-frame, Dispose removes the registration,
+    Dispose is idempotent, null callback rejected, negative frames rejected).
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/TestSupport/FakeClockTests.cs
+    8 NUnit tests for FakeClock (default start, Advance moves UtcNow forward,
+    callbacks fire at-or-before target, due-order, Dispose cancels, negative
+    advance/delay rejected, null callback rejected).
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/RuntimeAssemblySmokeTests.cs
+    2 tests that prove the Runtime test asmdef compiles and runs in PlayMode:
+    AbstractionsAssembly_IsReferencedFromRuntimeTests verifies the asmdef
+    chain reaches Abstractions; PlayModeRunner_ExecutesSingleFrameTest is a
+    [UnityTest] that yields one frame and asserts pass.
+- (matching .meta files for each new .cs and the TestSupport folder)
+
+Modified files:
+- (none)
+
+Implementation summary:
+- Both helpers live in namespace VTuberSystemBase.CoreIpc.Tests.TestSupport
+  inside the existing VTuberSystemBase.CoreIpc.Tests.Runtime asmdef. No new
+  asmdef was required: tasks.md §1.5 only asks for the helpers to be placed
+  in Tests/Runtime/TestSupport/ and reachable from other tests, which is
+  satisfied because every test asmdef already references either the Runtime
+  test asmdef indirectly (through Abstractions) or shares it directly.
+- TestMainThreadPump intentionally does not depend on UnityEngine or
+  PlayerLoop. It is a pure C# pump that invokes registered Flush actions on
+  demand. The eventual MainThreadDispatchQueue (task 2.2) can register its
+  Flush method and tests can drive it with Pump() instead of running the
+  PlayerLoop.
+- FakeClock is internally driven by a list-based scheduler keyed on
+  DateTimeOffset. Advance fires the earliest due callback first, updates
+  UtcNow to that callback's due time, then loops; this means callbacks
+  observe the same UtcNow they were scheduled relative to. Final UtcNow is
+  the Advance target. The eventual RequestCorrelationRegistry (task 2.3) and
+  ReconnectBackoff (task 3.2) can use it to decouple from System.Threading.
+  Timer in tests.
+- The Tests/Runtime asmdef previously contained zero test files, so the
+  PlayMode runner reported "no tests" historically. Adding
+  RuntimeAssemblySmokeTests + the TestSupport tests makes the PlayMode tab
+  green from this task forward, satisfying the observable completion
+  condition "Test Runner で Runtime / Editor 両カテゴリの空テストが緑になり".
+
+Tests added (NUnit):
+- PlayMode (Tests.Runtime asmdef): 16 new tests
+    RuntimeAssemblySmokeTests : 2
+    TestSupport.TestMainThreadPumpTests : 6
+    TestSupport.FakeClockTests : 8
+- EditMode (Tests.Editor asmdef): 0 new tests (existing 33 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-1.5-editmode-results.xml
+             -logFile task-1.5-editmode.log
+    Result XML: 33 tests, 33 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression from task 1.4)
+        CoreIpcErrorVariantsTests : 4/4 (regression from task 1.2)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression from task 1.2)
+        IpcResultTests : 5/5 (regression from task 1.2)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression from task 1.3)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-1.5-playmode-results.xml
+             -logFile task-1.5-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (new)
+        TestSupport.FakeClockTests : 8/8 (new)
+        TestSupport.TestMainThreadPumpTests : 6/6 (new)
+- Compilation: Tests.Runtime.dll built without warnings or errors.
+
+Result: OK
