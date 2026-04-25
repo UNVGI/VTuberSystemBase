@@ -1,0 +1,150 @@
+OK
+3.1 ConnectionStateMachine の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ConnectionStateMachine.cs
+    Pure C# state machine for the 5-state connection lifecycle
+    (Disconnected / Connecting / Connected / Reconnecting /
+    PermanentlyDisconnected). Single-entry transition API:
+        - public ConnectionState CurrentState { get; }
+        - public bool ShutdownRequested { get; }
+        - public event Action<ConnectionState, ConnectionState>? StateChanged
+        - public bool TryTransition(ConnectionState target, bool isShutdown = false)
+    Constructor accepts an optional Action<string> logWarning for
+    invalid-transition diagnostics (the ClientSessionManager / runtime
+    composition will wire this to CoreIpcLogger in later tasks).
+
+    Transition matrix (the 8 valid paths from design Flow 3):
+        1. Disconnected     -> Connecting
+        2. Connecting       -> Connected
+        3. Connecting       -> Disconnected         (handshake fail)
+        4. Connected        -> Reconnecting         (socket drop)
+        5. Connected        -> Disconnected         (Shutdown path)
+        6. Reconnecting     -> Connecting           (backoff expired)
+        7. Reconnecting     -> PermanentlyDisconnected (max attempts)
+        8. Reconnecting     -> Disconnected         (Shutdown path)
+    All other targets are invalid transitions: TryTransition returns
+    false, fires no event, and emits a single warning via the supplied
+    callback. Same-state transitions are silent no-ops (no event,
+    no warning) so that idempotent calls are safe.
+
+    Shutdown semantics (Req 5.8):
+        - Pass isShutdown=true together with target=Disconnected to
+          mark the machine as shutdown-initiated. The ShutdownRequested
+          sticky flag is set even when the machine is already at
+          Disconnected (no event fires in that case).
+        - Once ShutdownRequested is true, any subsequent transition
+          to Connecting is rejected (returns false + warning),
+          structurally suppressing reconnect attempts after PlayMode
+          stop / app quit.
+        - isShutdown=true with any target other than Disconnected is
+          rejected and logged; this enforces the diagram's contract
+          that shutdown is always a clean disconnect.
+
+    Thread safety: an internal lock guards _state and
+    _shutdownRequested. StateChanged is invoked outside the lock to
+    avoid re-entrant deadlocks with subscribers that call CurrentState.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection/ConnectionStateMachine.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Connection.meta
+    New folder asset for the Connection sub-namespace (the design
+    layout in tasks.md §1 expects Runtime/Core/Connection/).
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ConnectionStateMachineTests.cs
+    21 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that
+    exercise tasks.md §3.1's required scenarios. Tests:
+        Initial state:
+            InitialState_IsDisconnected_AndShutdownNotRequested
+        Eight valid transition paths (each verifies CurrentState +
+        single ConnectionStateChanged event with correct prev/next):
+            Path1_Disconnected_To_Connecting_Succeeds
+            Path2_Connecting_To_Connected_Succeeds
+            Path3_Connecting_To_Disconnected_OnHandshakeFailure_Succeeds
+            Path4_Connected_To_Reconnecting_OnSocketDrop_Succeeds
+            Path5_Reconnecting_To_Connecting_OnBackoffExpired_Succeeds
+            Path6_Reconnecting_To_PermanentlyDisconnected_OnMaxAttempts_Succeeds
+            Path7_Connected_To_Disconnected_OnShutdown_SetsFlag
+            Path8_Reconnecting_To_Disconnected_OnShutdown_SetsFlag
+        Shutdown suppression (Req 5.8):
+            AfterShutdown_DisconnectedToConnecting_IsSuppressed_AndLogsWarning
+            Shutdown_FromDisconnected_OnlySetsFlag_AndDoesNotFireEvent
+            Shutdown_TargetingNonDisconnected_IsRejected_AndLogsWarning
+        Invalid transitions:
+            InvalidTransition_DisconnectedToConnected_IsIgnored_AndLogsWarning
+            InvalidTransition_ConnectedToConnecting_IsIgnored_AndLogsWarning
+            InvalidTransition_PermanentlyDisconnectedToConnecting_IsIgnored
+            InvalidTransition_DoesNotThrow
+        No-op semantics:
+            SameStateTransition_IsNoOp_NoEvent_NoWarning
+        Event semantics:
+            StateChanged_FiresExactlyOncePerTransition
+            StateChanged_DeliversPreviousAndCurrentInOrder
+            StateChanged_MultipleSubscribers_AllReceiveTransition
+        Reconnect end-to-end:
+            FullReconnectScenario_DropAndRecover_FiresExpectedSequence
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/ConnectionStateMachineTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- ConnectionStateMachine sits in the new
+  VTuberSystemBase.CoreIpc.Core.Connection namespace, inside the
+  existing VTuberSystemBase.CoreIpc.Core asmdef. It is pure C# with
+  no Unity engine references, so the EditMode tests construct and
+  drive it directly without any PlayerLoop or MonoBehaviour
+  dependency. ClientSessionManager (task 3.3), CoreIpcDiagnostics
+  (task 5.4) and CoreIpcRuntime (task 6.3) compose this state
+  machine via the StateChanged event in later tasks.
+- The transition matrix is a single static IsValidTransition switch
+  so the table is centralized and easy to audit against the design
+  Flow 3 state diagram. PermanentlyDisconnected is terminal: only
+  isShutdown=true on Disconnected target (no-op + flag set) is
+  accepted from there; everything else falls through the invalid
+  branch with a warning.
+- ShutdownRequested is sticky: once set it cannot be cleared and
+  acts as the structural guard for Req 5.8 (PlayMode stop / app
+  quit must never trigger reconnect). The reconnect-suppression
+  check sits before the matrix check so the warning message
+  distinguishes "blocked by shutdown" from "invalid transition".
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 21 new tests
+    ConnectionStateMachineTests : 21 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-3.1-editmode-results.xml
+             -logFile task-3.1-editmode.log
+    Result XML: 148 tests, 148 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ConnectionStateMachineTests : 21/21 (new)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-3.1-playmode-results.xml
+             -logFile task-3.1-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without
+  warnings or errors.
+
+Result: OK
