@@ -1,0 +1,147 @@
+OK
+1.4 ICoreIpcBus / ICoreIpcRuntime / ITransportAdapter / IMessageCodec の抽象インタフェース定義 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/ICoreIpcBus.cs
+    Declares ICoreIpcBus (PublishState / PublishEvent / RequestAsync /
+    SubscribeState / SubscribeEvent / RegisterRequestHandler / Diagnostics)
+    and the marker ISubscriptionToken : IDisposable.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/ICoreIpcRuntime.cs
+    Declares ICoreIpcRuntime : IDisposable with State / Bus / Options
+    properties and InitializeAsync(CoreIpcOptions, CancellationToken).
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/ITransportAdapter.cs
+    Declares ITransportAdapter : IAsyncDisposable
+    (StartServerAsync / ConnectClientAsync / ClientConnected / ClientDisconnected),
+    IClientConnection : IAsyncDisposable
+    (RemoteEndpoint / SendAsync / ReceiveAsync as IAsyncEnumerable<ReadOnlyMemory<byte>>),
+    plus the value types ServerBindOptions(Host, Port) and
+    ClientBindOptions(Host, Port, ConnectTimeout).
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/IMessageCodec.cs
+    Declares IMessageCodec.Encode(in MessageEnvelope) -> IpcResult<ReadOnlyMemory<byte>>
+    and Decode(ReadOnlyMemory<byte>) -> IpcResult<MessageEnvelope>.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/IConnectionDiagnostics.cs
+    Declares IConnectionDiagnostics with CurrentState / ReconnectAttemptCount /
+    PendingRequestCount / StateSlotCount / EventQueueCount / ConnectedClientCount
+    properties, the Action<ConnectionState, ConnectionState> ConnectionStateChanged
+    event, and TakeSnapshot() returning the immutable DiagnosticsSnapshot
+    record struct (TakenAt, ClientState, ServerConnectedCount,
+    ReconnectAttemptCount, PendingRequestCount, StateSlotCount, EventQueueCount).
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/IAuthenticationHandler.cs
+    Declares the no-op authentication slot for Req 6.6 future expansion:
+    IAuthenticationHandler.AuthenticateAsync(AuthenticationContext, CancellationToken)
+    plus the AuthenticationContext value type
+    (RemoteEndpoint, Origin, AuthorizationHeader). No implementation is wired
+    in this phase.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/Results/RequestOptions.cs
+    Declares the RequestOptions(Timeout) value type used by
+    ICoreIpcBus.RequestAsync.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/AbstractInterfaceContractTests.cs
+    14 new EditMode tests (see verification section).
+- (matching .meta files for each new .cs)
+
+Modified files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/AbstractionsReferenceCheck.cs
+    Extended the existing internal type so the Core asmdef references each
+    of the new abstract contracts (ICoreIpcBus, ICoreIpcRuntime,
+    ITransportAdapter, IClientConnection, IMessageCodec,
+    IConnectionDiagnostics, IAuthenticationHandler, ISubscriptionToken,
+    RequestOptions, ServerBindOptions, ClientBindOptions,
+    DiagnosticsSnapshot, AuthenticationContext). Adds factory helpers and
+    a CallRequestAsync probe to confirm the generic signature is callable
+    from Core. This satisfies the observable completion condition that the
+    Abstractions asmdef exports the contracts and the Core asmdef can
+    consume them.
+
+Implementation summary:
+- Every new contract lives in the namespace VTuberSystemBase.CoreIpc.Abstractions
+  and ships from the existing VTuberSystemBase.CoreIpc.Abstractions.asmdef
+  (no new asmdef created). The asmdef retains noEngineReferences=true and
+  references=[], so the abstraction layer remains free of Unity- and
+  concrete-implementation dependencies.
+- ICoreIpcBus matches design.md §"Service Interface" for CoreIpcBus exactly,
+  including Action<TPayload> handlers, the
+  Func<TRequest, CancellationToken, Task<TResponse>> request-handler shape,
+  and IConnectionDiagnostics Diagnostics property.
+- ICoreIpcRuntime extends IDisposable per design.md §"Service Interface" for
+  CoreIpcRuntime, exposes the live RuntimeState defined in task 1.3, and the
+  CoreIpcOptions defined in task 1.2.
+- ITransportAdapter / IClientConnection match design.md §"Service Interface"
+  for WebSocketTransportAdapter and adopt IAsyncDisposable for symmetric
+  resource release. ReceiveAsync returns
+  IAsyncEnumerable<ReadOnlyMemory<byte>> so adapters can yield raw text
+  frame payloads without forcing an array allocation per frame.
+- IMessageCodec returns IpcResult<T> rather than throwing, matching the
+  "失敗時は InvalidEnvelope エラー" rule from Req 3.5 and design.md §3.5.
+- IConnectionDiagnostics + DiagnosticsSnapshot match design.md §"#### CoreIpcDiagnostics"
+  one-for-one. ConnectionStateChanged uses Action<ConnectionState, ConnectionState>
+  (previous, current) per design.md §"##### Event Contract" of
+  ConnectionStateMachine.
+- IAuthenticationHandler is intentionally minimal (Req 6.6 "拡張余地"):
+  one async method that receives RemoteEndpoint / Origin /
+  AuthorizationHeader so a future WebUI / LAN deployment can plug in
+  Origin-header validation or token-based auth without breaking the
+  abstraction surface.
+- RequestOptions is filed under Runtime/Abstractions/Results/ alongside
+  IpcResult per the source-tree layout in design.md §"Source Files Layout".
+
+Tests added (NUnit, EditMode, Tests/Editor):
+- AbstractInterfaceContractTests (14 tests)
+    AllAbstractContracts_AreDefinedInAbstractionsAssembly — proves every new
+      contract is exported from the Abstractions asmdef under the canonical
+      namespace.
+    AbstractionsAssembly_HasNoForwardReferenceToNonStdAssemblies — enforces
+      the observable completion criterion that the Abstractions asmdef has
+      "具体型への前方参照が皆無" by walking GetReferencedAssemblies() and
+      restricting them to System.* / mscorlib / netstandard /
+      Microsoft.Bcl.* (BCL only). A future regression that drags
+      UnityEngine.dll or a concrete adapter assembly into the abstractions
+      layer fails this test loudly.
+    ICoreIpcBus_DeclaresAllRequiredMembers — reflectively verifies the 7
+      member shape required by tasks.md §1.4 line 34.
+    ISubscriptionToken_ExtendsIDisposable — guarantees Dispose-based unsubscribe.
+    ICoreIpcRuntime_DeclaresLifecycleMembersAndExtendsIDisposable —
+      verifies State / Bus / Options / InitializeAsync(2-arg) and the
+      IDisposable inheritance chain.
+    ITransportAdapter_DeclaresServerAndClientFactoriesAndIsAsyncDisposable —
+      verifies StartServerAsync / ConnectClientAsync /
+      ClientConnected / ClientDisconnected and IAsyncDisposable inheritance.
+    IClientConnection_DeclaresSendReceiveAndIsAsyncDisposable — verifies
+      SendAsync(ReadOnlyMemory<byte>, CT) -> ValueTask, ReceiveAsync(CT) ->
+      IAsyncEnumerable<ReadOnlyMemory<byte>>, RemoteEndpoint:string, and
+      IAsyncDisposable.
+    IMessageCodec_DeclaresEncodeAndDecode — verifies the IpcResult-bound
+      Encode/Decode signatures.
+    IConnectionDiagnostics_DeclaresAllPropertiesAndStateChangedEvent —
+      verifies the 6 live-counters, the Action<ConnectionState,
+      ConnectionState> event, and DiagnosticsSnapshot TakeSnapshot().
+    DiagnosticsSnapshot_PreservesConstructorArguments — round-trips all 7
+      fields of the snapshot record struct.
+    RequestOptions_PreservesTimeout — round-trips Timeout.
+    ServerBindOptions_PreservesHostAndPort — round-trips Host/Port.
+    ClientBindOptions_PreservesHostPortAndConnectTimeout — round-trips
+      Host/Port/ConnectTimeout.
+    IAuthenticationHandler_DeclaresAuthenticateAsync — verifies the no-op
+      slot has the spec-required AuthenticateAsync signature.
+
+Verification: Unity Test Runner (EditMode, batchmode)
+- Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+           -testPlatform EditMode
+           -testResults task-1.4-editmode-results.xml
+           -logFile task-1.4-unity.log
+- Unity exit code: 0
+- Test result XML: 33 tests, 33 passed, 0 failed, 0 skipped, 0 inconclusive
+    - AbstractInterfaceContractTests : 14/14 passed (new)
+    - CoreIpcErrorVariantsTests : 4/4 passed (regression from task 1.2)
+    - CoreIpcOptionsDefaultsTests : 3/3 passed (regression from task 1.2)
+    - IpcResultTests : 5/5 passed (regression from task 1.2)
+    - MessageEnvelopeAndEnumTypeTests : 7/7 passed (regression from task 1.3)
+- Compilation: Abstractions.dll, Core.dll, Tests.Editor.dll built without
+  warnings or errors. AbstractionsReferenceCheck successfully consumes
+  every new abstract contract from the Core asmdef, fulfilling the task's
+  observable completion condition that "全抽象インタフェースが Abstractions
+  asmdef に存在し、具体型への前方参照が皆無".
+
+Result: OK
