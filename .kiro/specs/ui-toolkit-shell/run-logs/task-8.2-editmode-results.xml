@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="24" result="Passed" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.0806734">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="601" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.080673" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1239" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.066664" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="41264" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1240" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.061349" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1241" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.057403" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1242" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.054475" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1243" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="218" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.051929" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1125" name="TabPanelRegistryTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.045534" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1134" name="AllThreeFailed_IsComplete" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.AllThreeFailed_IsComplete" methodname="AllThreeFailed_IsComplete" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1797845149" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.013854" asserts="0">
+                  <properties>
+                    <property name="Description" value="3 タブ全て失敗でも IsPreloadComplete=true（縮退起動も完了は完了）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1126" name="Constructor_NullLogger_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.Constructor_NullLogger_Throws" methodname="Constructor_NullLogger_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1853122421" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.002139" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null logger を拒否する（DI 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1149" name="GetPreloadProgress_ReturnsValueSnapshot" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.GetPreloadProgress_ReturnsValueSnapshot" methodname="GetPreloadProgress_ReturnsValueSnapshot" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1005261653" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000476" asserts="0">
+                  <properties>
+                    <property name="Description" value="GetPreloadProgress で取得した snapshot は呼出時点のコピーで、後の変化に影響されない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1146" name="HandleDispose_DetachesCallbacks" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.HandleDispose_DetachesCallbacks" methodname="HandleDispose_DetachesCallbacks" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1214453519" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.002393" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose した handle に対する OnActivated / OnDeactivated 購読は再発火を起こさない（購読解除契約; Requirement 5.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1147" name="HandleDispose_IsIdempotent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.HandleDispose_IsIdempotent" methodname="HandleDispose_IsIdempotent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="305671617" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000358" asserts="0">
+                  <properties>
+                    <property name="Description" value="Dispose 済みの handle を再 Dispose しても例外にならない（IDisposable 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1135" name="MarkTabFailed_AfterMount_IsNoOp" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.MarkTabFailed_AfterMount_IsNoOp" methodname="MarkTabFailed_AfterMount_IsNoOp" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="612883409" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000664" asserts="0">
+                  <properties>
+                    <property name="Description" value="Mount 後に MarkTabFailed されても先勝ち：失敗が記録されない、LoadedCount は変わらない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1142" name="MarkTabFailed_LogsAtErrorLevel" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.MarkTabFailed_LogsAtErrorLevel" methodname="MarkTabFailed_LogsAtErrorLevel" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1850815596" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000559" asserts="0">
+                  <properties>
+                    <property name="Description" value="MarkTabFailed のログレベルは Error 以上で出る（オペレーターが診断画面で確認できるレベル）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1137" name="MarkTabFailed_NullOrEmptyReason_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.MarkTabFailed_NullOrEmptyReason_Throws" methodname="MarkTabFailed_NullOrEmptyReason_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1789545184" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000447" asserts="0">
+                  <properties>
+                    <property name="Description" value="MarkTabFailed の reason は null/empty を許容しない（診断ログのトレーサビリティ確保）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1132" name="MarkTabFailed_OneTab_RecordedAndCountedTowardLoaded" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.MarkTabFailed_OneTab_RecordedAndCountedTowardLoaded" methodname="MarkTabFailed_OneTab_RecordedAndCountedTowardLoaded" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1389621578" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.001438" asserts="0">
+                  <properties>
+                    <property name="Description" value="失敗 1 件注入で FailedTabs に当該 ID が積まれ、LoadedCount にも反映される（失敗もプリロード完了の一部; Requirement 3.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1139" name="MarkTabFailed_RaisesFailedEvent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.MarkTabFailed_RaisesFailedEvent" methodname="MarkTabFailed_RaisesFailedEvent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1914331219" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000767" asserts="0">
+                  <properties>
+                    <property name="Description" value="MarkTabFailed で OnPreloadChanged が PreloadOutcome.Failed で 1 回発火する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="NewRegistry_HasZeroLoaded_AndNotComplete" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NewRegistry_HasZeroLoaded_AndNotComplete" methodname="NewRegistry_HasZeroLoaded_AndNotComplete" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="961740586" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000371" asserts="0">
+                  <properties>
+                    <property name="Description" value="初期状態では IsPreloadComplete が false で、LoadedCount=0, TotalCount=3, FailedTabs 空" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1141" name="Notifications_EmitPreloadLogEntries" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.Notifications_EmitPreloadLogEntries" methodname="Notifications_EmitPreloadLogEntries" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="198479583" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.001050" asserts="0">
+                  <properties>
+                    <property name="Description" value="Mount / Failure それぞれ Preload カテゴリでログを残す（Requirement 11.1）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1136" name="NotifyTabMounted_AfterFailure_IsNoOp" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_AfterFailure_IsNoOp" methodname="NotifyTabMounted_AfterFailure_IsNoOp" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="252274306" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000221" asserts="0">
+                  <properties>
+                    <property name="Description" value="Failure 後に NotifyTabMounted されても上書きされない（失敗状態が維持される）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="NotifyTabMounted_AllThree_IsCompleteAndNoFailures" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_AllThree_IsCompleteAndNoFailures" methodname="NotifyTabMounted_AllThree_IsCompleteAndNoFailures" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1808098388" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000265" asserts="0">
+                  <properties>
+                    <property name="Description" value="3 タブ全て Mount で IsPreloadComplete=true / LoadedCount=3 / FailedTabs 空（Requirement 3.1）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1140" name="NotifyTabMounted_DuplicateMount_DoesNotRefire" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_DuplicateMount_DoesNotRefire" methodname="NotifyTabMounted_DuplicateMount_DoesNotRefire" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1798636248" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000362" asserts="0">
+                  <properties>
+                    <property name="Description" value="冪等な NotifyTabMounted の 2 回目以降は OnPreloadChanged を再発火しない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1131" name="NotifyTabMounted_Idempotent_DoesNotDoubleCount" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_Idempotent_DoesNotDoubleCount" methodname="NotifyTabMounted_Idempotent_DoesNotDoubleCount" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1638779393" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000240" asserts="0">
+                  <properties>
+                    <property name="Description" value="同一タブの Mount を複数回呼んでもカウントは 1 度しか進まない（OnEnable 再入対策）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1128" name="NotifyTabMounted_OneOfThree_ProgressOneNotComplete" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_OneOfThree_ProgressOneNotComplete" methodname="NotifyTabMounted_OneOfThree_ProgressOneNotComplete" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="924336781" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000209" asserts="0">
+                  <properties>
+                    <property name="Description" value="1 タブだけ Mount しても IsPreloadComplete は false / LoadedCount=1" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1138" name="NotifyTabMounted_RaisesSucceededEvent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_RaisesSucceededEvent" methodname="NotifyTabMounted_RaisesSucceededEvent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1692785322" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000239" asserts="0">
+                  <properties>
+                    <property name="Description" value="NotifyTabMounted で OnPreloadChanged が PreloadOutcome.Succeeded で 1 回発火する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1129" name="NotifyTabMounted_TwoOfThree_ProgressTwoNotComplete" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_TwoOfThree_ProgressTwoNotComplete" methodname="NotifyTabMounted_TwoOfThree_ProgressTwoNotComplete" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1410124083" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000249" asserts="0">
+                  <properties>
+                    <property name="Description" value="2 タブまで Mount しても IsPreloadComplete は false / LoadedCount=2" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1148" name="NotifyTabMounted_WithoutRegisterTab_StillProgresses" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.NotifyTabMounted_WithoutRegisterTab_StillProgresses" methodname="NotifyTabMounted_WithoutRegisterTab_StillProgresses" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1751784787" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000257" asserts="0">
+                  <properties>
+                    <property name="Description" value="Mount は RegisterTab されていないタブにも適用できる（タブ spec 不在でも shell 単独起動可能; Requirement 10.1, 10.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1144" name="RegisterTab_HandleIsInitiallyInactive" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.RegisterTab_HandleIsInitiallyInactive" methodname="RegisterTab_HandleIsInitiallyInactive" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="771214689" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000275" asserts="0">
+                  <properties>
+                    <property name="Description" value="登録直後の handle.IsActive は false（プリロード未完了 → 起動アクティベートまでは非活性）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1143" name="RegisterTab_ReturnsHandleWithTabId" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.RegisterTab_ReturnsHandleWithTabId" methodname="RegisterTab_ReturnsHandleWithTabId" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1132680477" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.001344" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterTab は ITabLifecycleHandle を返し、TabId を保持する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1145" name="RegisterTab_SameTabTwice_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.RegisterTab_SameTabTwice_Throws" methodname="RegisterTab_SameTabTwice_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="1476239463" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000304" asserts="0">
+                  <properties>
+                    <property name="Description" value="同一 TabId に対する 2 回目の RegisterTab は InvalidOperationException" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1133" name="TwoMountsPlusOneFailure_IsCompleteWithFailureRecorded" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests.TwoMountsPlusOneFailure_IsCompleteWithFailureRecorded" methodname="TwoMountsPlusOneFailure_IsCompleteWithFailureRecorded" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryTests" runstate="Runnable" seed="236995542" result="Passed" start-time="2026-04-25 19:32:03Z" end-time="2026-04-25 19:32:03Z" duration="0.000366" asserts="0">
+                  <properties>
+                    <property name="Description" value="2 タブ Mount + 1 タブ Failure で IsPreloadComplete=true、FailedTabs に該当 ID（観測可能完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
