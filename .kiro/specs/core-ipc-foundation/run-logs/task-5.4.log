@@ -1,0 +1,142 @@
+OK
+5.4 CoreIpcDiagnostics の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Diagnostics/CoreIpcDiagnostics.cs
+    IConnectionDiagnostics 実装（VTuberSystemBase.CoreIpc.Core.Diagnostics
+    名前空間、Core asmdef 配下）。`ConnectionStateMachine` を必須依存と
+    して受け取り、`StateChanged` イベントに購読してフォワードする
+    `ConnectionStateChanged` を公開。CurrentState は state machine の
+    値をライブで返す。ReconnectAttemptCount /
+    PendingRequestCount / StateSlotCount / EventQueueCount /
+    ConnectedClientCount は Func<int> として注入可能（既定はゼロ
+    プロバイダ）— ReconnectBackoff.AttemptCount /
+    RequestCorrelationRegistry.PendingRequestCount /
+    MainThreadDispatchQueue.StateSlotCount /
+    MainThreadDispatchQueue.EventQueueCount /
+    WebSocketServer.ConnectedClientCount を上位（Runtime 配線）が束ねる
+    想定。TakeSnapshot() は瞬時に全指標と TakenAt を読んで
+    DiagnosticsSnapshot レコードを返す（イミュータブル、後続変更に
+    影響されないフリーズ値）。Dispose は state machine への購読を
+    解除し、Interlocked で冪等化。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Diagnostics/CoreIpcDiagnostics.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcDiagnosticsTests.cs
+    NUnit 15 本（Tests.Editor asmdef）。ConnectionStateMachine を
+    実体で組み合わせ、StateChanged の発火経路を含めて検証する。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcDiagnosticsTests.cs.meta
+
+Modified files:
+- (none)
+
+Test coverage map (15 tests):
+    NullStateMachine_Throws
+        必須依存の null チェック（ArgumentNullException）
+    DefaultProviders_ReturnZero
+        プロバイダ未指定時は ReconnectAttempt / Pending / StateSlot /
+        EventQueue / ConnectedClient が全て 0
+    CurrentState_ReflectsStateMachine
+        Disconnected → Connecting → Connected の各遷移後に CurrentState
+        が即時反映（IConnectionDiagnostics.CurrentState、Req 5.6）
+    LiveProviders_AreInvokedEachAccess
+        プロバイダは毎回呼ばれる（キャッシュしない）。値の更新が
+        即時反映されることをカウンタの 2 段階更新で確認
+    ConnectionStateChanged_FiresOncePerTransition
+        Task 5.4 観測条件: 5 回の遷移で 5 回発火（重複なし、
+        previous/current ペアの順序も検証）
+    ConnectionStateChanged_DoesNotFireForNoOpTransition
+        同状態への遷移（state machine が抑止する）はイベント発火なし
+    ConnectionStateChanged_DoesNotFireForInvalidTransition
+        不正遷移（Disconnected→Connected の直行）は発火なし
+    ConnectionStateChanged_MultipleSubscribers_AllReceiveEachEvent
+        複数購読者が同じイベントを受信する
+    TakeSnapshot_ReturnsConsistentValues
+        スナップショットが ClientState / ServerConnectedCount /
+        ReconnectAttemptCount / PendingRequestCount / StateSlotCount /
+        EventQueueCount / TakenAt を一貫した瞬間値で返す
+    TakeSnapshot_IsImmutableValueRecord
+        スナップショット取得後にプロバイダ値が変わっても、
+        スナップショット内の値は固定（イミュータブル record struct）
+    TakeSnapshot_DefaultNow_IsRecent
+        nowProvider 未指定時は DateTimeOffset.UtcNow に近い値が設定される
+    Dispose_UnsubscribesFromStateMachine
+        Dispose 後は state machine の遷移が ConnectionStateChanged に
+        伝播しない（イベント購読の解除）
+    Dispose_IsIdempotent
+        Dispose を 2 回呼んでも例外を投げない（Interlocked で冪等）
+    ImplementsIConnectionDiagnostics
+        IConnectionDiagnostics インタフェース実装の確認
+    IConnectionDiagnosticsEvent_IsBackedByStateMachine
+        IConnectionDiagnostics として参照しても ConnectionStateChanged が
+        state machine の遷移で発火し、(previous, current) を渡す
+
+Implementation summary:
+- CoreIpcDiagnostics は sealed class で IConnectionDiagnostics と
+  IDisposable を実装。state machine への購読は単一回（コンストラクタ）
+  で行い、Dispose で解除。
+- 各カウントメトリクスは Func<int> として注入可能：上位の
+  CoreIpcRuntime 配線で ReconnectBackoff.AttemptCount /
+  RequestCorrelationRegistry.PendingRequestCount /
+  MainThreadDispatchQueue.StateSlotCount / .EventQueueCount /
+  WebSocketServer.ConnectedClientCount を割り当てる想定。テストでは
+  実体を使わずに値を制御できる。
+- TakeSnapshot は瞬時に全指標を読み出し DiagnosticsSnapshot
+  （readonly record struct）を返す。レコード型のため返却後の値は
+  固定。Req 7.5（診断統計の外部公開）の条件を満たす。
+- ConnectionStateChanged は ConnectionStateMachine.StateChanged を
+  そのままフォワード。state machine 自体が「実遷移時のみ 1 回」
+  の発火を保証しているため、Task 5.4 観測条件「遷移ごとに 1 回だけ
+  発火」が構造的に成立する（同状態 / 不正遷移は state machine が
+  抑止するため未発火）。
+- メインスレッド配信制約はなし：診断 API はワーカー or メイン
+  どちらからでも呼べる純 C# コンポーネント。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 15 new tests (CoreIpcDiagnosticsTests)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.4-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.4-editmode.log
+    Result XML: 305 tests, 305 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcConfigLoaderTests : 10/10 (regression)
+        CoreIpcDiagnosticsTests : 15/15 (new)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcLoggerTests : 16/16 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        InMemoryLoopbackTransportTests : 8/8 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.4-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.4-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK

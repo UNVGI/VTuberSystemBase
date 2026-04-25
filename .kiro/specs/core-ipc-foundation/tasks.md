@@ -220,7 +220,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.4_
   - _Boundary: CoreIpcLogger_
 
-- [ ] 5.4 (P) CoreIpcDiagnostics の実装
+- [x] 5.4 (P) CoreIpcDiagnostics の実装
   - `IConnectionDiagnostics` を実装し、`CurrentState` / `ReconnectAttemptCount` / `PendingRequestCount` / `StateSlotCount` / `EventQueueCount` / `ConnectedClientCount` のライブプロパティを公開する
   - `ConnectionStateChanged` イベントを `ConnectionStateMachine` の遷移に接続する
   - `TakeSnapshot()` で現時点の全指標をイミュータブル `DiagnosticsSnapshot` として返す
