@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  タブ空枠 UXML (design.md §Panels §TabPanelRegistry; Requirement 10.1, 10.2;
+  task 8.1)。タブ spec (#4〜#6) が未実装な場合、TabPanelRegistry はこの VTA を
+  クローンしてタブ位置に配置する。タブ識別 modifier
+  (BEM 風 vsb-tab-root のタブ別バリアント) は TabPanelRegistry が
+  クローン後に AddToClassList で付与する。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-tab-root" class="vsb-tab-root vsb-tab-root--empty"
+                   style="flex-grow: 1; align-items: center; justify-content: center;">
+        <Label class="vsb-tab-root__placeholder" text="(タブ未統合)" />
+    </VisualElement>
+</UXML>

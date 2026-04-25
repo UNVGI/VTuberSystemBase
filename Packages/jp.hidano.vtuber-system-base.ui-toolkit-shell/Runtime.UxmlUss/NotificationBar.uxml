@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  通知バー独立 UXML (design.md §Diagnostics §NotificationBarController; task 8.1)。
+  ルート UIDocument の `vsb-notification-bar` 領域 (TabBar.uxml 内) に
+  NotificationBarController が動的に通知行を挿入する設計のため、本ファイルは
+  単独の通知行コンテナのテンプレートとして提供される。
+  task 9.1 で NotificationBarController が個別行をクラス
+  `vsb-notification-bar__item` として複製・挿入する想定。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-notification-bar" class="vsb-notification-bar">
+        <VisualElement name="vsb-notification-bar__items"
+                       class="vsb-notification-bar__items" />
+    </VisualElement>
+</UXML>

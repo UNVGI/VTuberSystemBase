@@ -1,0 +1,58 @@
+/*
+ * TabBar / NotificationBar / TabContent 既定 USS
+ * (design.md §Panels §RootUiDocumentBuilder; task 8.1; Requirement 6.2 / 6.8)。
+ *
+ * 利用者プロジェクトの追加 USS は UiToolkitShellSkinProfile.RootStyleSheets
+ * 経由で本ファイルの上に重ねる契約 (UI-3 / Requirement 6.3)。
+ * クラス名は SkinValidationRules.Root の必須セレクタと一致させ、
+ * 改名・削除は SemVer major 相当の破壊的変更として扱う。
+ */
+
+.vsb-shell-root {
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: rgb(20, 20, 20);
+    color: rgb(220, 220, 220);
+}
+
+.vsb-tab-bar {
+    flex-direction: row;
+    flex-shrink: 0;
+    height: 32px;
+    background-color: rgb(30, 30, 30);
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(60, 60, 60);
+}
+
+.vsb-tab-bar__button {
+    flex-grow: 1;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-right-width: 1px;
+    border-right-color: rgb(60, 60, 60);
+    color: rgb(180, 180, 180);
+    -unity-text-align: middle-center;
+}
+
+.vsb-tab-bar__button--active {
+    background-color: rgb(45, 45, 45);
+    color: rgb(255, 255, 255);
+}
+
+.vsb-tab-bar__button--disabled {
+    opacity: 0.4;
+}
+
+.vsb-tab-content {
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: rgb(24, 24, 24);
+}
+
+.vsb-notification-bar {
+    flex-shrink: 0;
+    flex-direction: column;
+    min-height: 0;
+    background-color: rgb(28, 28, 28);
+}

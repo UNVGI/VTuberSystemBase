@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="24" result="Passed" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.1624088">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="577" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.162409" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1214" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="194" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.149617" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="55456" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1215" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="194" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.148057" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1216" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="194" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.146783" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1217" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="194" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.145387" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1218" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="194" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.144017" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1061" name="RootUiDocumentBuilderTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.138934" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1078" name="Build_AssignsPanelSettingsToUIDocument" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_AssignsPanelSettingsToUIDocument" methodname="Build_AssignsPanelSettingsToUIDocument" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1781890432" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.092073" asserts="0">
+                  <properties>
+                    <property name="Description" value="UIDocument.panelSettings は共有 PanelSettings に設定される（Requirement 1.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1079" name="Build_AssignsRootVisualTreeAssetToUIDocument" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_AssignsRootVisualTreeAssetToUIDocument" methodname="Build_AssignsRootVisualTreeAssetToUIDocument" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1041604829" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.002079" asserts="0">
+                  <properties>
+                    <property name="Description" value="UIDocument.visualTreeAsset は profile.RootVisualTreeAsset に設定される（Requirement 6.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1076" name="Build_CreatesHostGameObjectWithUIDocument" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_CreatesHostGameObjectWithUIDocument" methodname="Build_CreatesHostGameObjectWithUIDocument" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1230256325" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.004487" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build は HostGameObject を生成し、UIDocument コンポーネントを付与する（Requirement 1.1）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1077" name="Build_HostGameObject_HasHideAndDontSaveFlags" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_HostGameObject_HasHideAndDontSaveFlags" methodname="Build_HostGameObject_HasHideAndDontSaveFlags" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1140086858" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.002418" asserts="0">
+                  <properties>
+                    <property name="Description" value="HostGameObject は HideAndDontSave で生成される（シーン汚染しない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1073" name="Build_NullPanelSettings_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_NullPanelSettings_Throws" methodname="Build_NullPanelSettings_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="613713559" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001765" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build は null panelSettings を拒否する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1072" name="Build_NullProfile_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_NullProfile_Throws" methodname="Build_NullProfile_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1048508671" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000952" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build は null profile を拒否する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1074" name="Build_ProfileMissingRootVta_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_ProfileMissingRootVta_Throws" methodname="Build_ProfileMissingRootVta_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1376834717" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000977" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build は RootVisualTreeAsset 未設定の profile を拒否する（Requirement 6.8 既定スキン同梱前提）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1075" name="Build_ReturnsSamePanelSettings" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_ReturnsSamePanelSettings" methodname="Build_ReturnsSamePanelSettings" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="268556566" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001382" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build は受け取った PanelSettings をそのまま BuildResult に返す（共有契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1080" name="Build_WithRequestedDisplayOverload_ForcesZero_AndWarns" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_WithRequestedDisplayOverload_ForcesZero_AndWarns" methodname="Build_WithRequestedDisplayOverload_ForcesZero_AndWarns" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1086864417" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.002962" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build(profile, requestedTargetDisplay) オーバーロードでも targetDisplay は 0 に強制 + 警告（Requirement 1.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1081" name="Build_WithRequestedDisplayOverload_Zero_EmitsNoWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Build_WithRequestedDisplayOverload_Zero_EmitsNoWarning" methodname="Build_WithRequestedDisplayOverload_Zero_EmitsNoWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="860350365" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001796" asserts="0">
+                  <properties>
+                    <property name="Description" value="Build(profile, requestedTargetDisplay=0) は警告を出さない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="Constructor_NullLogger_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.Constructor_NullLogger_Throws" methodname="Constructor_NullLogger_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1965311815" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000375" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null logger を拒否する（DI 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1069" name="CreateSharedPanelSettings_AnyNonZero_ForcesZero" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_AnyNonZero_ForcesZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.005585" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties>
+                    <property name="Description" value="負値や 2 以上の targetDisplay も同様に 0 に強制される（防御的網羅）" />
+                  </properties>
+                  <test-case id="1066" name="CreateSharedPanelSettings_AnyNonZero_ForcesZero(-1)" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_AnyNonZero_ForcesZero(-1)" methodname="CreateSharedPanelSettings_AnyNonZero_ForcesZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="2104176938" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001206" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1067" name="CreateSharedPanelSettings_AnyNonZero_ForcesZero(2)" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_AnyNonZero_ForcesZero(2)" methodname="CreateSharedPanelSettings_AnyNonZero_ForcesZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1119512186" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000762" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1068" name="CreateSharedPanelSettings_AnyNonZero_ForcesZero(7)" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_AnyNonZero_ForcesZero(7)" methodname="CreateSharedPanelSettings_AnyNonZero_ForcesZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="811517773" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000637" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1071" name="CreateSharedPanelSettings_AssignsExpectedName" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_AssignsExpectedName" methodname="CreateSharedPanelSettings_AssignsExpectedName" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1059097720" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000735" asserts="0">
+                  <properties>
+                    <property name="Description" value="PanelSettings.name が DefaultPanelSettingsName で初期化される（診断用の固定識別子）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="CreateSharedPanelSettings_RequestNonZero_ForcesZero_AndWarnsOnLifecycle" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_RequestNonZero_ForcesZero_AndWarnsOnLifecycle" methodname="CreateSharedPanelSettings_RequestNonZero_ForcesZero_AndWarnsOnLifecycle" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1714924433" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001090" asserts="0">
+                  <properties>
+                    <property name="Description" value="targetDisplay=1 を要求すると 0 に強制され、警告ログが Lifecycle カテゴリで出る（Requirement 1.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="CreateSharedPanelSettings_RequestZero_EmitsNoWarning" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_RequestZero_EmitsNoWarning" methodname="CreateSharedPanelSettings_RequestZero_EmitsNoWarning" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1506459104" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000684" asserts="0">
+                  <properties>
+                    <property name="Description" value="targetDisplay=0 では警告ログを出さない（無誤通知）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="CreateSharedPanelSettings_RequestZero_ReturnsTargetDisplayZero" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_RequestZero_ReturnsTargetDisplayZero" methodname="CreateSharedPanelSettings_RequestZero_ReturnsTargetDisplayZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="675445952" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000699" asserts="0">
+                  <properties>
+                    <property name="Description" value="targetDisplay=0 を要求すると PanelSettings.targetDisplay==0 で返る（Requirement 1.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1070" name="CreateSharedPanelSettings_ReturnsFreshInstancePerCall" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.CreateSharedPanelSettings_ReturnsFreshInstancePerCall" methodname="CreateSharedPanelSettings_ReturnsFreshInstancePerCall" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1077221892" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.001252" asserts="0">
+                  <properties>
+                    <property name="Description" value="呼び出すたびに新しい PanelSettings インスタンスが生成される（共有は呼出元の責務）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1085" name="EmptyTabShellUxml_IsLoadable_AndExposesVsbTabRootClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.EmptyTabShellUxml_IsLoadable_AndExposesVsbTabRootClass" methodname="EmptyTabShellUxml_IsLoadable_AndExposesVsbTabRootClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1390714608" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.002350" asserts="0">
+                  <properties>
+                    <property name="Description" value="EmptyTabShell.uxml が Runtime.UxmlUss/ 配下にロードでき、vsb-tab-root クラスを保持する（Requirement 10.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1086" name="NotificationBarUxml_IsLoadable_AndExposesNotificationBarClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.NotificationBarUxml_IsLoadable_AndExposesNotificationBarClass" methodname="NotificationBarUxml_IsLoadable_AndExposesNotificationBarClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1350423614" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000582" asserts="0">
+                  <properties>
+                    <property name="Description" value="NotificationBar.uxml が Runtime.UxmlUss/ 配下にロードでき、vsb-notification-bar クラスを保持する（task 8.1）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1083" name="TabBarUxml_Instantiated_ContainsTabBarAndTabContentAndNotificationBar" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.TabBarUxml_Instantiated_ContainsTabBarAndTabContentAndNotificationBar" methodname="TabBarUxml_Instantiated_ContainsTabBarAndTabContentAndNotificationBar" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="748432718" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000656" asserts="0">
+                  <properties>
+                    <property name="Description" value="TabBar.uxml をクローンするとタブバー領域・タブコンテンツ領域・通知バー領域が同じツリーに揃う（Requirement 1.3）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1084" name="TabBarUxml_Instantiated_HasThreeTabBarButtons" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.TabBarUxml_Instantiated_HasThreeTabBarButtons" methodname="TabBarUxml_Instantiated_HasThreeTabBarButtons" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="1758251597" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000520" asserts="0">
+                  <properties>
+                    <property name="Description" value="TabBar.uxml には 3 個の vsb-tab-bar__button が並ぶ（Requirement 2.1 / 2.2 の前提）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1082" name="TabBarUxml_IsLoadableFromPackage" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests.TabBarUxml_IsLoadableFromPackage" methodname="TabBarUxml_IsLoadableFromPackage" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.RootUiDocumentBuilderTests" runstate="Runnable" seed="113862308" result="Passed" start-time="2026-04-25 19:23:43Z" end-time="2026-04-25 19:23:43Z" duration="0.000209" asserts="0">
+                  <properties>
+                    <property name="Description" value="TabBar.uxml が Runtime.UxmlUss/ 配下にロードできる（既定スキン同梱; Requirement 6.8）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
