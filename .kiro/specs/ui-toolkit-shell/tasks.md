@@ -13,7 +13,7 @@
   - 観測可能な完了状態: Unity Editor を開いた際に 5 つのフォルダと Runtime asmdef が認識され、Console に参照エラーが出ない
   - _Requirements: 1.5, 5.8, 5.10_
 
-- [ ] 1.2 共通 UI ライブラリと Editor / Tests 用 asmdef を分離して作成する
+- [x] 1.2 共通 UI ライブラリと Editor / Tests 用 asmdef を分離して作成する
   - `UiToolkitShell.CommonUi.asmdef` を Runtime.CommonUi 配下に作成し、参照先を UI Toolkit のみに絞る
   - `UiToolkitShell.Editor.asmdef` を `includePlatforms = Editor` で作成し、Runtime asmdef を参照する
   - `UiToolkitShell.Tests.asmdef` を Tests 配下に作成し、Runtime / CommonUi / Editor asmdef と Unity Test Framework（`nunit.framework`, `UnityEngine.TestRunner`, `UnityEditor.TestRunner`）を参照する

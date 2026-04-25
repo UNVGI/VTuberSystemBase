@@ -1,3 +1,8 @@
-Test run: EditMode 369/369 Passed (15 new CommonTypesDefaultsTests cases included). Commit `ee7724f` recorded with the task title and a body summarizing the new abstractions, registration token, XMLDoc contracts, and test verification.
+Task 1.2 (ui-toolkit-shell): 共通 UI ライブラリと Editor / Tests 用 asmdef を分離して作成する.
+Created UiToolkitShell.CommonUi / UiToolkitShell.Editor / UiToolkitShell.Tests asmdefs with the
+references and platform constraints required by tasks.md (CommonUi: UI Toolkit only / Editor:
+Editor-only platforms, references Runtime / Tests: Editor-only, references Runtime + CommonUi +
+Editor + UnityEngine/UnityEditor.TestRunner with nunit.framework.dll precompiled). EditMode test
+run: 369/369 Passed, exit code 0 (results in .kiro/specs/ui-toolkit-shell/run-logs/).
 
 OK

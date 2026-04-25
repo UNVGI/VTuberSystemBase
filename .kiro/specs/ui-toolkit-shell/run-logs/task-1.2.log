@@ -1,0 +1,73 @@
+Task 1.2 共通 UI ライブラリと Editor / Tests 用 asmdef を分離して作成する — run log
+==============================================================================
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime.CommonUi/UiToolkitShell.CommonUi.asmdef
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Editor/UiToolkitShell.Editor.asmdef
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/UiToolkitShell.Tests.asmdef
+
+Implementation summary:
+- UiToolkitShell.CommonUi.asmdef を Runtime.CommonUi/ 直下に新規作成。
+  - name: UiToolkitShell.CommonUi
+  - rootNamespace: VTuberSystemBase.UiToolkitShell.CommonUi
+  - references: 空配列 (UnityEngine.UIElements は noEngineReferences=false で
+    自動的にエンジンモジュール参照として解決されるため、UI Toolkit のみに
+    限定された依存となる)
+  - includePlatforms / excludePlatforms はいずれも空 (Runtime 全プラット
+    フォーム共通)
+  - Addressables / core-ipc-foundation 抽象 / Runtime 本体 への参照は持た
+    ず、純粋な UI コンポーネントライブラリとして単方向の参照を受ける構成。
+
+- UiToolkitShell.Editor.asmdef を Editor/ 直下に新規作成。
+  - name: UiToolkitShell.Editor
+  - rootNamespace: VTuberSystemBase.UiToolkitShell.Editor
+  - references: ["UiToolkitShell.Runtime"] のみ
+  - includePlatforms: ["Editor"]   (Standalone ビルドに含めない)
+  - Inspector カスタムなど Editor 限定 UX の入れ物として用意し、Runtime
+    の公開型を直接参照できる構成 (ただし CommonUi は task 11.2 等で必要
+    となった段階で参照を追加する想定)。
+
+- UiToolkitShell.Tests.asmdef を Tests/ 直下に新規作成。
+  - name: UiToolkitShell.Tests
+  - rootNamespace: VTuberSystemBase.UiToolkitShell.Tests
+  - references:
+      * UnityEngine.TestRunner
+      * UnityEditor.TestRunner
+      * UiToolkitShell.Runtime
+      * UiToolkitShell.CommonUi
+      * UiToolkitShell.Editor
+  - includePlatforms: ["Editor"]
+  - precompiledReferences: ["nunit.framework.dll"]
+  - overrideReferences: true / autoReferenced: false /
+    defineConstraints: ["UNITY_INCLUDE_TESTS"] により、テスト用
+    アセンブリに対してのみ NUnit 参照を許可し、本番ビルドへの混入を防止。
+
+参照方向の構造保証:
+  タブ spec asmdef → UiToolkitShell.CommonUi → UiToolkitShell.Runtime
+                                           → core-ipc-foundation 抽象
+  UiToolkitShell.Editor → UiToolkitShell.Runtime
+  UiToolkitShell.Tests  → Runtime / CommonUi / Editor / TestRunner
+- いずれの asmdef も逆方向参照 (Runtime → CommonUi、Runtime → Editor 等)
+  を持たないため、設計の依存方向を構造的に保証している。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-1.2-editmode-results.xml
+             -logFile task-1.2-editmode.log
+  - Exit code: 0
+  - Result XML summary: testcasecount=369, result=Passed,
+    passed=369, failed=0, inconclusive=0, skipped=0,
+    duration=96.88s
+  - 既存テスト全件緑、新 asmdef 起因のコンパイルエラー / 参照エラーなし。
+  - 新パッケージ (ui-toolkit-shell) は package.json 未作成 (task 1.3 の
+    責務) のため Unity Package Manager 経由で認識されておらず、本タス
+    クで作成した 3 件の asmdef はまだコンパイル対象にならない。これは
+    task 1.1 と同様の挙動であり、Console には新 asmdef に関するエラー
+    も "Assembly will not be compiled" 警告も出力されていない。
+
+Result: OK

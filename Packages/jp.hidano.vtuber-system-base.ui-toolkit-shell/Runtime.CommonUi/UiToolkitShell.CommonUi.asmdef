@@ -1,0 +1,14 @@
+{
+    "name": "UiToolkitShell.CommonUi",
+    "rootNamespace": "VTuberSystemBase.UiToolkitShell.CommonUi",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
