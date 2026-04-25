@@ -1,0 +1,138 @@
+OK
+5.2 CoreIpcConfigLoader と CoreIpcConfigAsset の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Configuration/CoreIpcConfigLoader.cs.meta
+    既存実装 (CoreIpcConfigLoader.cs, 直前コミット 3fb948a で導入) に
+    対応する Unity meta ファイルが欠落していたため新規追加。これに
+    より Tests.Editor asmdef から CoreIpcConfigLoader が参照可能に
+    なる。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcConfigLoaderTests.cs
+    NUnit テスト 10 本 (Tests.Editor asmdef)。CoreIpcConfigLoader.LoadContext
+    の差し替えポイントを利用して 3 階層フォールバック (Resources →
+    StreamingAssets → %AppData%) と部分上書きの優先順位を検証する。
+    Resources / 実ファイル I/O に依存しない pure C# テスト。
+
+    Coverage map (10 tests):
+        Load_WithEmptyContext_ReturnsEmbeddedDefaults
+            全プロバイダ未指定時に CoreIpcOptions の埋め込み既定値
+            (Host=127.0.0.1 / Port=61874 / DefaultRequestTimeout=5s /
+             MaxMessageSizeBytes=1MB / LogLevel=Info) が返ること
+        Load_WithResourcesAssetOnly_AppliesAssetValues
+            Resources 層のみで CoreIpcConfigAsset.Create で構築した
+            アセット値 (Host=10.0.0.1 / Port=9000 / LogLevel=Debug)
+            が options.ToOptions() 経由で全面置換されること
+        Load_WithStreamingAssetsJsonOnly_OverridesDefaultsForSpecifiedFields
+            StreamingAssets JSON ({port:50001, logLevel:"Warning"})
+            が指定フィールドのみ上書きし、未指定フィールド (Host /
+            MaxMessageSizeBytes) は埋め込み既定値にフォールスルー
+        Load_WithAppDataJsonOnly_AppliesPortChange
+            %AppData% JSON ({port:51234}) が最上位レイヤとして port を
+            実効上書きする (タスク 5.2 の観測条件: %AppData% での port
+            変更が実効する)
+        Load_AppliesThreeLayerPrecedence_AppDataWinsThenStreamingThenResource
+            Resource (port=1000, host=resource.host, ReconnectMaxAttempts=11,
+            LogLevel=Trace) ⇐ Streaming ({host=streaming.host, port=2000}) ⇐
+            AppData ({port=3000}) の積み上げで、
+            最終的に port=3000 (AppData), host=streaming.host (Streaming),
+            ReconnectMaxAttempts=11 / LogLevel=Trace (Resource 由来)
+            となることを検証。後勝ち + 部分上書きを同時に確認。
+        Load_PartialOverride_PreservesUnspecifiedFieldsFromLowerLayer
+            Resource asset (Port=4000, ReconnectMaxAttempts=7,
+            MaxMessageSizeBytes=2_000_000) に AppData JSON ({host:...})
+            を部分上書きしても Resource 由来の他フィールドが保存
+            されることを検証
+        Load_WithInvalidJson_FallsBackToPriorLayerWithoutThrowing
+            不正な JSON (`{ not valid json`) を AppData プロバイダが
+            返した場合、Debug.LogWarning で隔離され、Resource 層 (port=4242)
+            が保たれること (例外を上位に伝搬しない契約)
+        GetDefaultAppDataPath_IncludesVTuberSystemBaseSubdirectory
+            既定パスが "VTuberSystemBase" サブディレクトリを含み
+            "core-ipc-config.json" で終わること
+        GetDefaultStreamingAssetsPath_EndsWithExpectedFileName
+            既定パスが Application.streamingAssetsPath 配下で
+            "core-ipc-config.json" で終わること
+        Load_NullContext_Throws
+            Load(null) が ArgumentNullException を投げる契約
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/CoreIpcConfigLoaderTests.cs.meta
+
+Modified files:
+- (none — CoreIpcConfigAsset.cs / CoreIpcConfigLoader.cs 本体は直前
+  コミット 0d80d33 / 3fb948a で導入済み。本タスクでは missing meta
+  の補完と Editor テストの追加のみ実施。)
+
+Implementation summary:
+- CoreIpcConfigAsset (ScriptableObject) は CoreIpcOptions の全
+  フィールドを SerializeField で公開し、ToOptions() で
+  CoreIpcOptions レコードへ変換する。
+- CoreIpcConfigLoader.Load(LoadContext) は 3 階層 (Resources /
+  StreamingAssets / %AppData%) を後勝ちで重ねるパイプライン:
+    1. ResourceLoader が CoreIpcConfigAsset を返した場合は
+       options = asset.ToOptions() (全面置換)
+    2. StreamingAssetsJsonProvider が JSON を返した場合は
+       JsonDocument.Parse で各既知フィールドを部分上書き
+       (with 式で record 値を更新)
+    3. AppDataJsonProvider が JSON を返した場合は同様に部分上書き
+- 各層のプロバイダ例外は SafeInvoke で catch + Debug.LogWarning に
+  変換し、後続層に進める (Req 7.2 / 描画影響なし)。
+- 不正 JSON は ApplyJson 内の try/catch で隔離し、baseline を
+  返す (テスト Load_WithInvalidJson_... で確認)。
+- CreateDefaultContext (内部) は実 I/O 用のデフォルトコンテキスト
+  生成: Resources.Load + File.Exists/ReadAllText で 3 層を構成。
+  本テストは LoadContext を直接渡して Resources / 実ファイルへの
+  依存を避け、純 C# 単体テストで全分岐を網羅。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 10 new tests
+    CoreIpcConfigLoaderTests : 10 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+    (本タスクの 3 階層フォールバックは LoadContext 注入で完結する
+     ため、PlayMode 検証は不要。実 I/O 経路は task 6.4 RuntimeBootstrap
+     の結合シナリオで間接的に検証される設計。)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.2-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.2-editmode.log
+    Result XML: 274 tests, 274 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcConfigLoaderTests : 10/10 (new)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        InMemoryLoopbackTransportTests : 8/8 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-5.2-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-5.2-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
