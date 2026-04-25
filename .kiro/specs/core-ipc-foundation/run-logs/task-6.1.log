@@ -1,0 +1,150 @@
+OK
+6.1 PlayerLoopInstaller の実装（PreUpdate への対称挿入） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/IpcDispatchStep.cs
+    PlayerLoopSystem.type マーカー用の空 static class。
+    typeof(IpcDispatchStep) を識別子として PreUpdate 配下の挿入位置を
+    特定する。Task 6.2 で updateDelegate の振る舞い（Flush 例外隔離）を
+    付加する想定だが、6.1 の段階では型存在のみで足りる。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/IpcDispatchStep.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/PlayerLoopInstaller.cs
+    public static class（VTuberSystemBase.CoreIpc.Core.Dispatch
+    名前空間、Core asmdef 配下）。設計の `internal` 表記はスタイル
+    ガイドラインだが、テスト到達性と既存コード基準（CoreIpcDiagnostics
+    等が public sealed）に揃えて public 公開とした。
+    - Install(Action flushAction) / Install(Action, Action<string>?
+      logWarning): PlayerLoop.GetCurrentPlayerLoop() を取得し、
+      PreUpdate 配下に typeof(IpcDispatchStep) を持つ
+      PlayerLoopSystem を末尾追加して PlayerLoop.SetPlayerLoop で反映。
+    - flushAction を静的フィールド s_flushAction に保持し、
+      updateDelegate には s_flushAction.Invoke のみを呼ぶラッパを設定。
+      これにより Install 再実行時に flushAction を差し替えるだけで
+      新しい挙動に切り替わる。
+    - 二重挿入検出: IsInstalled が true、または現在の PlayerLoop に
+      既存の IpcDispatchStep が見つかった場合は警告ログを出力した上で
+      古いエントリを除去してから新しいエントリを挿入（既存置換）。
+      警告メッセージには Environment.StackTrace を含めて呼出元を記録。
+    - logWarning コールバックを optional に受け取り、未指定時は
+      UnityEngine.Debug.LogWarning にフォールバック。テストはコール
+      バック経由で警告発火を検証することで Unity Test Runner の
+      LogAssert 競合を避ける。
+    - Uninstall(): 現在の PlayerLoop から IpcDispatchStep を全除去し
+      PlayerLoop.SetPlayerLoop で反映。flushAction フィールドも null に
+      戻す。未インストール状態での呼び出しは no-op。
+    - IsInstalled: s_flushAction != null を返す bool プロパティ。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/PlayerLoopInstaller.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/PlayerLoopInstallerTests.cs
+    NUnit 10 本（Tests.Editor asmdef）。SetUp / TearDown で元の
+    PlayerLoop をスナップショット・復元し、テスト間の汚染を防ぐ。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/PlayerLoopInstallerTests.cs.meta
+
+Modified files:
+- (none)
+
+Test coverage map (10 tests):
+    Install_NullAction_Throws
+        flushAction null で ArgumentNullException
+    Install_AddsIpcDispatchStepUnderPreUpdate
+        Install 後に IsInstalled=true、PlayerLoop の PreUpdate 配下に
+        IpcDispatchStep が存在する（Req 1.7 の dispatch ステップ挿入）
+    Uninstall_RemovesIpcDispatchStep
+        Uninstall 後に IsInstalled=false、IpcDispatchStep は除去される
+    Uninstall_WhenNotInstalled_IsNoOp
+        未インストール時の Uninstall は例外を投げず no-op
+    Install_Twice_LogsWarningAndReplaces
+        Task 6.1 観測条件: 既にインストール済み状態で再 Install すると
+        警告ログを 1 回出して既存置換。最終的な IpcDispatchStep は
+        1 個のみ、updateDelegate 起動時に呼ばれるのは新しい flushAction
+        のみで古い flushAction は呼ばれない（差し替え）
+    RepeatedInstallUninstall_RemainsSymmetric
+        Task 6.1 観測条件: Install/Uninstall を 5 回繰り返し、毎回
+        IsInstalled が true→false に対称遷移し、IpcDispatchStep の数も
+        1→0 で振動する（リーク・残留なし）
+    Install_InvokingUpdateDelegate_CallsFlushAction
+        挿入された PlayerLoopSystem.updateDelegate を 2 回呼び出すと
+        flushAction が 2 回呼ばれる（PlayerLoop.PreUpdate からの起動を
+        模擬）
+    Uninstall_AfterInstall_ResetsIsInstalledFlag
+        Uninstall を 2 回呼んでも IsInstalled が false のまま（冪等性）
+    Install_PreservesExistingPreUpdateChildren
+        Install で PreUpdate 配下の既存子要素を保持しつつ新規追加のみ
+        行う（child count は元 +1）
+    Uninstall_RestoresOriginalChildCount
+        Install→Uninstall 後に PreUpdate 配下の子要素数が元に戻る
+        （対称性、Req 4.6 の PlayMode 繰返しでのリーク防止に対応）
+
+Implementation summary:
+- PlayerLoopInstaller は static class（プロセス単一の PlayerLoop に
+  対する操作なので static で問題ない）。s_flushAction を保持し、
+  IsInstalled は単純な null チェックで返す。
+- typeof(UnityEngine.PlayerLoop.PreUpdate) を marker としてサブシステム
+  リストを線形探索。PreUpdate 配下に typeof(IpcDispatchStep) を持つ
+  PlayerLoopSystem を新規生成して append する。
+- 設計に従い Install は重複挿入を許さず、既存があれば警告ログ +
+  置換。警告メッセージに Environment.StackTrace を含めて呼び出し
+  経路を記録（design.md L886 のリスク R-2 対応）。
+- updateDelegate は s_flushAction.Invoke を呼ぶラッパ静的メソッド
+  に固定し、flushAction の差し替え時に PlayerLoopSystem を再構築
+  することなく挙動を切り替えられる構造にした。
+- 例外隔離（try-catch で flushAction 例外を吸収して engine ループに
+  漏らさない）は Task 6.2 の責務（IpcDispatchStep に updateDelegate
+  を持たせるという記述）として後回し。本タスクは PreUpdate への対称
+  挿入と IsInstalled の対称遷移だけを観測条件としている。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 10 new tests (PlayerLoopInstallerTests)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+  PlayMode 5 回繰返しでのリーク検証は Task 6.5 / 8.3 の責務として
+  CoreIpcRuntime + EditorPlayModeBridge と共に統合テスト化される
+  予定（本タスクの観測条件「IsInstalled が対称に遷移する」は
+  Editor 側の RepeatedInstallUninstall_RemainsSymmetric で 5 回の
+  対称サイクルを検証することで満たされる）。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.1-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.1-editmode.log
+    Result XML: 315 tests, 315 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcConfigLoaderTests : 10/10 (regression)
+        CoreIpcDiagnosticsTests : 15/15 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcLoggerTests : 16/16 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        InMemoryLoopbackTransportTests : 8/8 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        PlayerLoopInstallerTests : 10/10 (new)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketClientTests : 10/10 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketTransportAdapterTests : 8/8 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.1-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.1-playmode.log
+    Result XML: 17 tests, 17 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+        WebSocketTransportAdapterPlayModeTests : 1/1 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
