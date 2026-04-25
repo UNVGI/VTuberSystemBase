@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="16" result="Passed" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.0780276">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="503" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.078028" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1134" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.064274" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="12588" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1135" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.061847" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1136" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.059649" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1137" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.057412" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1138" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.055243" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1117" name="VsbSliderTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.051350" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1131" name="Commit_RaisesCommittedEvent_WithCurrentValue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Commit_RaisesCommittedEvent_WithCurrentValue" methodname="Commit_RaisesCommittedEvent_WithCurrentValue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1076757170" result="Passed" start-time="2026-04-25 18:41:21Z" end-time="2026-04-25 18:41:22Z" duration="0.029029" asserts="0">
+                  <properties>
+                    <property name="Description" value="Commit() を呼ぶと Committed イベントが現在値で発火する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1118" name="Constructor_AppliesVsbSliderClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Constructor_AppliesVsbSliderClass" methodname="Constructor_AppliesVsbSliderClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1876219249" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000485" asserts="0">
+                  <properties>
+                    <property name="Description" value="インスタンス化直後にブロッククラス vsb-slider が付与されている（vsb- プレフィクス契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1119" name="Constructor_HasTrackAndHandleChildrenWithBemClasses" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Constructor_HasTrackAndHandleChildrenWithBemClasses" methodname="Constructor_HasTrackAndHandleChildrenWithBemClasses" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1519088755" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.004253" asserts="0">
+                  <properties>
+                    <property name="Description" value="内部要素にトラックとハンドルが存在し、それぞれ BEM 風の必須クラスを持つ（design.md USS セレクタ規約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1120" name="DefaultValues_AreZeroToOneStepZeroValueZero" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.DefaultValues_AreZeroToOneStepZeroValueZero" methodname="DefaultValues_AreZeroToOneStepZeroValueZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="204094222" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000417" asserts="0">
+                  <properties>
+                    <property name="Description" value="既定値は min=0 / max=1 / step=0 / value=0（design.md UxmlAttribute 既定）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1121" name="DiagnosticsLogger_CanBeInjectedViaConstructor" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.DiagnosticsLogger_CanBeInjectedViaConstructor" methodname="DiagnosticsLogger_CanBeInjectedViaConstructor" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1606319612" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000566" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタで IDiagnosticsLogger を受け取れる（VsbControlBase 共通の DI 集約点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1129" name="Max_ReducedBelowCurrentValue_ClampsAndNotifies" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Max_ReducedBelowCurrentValue_ClampsAndNotifies" methodname="Max_ReducedBelowCurrentValue_ClampsAndNotifies" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="197764176" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000353" asserts="0">
+                  <properties>
+                    <property name="Description" value="max を縮めると現在値が新 max を超えていれば自動的にクランプされ ValueChanged が発火する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="Min_GreaterThanMax_LogsWarningAndCoerces" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Min_GreaterThanMax_LogsWarningAndCoerces" methodname="Min_GreaterThanMax_LogsWarningAndCoerces" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1593435134" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.002127" asserts="0">
+                  <properties>
+                    <property name="Description" value="min &gt; max のような値域違反はログ警告 + max を min に揃える防御策で UI クラッシュを起こさない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1122" name="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" methodname="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="437658657" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000198" asserts="0">
+                  <properties>
+                    <property name="Description" value="UXML から default ctor で生成された後でも SetDiagnosticsLogger で注入できる（UxmlFactory 経路の DI）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1133" name="SetTrackDisabled_TogglesDisabledTrackClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.SetTrackDisabled_TogglesDisabledTrackClass" methodname="SetTrackDisabled_TogglesDisabledTrackClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1917334486" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000504" asserts="0">
+                  <properties>
+                    <property name="Description" value="SetTrackDisabled(true) で track に vsb-slider__track--disabled が付き、false で外れる（design.md USS modifier）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1125" name="Value_AboveMax_IsClampedAndFires" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_AboveMax_IsClampedAndFires" methodname="Value_AboveMax_IsClampedAndFires" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="434828022" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000238" asserts="0">
+                  <properties>
+                    <property name="Description" value="max を超える値はクランプされ、ValueChanged はクランプ後の値で発火する（値域違反時の挙動）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1126" name="Value_BelowMin_IsClampedAndFires" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_BelowMin_IsClampedAndFires" methodname="Value_BelowMin_IsClampedAndFires" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="317480539" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000237" asserts="0">
+                  <properties>
+                    <property name="Description" value="min を下回る値はクランプされ、ValueChanged はクランプ後の値で発火する（値域違反時の挙動）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1124" name="Value_SetUnchanged_DoesNotFireValueChanged" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_SetUnchanged_DoesNotFireValueChanged" methodname="Value_SetUnchanged_DoesNotFireValueChanged" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1182415131" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000499" asserts="0">
+                  <properties>
+                    <property name="Description" value="同じ値を再代入しても ValueChanged は再発火しない（idempotency 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1123" name="Value_SetWithinRange_FiresValueChangedOnce" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_SetWithinRange_FiresValueChangedOnce" methodname="Value_SetWithinRange_FiresValueChangedOnce" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1187735420" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000223" asserts="0">
+                  <properties>
+                    <property name="Description" value="value を範囲内で変更すると ValueChanged が新しい値で 1 回発火する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="Value_WithStep_RoundsToNearestStepMultiple" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_WithStep_RoundsToNearestStepMultiple" methodname="Value_WithStep_RoundsToNearestStepMultiple" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1432214565" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000228" asserts="0">
+                  <properties>
+                    <property name="Description" value="step が指定されている場合は最近接の step 倍数に丸められる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1128" name="Value_WithZeroStep_DoesNotRound" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.Value_WithZeroStep_DoesNotRound" methodname="Value_WithZeroStep_DoesNotRound" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="1622442262" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000225" asserts="0">
+                  <properties>
+                    <property name="Description" value="step==0 はステップ無効として扱う（任意の値を保持できる）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1132" name="ValueChange_AloneDoesNotRaiseCommitted" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests.ValueChange_AloneDoesNotRaiseCommitted" methodname="ValueChange_AloneDoesNotRaiseCommitted" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbSliderTests" runstate="Runnable" seed="335225706" result="Passed" start-time="2026-04-25 18:41:22Z" end-time="2026-04-25 18:41:22Z" duration="0.000186" asserts="0">
+                  <properties>
+                    <property name="Description" value="value を変えるだけでは Committed は発火しない（Committed は明示的な確定操作のみ）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

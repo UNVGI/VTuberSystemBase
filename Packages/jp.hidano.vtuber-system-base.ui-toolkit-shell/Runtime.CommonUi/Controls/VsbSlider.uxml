@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VsbSlider 既定 UXML テンプレート (design.md §CommonUi §VsbSlider)。
+  C# 側 (VsbSlider.cs) が track / handle 子要素を内部生成するため、
+  本ファイルはタブ spec が UXML から参照する際の最小サンプルを兼ねる。
+  ルート要素として <VsbSlider> を直接配置すれば C# コンストラクタが
+  vsb-slider / vsb-slider__track / vsb-slider__handle のクラスを付与する。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:vsb="VTuberSystemBase.UiToolkitShell.CommonUi.Controls"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
+    <vsb:VsbSlider min="0" max="1" step="0" value="0" />
+</UXML>

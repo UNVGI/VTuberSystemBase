@@ -1,0 +1,36 @@
+/*
+ * VsbSlider 既定 USS (design.md §CommonUi §VsbSlider; Requirement 6.2 / 7.3)。
+ * 利用者プロジェクトのスキン USS は本ファイルのセレクタ群を起点として
+ * 上書きする想定。クラス名 (vsb-slider / vsb-slider__track /
+ * vsb-slider__handle / vsb-slider__track--disabled) は SemVer 上の
+ * 安定 API として扱う (UI-3 / SkinValidationRules)。
+ */
+
+.vsb-slider {
+    flex-direction: row;
+    align-items: center;
+    min-height: 16px;
+    padding: 2px 4px;
+}
+
+.vsb-slider__track {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    height: 4px;
+}
+
+.vsb-slider__track--disabled {
+    opacity: 0.5;
+}
+
+.vsb-slider__handle {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: rgb(220, 220, 220);
+    margin-left: -6px;
+    margin-right: -6px;
+}
