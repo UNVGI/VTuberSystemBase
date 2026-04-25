@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="9" result="Passed" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.1574447">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="553" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.157445" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1188" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="170" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.143720" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="64788" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1189" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="170" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.142573" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1190" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="170" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.141643" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1191" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="170" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.137858" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1192" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="170" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.136142" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1025" name="CommonUiRegistrationTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.126880" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1032" name="AfterRegisterAll_VsbColorPickerUxmlReferenceResolves" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.AfterRegisterAll_VsbColorPickerUxmlReferenceResolves" methodname="AfterRegisterAll_VsbColorPickerUxmlReferenceResolves" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="517204194" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.093311" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll 後、UXML 参照 &lt;vsb:VsbColorPicker /&gt; が VsbColorPicker インスタンスに解決される（Requirement 7.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1033" name="AfterRegisterAll_VsbNumberedListUxmlReferenceResolves" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.AfterRegisterAll_VsbNumberedListUxmlReferenceResolves" methodname="AfterRegisterAll_VsbNumberedListUxmlReferenceResolves" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="1395652224" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.001409" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll 後、UXML 参照 &lt;vsb:VsbNumberedList /&gt; が VsbNumberedList インスタンスに解決される（Requirement 7.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1031" name="AfterRegisterAll_VsbSliderUxmlReferenceResolves" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.AfterRegisterAll_VsbSliderUxmlReferenceResolves" methodname="AfterRegisterAll_VsbSliderUxmlReferenceResolves" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="682873959" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.005487" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll 後、UXML 参照 &lt;vsb:VsbSlider /&gt; が VsbSlider インスタンスに解決される（Requirement 7.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1034" name="AfterRegisterAll_VsbToggleGroupUxmlReferenceResolves" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.AfterRegisterAll_VsbToggleGroupUxmlReferenceResolves" methodname="AfterRegisterAll_VsbToggleGroupUxmlReferenceResolves" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="817599218" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.001267" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll 後、UXML 参照 &lt;vsb:VsbToggleGroup /&gt; が VsbToggleGroup インスタンスに解決される（Requirement 7.2）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1030" name="DefaultStyleSheetAssetPaths_AllLoadAsStyleSheet" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.DefaultStyleSheetAssetPaths_AllLoadAsStyleSheet" methodname="DefaultStyleSheetAssetPaths_AllLoadAsStyleSheet" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="824524603" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.001022" asserts="0">
+                  <properties>
+                    <property name="Description" value="DefaultStyleSheetAssetPaths が指すファイルはすべて StyleSheet として AssetDatabase からロード可能（パッケージ同梱の確認）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1029" name="DefaultStyleSheetAssetPaths_ListsAllFourDefaultUssFiles" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.DefaultStyleSheetAssetPaths_ListsAllFourDefaultUssFiles" methodname="DefaultStyleSheetAssetPaths_ListsAllFourDefaultUssFiles" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="847379674" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.002804" asserts="0">
+                  <properties>
+                    <property name="Description" value="DefaultStyleSheetAssetPaths は 4 コントロールの既定 USS を漏れなく列挙する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1026" name="RegisterAll_IsIdempotent_DoesNotThrowOnRepeatedCalls" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.RegisterAll_IsIdempotent_DoesNotThrowOnRepeatedCalls" methodname="RegisterAll_IsIdempotent_DoesNotThrowOnRepeatedCalls" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="1794043853" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.000862" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll() は冪等で、複数回呼び出しても例外を投げない（UiShellBootstrapper の起動時 1 回呼出契約の安全網）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1027" name="RegisterAll_SetsIsRegisteredFlag" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.RegisterAll_SetsIsRegisteredFlag" methodname="RegisterAll_SetsIsRegisteredFlag" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="712968508" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.000158" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisterAll() 呼出後に IsRegistered が true になる（観測可能な完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1028" name="RegisteredControlTypes_ContainsAllFourControls" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests.RegisteredControlTypes_ContainsAllFourControls" methodname="RegisteredControlTypes_ContainsAllFourControls" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.CommonUiRegistrationTests" runstate="Runnable" seed="1070282581" result="Passed" start-time="2026-04-25 19:10:36Z" end-time="2026-04-25 19:10:36Z" duration="0.001025" asserts="0">
+                  <properties>
+                    <property name="Description" value="RegisteredControlTypes は VsbSlider / VsbColorPicker / VsbNumberedList / VsbToggleGroup の 4 件をちょうど含む" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

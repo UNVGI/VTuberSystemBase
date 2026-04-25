@@ -5,7 +5,7 @@
   本ファイルはタブ spec が UXML から参照する際の最小サンプルを兼ねる。
   ルート要素として <VsbColorPicker> を直接配置すれば C# コンストラクタが
   vsb-color-picker / vsb-color-picker__preview / vsb-color-picker__channel /
-  vsb-color-picker--rgb（または --hsv）のクラスを付与する。
+  vsb-color-picker (rgb モディファイアまたは hsv モディファイア) のクラスを付与する。
 -->
 <UXML xmlns="UnityEngine.UIElements"
       xmlns:engine="UnityEngine.UIElements"
