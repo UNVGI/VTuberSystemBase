@@ -6,7 +6,7 @@
 
 ## 1. 基盤セットアップ（UPM パッケージ骨組み、asmdef 配線、テストインフラ）
 
-- [ ] 1.1 UPM パッケージと asmdef 階層の作成
+- [x] 1.1 UPM パッケージと asmdef 階層の作成
   - `Packages/com.vtuber-system-base.core-ipc-foundation/` を作成し、`package.json`（name / version / unity / description）を配置する
   - `Runtime/Abstractions/VTuberSystemBase.CoreIpc.Abstractions.asmdef` を追加し、他アセンブリに一切依存しない純インタフェース層として宣言する
   - `Runtime/Core/VTuberSystemBase.CoreIpc.Core.asmdef` を追加し、`Abstractions` のみへの参照を宣言する
@@ -15,14 +15,14 @@
   - 観測可能な完了条件: Unity Editor でパッケージが認識され、各 asmdef が期待した参照方向（Adapters→Domain←Upper Specs）で依存解決され、Rider/VS のソリューションで 4 つの C# プロジェクトが生成される
   - _Requirements: 1.6, 1.2_
 
-- [ ] 1.2 CoreIpcOptions と CoreIpcError の抽象定義
+- [x] 1.2 CoreIpcOptions と CoreIpcError の抽象定義
   - `CoreIpcOptions` レコードをホスト・ポート・再接続パラメータ・メッセージサイズ上限・ログレベル等の既定値付きで定義する
   - `CoreIpcError` discriminated union を定義し、`NotConnected` / `SizeLimitExceeded` / `InvalidTopic` / `InvalidEnvelope` / `RequestTimeout` / `PortInUse` / `ProtocolVersionMismatch` / `TransportFailure` / `HandlerException` の各バリアントを提供する
   - `IpcResult` と `IpcResult<T>` を同期結果型として追加し、`Ok` / `Fail` のファクトリを提供する
   - 観測可能な完了条件: 既定値でインスタンス化した `CoreIpcOptions` が Host=`127.0.0.1`, Port=`61874`, DefaultRequestTimeout=`5s`, MaxMessageSizeBytes=`1_048_576` を返す単体テストが通る
   - _Requirements: 2.7, 3.9, 6.1, 7.4_
 
-- [ ] 1.3 MessageEnvelope と MessageKind / ConnectionState 型定義
+- [x] 1.3 MessageEnvelope と MessageKind / ConnectionState 型定義
   - `MessageEnvelope` を `protocolVersion` / `kind` / `topic` / `correlationId` / `timestampUnixMs` / `payload(JsonElement)` を持つ record struct として定義する
   - `MessageKind` enum（`State` / `Event` / `Request` / `Response`）を定義する
   - `ConnectionState` enum（`Disconnected` / `Connecting` / `Connected` / `Reconnecting` / `PermanentlyDisconnected`）を定義する
@@ -30,7 +30,7 @@
   - 観測可能な完了条件: 各 enum と record struct が `Abstractions` asmdef から公開され、`Core` asmdef から参照可能であることがビルドで確認できる
   - _Requirements: 3.1, 3.6, 3.8_
 
-- [ ] 1.4 ICoreIpcBus / ICoreIpcRuntime / ITransportAdapter / IMessageCodec の抽象インタフェース定義
+- [x] 1.4 ICoreIpcBus / ICoreIpcRuntime / ITransportAdapter / IMessageCodec の抽象インタフェース定義
   - `ICoreIpcBus` に `PublishState` / `PublishEvent` / `RequestAsync` / `SubscribeState` / `SubscribeEvent` / `RegisterRequestHandler` / `Diagnostics` を宣言する
   - `ICoreIpcRuntime` に `State` / `Bus` / `Options` / `InitializeAsync` を宣言し、`IDisposable` を継承する
   - `ITransportAdapter` に `StartServerAsync` / `ConnectClientAsync` / `ClientConnected` / `ClientDisconnected` を宣言し、`IClientConnection` に `SendAsync` / `ReceiveAsync` を宣言する
@@ -40,7 +40,7 @@
   - 観測可能な完了条件: 全抽象インタフェースが `Abstractions` asmdef に存在し、具体型への前方参照が皆無であることを依存解析ツール（または asmdef の参照確認）で確認できる
   - _Requirements: 1.1, 1.2, 1.6, 5.1, 5.3, 5.6, 6.2, 6.6, 7.5_
 
-- [ ] 1.5 テストインフラ整備と共通テストユーティリティ
+- [x] 1.5 テストインフラ整備と共通テストユーティリティ
   - `Tests/Runtime/` と `Tests/Editor/` に NUnit テストランナーが走る最小テストを配置し、CI で実行可能な状態にする
   - テスト間共有の `TestMainThreadPump`（PlayerLoop を使わずに Flush を駆動するヘルパ）と `FakeClock` を `Tests/Runtime/TestSupport/` に置く
   - 観測可能な完了条件: `Test Runner` で Runtime / Editor 両カテゴリの空テストが緑になり、共通ユーティリティが他のテストから参照可能
@@ -50,7 +50,7 @@
 
 ## 2. コアドメイン実装（エンベロープ、Codec、配信キュー、相関、購読）
 
-- [ ] 2.1 (P) SystemTextJsonCodec の実装とラウンドトリップテスト
+- [x] 2.1 (P) SystemTextJsonCodec の実装とラウンドトリップテスト
   - `IMessageCodec` を `System.Text.Json` で実装し、`MessageEnvelope` の外層を厳密型、`payload` を `JsonElement` として扱う
   - 未知フィールドを読み飛ばすように `JsonSerializerOptions` を構成し、`protocolVersion` メジャー不一致（`2.x` 以上）は `ProtocolVersionMismatch` エラーに変換する
   - 不正 JSON / スキーマ不一致は `InvalidEnvelope` エラーに変換し、呼び出し側へ結果を返す（例外伝搬しない）
@@ -60,7 +60,7 @@
   - _Requirements: 3.2, 3.3, 3.4, 3.5, 3.7, 3.10_
   - _Boundary: SystemTextJsonCodec_
 
-- [ ] 2.2 (P) MainThreadDispatchQueue の実装（state coalesce + event FIFO）
+- [x] 2.2 (P) MainThreadDispatchQueue の実装（state coalesce + event FIFO）
   - `ConcurrentDictionary<string, MessageEnvelope>` を topic 単位の state スロットとして保持し、同一 topic の state は原子的に上書きする
   - `Channel<MessageEnvelope>` を event FIFO キューとして保持し、enqueue 順で Flush に供する
   - `Flush()` メソッドを単一メインスレッドアクセス前提で実装し、state スナップショット→event ドレイン→購読ハンドラ呼び出しの順で配信する
@@ -71,7 +71,7 @@
   - _Requirements: 1.4, 1.7, 9.1, 9.2, 9.4, 9.5_
   - _Boundary: MainThreadDispatchQueue_
 
-- [ ] 2.3 (P) RequestCorrelationRegistry の実装（相関 ID・TCS・タイムアウト）
+- [x] 2.3 (P) RequestCorrelationRegistry の実装（相関 ID・TCS・タイムアウト）
   - `ConcurrentDictionary<string, PendingRequest>` に GUID 相関 ID で TCS を登録し、`MatchResponse` で対応する TCS をメインスレッドディスパッチキュー経由で完了させる
   - `System.Threading.Timer` で Request 単位のタイムアウトを管理し、デフォルト 5 秒、`RequestOptions.Timeout` で上書き可能とする
   - タイムアウト発火時は TCS を `RequestTimeout` で完了させ、辞書から pending を除去する
@@ -81,7 +81,7 @@
   - _Requirements: 1.5, 3.6, 9.3_
   - _Boundary: RequestCorrelationRegistry_
 
-- [ ] 2.4 (P) TopicSubscriptionRegistry と SubscriptionToken の実装
+- [x] 2.4 (P) TopicSubscriptionRegistry と SubscriptionToken の実装
   - `topic` × `kind` 単位でハンドラ（delegate + payload Type）を登録・解除する辞書を実装する
   - `ISubscriptionToken` の `Dispose` で登録解除、多重 Dispose は no-op とする
   - `MainThreadDispatchQueue` が Flush 時に参照する lookup API（`TryGetHandlers(topic, kind)`）を提供する
@@ -90,7 +90,7 @@
   - _Requirements: 1.1, 1.4_
   - _Boundary: TopicSubscriptionRegistry_
 
-- [ ] 2.5 CoreIpcBus の実装（送信プリチェック、購読委譲、Request 発行）
+- [x] 2.5 CoreIpcBus の実装（送信プリチェック、購読委譲、Request 発行）
   - `PublishState` / `PublishEvent` でエンベロープを構築し、サイズ 1 MB 検査と空 topic 検証（`InvalidTopic`）を行った後、`IMessageCodec.Encode` → `ITransportAdapter` の送信キューへ投入する
   - 接続未確立時は `IpcResult.Fail(NotConnected())` を返し、例外を投げずクラッシュを防ぐ
   - `RequestAsync` では `RequestCorrelationRegistry.AllocateCorrelationId` で ID を採番し、TCS を登録して応答待ちタスクを返す
@@ -104,7 +104,7 @@
 
 ## 3. 接続管理レイヤ（状態機械、バックオフ、セッション管理）
 
-- [ ] 3.1 (P) ConnectionStateMachine の実装
+- [x] 3.1 (P) ConnectionStateMachine の実装
   - 5 状態（`Disconnected` / `Connecting` / `Connected` / `Reconnecting` / `PermanentlyDisconnected`）の遷移を単一エントリで扱う
   - 遷移ごとに `ConnectionStateChanged(previous, current)` イベントを発火する
   - 不正遷移（例: `Disposed` 状態からの `Connecting`）は例外ではなくログ警告で無視する
@@ -114,7 +114,7 @@
   - _Requirements: 5.1, 5.3, 5.5, 5.6, 5.8_
   - _Boundary: ConnectionStateMachine_
 
-- [ ] 3.2 (P) ReconnectBackoff の実装
+- [x] 3.2 (P) ReconnectBackoff の実装
   - 初期遅延・倍率・上限遅延・最大試行回数をコンストラクタで受け取る
   - `NextDelay()` を呼ぶごとに `initial * multiplier^n` を計算し `maxDelay` で cap する
   - `ExceededMaxAttempts` が `true` になった後は `NextDelay()` を呼ばず上位が `PermanentlyDisconnected` 遷移を選ぶ契約とする
@@ -124,7 +124,7 @@
   - _Requirements: 5.2, 5.5_
   - _Boundary: ReconnectBackoff_
 
-- [ ] 3.3 ClientSessionManager の実装（接続・切断検知・再接続駆動）
+- [x] 3.3 ClientSessionManager の実装（接続・切断検知・再接続駆動）
   - `ITransportAdapter.ConnectClientAsync` を呼んで `IClientConnection` を確立し、`ConnectionStateMachine` を `Connected` に遷移させる
   - `IClientConnection.ReceiveAsync` のループをワーカー `Task` として回し、切断検知で `Reconnecting` に遷移して `ReconnectBackoff` に従い再試行する
   - 再試行が上限超過で `PermanentlyDisconnected` へ遷移し、以後自動再試行を停止する（Req 5.5）
@@ -139,7 +139,7 @@
 
 ## 4. WebSocket トランスポートアダプタ実装（RFC 6455）
 
-- [ ] 4.1 (P) WebSocketFrameReader / WebSocketFrameWriter の実装
+- [x] 4.1 (P) WebSocketFrameReader / WebSocketFrameWriter の実装
   - RFC 6455 のフレームヘッダを解析し、`FIN` / `opcode` / `mask` / `payload length` / `masking key` を取り出す
   - サポートオペコード: Text (0x1), Close (0x8), Ping (0x9), Pong (0xA), Continuation (0x0)
   - クライアント→サーバ方向の masking 必須検証と、サーバ→クライアント方向の非マスク送信を行う
@@ -150,7 +150,7 @@
   - _Requirements: 2.1, 2.5, 3.10_
   - _Boundary: WebSocketFrameReader, WebSocketFrameWriter_
 
-- [ ] 4.2 HandshakeProcessor の実装（Sec-WebSocket-Accept 計算）
+- [x] 4.2 HandshakeProcessor の実装（Sec-WebSocket-Accept 計算）
   - HTTP `GET / HTTP/1.1` + `Upgrade: websocket` + `Sec-WebSocket-Key` ヘッダを解析する
   - `Sec-WebSocket-Key` + GUID `258EAFA5-E914-47DA-95CA-C5AB0DC85B11` を SHA-1 → Base64 で `Sec-WebSocket-Accept` を生成する
   - 101 Switching Protocols レスポンスを構築して返す
@@ -159,7 +159,7 @@
   - 観測可能な完了条件: RFC 例のベクタが正確に一致する
   - _Requirements: 2.1, 2.3_
 
-- [ ] 4.3 WebSocketServer の実装（TcpListener ベースの自前実装）
+- [x] 4.3 WebSocketServer の実装（TcpListener ベースの自前実装）
   - `System.Net.Sockets.TcpListener` で待受を開始し、`SocketOptionName.ReuseAddress` を有効にして PlayMode 再起動でのバインド失敗を抑止する
   - ポート占有検出時は `SocketException` を `CoreIpcError.PortInUse` に変換して起動失敗を上位へ伝搬する（例外非伝搬、描画ループに影響させない）
   - 接続受理ごとに独立 `Task` を起動し、`HandshakeProcessor` でアップグレードを完了させてから `WebSocketFrameReader/Writer` で送受信を回す
@@ -170,7 +170,7 @@
   - _Requirements: 2.1, 2.3, 2.5, 2.6, 2.8, 5.7_
   - _Boundary: WebSocketServer_
 
-- [ ] 4.4 WebSocketClient の実装（ClientWebSocket ラッパ）
+- [x] 4.4 WebSocketClient の実装（ClientWebSocket ラッパ）
   - `System.Net.WebSockets.ClientWebSocket` を `ws://host:port` に接続し、接続タイムアウトを `ClientBindOptions.ConnectTimeout` で制御する
   - `ReceiveAsync` ループをワーカー `Task` で回し、テキストフレームのみ購読者へ転送、Binary 等は破棄＋ログ
   - `WebSocketException` / `ClientWebSocketException` を捕捉して `ConnectionStateMachine` に通知（再試行は `ClientSessionManager` の責務）
@@ -179,7 +179,7 @@
   - _Requirements: 2.1, 2.4, 2.5_
   - _Boundary: WebSocketClient_
 
-- [ ] 4.5 WebSocketTransportAdapter の統合（server + client ファクトリ）
+- [x] 4.5 WebSocketTransportAdapter の統合（server + client ファクトリ）
   - `ITransportAdapter` を実装し、`StartServerAsync` で `WebSocketServer` を起動、`ConnectClientAsync` で `WebSocketClient` を生成して返す
   - `IMessageCodec` を注入し、エンベロープのバイト列をテキストフレームとして送信する（opcode 0x1 固定）
   - `IAsyncDisposable` で全サブリソース（サーバ / クライアント / スレッド / ソケット）の対称解放を行う
@@ -191,7 +191,7 @@
 
 ## 5. テスト用ループバックトランスポートと設定・診断レイヤ
 
-- [ ] 5.1 (P) InMemoryLoopbackTransport の実装
+- [x] 5.1 (P) InMemoryLoopbackTransport の実装
   - `ITransportAdapter` を実装し、server/client 方向の `Channel<byte[]>` 2 本でエンベロープ byte 列を直接交換する
   - 実 WebSocket フレーミングを使わず、プロダクション runtime では使用しない（テスト・自己ループ検証専用）
   - `IClientConnection.SendAsync` / `ReceiveAsync` の契約に準拠し、`CoreIpcBus` から透過的に使える
@@ -200,7 +200,7 @@
   - _Requirements: 8.1_
   - _Boundary: InMemoryLoopbackTransport_
 
-- [ ] 5.2 (P) CoreIpcConfigLoader と CoreIpcConfigAsset の実装
+- [x] 5.2 (P) CoreIpcConfigLoader と CoreIpcConfigAsset の実装
   - `CoreIpcConfigAsset` を ScriptableObject として定義し、`CoreIpcOptions` の全フィールドをインスペクタから設定可能にする
   - `CoreIpcConfigLoader.Load()` で 3 階層フォールバック読込を行う：(1) `Resources.Load<CoreIpcConfigAsset>("CoreIpcConfig")` → (2) `StreamingAssets/core-ipc-config.json` → (3) `%AppData%/VTuberSystemBase/core-ipc-config.json`
   - 各層の未指定フィールドは下位層で補完（部分上書き）する
@@ -210,7 +210,7 @@
   - _Requirements: 2.7, 6.1, 7.4_
   - _Boundary: CoreIpcConfigLoader_
 
-- [ ] 5.3 (P) CoreIpcLogger の実装（ログレベルフィルタ）
+- [x] 5.3 (P) CoreIpcLogger の実装（ログレベルフィルタ）
   - `UnityEngine.Debug.Log` / `LogWarning` / `LogError` のラッパとしてログレベルフィルタを実装する
   - `CoreIpcOptions.LogLevel` を実行時に変更可能とし、`Trace` / `Debug` / `Info` / `Warning` / `Error` の 5 段階をサポートする
   - 接続開始・確立・切断・再接続の構造化ログ形式（`kind` / `topic` / `correlationId` を含む）を提供する
@@ -233,7 +233,7 @@
 
 ## 6. ライフサイクル管理（PlayerLoop 連携、PlayMode ブリッジ、起動ブートストラップ）
 
-- [ ] 6.1 PlayerLoopInstaller の実装（PreUpdate への対称挿入）
+- [x] 6.1 PlayerLoopInstaller の実装（PreUpdate への対称挿入）
   - `PlayerLoop.GetCurrentPlayerLoop()` を取得し、`PreUpdate` 配下に `IpcDispatchStep` 型の subSystem を追加して `PlayerLoop.SetPlayerLoop(modified)` で反映する
   - `Uninstall()` で挿入したステップを除去し、複数回呼び出しに対する冪等性を保つ
   - 二重挿入検出時は警告ログ出力＋既存置換、`IsInstalled` プロパティで現状を返す
@@ -249,7 +249,7 @@
   - 観測可能な完了条件: PlayMode テストで `PublishState` 送信が 1 フレーム以内に購読ハンドラに届き、`PublishEvent` の FIFO 順序が保存される
   - _Requirements: 1.7, 9.1, 9.2_
 
-- [ ] 6.3 CoreIpcRuntime の実装（単一ライフサイクルとサーバ／クライアント同時起動）
+- [x] 6.3 CoreIpcRuntime の実装（単一ライフサイクルとサーバ／クライアント同時起動）
   - `ICoreIpcRuntime` を実装し、`InitializeAsync(options)` でサーバとクライアントを同時起動、`PlayerLoopInstaller.Install` で配信ステップを挿入する
   - `State` 遷移を `NotInitialized → Initializing → Running → ShuttingDown → Disposed` で管理し、二重初期化時は `InvalidOperationException`
   - `Dispose` はソケット閉鎖、スレッドキャンセル、キューフラッシュ、`PlayerLoopInstaller.Uninstall` を全て実行し冪等化する
@@ -259,7 +259,7 @@
   - _Requirements: 4.1, 4.5, 4.7, 4.9, 2.6_
   - _Boundary: CoreIpcRuntime_
 
-- [ ] 6.4 RuntimeBootstrap の実装（RuntimeInitializeOnLoadMethod 経由の自動起動）
+- [x] 6.4 RuntimeBootstrap の実装（RuntimeInitializeOnLoadMethod 経由の自動起動）
   - `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]` で `CoreIpcConfigLoader.Load()` → `CoreIpcRuntime.InitializeAsync(options)` を呼ぶ
   - `Application.quitting` を購読し、`CoreIpcRuntime.Current?.Dispose()` を呼んで安全シャットダウンする
   - Unity 仕様により Edit モードでは呼ばれないため、Edit モード非起動（Req 4.8）が構造的に保証される
@@ -267,7 +267,7 @@
   - 観測可能な完了条件: PlayMode テストと standalone ビルドで、シーンロード前に runtime が `Running` 状態に遷移する
   - _Requirements: 4.2, 4.3, 4.5, 4.7, 4.8_
 
-- [ ] 6.5 EditorPlayModeBridge の実装（#if UNITY_EDITOR）
+- [x] 6.5 EditorPlayModeBridge の実装（#if UNITY_EDITOR）
   - `[InitializeOnLoad]` で Editor ドメイン起動時に自身を登録し、`EditorApplication.playModeStateChanged` を購読する
   - `PlayModeStateChange.ExitingPlayMode` 時に `CoreIpcRuntime.Current?.Dispose()` を呼び、`Application.quitting` より早くクリーンアップを完了する
   - `PlayerLoopInstaller.Uninstall()` を確実に呼んでソケット/スレッドリークを防ぐ
@@ -280,7 +280,7 @@
 
 ## 7. 結合と PlayMode 手動検証サンプル
 
-- [ ] 7.1 エンドツーエンド配線（Runtime ⇄ Bus ⇄ Transport ⇄ Codec ⇄ DispatchQueue）
+- [x] 7.1 エンドツーエンド配線（Runtime ⇄ Bus ⇄ Transport ⇄ Codec ⇄ DispatchQueue）
   - `CoreIpcRuntime.InitializeAsync` 内で、`WebSocketTransportAdapter`・`SystemTextJsonCodec`・`MainThreadDispatchQueue`・`RequestCorrelationRegistry`・`TopicSubscriptionRegistry`・`ClientSessionManager`・`ConnectionStateMachine`・`CoreIpcDiagnostics` を生成して `CoreIpcBus` に注入する
   - 受信経路（Transport → Codec.Decode → DispatchQueue.Enqueue → Flush → Subscription）を end-to-end で接続する
   - 送信経路（Bus.Publish* → Codec.Encode → Transport.Send → Peer Transport.Receive）を end-to-end で接続する
@@ -312,7 +312,7 @@
   - _Boundary: LoopbackRoundTripTests, CoalesceSemanticsTests, FifoOrderingTests, RequestTimeoutTests_
   - _Depends: 7.1_
 
-- [ ] 8.2 (P) ReconnectBackoff / MessageSizeLimit / SchemaEvolution 統合テスト
+- [x] 8.2 (P) ReconnectBackoff / MessageSizeLimit / SchemaEvolution 統合テスト
   - クライアント先行起動→サーバ後発起動シナリオで、バックオフを経て接続成功することを検証する
   - サーバ永久不在で 20 回試行後に `PermanentlyDisconnected` 遷移通知が出ることを検証する
   - 送信側で 1 MB 超過メッセージが `SizeLimitExceeded` で拒否されること、受信側で 1 MB 超過フレームが破棄＋ログ出力されることを検証する

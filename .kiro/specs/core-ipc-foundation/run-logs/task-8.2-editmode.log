@@ -2,24 +2,26 @@
 Built from '6000.3/staging' branch; Version is '6000.3.10f1 (e35f0c77bd8e) revision 14901004'; Using compiler version '194234433'; Build Type 'Release'
 OS: 'Windows 11  (10.0.26200) Professional' Language: 'ja' Physical Memory: 65220 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Hidano" at "2026-04-25T09:17:57.9849664Z"
 System  architecture: x64
 Process architecture: x64
-Date: 2026-04-25T09:17:57Z
+Date: 2026-04-25T11:37:56Z
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Hidano" at "2026-04-25T11:37:56.9326156Z"
 
 COMMAND LINE ARGUMENTS:
 C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Unity.exe
 -batchmode
 -nographics
 -projectPath
-.
+D:/Personal/Repositries/VTuberSystemBase
 -runTests
 -testPlatform
 EditMode
 -testResults
-.kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode-results.xml
+D:/Personal/Repositries/VTuberSystemBase/.kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode-results.xml
 -logFile
-.kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode.log
+D:/Personal/Repositries/VTuberSystemBase/.kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode.log
+-testFilter
+VTuberSystemBase.CoreIpc.Tests
 Successfully changed project path to: D:/Personal/Repositries/VTuberSystemBase
 D:/Personal/Repositries/VTuberSystemBase
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -57,25 +59,25 @@ D:/Personal/Repositries/VTuberSystemBase
     "memorysetup-job-temp-allocator-block-size-background=1048576"
     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
     "memorysetup-temp-allocator-size-cloud-worker=32768"
-Player connection [11392]  Target information:
+Player connection [56348]  Target information:
 
-Player connection [11392]  * "[IP] 192.168.0.112 [Port] 55506 [Flags] 2 [Guid] 2447152897 [EditorId] 2447152897 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-794D179) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [56348]  * "[IP] 192.168.0.112 [Port] 55506 [Flags] 2 [Guid] 4178314410 [EditorId] 4178314410 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-794D179) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [11392] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [11392] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [56348] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [56348] Host joined alternative multi-casting on [225.0.0.222:34997]...
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
-[Package Manager] Connected to IPC stream "Upm-55828" after 0.2 seconds.
+[Package Manager] Connected to IPC stream "Upm-48104" after 0.2 seconds.
 [Licensing::Module] Licensing is not yet initialized.
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.17.4+4293ba1
-  Session Id:              7ce8673ef29d4194aff3f262c9c5d76f
+  Session Id:              62ef860375d74a3aa2f8ee51f241b140
   Correlation Id:          04c4d6dae039fc487bf487c821038249
-  External correlation Id: 7812448460296405611
+  External correlation Id: 3828466448495182820
   Machine Id:              NJnCi2kLka6rUvnOkC/kk5D1Dzo=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Hidano" (connect: 0.00s, validation: 0.00s, handshake: 0.55s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Hidano-notifications" at "2026-04-25T09:17:58.5415181Z"
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Hidano" (connect: 0.00s, validation: 0.00s, handshake: 0.58s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Hidano-notifications" at "2026-04-25T11:37:57.5205971Z"
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -89,8 +91,8 @@ Input System module state changed to: Initialized.
   Type: Assigned
   Expiration: 2026-11-15T00:00:00Z
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
-[Licensing::Module] Licensing Background thread has ended after 0.56s
-[Licensing::Module] Licensing is initialized (took 0.13s).
+[Licensing::Module] Licensing Background thread has ended after 0.59s
+[Licensing::Module] Licensing is initialized (took 0.25s).
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
   Id: F4-T84G-QMAM-EH5R-BCHN-XXXX
@@ -109,7 +111,7 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 0.04 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.03 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.3.10f1 (e35f0c77bd8e)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/Resources/UnitySubsystems
@@ -124,7 +126,7 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56828
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56104
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 ImportWorker Server TCP listen port: 0
@@ -132,40 +134,40 @@ AcceleratorClientConnectionCallback - disconnected - :0
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.000829 seconds.
-- Loaded All Assemblies, in  0.265 seconds
+Registered in 0.000891 seconds.
+- Loaded All Assemblies, in  0.260 seconds
 Native extension for WindowsStandalone target not found
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.254 seconds
-Domain Reload Profiling: 519ms
-	BeginReloadAssembly (96ms)
+- Finished resetting the current domain, in  0.248 seconds
+Domain Reload Profiling: 507ms
+	BeginReloadAssembly (93ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (19ms)
-	RebuildCommonClasses (23ms)
+		CreateAndSetChildDomain (14ms)
+	RebuildCommonClasses (22ms)
 	RebuildNativeTypeToScriptingClass (8ms)
 	initialDomainReloadingComplete (27ms)
-	LoadAllAssembliesAndSetupDomain (110ms)
-		LoadAssemblies (76ms)
+	LoadAllAssembliesAndSetupDomain (108ms)
+		LoadAssemblies (78ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (108ms)
-			TypeCache.Refresh (106ms)
-				TypeCache.ScanAssembly (97ms)
+		AnalyzeDomain (106ms)
+			TypeCache.Refresh (104ms)
+				TypeCache.ScanAssembly (94ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (254ms)
+	FinalizeReload (248ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (230ms)
+		SetupLoadedEditorAssemblies (225ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (29ms)
+			InitializePlatformSupportModulesInManaged (28ms)
 			SetLoadedEditorAssemblies (3ms)
-			BeforeProcessingInitializeOnLoad (55ms)
-			ProcessInitializeOnLoadAttributes (92ms)
-			ProcessInitializeOnLoadMethodAttributes (50ms)
+			BeforeProcessingInitializeOnLoad (56ms)
+			ProcessInitializeOnLoadAttributes (91ms)
+			ProcessInitializeOnLoadMethodAttributes (47ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -215,6 +217,55 @@ UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface/<>c__DisplayC
 UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionAsError<UnityEditor.Scripting.ScriptCompilation.EditorCompilation/CompileStatus> (System.Func`1<UnityEditor.Scripting.ScriptCompilation.EditorCompilation/CompileStatus>,UnityEditor.Scripting.ScriptCompilation.EditorCompilation/CompileStatus)
 UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:CompileScripts (UnityEditor.Scripting.ScriptCompilation.EditorScriptCompilationOptions,UnityEditor.BuildTarget,int,string[])
 
+warn: Unity.AspNetCore.NamedPipeSupport.NamedPipeServer[0]
+      Exception occured while accepting client connection: System.IO.IOException: パイプを閉じています。
+         at System.IO.Pipes.NamedPipeServerStream.WaitForConnectionCoreAsync(CancellationToken cancellationToken)
+         at System.IO.Pipes.NamedPipeServerStream.WaitForConnectionAsync(CancellationToken cancellationToken)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer..ctor(String pipeName, NamedPipeListenerOptions options, ILogger`1 logger)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeListener..ctor(NamedPipeEndpoint endpoint, ILoggerFactory loggerFactory, NamedPipeListenerOptions namedPipeListenerOptions)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeListenerFactory.BindAsync(EndPoint _, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass30_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass30_0`1.<StartAsync>g__OnBind|0(ListenOptions options, CancellationToken onBindCancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IEnumerable`1 listenOptions, AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IEnumerable`1 listenOptions, AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Builder.WebApplication.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+         at Microsoft.AspNetCore.Builder.WebApplication.Run(String url)
+         at Program.<Main>$(String[] args)
+      --- End of stack trace from previous location ---
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://localhost:80
 info: Microsoft.Hosting.Lifetime[0]
@@ -230,110 +281,110 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 23.8912ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 25.7239ms
 Starting: C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aEDbg.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
 WorkingDir: D:/Personal/Repositries/VTuberSystemBase
 DisplayProgressbar: Compiling Scripts
-ExitCode: 0 Duration: 0s58ms
+ExitCode: 0 Duration: 0s59ms
 *** Tundra build success (0.04 seconds), 0 items updated, 206 evaluated
-AssetDatabase: script compilation time: 0.329292s
+AssetDatabase: script compilation time: 0.356538s
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.362 seconds
-Refreshing native plugins compatible for Editor in 0.09 ms, found 0 plugins.
+- Loaded All Assemblies, in  0.393 seconds
+Refreshing native plugins compatible for Editor in 0.11 ms, found 0 plugins.
 Native extension for WindowsStandalone target not found
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:False
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.331 seconds
-Domain Reload Profiling: 692ms
-	BeginReloadAssembly (230ms)
+- Finished resetting the current domain, in  0.329 seconds
+Domain Reload Profiling: 721ms
+	BeginReloadAssembly (259ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (22ms)
+		DisableScriptedObjects (41ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (125ms)
+		CreateAndSetChildDomain (138ms)
 	RebuildCommonClasses (24ms)
 	RebuildNativeTypeToScriptingClass (8ms)
 	initialDomainReloadingComplete (15ms)
-	LoadAllAssembliesAndSetupDomain (83ms)
-		LoadAssemblies (125ms)
+	LoadAllAssembliesAndSetupDomain (85ms)
+		LoadAssemblies (124ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (20ms)
+		AnalyzeDomain (21ms)
 			TypeCache.Refresh (16ms)
-				TypeCache.ScanAssembly (12ms)
+				TypeCache.ScanAssembly (13ms)
 			BuildScriptInfoCaches (3ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (331ms)
+	FinalizeReload (330ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (261ms)
+		SetupLoadedEditorAssemblies (265ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (12ms)
+			InitializePlatformSupportModulesInManaged (13ms)
 			SetLoadedEditorAssemblies (2ms)
 			BeforeProcessingInitializeOnLoad (86ms)
-			ProcessInitializeOnLoadAttributes (127ms)
+			ProcessInitializeOnLoadAttributes (128ms)
 			ProcessInitializeOnLoadMethodAttributes (31ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (5ms)
-Asset Pipeline Refresh (id=abdf4a62e9e788741b32a8ad140108e5): Total: 1.125 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+		AwakeInstancesAfterBackupRestoration (4ms)
+Asset Pipeline Refresh (id=1bd4348bf188ba54b93324be2e0de4e2): Total: 1.212 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=410 ms
-		Asset DB Callback time: managed=7 ms, native=4 ms
-		Scripting: domain reloads=1, domain reload time=362 ms, compile time=330 ms, other=9 ms
+		Asset DB Process Time: managed=0 ms, native=440 ms
+		Asset DB Callback time: managed=8 ms, native=2 ms
+		Scripting: domain reloads=1, domain reload time=393 ms, compile time=357 ms, other=9 ms
 		Project Asset Count: scripts=132, non-scripts=28
 		Asset File Changes: new=0, changed=0, moved=0, deleted=0
 		Scan Filter Count: 0
 	InvokeCustomDependenciesCallbacks: 0.001ms
-	InvokePackagesCallback: 5.448ms
-	ApplyChangesToAssetFolders: 0.238ms
-	Scan: 20.525ms
+	InvokePackagesCallback: 3.769ms
+	ApplyChangesToAssetFolders: 0.182ms
+	Scan: 55.637ms
 	OnSourceAssetsModified: 0.001ms
-	CategorizeAssetsWithTransientArtifact: 2.437ms
-	ProcessAssetsWithTransientArtifactChanges: 3.576ms
-	CategorizeAssets: 0.498ms
-	ImportOutOfDateAssets: 332.220ms (1.972ms without children)
-		CompileScripts: 330.020ms
+	CategorizeAssetsWithTransientArtifact: 2.383ms
+	ProcessAssetsWithTransientArtifactChanges: 3.598ms
+	CategorizeAssets: 0.522ms
+	ImportOutOfDateAssets: 330.536ms (-26.899ms without children)
+		CompileScripts: 357.248ms
 		ReloadNativeAssets: 0.000ms
-		UnloadImportedAssets: 0.060ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.018ms
+		UnloadImportedAssets: 0.064ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.019ms
 		InitializingProgressBar: 0.000ms
 		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
-		OnDemandSchedulerStart: 0.148ms
-	PostProcessAllAssets: 7.964ms
-	GatherAllCurrentPrimaryArtifactRevisions: 0.002ms
-	UnloadStreamsBegin: 0.843ms
+		OnDemandSchedulerStart: 0.103ms
+	PostProcessAllAssets: 8.597ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.878ms
 	PersistCurrentRevisions: 0.004ms
 	UnloadStreamsEnd: 0.001ms
 	GenerateScriptTypeHashes: 0.001ms
-	Untracked: 750.851ms
+	Untracked: 805.390ms
 
 Application.AssetDatabase Initial Refresh End
-Scanning for USB devices : 4.355ms
+Scanning for USB devices : 4.933ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-VTuberSystemBase
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
 Unloading 592 unused Assets / (1.2 MB). Loaded Objects now: 1182.
-Memory consumption went from 91.4 MB to 90.2 MB.
-Total: 3.698500 ms (FindLiveObjects: 0.058300 ms CreateObjectMapping: 0.013700 ms MarkObjects: 3.229400 ms  DeleteObjects: 0.396600 ms)
+Memory consumption went from 91.5 MB to 90.3 MB.
+Total: 3.929000 ms (FindLiveObjects: 0.055500 ms CreateObjectMapping: 0.013300 ms MarkObjects: 3.465500 ms  DeleteObjects: 0.394300 ms)
 
 Microsoft Media Foundation video decoding to texture disabled: graphics device is Null, only Direct3D 11 and Direct3D 12 (only on desktop) are supported for hardware-accelerated video decoding.
-[Project] Loading completed in 2.628 seconds
-	Project init time: 				2.247 seconds
+[Project] Loading completed in 2.795 seconds
+	Project init time: 				2.467 seconds
 		Template init time: 		0.000 seconds
-		Package Manager init time: 		0.319 seconds
-		Asset Database init time: 		0.095 seconds
+		Package Manager init time: 		0.447 seconds
+		Asset Database init time: 		0.112 seconds
 		Global illumination init time: 	0.002 seconds
-		Assemblies load time: 			0.531 seconds
+		Assemblies load time: 			0.519 seconds
 		Unity extensions init time: 	0.002 seconds
-		Asset Database refresh time: 	1.125 seconds
-	Scene opening time: 			0.071 seconds
-##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1777108680530,"processId":55828,"projectLoad":2.6281726,"projectInit":2.2465741,"templateInit":0.0,"packageManagerInit":0.3189762,"assetDatabaseInit":0.0946187,"globalIlluminationInit":0.0017566,"assembliesLoad":0.5306509,"unityExtensionsInit":0.0017203,"assetDatabaseRefresh":1.1247579,"sceneOpening":0.0714022}
-##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1777108680530,"processId":55828,"editorVersion":"6000.3.10f1 (e35f0c77bd8e)","branch":"6000.3/staging","buildType":"Release","platform":"Windows"}
-Asset Pipeline Refresh (id=35906f3c9a4d92b4fa5932cb0ebaa1ef): Total: 0.006 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+		Asset Database refresh time: 	1.212 seconds
+	Scene opening time: 			0.072 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1777117079598,"processId":48104,"projectLoad":2.7947937,"projectInit":2.4673063,"templateInit":0.0,"packageManagerInit":0.4465724,"assetDatabaseInit":0.1116777,"globalIlluminationInit":0.001867,"assembliesLoad":0.5189359,"unityExtensionsInit":0.0017624,"assetDatabaseRefresh":1.2116194,"sceneOpening":0.0715087}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1777117079598,"processId":48104,"editorVersion":"6000.3.10f1 (e35f0c77bd8e)","branch":"6000.3/staging","buildType":"Release","platform":"Windows"}
+Asset Pipeline Refresh (id=62b13d52fbeee6e48ba7512598d47c59): Total: 0.006 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
 Running tests for ExecutionSettings with details:
 targetPlatform = 
 playerHeartbeatTimeout = 600
@@ -342,7 +393,7 @@ filters[0] =
    testMode = EditMode
    targetPlatform = 
    testNames = null
-   groupNames = null
+   groupNames = VTuberSystemBase.CoreIpc.Tests
    categoryNames = null
    assemblyNames = null
 ignoreTests = {}
@@ -361,11 +412,11 @@ UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
 (Filename: ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 53)
 
 [UnityConnectServicesConfig] config is NOT valid, switching to default
-Created GICache directory at C:/Users/Hidano/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.005s, timestamps: [2.630 - 2.634]
+Created GICache directory at C:/Users/Hidano/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.005s, timestamps: [2.797 - 2.802]
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
 Unloading 1 unused Assets / (44.7 KB). Loaded Objects now: 1229.
 Memory consumption went from 90.7 MB to 90.7 MB.
-Total: 3.917300 ms (FindLiveObjects: 0.039900 ms CreateObjectMapping: 0.009200 ms MarkObjects: 3.853100 ms  DeleteObjects: 0.013900 ms)
+Total: 3.443600 ms (FindLiveObjects: 0.035600 ms CreateObjectMapping: 0.008200 ms MarkObjects: 3.389600 ms  DeleteObjects: 0.009800 ms)
 
 [CoreIpcConfigLoader] Invalid JSON from %AppData%: 'n' is an invalid start of a property name. Expected a '"'. LineNumber: 0 | BytePositionInLine: 2.
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
@@ -424,11 +475,11 @@ UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
 (Filename: ./Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Configuration/CoreIpcConfigLoader.cs Line: 195)
 
 TrimDiskCacheJob: Current cache size 15mb
-Saving results to: .kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode-results.xml
+Saving results to: D:/Personal/Repositries/VTuberSystemBase/.kiro/specs/core-ipc-foundation/run-logs/task-8.2-editmode-results.xml
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (6.0 KB). Loaded Objects now: 1230.
-Memory consumption went from 94.3 MB to 94.3 MB.
-Total: 9.183900 ms (FindLiveObjects: 0.056900 ms CreateObjectMapping: 0.015700 ms MarkObjects: 9.104200 ms  DeleteObjects: 0.005900 ms)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 1230.
+Memory consumption went from 89.8 MB to 89.8 MB.
+Total: 5.092000 ms (FindLiveObjects: 0.046300 ms CreateObjectMapping: 0.010900 ms MarkObjects: 5.030600 ms  DeleteObjects: 0.003600 ms)
 
 DisplayProgressbar: Undo
 Test run completed. Exiting with code 0 (Ok). Run completed.
@@ -453,17 +504,17 @@ Input System module state changed to: Shutdown.
 [Licensing::IpcConnector] LicenseClient-Hidano channel disconnected successfully.
 AcceleratorClientConnectionCallback - disconnected - :0
 Cleanup mono
-18:19:38.126 |V| RiderPlugin                    | :1                             | AppDomain.CurrentDomain.DomainUnload lifetimeDefinition.Terminate
-abort_threads: Failed aborting id: 000000000000F27C, mono_thread_manage will ignore it
+20:39:37.136 |V| RiderPlugin                    | :1                             | AppDomain.CurrentDomain.DomainUnload lifetimeDefinition.Terminate
+abort_threads: Failed aborting id: 000000000000E9EC, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 000000000000A2F8, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 000000000000910C, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 000000000000F27C, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 000000000000E9EC, mono_thread_manage will ignore it
 
-abort_threads: Failed aborting id: 000000000000A2F8, mono_thread_manage will ignore it
+abort_threads: Failed aborting id: 000000000000910C, mono_thread_manage will ignore it
 
-debugger-agent: Unable to listen on 3732
+debugger-agent: Unable to listen on 3760
 Checking for leaked weakptr:
   Found no leaked weakptrs.
 [Package Manager] Server process was shutdown
-##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1777108778186,"processId":55828,"allocatedMemory":10101562,"memoryLabels":[{"Default":14409},{"Permanent":15236},{"NewDelete":67619},{"Thread":4230344},{"Manager":50389},{"VertexData":8},{"Geometry":816},{"Texture":296},{"Shader":79381},{"Material":24},{"GfxDevice":55257},{"Animation":392},{"Audio":3040},{"FreeType":8},{"FontEngine":736},{"Physics":2090},{"Physics2D":16},{"Serialization":720},{"Input":14984},{"JobScheduler":33024},{"TextLib":216},{"Mono":32},{"ScriptingNativeRuntime":155060},{"BaseObject":1620208},{"Resource":1336},{"Renderer":3000},{"Transform":4685},{"File":1016},{"WebCam":616},{"Culling":32},{"Terrain":11394},{"Wind":24},{"STL":40},{"String":13429},{"DynamicArray":78132},{"HashMap":57527},{"Utility":2662998},{"Curl":2559},{"PoolAlloc":2056},{"AI":80},{"TypeTree":5341},{"ScriptManager":512},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":112},{"GI":7792},{"Director":8240},{"CloudService":288},{"WebRequest":808},{"VR":47994},{"SceneManager":504},{"Video":64},{"LazyScriptCache":32},{"Camera":17},{"Secure":2113},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":256},{"Hierarchy":608},{"CoreStats":13032},{"Identifiers":12960},{"Gui":96},{"EditorUtility":103538},{"VersionControl":4},{"Undo":947},{"AssetDatabase":319585},{"EditorGi":328},{"UnityConnect":29232},{"Upm":1896},{"AssetCompliance":64},{"DrivenProperties":72},{"LocalIPC":212},{"ProfilerEditor":9746},{"CoreBusinessMetrics":2604},{"Licensing":664},{"AssetReference":32},{"IPCStream":32}]}
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1777117177236,"processId":48104,"allocatedMemory":10101562,"memoryLabels":[{"Default":14409},{"Permanent":15236},{"NewDelete":67619},{"Thread":4230344},{"Manager":50389},{"VertexData":8},{"Geometry":816},{"Texture":296},{"Shader":79381},{"Material":24},{"GfxDevice":55257},{"Animation":392},{"Audio":3040},{"FreeType":8},{"FontEngine":736},{"Physics":2090},{"Physics2D":16},{"Serialization":720},{"Input":14984},{"JobScheduler":33024},{"TextLib":216},{"Mono":32},{"ScriptingNativeRuntime":155060},{"BaseObject":1620208},{"Resource":1336},{"Renderer":3000},{"Transform":4685},{"File":1016},{"WebCam":616},{"Culling":32},{"Terrain":11394},{"Wind":24},{"STL":40},{"String":13429},{"DynamicArray":78132},{"HashMap":57527},{"Utility":2662998},{"Curl":2559},{"PoolAlloc":2056},{"AI":80},{"TypeTree":5341},{"ScriptManager":512},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":112},{"GI":7792},{"Director":8240},{"CloudService":288},{"WebRequest":808},{"VR":47994},{"SceneManager":504},{"Video":64},{"LazyScriptCache":32},{"Camera":17},{"Secure":2113},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":256},{"Hierarchy":608},{"CoreStats":13032},{"Identifiers":12960},{"Gui":96},{"EditorUtility":103538},{"VersionControl":4},{"Undo":947},{"AssetDatabase":319585},{"EditorGi":328},{"UnityConnect":29232},{"Upm":1896},{"AssetCompliance":64},{"DrivenProperties":72},{"LocalIPC":212},{"ProfilerEditor":9746},{"CoreBusinessMetrics":2604},{"Licensing":664},{"AssetReference":32},{"IPCStream":32}]}
