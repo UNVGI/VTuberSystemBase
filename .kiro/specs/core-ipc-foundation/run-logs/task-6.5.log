@@ -1,0 +1,156 @@
+OK
+6.5 EditorPlayModeBridge の実装（#if UNITY_EDITOR） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Lifecycle/EditorPlayModeBridge.cs
+    `#if UNITY_EDITOR` で全体をガードした public static class。
+    `[InitializeOnLoad]` 属性により Editor ドメインロード時に静的
+    コンストラクタが起動し、`EditorApplication.playModeStateChanged`
+    へ既定ハンドラ `OnPlayModeStateChangedDefault` を購読する。
+    既定ハンドラは `PlayModeStateChange.ExitingPlayMode` 以外を無視し、
+    ExitingPlayMode 検知時に `CoreIpcRuntime.Current?.Dispose()` →
+    `PlayerLoopInstaller.Uninstall()` の順でクリーンアップを実行する
+    （Application.quitting より早く完走させ、ポート占有・スレッドリーク
+    を防ぐ）。
+    - internal const string LogTag = "[CoreIpc.EditorPlayModeBridge]"
+      ログ識別タグとしてメッセージに付与する。
+    - public static bool IsSubscribed { get; }
+    - public static void EnsureSubscribed()
+        重複購読を防ぎつつ、テストや明示再登録経路から idempotent に
+        購読を確立する。
+    - public static void ResetForTesting()
+        購読解除（テスト間の副作用切り離し用）。
+    - public static void HandlePlayModeStateChange(
+          PlayModeStateChange change,
+          Func<ICoreIpcRuntime?> currentRuntimeAccessor,
+          Action playerLoopUninstall,
+          Action<string>? logWarning = null)
+        テスト/拡張用の seam。Dispose 例外は logWarning にルーティング
+        して握り潰し、Uninstall 例外も同様に握り潰す（PlayMode 終了
+        フローを止めない契約）。両 dependency null は ArgumentNullException。
+    - private static void OnPlayModeStateChangedDefault(PlayModeStateChange)
+        既定購読ハンドラ。HandlePlayModeStateChange を CoreIpcRuntime.Current
+        / PlayerLoopInstaller.Uninstall を渡して呼ぶ薄い wrapper。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Lifecycle/EditorPlayModeBridge.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/EditorPlayModeBridgeTests.cs
+    NUnit 10 本（Tests.Editor asmdef）。HandlePlayModeStateChange の
+    seam を経由して、ExitingPlayMode 動作・他 state 無視・例外隔離・
+    InitializeOnLoad 購読の確立を Editor 依存無く検証。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/EditorPlayModeBridgeTests.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/EditorPlayModeBridgePlayModeTests.cs
+    PlayMode 5 サイクル繰返しテスト 1 本（Tests.Runtime asmdef）。
+    `#if UNITY_EDITOR` ガード（HandlePlayModeStateChange 参照と
+    PlayModeStateChange の Editor 専用 enum 依存のため）。
+    各サイクルで本番の WebSocketTransportAdapter を実バインドし、
+    ExitingPlayMode を bridge 経由で発火 → Dispose 完走 → 同一ポート
+    再バインド可能性を検証する。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/EditorPlayModeBridgePlayModeTests.cs.meta
+
+Modified files:
+- (none)
+
+Test coverage map (11 tests, 10 EditMode + 1 PlayMode):
+
+EditMode (Tests.Editor) — EditorPlayModeBridgeTests (10 new):
+    HandlePlayModeStateChange_NullRuntimeAccessor_Throws
+        currentRuntimeAccessor=null で ArgumentNullException
+    HandlePlayModeStateChange_NullUninstallAction_Throws
+        playerLoopUninstall=null で ArgumentNullException
+    ExitingPlayMode_DisposesCurrentRuntime_AndCallsPlayerLoopUninstall
+        観測条件: ExitingPlayMode で runtime.Dispose と
+        playerLoopUninstall が各 1 回呼ばれる（Req 4.4, 4.6）。
+    ExitingPlayMode_WithNullCurrentRuntime_StillCallsPlayerLoopUninstall
+        runtime が null でも Uninstall は実行される（対称性維持）。
+    NonExitingPlayMode_DoesNotDisposeOrUninstall
+        EnteredEditMode / ExitingEditMode / EnteredPlayMode の 3 状態
+        では Dispose も Uninstall も呼ばれない（Req 4.4 対象外を保護）。
+    ExitingPlayMode_RuntimeDisposeThrows_StillCallsUninstall_AndLogsWarning
+        Dispose 例外が握り潰されて logWarning に流れる、後続の
+        Uninstall は依然として実行される（Req 5.7 描画継続阻害禁止
+        の延長: 終了フローを止めない契約）。
+    ExitingPlayMode_PlayerLoopUninstallThrows_LogsWarning_AndDoesNotPropagate
+        Uninstall 例外が握り潰されて logWarning に流れ、HandlePlayModeStateChange
+        からは Throw しない。
+    ExitingPlayMode_AfterTwoSequentialCalls_DisposesTwice_AndUninstallsTwice
+        idempotency ではなく毎回反応する契約（Bridge が同じ runtime
+        参照を 2 回見たとしてもアクセサ依存で振る舞いが決まる）。
+    IsSubscribed_AfterStaticConstructor_IsTrue
+        観測条件: [InitializeOnLoad] の static ctor で購読が確立
+        （EnsureSubscribed を介して状態を読む）。
+    EnsureSubscribed_IsIdempotent
+        EnsureSubscribed を 3 回呼んでも IsSubscribed=true のまま。
+
+PlayMode (Tests.Runtime) — EditorPlayModeBridgePlayModeTests (1 new):
+    RepeatedSimulatedPlayModeCycles_KeepPortBindable
+        観測条件: PlayMode 開始→停止を 5 回繰り返してもポートが
+        継続バインド可能（Req 4.6 / 5.8）。
+        各サイクル:
+          1) FindFreeTcpPort で確保したポートに WebSocketTransportAdapter
+             を実バインドする CoreIpcRuntimeHost を作成
+             （registerAsCurrent: true, installPlayerLoop: true）
+          2) host.InitializeAsync を main thread で await（コルーチン）
+          3) State=Running / CoreIpcRuntime.Current==host /
+             PlayerLoopInstaller.IsInstalled==true を検証
+          4) EditorPlayModeBridge.HandlePlayModeStateChange(
+               ExitingPlayMode, () => CoreIpcRuntime.Current,
+               PlayerLoopInstaller.Uninstall) を発火
+          5) State=Disposed / Current==null / IsInstalled==false を検証
+          6) yield return null で 1 フレーム送り、次サイクルへ
+        全 5 サイクルで同一ポートを再バインドできる（SO_REUSEADDR
+        と Bridge による即時クリーンアップの組合せが Req 4.6 を満たす）。
+
+Implementation notes:
+- File path is `Runtime/Core/Lifecycle/EditorPlayModeBridge.cs`
+  (design.md L185 に従う)。`#if UNITY_EDITOR` で囲うことで、Core asmdef
+  自体は Standalone でも参照されるが Editor 専用 API 依存箇所のみ
+  Editor build に閉じる。
+- 既定購読ハンドラの登録は `[InitializeOnLoad]` の static ctor +
+  EnsureSubscribed の二段で idempotent に保つ。実運用では static ctor
+  経路だけで足りるが、テストの ResetForTesting → EnsureSubscribed の
+  サイクルを許容するため静的メソッドを追加した。
+- HandlePlayModeStateChange を public seam に切り出すことで、
+  `EditorApplication` への参照を持たないで Bridge の振る舞いを
+  EditMode 単体テストできる。
+- Dispose 例外と Uninstall 例外は logWarning に流して握り潰し、
+  PlayMode 終了 → Edit モード復帰の流れを停止させない（Req 5.7 の
+  延長: メイン出力描画継続阻害の禁止と整合）。
+- PlayMode テストは ExitingPlayMode を Editor 実遷移ではなく bridge の
+  seam 経由で擬似発火する設計にした。実 Editor 遷移をテスト内から
+  起こすことは Test Runner の既存実行モデル（PlayMode 中はテストが
+  走り続ける）と相反するため、最終的なリーク検証は Task 8.3 の
+  PlayModeLifecycle 統合テストで実機 PlayMode 開始/停止の繰返しを
+  対象とする予定。本タスクの観測条件「ポート継続バインド」は同一
+  ポートでの 5 サイクル再バインドで満たす。
+- 出力の <output> CDATA に PlayerLoopInstaller の二重 Install 警告が
+  記録されるが、テストは Passed で完了している。これは
+  RuntimeBootstrap.[RuntimeInitializeOnLoadMethod] が PlayMode 開始時
+  に既に dispatch step を install している状態に対し、テスト内の
+  CoreIpcRuntimeHost が再 install するため発生する想定挙動
+  （PlayerLoopInstaller の警告 + 既存置換の契約）。本警告は Task 8.3
+  で行う一体化された PlayMode lifecycle 検証で本番フロー（test fixture
+  ではなく実 Editor 遷移）として整理される。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.5-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.5-editmode.log
+    Result XML: 351 tests, 351 passed, 0 failed, 0 skipped, 0 inconclusive
+        EditorPlayModeBridgeTests : 10/10 (new)
+        既存 24 テストフィクスチャ : 341/341 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.5-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.5-playmode.log
+    Result XML: 22 tests, 22 passed, 0 failed, 0 skipped, 0 inconclusive
+        EditorPlayModeBridgePlayModeTests : 1/1 (new — 5 サイクル繰返し)
+        既存 4 PlayMode フィクスチャ : 21/21 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll および
+  VTuberSystemBase.CoreIpc.Tests.{Editor,Runtime}.dll がエラーなくビルド完了。
+
+Result: OK
