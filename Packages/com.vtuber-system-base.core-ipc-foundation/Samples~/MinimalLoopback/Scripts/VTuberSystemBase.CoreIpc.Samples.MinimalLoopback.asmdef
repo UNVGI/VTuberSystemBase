@@ -1,0 +1,17 @@
+{
+    "name": "VTuberSystemBase.CoreIpc.Samples.MinimalLoopback",
+    "rootNamespace": "VTuberSystemBase.CoreIpc.Samples.MinimalLoopback",
+    "references": [
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "VTuberSystemBase.CoreIpc.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

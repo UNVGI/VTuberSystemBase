@@ -1,0 +1,100 @@
+OK
+7.2 最小サンプルシーンと手動検証手順の整備 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Summary:
+本タスクは、`com.vtuber-system-base.core-ipc-foundation` パッケージに
+PlayMode で開ける最小サンプルシーン（自己ループ検証用）と、Unity コンソール
+出力 / `%AppData%` でのポート上書きを含む手動検証手順を README にまとめ、
+package.json の `samples` で UPM サンプルとしてインポート可能にした。
+ランタイム本体は変更していないため、UnityTestRunner では既存 EditMode 353
+本 / PlayMode 25 本がすべて緑のまま維持されたことを確認した。
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/MinimalLoopback.unity
+    PlayMode で開ける検証用シーン。Main Camera + AudioListener、および
+    `MinimalLoopbackDemo` MonoBehaviour を 1 つアタッチした単一 GameObject
+    のみを含む最小構成。スクリプト参照は GUID
+    `c1b9d2f3a4e54a3d9b8c7d6e5f4a3b2d`（type: 3, fileID: 11500000）で結線。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/MinimalLoopback.unity.meta
+    安定 GUID `f3a7b6c5d4e342f1a0b9c8d7e6f5a4b3` を付けたシーン用 .meta。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/Scripts/MinimalLoopbackDemo.cs
+    `CoreIpcRuntime.Current` 経由で `Bus` を取得し、
+    state / event / request-response の自己ループデモを 1 秒間隔で
+    駆動する MonoBehaviour。`SubscribeState` / `SubscribeEvent` /
+    `RegisterRequestHandler` を購読登録し、`PublishState` / `PublishEvent` /
+    `RequestAsync` を `Update()` 内で発行、受信ハンドラは `Debug.Log`
+    でコンソールへ通信ログを出力する。`runtimeWaitTimeoutSeconds`
+    を超えてもランタイムが `Running` に到達しない場合は `LogError` で
+    打ち切り、ランタイム未起動の場面でも安全にフェイルする。
+    `Greeting` ペイロードはプロパティ宣言で `SystemTextJson` の既定
+    シリアライザに乗せている（`CoreIpcBus._payloadSerializerOptions`）。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/Scripts/MinimalLoopbackDemo.cs.meta
+    安定 GUID `c1b9d2f3a4e54a3d9b8c7d6e5f4a3b2d` を付けたスクリプト用 .meta。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/Scripts/VTuberSystemBase.CoreIpc.Samples.MinimalLoopback.asmdef
+    サンプル専用 asmdef。`VTuberSystemBase.CoreIpc.Abstractions` /
+    `.Core` のみを参照する Runtime asmdef。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/Scripts/VTuberSystemBase.CoreIpc.Samples.MinimalLoopback.asmdef.meta
+    asmdef 用 .meta（GUID `e2a8b3c4d5f640a1c2d3e4f5a6b7c8d9`）。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/README.md
+    Unity Package Manager 経由でのサンプルインポート手順、PlayMode で
+    確認できるコンソールログのサンプル、`%AppData%/VTuberSystemBase/
+    core-ipc-config.json` で `port` を上書きしてバインド先が変わる
+    ことを観測する手順（Req 2.7）、想定するログ系統と注意点をまとめた。
+
+Modified files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/package.json
+    `samples` フィールドを追加し、UPM の Package Manager UI の
+    `Samples` タブからインポート可能にした（displayName="Minimal Loopback",
+    path="Samples~/MinimalLoopback"）。
+- .kiro/specs/core-ipc-foundation/tasks.md
+    7.2 のチェックボックスを `[x]` にトグル。
+
+Test coverage map:
+本タスクの成果物は `Samples~/` 配下に配置されており、Unity の規則により
+通常のテスト対象アセンブリには含まれない（インポートしない限り
+コンパイルされない隠しフォルダ）。よって本タスクで Runtime / Editor
+asmdef のソースは増減せず、既存テストは無変更のまま全件緑であることを
+確認した。
+
+Run-time results:
+- task-7.2-editmode-results.xml: 353 passed / 0 failed
+- task-7.2-playmode-results.xml: 25 passed / 0 failed
+
+Manual verification (developer responsibility, not automated):
+1. Unity Package Manager で `com.vtuber-system-base.core-ipc-foundation`
+   を選択し、`Samples` タブから "Minimal Loopback" を `Import` する。
+2. インポートされたシーン
+   `Assets/Samples/VTuberSystemBase Core IPC Foundation/<version>/Minimal Loopback/MinimalLoopback.unity`
+   を開いて PlayMode を開始する。
+3. Console に
+   - `[CoreIpc.RuntimeBootstrap] CoreIpcRuntime initialization completed.`
+   - `[MinimalLoopback] subscriptions wired ...; endpoint=ws://127.0.0.1:61874`
+   - `[MinimalLoopback][state:demo/state] received Counter=N Message='state-N'`
+   - `[MinimalLoopback][event:demo/event] received Counter=N Message='event-N'`
+   - `[MinimalLoopback][request:demo/echo] response Counter=N Message='echo:request-N'`
+   が連続出力されることを確認する。
+4. PlayMode を停止し、`EditorPlayModeBridge` がランタイムを Dispose して
+   ポートが解放されることを確認する。
+5. `%AppData%\VTuberSystemBase\core-ipc-config.json` を作成して
+   `{"port": 62000}` のように設定し、PlayMode を再開すると
+   `endpoint=ws://127.0.0.1:62000` になることを確認する（Req 2.7）。
+
+Implementation notes:
+- Unity の `Samples~/` 命名規約により、本サンプルは通常のスクリプト
+  コンパイル対象外となる。Package Manager から `Import` した時点で
+  `Assets/Samples/...` 以下にコピーされ、そこに同梱した asmdef が
+  コンパイル単位として有効化される。これにより本パッケージの Runtime
+  本体に対して循環依存やテスト汚染を一切持ち込まない。
+- `Greeting` ペイロードはプロパティ（`Counter` / `Message`）として宣言し、
+  System.Text.Json の既定動作（プロパティのみシリアライズ）と整合させた。
+  既存の `EndToEndWiringPlayModeTests.SamplePayload` と同方針。
+- シーン参照する MonoScript の GUID は手書きの安定値（`c1b9d2f3...`）で
+  固定し、`MinimalLoopback.unity` 内の `m_Script: {fileID: 11500000,
+  guid: ..., type: 3}` と一致させた。これによりサンプルを一度
+  Import した後でもシーン参照が壊れない。
+- 「ランタイムが Running に到達するまで待つ」処理は Update ベースの
+  ポーリング（`runtimeWaitTimeoutSeconds`）で行い、`async void` に
+  しないことで MonoBehaviour ライフサイクルとの整合性を保った。

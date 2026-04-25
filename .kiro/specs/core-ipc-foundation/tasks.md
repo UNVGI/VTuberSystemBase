@@ -289,7 +289,7 @@
   - _Requirements: 1.1, 1.3, 1.4, 1.5, 1.7, 2.5, 3.3, 3.4, 9.3_
   - _Depends: 2.5, 3.3, 4.5, 6.3_
 
-- [ ] 7.2 最小サンプルシーンと手動検証手順の整備
+- [x] 7.2 最小サンプルシーンと手動検証手順の整備
   - `Packages/com.vtuber-system-base.core-ipc-foundation/Samples~/MinimalLoopback/` に PlayMode で開ける検証シーンを配置する
   - サンプルシーン内で、自己ループ（単一 Unity プロセスでサーバ＋クライアント起動）の state/event/request-response デモを行う MonoBehaviour を含める
   - Unity コンソールに通信ログが出ることを確認する手順を README に記す

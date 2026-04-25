@@ -13,5 +13,12 @@
     "websocket",
     "vtuber",
     "core-ipc-foundation"
+  ],
+  "samples": [
+    {
+      "displayName": "Minimal Loopback",
+      "description": "Self-loopback PlayMode demo for state/event/request-response over the CoreIpc runtime, plus README with %AppData% port override verification steps.",
+      "path": "Samples~/MinimalLoopback"
+    }
   ]
 }
