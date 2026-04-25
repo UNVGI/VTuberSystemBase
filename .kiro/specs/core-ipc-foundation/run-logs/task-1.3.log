@@ -1,0 +1,94 @@
+1.3 MessageEnvelope と MessageKind / ConnectionState 型定義 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/MessageEnvelope.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/MessageKind.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/ConnectionState.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/RuntimeState.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Abstractions/csc.rsp
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/AbstractionsReferenceCheck.cs
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Plugins/SystemTextJson/
+    Microsoft.Bcl.AsyncInterfaces.dll
+    System.Runtime.CompilerServices.Unsafe.dll
+    System.Text.Encodings.Web.dll
+    System.Text.Json.dll
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/MessageEnvelopeAndEnumTypeTests.cs
+- (matching .meta files for each)
+
+Modified files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/VTuberSystemBase.CoreIpc.Tests.Editor.asmdef
+    Added precompiled references: System.Text.Json.dll, System.Text.Encodings.Web.dll,
+    Microsoft.Bcl.AsyncInterfaces.dll
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/VTuberSystemBase.CoreIpc.Tests.Runtime.asmdef
+    Same precompiled references for parity.
+
+Implementation summary:
+- `MessageEnvelope` is a `readonly record struct` with positional members
+  (`ProtocolVersion`, `Kind`, `Topic`, `CorrelationId`, `TimestampUnixMs`,
+  `Payload(JsonElement)`) per design.md §"MessageEnvelope contract" and Req 3.1 / 3.6 /
+  3.8. Payload is a `System.Text.Json.JsonElement` so the codec can preserve unknown
+  fields (Req 3.7) without forcing an early type binding.
+- `MessageKind` enum exposes the 4 envelope kinds (`State`=0, `Event`=1, `Request`=2,
+  `Response`=3) used to drive the dispatch queue's coalesce / FIFO / correlation
+  paths.
+- `ConnectionState` enum exposes the 5 transport-layer states
+  (`Disconnected`=0, `Connecting`=1, `Connected`=2, `Reconnecting`=3,
+  `PermanentlyDisconnected`=4) consumed by `ConnectionStateMachine` and
+  `IConnectionDiagnostics`.
+- `RuntimeState` enum exposes the 5 runtime lifecycle states
+  (`NotInitialized`=0, `Initializing`=1, `Running`=2, `ShuttingDown`=3,
+  `Disposed`=4) consumed by `ICoreIpcRuntime.State`.
+- `csc.rsp` in `Runtime/Abstractions/` pins `-langversion:10` so that
+  `record struct` (a C# 10 feature) compiles under the Unity 6.3 / Roslyn
+  toolchain regardless of editor defaults.
+- `Runtime/Plugins/SystemTextJson/` ships `System.Text.Json` 8.0.5 + its native
+  transitive deps (`System.Text.Encodings.Web`,
+  `System.Runtime.CompilerServices.Unsafe`, `Microsoft.Bcl.AsyncInterfaces`).
+  These are required because `JsonElement` is referenced from the
+  `Abstractions` asmdef. The plugins live inside the package so they ship
+  with the UPM artifact.
+- `AbstractionsReferenceCheck.cs` (internal, in the `Core` asmdef) creates a
+  sample `MessageEnvelope` and references `MessageKind`, `ConnectionState`,
+  `RuntimeState`. This satisfies the task's observable completion criterion
+  ("each enum and record struct is exported from `Abstractions` and
+  resolvable from `Core`") at compile time, ensuring the asmdef wiring stays
+  honest as later tasks add real consumers.
+
+Tests added (NUnit, EditMode, Tests/Editor):
+- `MessageEnvelopeAndEnumTypeTests`
+    MessageKind_DefinesAllFourKinds — verifies the 4 enum values & ordinals.
+    ConnectionState_DefinesAllFiveStates — verifies the 5 enum values & ordinals.
+    RuntimeState_DefinesAllFiveStates — verifies the 5 enum values & ordinals.
+    MessageEnvelope_IsReadonlyRecordStruct_AndExposesAllSpecifiedFields —
+      reflective check that `MessageEnvelope` is a value type that implements
+      `IEquatable<MessageEnvelope>`, defines `Deconstruct` + `PrintMembers`
+      (record struct shape), and exposes the 6 spec'd properties with the
+      correct types.
+    MessageEnvelope_PreservesConstructorArguments — round-trips concrete values
+      including a non-trivial `JsonElement` payload.
+    MessageEnvelope_AllowsNullCorrelationIdForStateAndEvent — validates that
+      `CorrelationId` is nullable so state/event envelopes need not carry one.
+    MessageEnvelope_StructuralEquality_OnIdenticalValues — record struct equality
+      contract across two equivalent instances.
+
+Verification: Unity Test Runner (EditMode, batchmode)
+- Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+           -testPlatform EditMode
+           -testResults task-1.3-editmode-results.xml
+           -logFile task-1.3-unity.log
+- Unity exit code: 0
+- Test result XML: 19 tests, 19 passed, 0 failed, 0 skipped
+    - CoreIpcErrorVariantsTests : 4/4 passed (regression from task 1.2)
+    - CoreIpcOptionsDefaultsTests : 3/3 passed (regression from task 1.2)
+    - IpcResultTests : 5/5 passed (regression from task 1.2)
+    - MessageEnvelopeAndEnumTypeTests : 7/7 passed (new)
+- Compilation: Abstractions.dll, Core.dll, Tests.Editor.dll built without
+  warnings. The `AbstractionsReferenceCheck` static class proves the Core
+  asmdef successfully consumes `MessageEnvelope` / `MessageKind` /
+  `ConnectionState` / `RuntimeState` from the Abstractions asmdef, fulfilling
+  the task's observable completion condition.
+
+Result: OK
