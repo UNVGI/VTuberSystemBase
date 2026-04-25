@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="46" result="Failed(Child)" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.2445658">
+  <test-suite type="TestSuite" id="1069" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="46" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.244566" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1064" name="VTuberSystemBase.CoreIpc.Tests.Runtime.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.CoreIpc.Tests.Runtime.dll" runstate="Runnable" testcasecount="46" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.238696" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="56704" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1065" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="46" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.238108" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1066" name="CoreIpc" fullname="VTuberSystemBase.CoreIpc" runstate="Runnable" testcasecount="46" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.237779" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1067" name="Tests" fullname="VTuberSystemBase.CoreIpc.Tests" runstate="Runnable" testcasecount="46" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:42Z" duration="1481.237304" total="46" passed="45" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1002" name="CoalesceSemanticsTests" fullname="VTuberSystemBase.CoreIpc.Tests.CoalesceSemanticsTests" classname="VTuberSystemBase.CoreIpc.Tests.CoalesceSemanticsTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 12:59:01Z" duration="0.089070" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1003" name="StateCoalesce_OneHundredRapidPublishes_DeliversLatestAndDropsIntermediate" fullname="VTuberSystemBase.CoreIpc.Tests.CoalesceSemanticsTests.StateCoalesce_OneHundredRapidPublishes_DeliversLatestAndDropsIntermediate" methodname="StateCoalesce_OneHundredRapidPublishes_DeliversLatestAndDropsIntermediate" classname="VTuberSystemBase.CoreIpc.Tests.CoalesceSemanticsTests" runstate="Runnable" seed="1209846121" result="Passed" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 12:59:01Z" duration="0.080792" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[PlayerLoopInstaller.Install called while already installed; existing IpcDispatchStep is being replaced.   at System.Environment.get_StackTrace () [0x00000] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at VTuberSystemBase.CoreIpc.Core.Dispatch.PlayerLoopInstaller.Install (System.Action flushAction, System.Action`1[T] logWarning) [0x0002f] in .\Packages\com.vtuber-system-base.core-ipc-foundation\Runtime\Core\Dispatch\PlayerLoopInstaller.cs:27 
+  at VTuberSystemBase.CoreIpc.Core.Dispatch.IpcDispatchStep.Install (System.Action`1[T] logWarning) [0x00001] in .\Packages\com.vtuber-system-base.core-ipc-foundation\Runtime\Core\Dispatch\IpcDispatchStep.cs:36 
+  at VTuberSystemBase.CoreIpc.Core.CoreIpcRuntimeHost.InitializeAsync (VTuberSystemBase.CoreIpc.Abstractions.CoreIpcOptions options, System.Threading.CancellationToken cancellationToken) [0x005b7] in .\Packages\com.vtuber-system-base.core-ipc-foundation\Runtime\Core\CoreIpcRuntimeHost.cs:214 
+  at System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start[TStateMachine] (TStateMachine& stateMachine) [0x00000] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at VTuberSystemBase.CoreIpc.Core.CoreIpcRuntimeHost.InitializeAsync (VTuberSystemBase.CoreIpc.Abstractions.CoreIpcOptions options, System.Threading.CancellationToken cancellationToken) [0x00000] in <679f8c0c3a1340dcb877a31d07d10a0c>:0 
+  at VTuberSystemBase.CoreIpc.Tests.TestSupport.LoopbackIntegrationHarness+<InitializeAndAwaitConnected>d__7.MoveNext () [0x0002e] in .\Packages\com.vtuber-system-base.core-ipc-foundation\Tests\Runtime\TestSupport\LoopbackIntegrationHarness.cs:87 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44 
+  at UnityEngine.TestTools.EnumerableTestMethodCommand+<ExecuteEnumerableAndRecordExceptions>d__4.MoveNext () [0x0005d] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Commands\EnumerableTestMethodCommand.cs:79 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <dc764b59c049482b93bebc78a7e33a04>:0 
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1004" name="EditorPlayModeBridgePlayModeTests" fullname="VTuberSystemBase.CoreIpc.Tests.EditorPlayModeBridgePlayModeTests" classname="VTuberSystemBase.CoreIpc.Tests.EditorPlayModeBridgePlayModeTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:00Z" duration="1439.771818" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1005" name="RepeatedSimulatedPlayModeCycles_KeepPortBindable" fullname="VTuberSystemBase.CoreIpc.Tests.EditorPlayModeBridgePlayModeTests.RepeatedSimulatedPlayModeCycles_KeepPortBindable" methodname="RepeatedSimulatedPlayModeCycles_KeepPortBindable" classname="VTuberSystemBase.CoreIpc.Tests.EditorPlayModeBridgePlayModeTests" runstate="Runnable" seed="1087208807" result="Failed" start-time="2026-04-25 12:59:01Z" end-time="2026-04-25 13:23:00Z" duration="1439.770707" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Timeout value of 180000 ms was exceeded. If this is intended, increase the timeout value using a TimeoutAttribute.]]></message>
+                  <stack-trace><![CDATA[]]></stack-trace>
+                </failure>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1006" name="EndToEndWiringPlayModeTests" fullname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests" classname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:00Z" duration="0.050568" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1008" name="PublishEvent_FifoOrderPreservedAcrossFrames_OverWebSocketLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests.PublishEvent_FifoOrderPreservedAcrossFrames_OverWebSocketLoopback" methodname="PublishEvent_FifoOrderPreservedAcrossFrames_OverWebSocketLoopback" classname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests" runstate="Runnable" seed="1994235775" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:00Z" duration="0.018501" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="PublishState_DeliveredToSubscriber_OverWebSocketLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests.PublishState_DeliveredToSubscriber_OverWebSocketLoopback" methodname="PublishState_DeliveredToSubscriber_OverWebSocketLoopback" classname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests" runstate="Runnable" seed="482850572" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:00Z" duration="0.012601" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="RequestAsync_ReceivesResponseFromMainThreadHandler_OverWebSocketLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests.RequestAsync_ReceivesResponseFromMainThreadHandler_OverWebSocketLoopback" methodname="RequestAsync_ReceivesResponseFromMainThreadHandler_OverWebSocketLoopback" classname="VTuberSystemBase.CoreIpc.Tests.EndToEndWiringPlayModeTests" runstate="Runnable" seed="1221326342" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:00Z" duration="0.018304" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1010" name="FifoOrderingTests" fullname="VTuberSystemBase.CoreIpc.Tests.FifoOrderingTests" classname="VTuberSystemBase.CoreIpc.Tests.FifoOrderingTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:01Z" duration="0.029292" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1011" name="EventFifo_OneThousandPublishes_DeliveredInOrder" fullname="VTuberSystemBase.CoreIpc.Tests.FifoOrderingTests.EventFifo_OneThousandPublishes_DeliveredInOrder" methodname="EventFifo_OneThousandPublishes_DeliveredInOrder" classname="VTuberSystemBase.CoreIpc.Tests.FifoOrderingTests" runstate="Runnable" seed="1294440360" result="Passed" start-time="2026-04-25 13:23:00Z" end-time="2026-04-25 13:23:01Z" duration="0.028619" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1012" name="IpcDispatchStepPlayModeTests" fullname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" classname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.010216" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1015" name="CoalescedState_SingleDeliveryPerFrame_ForSameTopic" fullname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests.CoalescedState_SingleDeliveryPerFrame_ForSameTopic" methodname="CoalescedState_SingleDeliveryPerFrame_ForSameTopic" classname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" runstate="Runnable" seed="1498892910" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.003875" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="HandlerException_DuringFrameTick_DoesNotPropagate" fullname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests.HandlerException_DuringFrameTick_DoesNotPropagate" methodname="HandlerException_DuringFrameTick_DoesNotPropagate" classname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" runstate="Runnable" seed="327447064" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.001931" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[
+IgnoreFailingMessages:true
+]]></output>
+              </test-case>
+              <test-case id="1014" name="PublishedEvents_PreserveFifoOrder_AcrossFrame" fullname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests.PublishedEvents_PreserveFifoOrder_AcrossFrame" methodname="PublishedEvents_PreserveFifoOrder_AcrossFrame" classname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" runstate="Runnable" seed="1863335621" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.001703" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="PublishedState_DeliveredWithinOneFrame_ToSubscribedHandler" fullname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests.PublishedState_DeliveredWithinOneFrame_ToSubscribedHandler" methodname="PublishedState_DeliveredWithinOneFrame_ToSubscribedHandler" classname="VTuberSystemBase.CoreIpc.Tests.IpcDispatchStepPlayModeTests" runstate="Runnable" seed="111191290" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.001462" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1017" name="LoopbackRoundTripTests" fullname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests" classname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.011418" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1019" name="EventRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests.EventRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" methodname="EventRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" classname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests" runstate="Runnable" seed="339771085" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.002809" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="RequestResponseRoundTrip_CompletesViaCorrelation_OverInMemoryLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests.RequestResponseRoundTrip_CompletesViaCorrelation_OverInMemoryLoopback" methodname="RequestResponseRoundTrip_CompletesViaCorrelation_OverInMemoryLoopback" classname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests" runstate="Runnable" seed="1251570040" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.004664" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="StateRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" fullname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests.StateRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" methodname="StateRoundTrip_DeliversToSubscriber_OverInMemoryLoopback" classname="VTuberSystemBase.CoreIpc.Tests.LoopbackRoundTripTests" runstate="Runnable" seed="1588142250" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.003030" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1021" name="MessageSizeLimitTests" fullname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests" classname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.017877" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1024" name="InboundFrame_OverSizeLimit_DroppedAndLogged" fullname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests.InboundFrame_OverSizeLimit_DroppedAndLogged" methodname="InboundFrame_OverSizeLimit_DroppedAndLogged" classname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests" runstate="Runnable" seed="1657991570" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.010207" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="PublishState_PayloadAtBoundary_StillSucceeds" fullname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests.PublishState_PayloadAtBoundary_StillSucceeds" methodname="PublishState_PayloadAtBoundary_StillSucceeds" classname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests" runstate="Runnable" seed="1490124048" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.003171" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="PublishState_PayloadExceedsLimit_ReturnsSizeLimitExceeded" fullname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests.PublishState_PayloadExceedsLimit_ReturnsSizeLimitExceeded" methodname="PublishState_PayloadExceedsLimit_ReturnsSizeLimitExceeded" classname="VTuberSystemBase.CoreIpc.Tests.MessageSizeLimitTests" runstate="Runnable" seed="1518341819" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.003611" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1025" name="PerformanceLoadTests" fullname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests" classname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:11Z" duration="10.199428" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1027" name="EventThroughput_SixThousandEvents_AllDeliveredInFifoOrder" fullname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests.EventThroughput_SixThousandEvents_AllDeliveredInFifoOrder" methodname="EventThroughput_SixThousandEvents_AllDeliveredInFifoOrder" classname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests" runstate="Runnable" seed="1312759404" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.171275" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="Timeout" value="180000" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="HundredConcurrentRequests_AllResolveBeforeFiveSecondTimeout" fullname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests.HundredConcurrentRequests_AllResolveBeforeFiveSecondTimeout" methodname="HundredConcurrentRequests_AllResolveBeforeFiveSecondTimeout" classname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests" runstate="Runnable" seed="1957263491" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:01Z" duration="0.015184" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="Timeout" value="60000" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="StateCoalesce_HundredHzForTenSeconds_DropsIntermediateAndBoundsMemory" fullname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests.StateCoalesce_HundredHzForTenSeconds_DropsIntermediateAndBoundsMemory" methodname="StateCoalesce_HundredHzForTenSeconds_DropsIntermediateAndBoundsMemory" classname="VTuberSystemBase.CoreIpc.Tests.PerformanceLoadTests" runstate="Runnable" seed="1687159061" result="Passed" start-time="2026-04-25 13:23:01Z" end-time="2026-04-25 13:23:11Z" duration="10.011824" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="Timeout" value="120000" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1029" name="PlayModeLifecycleTests" fullname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests" classname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.333807" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1032" name="PlayModeStop_ShutdownDoesNotTriggerReconnect" fullname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests.PlayModeStop_ShutdownDoesNotTriggerReconnect" methodname="PlayModeStop_ShutdownDoesNotTriggerReconnect" classname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests" runstate="Runnable" seed="2080877413" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.311736" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="RepeatedSimulatedPlayModeCycles_FixedPortRemainsBindable" fullname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests.RepeatedSimulatedPlayModeCycles_FixedPortRemainsBindable" methodname="RepeatedSimulatedPlayModeCycles_FixedPortRemainsBindable" classname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests" runstate="Runnable" seed="1410375578" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.008994" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="RepeatedSimulatedPlayModeCycles_ReachRunningThenDisposed_AndDoNotLeakDispatchSteps" fullname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests.RepeatedSimulatedPlayModeCycles_ReachRunningThenDisposed_AndDoNotLeakDispatchSteps" methodname="RepeatedSimulatedPlayModeCycles_ReachRunningThenDisposed_AndDoNotLeakDispatchSteps" classname="VTuberSystemBase.CoreIpc.Tests.PlayModeLifecycleTests" runstate="Runnable" seed="895221910" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.011963" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1033" name="ReconnectBackoffTests" fullname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests" classname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.131790" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1034" name="ClientFirst_ServerArrivesLate_ConnectsViaBackoffRetries" fullname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests.ClientFirst_ServerArrivesLate_ConnectsViaBackoffRetries" methodname="ClientFirst_ServerArrivesLate_ConnectsViaBackoffRetries" classname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests" runstate="Runnable" seed="1485290484" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.024424" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1035" name="ServerDrop_PermanentlyAbsent_TransitionsToPermanentlyDisconnected" fullname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests.ServerDrop_PermanentlyAbsent_TransitionsToPermanentlyDisconnected" methodname="ServerDrop_PermanentlyAbsent_TransitionsToPermanentlyDisconnected" classname="VTuberSystemBase.CoreIpc.Tests.ReconnectBackoffTests" runstate="Runnable" seed="1183265331" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.106418" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1036" name="RequestTimeoutTests" fullname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests" classname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:12Z" duration="0.561907" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1037" name="DefaultRequestTimeoutValue_IsFiveSeconds" fullname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests.DefaultRequestTimeoutValue_IsFiveSeconds" methodname="DefaultRequestTimeoutValue_IsFiveSeconds" classname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests" runstate="Runnable" seed="1301858049" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:11Z" duration="0.001676" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1038" name="RequestAsync_WithNoOverride_FiresTimeoutFromConfiguredDefault" fullname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests.RequestAsync_WithNoOverride_FiresTimeoutFromConfiguredDefault" methodname="RequestAsync_WithNoOverride_FiresTimeoutFromConfiguredDefault" classname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests" runstate="Runnable" seed="1075435683" result="Passed" start-time="2026-04-25 13:23:11Z" end-time="2026-04-25 13:23:12Z" duration="0.305620" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1039" name="RequestAsync_WithOverride_FiresTimeoutBeforeDefault" fullname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests.RequestAsync_WithOverride_FiresTimeoutBeforeDefault" methodname="RequestAsync_WithOverride_FiresTimeoutBeforeDefault" classname="VTuberSystemBase.CoreIpc.Tests.RequestTimeoutTests" runstate="Runnable" seed="922403124" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.253476" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1040" name="RuntimeAssemblySmokeTests" fullname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests" classname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.002458" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1041" name="AbstractionsAssembly_IsReferencedFromRuntimeTests" fullname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests.AbstractionsAssembly_IsReferencedFromRuntimeTests" methodname="AbstractionsAssembly_IsReferencedFromRuntimeTests" classname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests" runstate="Runnable" seed="380341221" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="PlayModeRunner_ExecutesSingleFrameTest" fullname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests.PlayModeRunner_ExecutesSingleFrameTest" methodname="PlayModeRunner_ExecutesSingleFrameTest" classname="VTuberSystemBase.CoreIpc.Tests.RuntimeAssemblySmokeTests" runstate="Runnable" seed="670269922" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.001448" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[]]></message>
+                </reason>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1043" name="SchemaEvolutionTests" fullname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests" classname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.008427" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1045" name="InboundEnvelope_WithFutureMinorProtocolVersion_StillDecodes" fullname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests.InboundEnvelope_WithFutureMinorProtocolVersion_StillDecodes" methodname="InboundEnvelope_WithFutureMinorProtocolVersion_StillDecodes" classname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests" runstate="Runnable" seed="100267755" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.004245" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="InboundEnvelope_WithUnknownEnvelopeFields_DecodesAndDeliversKnownFields" fullname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests.InboundEnvelope_WithUnknownEnvelopeFields_DecodesAndDeliversKnownFields" methodname="InboundEnvelope_WithUnknownEnvelopeFields_DecodesAndDeliversKnownFields" classname="VTuberSystemBase.CoreIpc.Tests.SchemaEvolutionTests" runstate="Runnable" seed="1595360839" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.003451" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestSuite" id="1068" name="TestSupport" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.008473" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1048" name="FakeClockTests" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.004748" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1052" name="Advance_FiresCallbacksInDueOrder" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.Advance_FiresCallbacksInDueOrder" methodname="Advance_FiresCallbacksInDueOrder" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="1052255824" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.001248" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1051" name="Advance_FiresScheduledCallbacksAtOrBeforeTarget" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.Advance_FiresScheduledCallbacksAtOrBeforeTarget" methodname="Advance_FiresScheduledCallbacksAtOrBeforeTarget" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="1201783284" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000311" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1050" name="Advance_MovesUtcNowForward" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.Advance_MovesUtcNowForward" methodname="Advance_MovesUtcNowForward" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="303739439" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000254" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1054" name="Advance_NegativeDelta_Throws" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.Advance_NegativeDelta_Throws" methodname="Advance_NegativeDelta_Throws" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="2103848072" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000601" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1049" name="DefaultStart_IsDeterministic" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.DefaultStart_IsDeterministic" methodname="DefaultStart_IsDeterministic" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="1964761307" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000137" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1053" name="ScheduleAfter_DisposeCancelsCallback" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.ScheduleAfter_DisposeCancelsCallback" methodname="ScheduleAfter_DisposeCancelsCallback" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="1422395476" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000242" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1055" name="ScheduleAfter_NegativeDelay_Throws" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.ScheduleAfter_NegativeDelay_Throws" methodname="ScheduleAfter_NegativeDelay_Throws" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="1066411819" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000322" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1056" name="ScheduleAfter_NullCallback_Throws" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests.ScheduleAfter_NullCallback_Throws" methodname="ScheduleAfter_NullCallback_Throws" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.FakeClockTests" runstate="Runnable" seed="2136035198" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000236" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1057" name="TestMainThreadPumpTests" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.003174" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1058" name="Pump_InvokesAllRegisteredCallbacks" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Pump_InvokesAllRegisteredCallbacks" methodname="Pump_InvokesAllRegisteredCallbacks" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="1011979832" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000437" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="Pump_NegativeFrames_Throws" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Pump_NegativeFrames_Throws" methodname="Pump_NegativeFrames_Throws" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="88946843" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000233" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1059" name="Pump_WithFrames_InvokesEachCallbackPerFrame" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Pump_WithFrames_InvokesEachCallbackPerFrame" methodname="Pump_WithFrames_InvokesEachCallbackPerFrame" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="852020547" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000162" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1061" name="Register_DisposeIsIdempotent" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Register_DisposeIsIdempotent" methodname="Register_DisposeIsIdempotent" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="317826990" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000705" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1060" name="Register_DisposeRemovesCallback" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Register_DisposeRemovesCallback" methodname="Register_DisposeRemovesCallback" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="1030631345" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000222" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="Register_NullCallback_Throws" fullname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests.Register_NullCallback_Throws" methodname="Register_NullCallback_Throws" classname="VTuberSystemBase.CoreIpc.Tests.TestSupport.TestMainThreadPumpTests" runstate="Runnable" seed="1000212588" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:12Z" duration="0.000179" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1046" name="WebSocketTransportAdapterPlayModeTests" fullname="VTuberSystemBase.CoreIpc.Tests.WebSocketTransportAdapterPlayModeTests" classname="VTuberSystemBase.CoreIpc.Tests.WebSocketTransportAdapterPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:42Z" duration="30.008525" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1047" name="RoundTrip_OneThousandMessages_AllReceivedInOrder" fullname="VTuberSystemBase.CoreIpc.Tests.WebSocketTransportAdapterPlayModeTests.RoundTrip_OneThousandMessages_AllReceivedInOrder" methodname="RoundTrip_OneThousandMessages_AllReceivedInOrder" classname="VTuberSystemBase.CoreIpc.Tests.WebSocketTransportAdapterPlayModeTests" runstate="Runnable" seed="738687461" result="Passed" start-time="2026-04-25 13:23:12Z" end-time="2026-04-25 13:23:42Z" duration="30.007782" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: D:/Personal/Repositries/VTuberSystemBase/.kiro/specs/core-ipc-foundation/run-logs/task-8.4-playmode-full-results.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
