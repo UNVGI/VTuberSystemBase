@@ -1,0 +1,106 @@
+OK
+6.4 RuntimeBootstrap の実装（RuntimeInitializeOnLoadMethod 経由の自動起動） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Lifecycle/RuntimeBootstrap.cs
+    `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]`
+    で `OnBeforeSceneLoad()` が PlayMode 開始 / Standalone 起動時に
+    呼び出され、`CoreIpcConfigLoader.Load()` で取得した
+    `CoreIpcOptions` を使い `new CoreIpcRuntimeHost()` を生成して
+    `InitializeAsync(options)` を fire-and-forget で起動する。
+    `Application.quitting` を 1 回限り購読し、終了時に
+    `CoreIpcRuntime.Current?.Dispose()` を呼ぶ。Unity 仕様により
+    Edit モードでは `[RuntimeInitializeOnLoadMethod]` は呼ばれないため、
+    Req 4.8（Edit モード非起動）が構造的に保証される。
+    - public static (ICoreIpcRuntime, Task) Bootstrap(
+          Func<CoreIpcOptions> optionsLoader,
+          Func<ICoreIpcRuntime> runtimeFactory,
+          Action<ICoreIpcRuntime>? quitHandlerAttacher = null,
+          Action<Exception>? initFailureLogger = null,
+          Action? initSuccessLogger = null)
+        テスト/拡張用に切り出した本体。OnBeforeSceneLoad はこれを
+        既定実装（Loader/Factory/Quit handler）で呼ぶ thin wrapper。
+        Init の失敗は同期 throw と ContinueWith の両方で
+        `initFailureLogger` に通知し、エンジンループへ伝播させない。
+    - public static bool IsBootstrapped { get; }
+    - public static Task? LastInitializationTask { get; }
+    - public static void ResetForTesting()
+        テストで bootstrap 状態をリセットする。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Lifecycle/RuntimeBootstrap.cs.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Lifecycle.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/RuntimeBootstrapTests.cs
+    NUnit 8 本（Tests.Editor asmdef）。FakeTransportAdapter +
+    FakeClientConnection を内蔵し、CoreIpcRuntimeHost を介した
+    Bootstrap の挙動を WebSocket を使わずに観測する。
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/RuntimeBootstrapTests.cs.meta
+
+Test coverage map (8 tests):
+
+EditMode (Tests.Editor) — RuntimeBootstrapTests (8 new):
+    Bootstrap_NullOptionsLoader_Throws
+        optionsLoader=null で ArgumentNullException
+    Bootstrap_NullRuntimeFactory_Throws
+        runtimeFactory=null で ArgumentNullException
+    Bootstrap_LoadsOptions_AndStartsRuntime
+        観測条件: Loader/Factory が 1 回ずつ呼ばれ、Bootstrap 後に
+        IsBootstrapped=true、runtime.State=Running、transport.StartServer
+        が呼ばれている。LastInitializationTask が返却された initTask と一致。
+    Bootstrap_InvokesQuitHandlerAttacher_WithRuntime
+        観測条件: quitHandlerAttacher が生成された runtime と同じ
+        参照で 1 回呼ばれる（Application.quitting の橋渡し点を
+        テスト時に Application 依存無く検証）。
+    Bootstrap_RegistersAsCoreIpcRuntimeCurrent_WhenFactoryEnablesIt
+        registerAsCurrent:true の host を factory で返すと
+        CoreIpcRuntime.Current に登録され、Dispose 後にクリアされる。
+    Bootstrap_LogsAndRethrows_WhenInitializeAsyncThrowsSynchronously
+        InitializeAsync が同期で throw する場合、initFailureLogger に
+        例外が通知され、Bootstrap 自体も再 throw する
+        （OnBeforeSceneLoad 側の try/catch でログ化される契約）。
+    Bootstrap_InvokesSuccessLogger_OnSuccessfulInitialization
+        InitializeAsync 完了後に ContinueWith で initSuccessLogger が
+        1 回呼ばれ、initFailureLogger は呼ばれない。
+    ResetForTesting_ClearsState
+        ResetForTesting 後、IsBootstrapped=false、LastInitializationTask=null。
+
+Implementation notes:
+- 既定の `OnBeforeSceneLoad` は `new CoreIpcRuntimeHost()` を生成する
+  ことで `CoreIpcRuntimeHost` の constructor 既定 `registerAsCurrent: true`
+  が `CoreIpcRuntime.SetCurrent(this)` を初期化成功時に呼び、
+  Singleton 入口（Req 4.1）が確立する。
+- `Application.quitting` の購読は `s_quitSubscribed` フラグで 1 回のみ。
+  Domain reload で static は再初期化されるため、PlayMode 再開ごとに
+  改めて購読される（重複登録は発生しない）。
+- 真の自動起動（`RuntimeInitializeOnLoadMethod`）は EditorBatch test runner
+  でも `BeforeSceneLoad` が呼ばれてしまい WebSocket port を実バインドする
+  リスクがあるため、Bootstrap 本体は public static メソッドとして切り出し、
+  テストは Loader/Factory/QuitHandler を fake で注入する形にした。
+  実際の `OnBeforeSceneLoad` 経路は Standalone ビルドおよび Editor PlayMode
+  開始時にのみ実機検証する（後続の 7.2 サンプル / 8.3 PlayModeLifecycle
+  統合テストの観測対象）。
+- `initSuccessLogger` / `initFailureLogger` を切り出したことで、
+  Bootstrap 経路のログを Unity Debug 側に固定せず、Configuration / Logging
+  レイヤ（task 5.3 CoreIpcLogger）への将来の差し替えを許容する。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.4-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.4-editmode.log
+    Result XML: 341 tests, 341 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeBootstrapTests : 8/8 (new)
+        既存 23 テストフィクスチャ : 333/333 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-6.4-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-6.4-playmode.log
+    Result XML: 21 tests, 21 passed, 0 failed, 0 skipped, 0 inconclusive
+        既存 PlayMode 4 フィクスチャ : 21/21 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll および
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll がエラーなくビルド完了。
+
+Result: OK
