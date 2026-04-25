@@ -63,7 +63,7 @@
   - _Boundary: Diagnostics_
   - _Depends: 3.1_
 
-- [ ] 3.3 `ShellDiagnosticsSnapshot` / `IShellDiagnosticsSnapshotProvider` を TDD で実装する
+- [x] 3.3 `ShellDiagnosticsSnapshot` / `IShellDiagnosticsSnapshotProvider` を TDD で実装する
   - プリロード進捗・非同期ロード件数・IPC 接続状態・アクティブタブ・購読数を集約 struct として返すテストを先に書く
   - 各サブシステムがまだ未実装の段階では、依存を注入可能にしてフェイクで検証する
   - 観測可能な完了状態: `Capture()` 呼出しが即時に参照透過な struct を返し、サブシステム差替えで値が変化するテストが緑

@@ -1,0 +1,88 @@
+Task 3.3 ShellDiagnosticsSnapshot / IShellDiagnosticsSnapshotProvider を TDD で実装する — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Red→Green — 集約診断スナップショット API を新規追加。
+       タスク 3.3 の仕様（プリロード進捗・非同期ロード件数・IPC 接続状態・アクティブタブ・
+       購読数を集約 struct として返す。各サブシステム未実装段階では依存を注入可能にして
+       フェイクで検証）に対応する。
+
+Files created (Runtime side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Panels/TabId.cs
+    - public enum TabId { Character, StageLighting, CameraSwitcher }
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Panels/PreloadProgress.cs
+    - public readonly struct PreloadProgress
+    - { LoadedCount, TotalCount, FailedTabs(IReadOnlyList<TabId>) }
+    - null FailedTabs は Array.Empty<TabId>() に正規化（防御的）
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Commands/ConnectionStatusCode.cs
+    - public enum ConnectionStatusCode {
+        Initializing, Connecting, Connected, Disconnected, Reconnecting, FailedPermanently
+      }
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/ShellDiagnosticsSnapshot.cs
+    - public readonly struct ShellDiagnosticsSnapshot
+    - { Preload, AssetLoad, ConnectionStatus, ActiveSubscriptionCount, ActiveTab, CapturedAt }
+    - 全フィールド値型コピー、参照透過 (副作用なし)。
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/IShellDiagnosticsSnapshotProvider.cs
+    - public interface IShellDiagnosticsSnapshotProvider { ShellDiagnosticsSnapshot Capture(); }
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/ShellDiagnosticsSnapshotProvider.cs
+    - public sealed class ShellDiagnosticsSnapshotProvider : IShellDiagnosticsSnapshotProvider
+    - 依存は Func<...> で注入する設計（タブ・IPC・ロード・購読の各実装が未着手でも
+      フェイクの差替えが容易、Requirement 11.9 の要請を満たす）。
+    - Func<DateTimeOffset>? clock 任意指定（既定は DateTimeOffset.UtcNow）。
+    - null 引数は ArgumentNullException で即時失敗。
+
+Files created (Test side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/ShellDiagnosticsSnapshotProviderTests.cs
+    - [TestFixture] 8 件:
+        1. Capture_PopulatesAllFields_FromInjectedSources
+        2. Capture_ReflectsLatestSourceValues_OnSubsequentCalls
+        3. Capture_IsSideEffectFree_OnRepeatedCallsWithStableSources
+        4. Capture_WithoutInjectedClock_UsesUtcNowApproximately
+        5. Constructor_NullSource_Throws (5 引数すべての null 検証)
+        6. PreloadProgress_NullFailedTabs_NormalizedToEmpty
+        7. ConnectionStatusCode_DeclaresAllSixStates
+        8. TabId_DeclaresAllThreeTabs
+
+Folder meta (新規):
+- Runtime/Panels.meta
+- Runtime/Commands.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (3.3 を [x] に更新)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-3.3-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-3.3-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: testcasecount=21 result=Passed total=21 passed=21 failed=0 inconclusive=0 skipped=0
+    内訳:
+      - ShellDiagnosticsSnapshotProviderTests: 8 件すべて Passed (本タスク追加分)
+      - DiagnosticsLoggerContractTests: 6 件すべて Passed (3.2 既存)
+      - FakeAsyncAssetLoaderSmokeTests: 4 件すべて Passed (2.2 既存)
+      - FakeIpcClientSmokeTests: 3 件すべて Passed (2.1 既存)
+    リグレッションなし。
+
+Coverage of Requirements (per tasks.md 3.3):
+- 3.7  プリロード進捗の診断 API として `Preload (PreloadProgress)` を露出
+- 4.9  非同期ロード状況の診断 API として `AssetLoad (AssetLoaderSnapshot)` を露出
+- 11.9 集約診断スナップショット取得 API (`Capture()`) を提供。
+       即時 / 副作用なし / メインスレッド読み取り前提を構造として固定。
+
+Design decisions:
+- ITabPanelRegistry / IUiCommandClient / IUiSubscriptionClient / IConnectionStatus は本タスクでは
+  未実装（依存タスクは 4.x / 8.x）。タスク仕様の「依存を注入可能にしてフェイクで検証」を
+  実現するため、Func<...> を Provider のコンストラクタに受ける形に統一。
+  生産環境配線（10.1 UiShellBootstrapper）では各 service のメソッドをラップしたラムダを
+  渡せばよい。
+- ConnectionStatusCode / TabId / PreloadProgress は将来のタスク（4.x, 8.x）から再利用される
+  最小公開型として今回先行配置。design.md §Commands / §Panels の宣言と完全に一致。
+- DateTimeOffset.UtcNow を既定 clock として閉じ込め、テスト側で Func<DateTimeOffset> を注入し
+  決定論的に検証可能にした。
+
+Result: OK (Green)
