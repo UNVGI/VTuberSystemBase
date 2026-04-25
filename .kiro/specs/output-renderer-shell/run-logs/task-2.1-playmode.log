@@ -2824,3 +2824,4 @@ UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr
 
 (Filename: ./Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Dispatch/PlayerLoopInstaller.cs Line: 34)
 
+IPCStream (Upm-45900): IPC stream failed to read (Not connected)
