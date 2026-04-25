@@ -1,0 +1,198 @@
+OK
+4.2 HandshakeProcessor の実装（Sec-WebSocket-Accept 計算） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/HandshakeProcessor.cs
+    RFC 6455 §4 のオープニングハンドシェイクを処理する純 C#
+    実装。Core asmdef 配下、namespace
+    VTuberSystemBase.CoreIpc.Core.Transport.WebSocket。
+
+    型:
+        HandshakeStatus enum
+            (Success / BadRequest / EndOfStream / RequestTooLarge)
+        HandshakeRequest class
+            (Method / RequestTarget / HttpVersion / Headers
+             + SecWebSocketKey / SecWebSocketVersion ヘルパ)
+        HandshakeResult readonly struct
+            (Status / Request / Accept / FailureReason の
+             discriminated union 風 record。Ok / Bad /
+             EndOfStream / TooLarge ファクトリ)
+
+    HandshakeProcessor 公開 API:
+        const WebSocketGuid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+        ctor(int maxRequestBytes = 16 * 1024)
+            最小 256 バイトで ArgumentOutOfRangeException
+        static string ComputeAccept(string secWebSocketKey)
+            key + GUID を ASCII で連結 → SHA-1 → Base64
+            (RFC 6455 §4.2.2 と完全一致)
+        static HandshakeResult ParseRequest(string requestText)
+            CRLF CRLF 終端を確認 → 1 行目を method/target/version
+            に分割 → ヘッダを大文字小文字無視で辞書化 → 必須
+            ヘッダを順次検証
+        static string BuildSuccessResponse(string accept)
+            "HTTP/1.1 101 Switching Protocols" + Upgrade /
+            Connection / Sec-WebSocket-Accept ヘッダ + 末尾
+            CRLF CRLF
+        static string BuildBadRequestResponse(string reason)
+            "HTTP/1.1 400 Bad Request" + Content-Type /
+            Content-Length (UTF-8 byte count) / Connection: close
+            ヘッダ + UTF-8 ボディ
+        Task<HandshakeResult> ProcessAsync(Stream, CancellationToken)
+            ストリームから CRLF CRLF までを読み取り、ParseRequest
+            を呼び、結果に応じて 101 か 400 を書き戻す
+        static Task WriteSuccessAsync / WriteBadRequestAsync
+            ストリームへの書き戻し補助 (UTF-8)
+
+    検証ルール (RFC 6455 §4.2.1 / §4.1):
+        - メソッドは "GET" 厳密一致 (RFC 7230 §3.1.1 case-sensitive)
+        - HTTP/1.1 以上のバージョンを許容
+        - "Host" ヘッダ必須
+        - "Upgrade" にトークン "websocket" を含む (大文字小文字無視)
+        - "Connection" にトークン "Upgrade" を含む
+          (例: "keep-alive, Upgrade" でも通す)
+        - "Sec-WebSocket-Key" は Base64 で復号後ちょうど 16 バイト
+        - "Sec-WebSocket-Version" は "13" のみ許容
+        - 未知ヘッダは無視 (将来の拡張に備える)
+        - 同名ヘッダは ", " 連結で 1 値に正規化
+
+    リソース・例外契約:
+        - ProcessAsync は読み取り中の I/O 例外を伝搬しない
+          形式 (StreamRead 自体が throw する場合は呼び出し側へ
+          流れる) — 上位 WebSocketServer (task 4.3) で全例外
+          隔離 (Req 5.7) を行う前提
+        - リクエストボディが maxRequestBytes を越えた場合は
+          400 を返却して RequestTooLarge を返す
+        - ストリームが CRLF CRLF 検出前に EOF した場合は
+          書き戻しせず EndOfStream を返す (相手が既に切断)
+
+    実装メモ:
+        - SHA-1 / Base64 は System.Security.Cryptography +
+          Convert.ToBase64String を使用 (.NET Standard 2.1
+          内蔵)
+        - リクエスト読込は 4 KiB チャンク単位で逐次読み、
+          0x0D 0x0A 0x0D 0x0A の 4 バイト終端を検出した
+          時点で停止 (フォールバック付きの単純なステートマシン)
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/HandshakeProcessor.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/HandshakeProcessorTests.cs
+    26 NUnit テスト (Tests.Editor asmdef)。
+    タスク要件「3 本以上」を大きく上回り、RFC 6455 §4 の
+    主要分岐を網羅する。
+
+    Coverage map (26 tests):
+        ComputeAccept (3):
+            ComputeAccept_Rfc6455Section_4_2_2_Example_MatchesSpec
+              key=dGhlIHNhbXBsZSBub25jZQ==
+              → s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+              (RFC 6455 §4.2.2 の規範例)
+            ComputeAccept_AnotherKnownKey_ReturnsExpectedDigest
+              key=x3JJHMbDL1EzLkh9GBhXDw==
+              → HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+              (PowerShell SHA1 で事前に検証した独立計算値)
+            ComputeAccept_NullKey_Throws
+        ParseRequest 成功系 (3):
+            ParseRequest_ValidRfc6455Request_ReturnsSuccessAndAccept
+            ParseRequest_HeaderNamesAreCaseInsensitive
+            ParseRequest_AcceptsHttp2_0RequestLine
+        ParseRequest 失敗系 (12):
+            ParseRequest_NonGetMethod_IsBadRequest (POST)
+            ParseRequest_LowercaseMethod_IsBadRequest ("get" 拒否)
+            ParseRequest_OldHttpVersion_IsBadRequest (HTTP/1.0)
+            ParseRequest_MissingHostHeader_IsBadRequest
+            ParseRequest_MissingUpgradeHeader_IsBadRequest
+            ParseRequest_UpgradeNotWebSocket_IsBadRequest (h2c)
+            ParseRequest_MissingConnectionHeader_IsBadRequest
+            ParseRequest_ConnectionWithoutUpgradeToken_IsBadRequest
+            ParseRequest_MissingSecWebSocketKey_IsBadRequest
+            ParseRequest_SecWebSocketKeyWrongDecodedSize_IsBadRequest
+            ParseRequest_SecWebSocketKeyNotBase64_IsBadRequest
+            ParseRequest_WrongSecWebSocketVersion_IsBadRequest (8)
+            ParseRequest_NoCrlfCrlfTerminator_IsBadRequest
+            ParseRequest_MalformedHeaderLine_IsBadRequest
+        Response builders (2):
+            BuildSuccessResponse_HasRequiredHeaders_AndTerminatesWithCrlfCrlf
+            BuildBadRequestResponse_IncludesStatusLineAndBody
+        ProcessAsync end-to-end (4):
+            ProcessAsync_ValidRequestOnDuplexStream_WritesSuccessResponse
+            ProcessAsync_InvalidRequestOnDuplexStream_WritesBadRequestResponse
+            ProcessAsync_StreamClosedBeforeRequest_ReturnsEndOfStream
+            ProcessAsync_RequestExceedsLimit_ReturnsTooLargeAndWritesBadRequest
+
+    テストインフラ:
+        - BuildValidRequest(...) ヘルパで CRLF 区切りの完全な
+          有効リクエスト文字列を組み立てる (個別フィールドを
+          差し替えて失敗ケースを生成)
+        - 内部 DuplexMemoryStream で読込側 (read-only
+          MemoryStream) と書出側 (writable MemoryStream)
+          を 1 つの Stream として束ねる ProcessAsync 検証用
+        - PowerShell で計算した 2 通りの独立 ASCII+SHA1+Base64
+          値で ComputeAccept をクロス検証
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/HandshakeProcessorTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- HandshakeProcessor は task 4.3 の WebSocketServer から呼ば
+  れる前段階のオープニングハンドシェイクを担当する。
+  WebSocketFrameReader / Writer (task 4.1) と同じ
+  Transport/WebSocket/ 名前空間に置き、Core asmdef を共有。
+- 設計方針として、ロジック (ComputeAccept / ParseRequest /
+  BuildSuccessResponse / BuildBadRequestResponse) を全て
+  static にし、I/O ラッパ (ProcessAsync) を別レイヤに分けた。
+  これにより RFC 6455 §4.2.2 のベクタが MemoryStream や
+  TcpStream を一切経由せず純粋なテストで検証可能。
+- 検証ルールはタスク要件の「メソッド違反、必須ヘッダ欠落」
+  に加え、Sec-WebSocket-Key の Base64+16 バイト要件、
+  Sec-WebSocket-Version=13 要件、Connection ヘッダの
+  Upgrade トークン検証も含めて RFC 6455 §4.2.1 を網羅する。
+- 不正リクエスト時は 400 Bad Request + Content-Type:
+  text/plain / Content-Length / Connection: close + UTF-8
+  ボディを返送。連続接続を期待しないシンプルな pre-handshake
+  契約。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 26 new tests
+    HandshakeProcessorTests : 26 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.2-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.2-editmode.log
+    Result XML: 233 tests, 233 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (new)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.2-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.2-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
