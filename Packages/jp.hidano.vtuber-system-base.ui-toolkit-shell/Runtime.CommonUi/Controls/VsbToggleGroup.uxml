@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VsbToggleGroup 既定 UXML テンプレート (design.md §CommonUi §VsbToggleGroup)。
+  C# 側 (VsbToggleGroup.cs) が keys 属性のパース結果から option 子要素を
+  動的生成するため、本ファイルはタブ spec が UXML から参照する際の最小サンプルを
+  兼ねる。ルート要素として <VsbToggleGroup keys="..." /> を直接配置すれば
+  C# コンストラクタが vsb-toggle-group クラスを付与し、UxmlTraits.Init で
+  vsb-toggle-group__option 子要素群を構築する。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:vsb="VTuberSystemBase.UiToolkitShell.CommonUi.Controls"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
+    <vsb:VsbToggleGroup keys="" />
+</UXML>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Passed" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.0861895">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="544" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.086190" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1178" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="161" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.071250" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="63188" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1179" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="161" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.068071" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1180" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="161" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.065326" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1181" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="161" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.062148" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1182" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="161" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.059311" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1162" name="VsbToggleGroupTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.054432" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1163" name="Constructor_AppliesVsbToggleGroupClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Constructor_AppliesVsbToggleGroupClass" methodname="Constructor_AppliesVsbToggleGroupClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="2040322606" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.021017" asserts="0">
+                  <properties>
+                    <property name="Description" value="インスタンス化直後にブロッククラス vsb-toggle-group が付与されている（vsb- プレフィクス契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1164" name="DefaultState_HasNoKeysAndNoSelection" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.DefaultState_HasNoKeysAndNoSelection" methodname="DefaultState_HasNoKeysAndNoSelection" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="2007383052" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.004322" asserts="0">
+                  <properties>
+                    <property name="Description" value="既定状態ではキーは空・選択は null・option 子要素も存在しない（UXML 属性未指定の初期状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1165" name="DiagnosticsLogger_CanBeInjectedViaConstructor" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.DiagnosticsLogger_CanBeInjectedViaConstructor" methodname="DiagnosticsLogger_CanBeInjectedViaConstructor" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="914712381" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000552" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタで IDiagnosticsLogger を受け取れる（VsbControlBase 共通の DI 集約点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1167" name="Keys_CommaSeparated_BuildsOptionsWithBemClass" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_CommaSeparated_BuildsOptionsWithBemClass" methodname="Keys_CommaSeparated_BuildsOptionsWithBemClass" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1078296920" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.009659" asserts="0">
+                  <properties>
+                    <property name="Description" value="keys にカンマ区切り文字列を渡すと option 子要素が同数生成され、必須 BEM クラスが付与される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1169" name="Keys_DuplicatesAreCollapsed" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_DuplicatesAreCollapsed" methodname="Keys_DuplicatesAreCollapsed" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="785722538" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000395" asserts="0">
+                  <properties>
+                    <property name="Description" value="keys 内の重複は最初の出現のみ採用され option も 1 個だけ生成される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1176" name="Keys_Reassigned_DropsSelectionWithoutEvent_IfKeyMissing" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_Reassigned_DropsSelectionWithoutEvent_IfKeyMissing" methodname="Keys_Reassigned_DropsSelectionWithoutEvent_IfKeyMissing" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1600139106" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.001399" asserts="0">
+                  <properties>
+                    <property name="Description" value="選択中に keys を再設定して以前の key が含まれない場合、SelectionChanged を発火せずに選択が解除される（UXML 再初期化経路の偽陽性回避）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1177" name="Keys_Reassigned_PreservesSelection_IfKeyStillPresent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_Reassigned_PreservesSelection_IfKeyStillPresent" methodname="Keys_Reassigned_PreservesSelection_IfKeyStillPresent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1223918039" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000361" asserts="0">
+                  <properties>
+                    <property name="Description" value="選択中に keys を再設定して以前の key がまだ含まれていれば、選択状態と --selected モディファイアが維持される" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1170" name="Keys_ReassignedToEmpty_RemovesAllOptions" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_ReassignedToEmpty_RemovesAllOptions" methodname="Keys_ReassignedToEmpty_RemovesAllOptions" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="771922878" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000238" asserts="0">
+                  <properties>
+                    <property name="Description" value="keys を空文字列で再代入すると既存 option が全て破棄される（UXML 駆動の再構築経路）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1168" name="Keys_TrimsWhitespaceAndDropsEmptyEntries" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Keys_TrimsWhitespaceAndDropsEmptyEntries" methodname="Keys_TrimsWhitespaceAndDropsEmptyEntries" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1853291350" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000201" asserts="0">
+                  <properties>
+                    <property name="Description" value="keys の各要素の前後空白はトリムされ、空文字列要素は無視される（UXML での書式ゆらぎ吸収）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1171" name="Select_ExistingKey_FiresSelectionChangedOnce" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Select_ExistingKey_FiresSelectionChangedOnce" methodname="Select_ExistingKey_FiresSelectionChangedOnce" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1057124783" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000373" asserts="0">
+                  <properties>
+                    <property name="Description" value="Select(key) は SelectionChanged(key) を 1 回発火し、selectedKey と selected モディファイアを更新する（Requirement 7.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1175" name="Select_NullKey_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Select_NullKey_Throws" methodname="Select_NullKey_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1726629098" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.002497" asserts="0">
+                  <properties>
+                    <property name="Description" value="Select(null) は ArgumentNullException を投げる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1172" name="Select_SameKeyTwice_FiresSelectionChangedOnlyOnce" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Select_SameKeyTwice_FiresSelectionChangedOnlyOnce" methodname="Select_SameKeyTwice_FiresSelectionChangedOnlyOnce" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="758949749" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000223" asserts="0">
+                  <properties>
+                    <property name="Description" value="Select(同じ key) は再度 SelectionChanged を発火しない（idempotency 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1173" name="Select_SwitchingKeys_IsMutuallyExclusive" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Select_SwitchingKeys_IsMutuallyExclusive" methodname="Select_SwitchingKeys_IsMutuallyExclusive" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1794756633" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000334" asserts="0">
+                  <properties>
+                    <property name="Description" value="2 個以上の Key を持つグループで Select を切り替えると排他選択になる（同時選択不可。tasks.md 7.4 観測可能な完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1174" name="Select_UnknownKey_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.Select_UnknownKey_Throws" methodname="Select_UnknownKey_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1717144845" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000277" asserts="0">
+                  <properties>
+                    <property name="Description" value="Select(未登録 key) は ArgumentException を投げ、UI クラッシュではなく明示的に失敗する（Requirement 5.9 準拠の例外契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1166" name="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests.SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" methodname="SetDiagnosticsLogger_AfterDefaultCtor_AssignsLogger" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.VsbToggleGroupTests" runstate="Runnable" seed="1582687267" result="Passed" start-time="2026-04-25 18:58:56Z" end-time="2026-04-25 18:58:56Z" duration="0.000159" asserts="0">
+                  <properties>
+                    <property name="Description" value="UXML から default ctor で生成された後でも SetDiagnosticsLogger で注入できる（UxmlFactory 経路の DI）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

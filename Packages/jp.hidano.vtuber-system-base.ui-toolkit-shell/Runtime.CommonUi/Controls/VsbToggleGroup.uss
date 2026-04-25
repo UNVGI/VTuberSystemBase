@@ -1,0 +1,32 @@
+/*
+ * VsbToggleGroup 既定 USS (design.md §CommonUi §VsbToggleGroup; Requirement 6.2 / 7.3)。
+ * 利用者プロジェクトのスキン USS は本ファイルのセレクタ群を起点として
+ * 上書きする想定。クラス名 (vsb-toggle-group / vsb-toggle-group__option /
+ * vsb-toggle-group__option--selected) は SemVer 上の安定 API として扱う
+ * (UI-3 / SkinValidationRules)。
+ */
+
+.vsb-toggle-group {
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 24px;
+    padding: 2px;
+}
+
+.vsb-toggle-group__option {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    margin-right: 2px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 2px;
+    color: rgb(200, 200, 200);
+}
+
+.vsb-toggle-group__option--selected {
+    background-color: rgba(120, 170, 255, 0.20);
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+}
