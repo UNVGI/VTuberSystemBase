@@ -55,7 +55,7 @@
   - _Requirements: 11.8_
   - _Boundary: Diagnostics_
 
-- [ ] 3.2 (P) 診断ロガーの実装と最小実装で Green にする
+- [x] 3.2 (P) 診断ロガーの実装と最小実装で Green にする
   - `IDiagnosticsLogger` / `DiagnosticsLogger` を実装し、Unity Console への `Debug.Log*` 出力と、UI 側診断領域用の in-memory リングバッファを両方持つ
   - Display 2+ への出力経路が存在しないことをコード構造で保証する（サーフェス描画 API を呼ばない）
   - 観測可能な完了状態: 3.1 のテストが全て緑になり、`MinimumLevel` 変更で出力制御できる

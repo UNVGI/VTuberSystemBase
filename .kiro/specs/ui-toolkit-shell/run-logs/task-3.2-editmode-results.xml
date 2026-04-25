@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="13" result="Passed" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.0642583">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="396" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.064258" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1017" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.053608" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="63024" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1018" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.053093" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1019" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.052780" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1020" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.052529" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1021" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.052242" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1001" name="DiagnosticsLoggerContractTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.027386" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1005" name="Log_AtMinimumLevelOrAbove_EmitsToUnityConsole_WithCategoryInFormat" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.Log_AtMinimumLevelOrAbove_EmitsToUnityConsole_WithCategoryInFormat" methodname="Log_AtMinimumLevelOrAbove_EmitsToUnityConsole_WithCategoryInFormat" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="322675611" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.007689" asserts="0">
+                  <properties>
+                    <property name="Description" value="MinimumLevel 以上のログは Unity Console にレベル種別とカテゴリトークンを保ったまま出力されること（Req 11.4 / 11.8）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Warning][Connection] reconnecting
+[Error][Ipc] send-failed
+]]></output>
+                </test-case>
+                <test-case id="1004" name="Log_BelowMinimumLevel_IsNotEmittedToUnityConsole" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.Log_BelowMinimumLevel_IsNotEmittedToUnityConsole" methodname="Log_BelowMinimumLevel_IsNotEmittedToUnityConsole" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="1185461939" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.000320" asserts="0">
+                  <properties>
+                    <property name="Description" value="MinimumLevel を下回るレベルのログは Unity Console に一切出力されないこと（Req 11.8）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1006" name="Log_DifferentCategories_AllEmitWithCorrespondingCategoryToken" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.Log_DifferentCategories_AllEmitWithCorrespondingCategoryToken" methodname="Log_DifferentCategories_AllEmitWithCorrespondingCategoryToken" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="1729432468" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.003407" asserts="0">
+                  <properties>
+                    <property name="Description" value="カテゴリ別のメッセージがそれぞれ正しいカテゴリトークンで配信されること（Req 11.1〜11.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Info][Preload] msg-Preload
+[Info][TabSwitch] msg-TabSwitch
+[Info][AssetLoad] msg-AssetLoad
+[Info][Ipc] msg-Ipc
+[Info][Connection] msg-Connection
+[Info][Skin] msg-Skin
+[Info][Lifecycle] msg-Lifecycle
+[Info][TabSpec] msg-TabSpec
+]]></output>
+                </test-case>
+                <test-case id="1003" name="LogCategory_DeclaresAllRequiredCategories" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.LogCategory_DeclaresAllRequiredCategories" methodname="LogCategory_DeclaresAllRequiredCategories" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="1223603030" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.003767" asserts="0">
+                  <properties>
+                    <property name="Description" value="LogCategory が design.md §Diagnostics で定義する 8 カテゴリを宣言すること（Req 11.1〜11.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1002" name="LogLevel_OrderingIsAscendingBySeverity" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.LogLevel_OrderingIsAscendingBySeverity" methodname="LogLevel_OrderingIsAscendingBySeverity" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="852655586" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.002474" asserts="0">
+                  <properties>
+                    <property name="Description" value="LogLevel が Trace &lt; Debug &lt; Info &lt; Warning &lt; Error の昇順で宣言されること（Req 11.8）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1007" name="MinimumLevel_RuntimeMutable_AffectsSubsequentDispatch" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests.MinimumLevel_RuntimeMutable_AffectsSubsequentDispatch" methodname="MinimumLevel_RuntimeMutable_AffectsSubsequentDispatch" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.DiagnosticsLoggerContractTests" runstate="Runnable" seed="1080550449" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.000735" asserts="0">
+                  <properties>
+                    <property name="Description" value="MinimumLevel は実行時に変更可能で、変更後のログから新ポリシーが適用されること（Req 11.8）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Warning][Lifecycle] now-allowed
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1008" name="FakeAsyncAssetLoaderSmokeTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.012795" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1011" name="Cancel_PendingHandle_DispatchesCancelledErrorAndUpdatesCounters" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests.Cancel_PendingHandle_DispatchesCancelledErrorAndUpdatesCounters" methodname="Cancel_PendingHandle_DispatchesCancelledErrorAndUpdatesCounters" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" runstate="Runnable" seed="1392896520" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.006149" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1012" name="GetSnapshot_ReflectsLiveCounters_AndSnapshotOverrideTakesPrecedence" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests.GetSnapshot_ReflectsLiveCounters_AndSnapshotOverrideTakesPrecedence" methodname="GetSnapshot_ReflectsLiveCounters_AndSnapshotOverrideTakesPrecedence" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" runstate="Runnable" seed="1769567495" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.002601" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1010" name="LoadAsync_DeferredMode_FailWith_InjectsFailureOnExplicitTrigger" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests.LoadAsync_DeferredMode_FailWith_InjectsFailureOnExplicitTrigger" methodname="LoadAsync_DeferredMode_FailWith_InjectsFailureOnExplicitTrigger" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" runstate="Runnable" seed="1279872944" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.000648" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1009" name="LoadAsync_ImmediateMode_RegisteredAsset_DeliversSuccessResultSynchronously" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests.LoadAsync_ImmediateMode_RegisteredAsset_DeliversSuccessResultSynchronously" methodname="LoadAsync_ImmediateMode_RegisteredAsset_DeliversSuccessResultSynchronously" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeAsyncAssetLoaderSmokeTests" runstate="Runnable" seed="1407456909" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.001568" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1013" name="FakeIpcClientSmokeTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.010943" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1015" name="PublishState_WhileDisconnected_ReturnsNotConnectedError" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests.PublishState_WhileDisconnected_ReturnsNotConnectedError" methodname="PublishState_WhileDisconnected_ReturnsNotConnectedError" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests" runstate="Runnable" seed="1804572340" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.001808" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1016" name="RequestAsync_RespondsToCorrelationId" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests.RequestAsync_RespondsToCorrelationId" methodname="RequestAsync_RespondsToCorrelationId" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests" runstate="Runnable" seed="367038060" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.005358" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1014" name="RoundTrip_PublishState_To_Subscriber_DeliversPayloadOnMainThread" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests.RoundTrip_PublishState_To_Subscriber_DeliversPayloadOnMainThread" methodname="RoundTrip_PublishState_To_Subscriber_DeliversPayloadOnMainThread" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FakeIpcClientSmokeTests" runstate="Runnable" seed="620369286" result="Passed" start-time="2026-04-25 17:01:31Z" end-time="2026-04-25 17:01:31Z" duration="0.001871" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

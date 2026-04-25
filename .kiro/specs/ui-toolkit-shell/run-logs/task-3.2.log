@@ -1,0 +1,65 @@
+Task 3.2 (P) 診断ロガーの実装と最小実装で Green にする — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Green — 3.1 で先行配置した DiagnosticsLoggerContractTests.cs を緑化する。
+
+Files created (Runtime side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/IDiagnosticsLogger.cs
+    - public interface IDiagnosticsLogger { Log(LogLevel, LogCategory, string, object?); LogLevel MinimumLevel { get; set; } }
+    - public enum LogLevel { Trace=0, Debug=1, Info=2, Warning=3, Error=4 }
+    - public enum LogCategory { Preload, TabSwitch, AssetLoad, Ipc, Connection, Skin, Lifecycle, TabSpec }
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Runtime/Diagnostics/DiagnosticsLogger.cs
+    - public sealed class DiagnosticsLogger : IDiagnosticsLogger
+    - public readonly struct DiagnosticsLogEntry { Level, Category, Message, Context }
+    - 出力フォーマット: "[<Level>][<Category>] <message>"
+    - level < MinimumLevel のときは Console / リングバッファどちらにも流さない（早期 return）
+    - Trace / Debug / Info → Debug.Log (LogType.Log)
+    - Warning → Debug.LogWarning (LogType.Warning)
+    - Error → Debug.LogError (LogType.Error)
+    - 容量 256 既定の in-memory リングバッファを保持（古いものから上書き）し、
+      SnapshotRecentEntries() で UI 診断パネル / テストから読取可能。
+      Display 2+ への描画経路は構造的に存在しない（UIDocument / PanelSettings 参照を持たない）。
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (3.2 を [x] に更新)
+
+Test inventory (verified Green):
+- DiagnosticsLoggerContractTests (3.1 で投入、3.2 で緑化対象):
+    - LogLevel_OrderingIsAscendingBySeverity (Req 11.8)
+    - LogCategory_DeclaresAllRequiredCategories (Req 11.1〜11.6)
+    - Log_BelowMinimumLevel_IsNotEmittedToUnityConsole (Req 11.8)
+    - Log_AtMinimumLevelOrAbove_EmitsToUnityConsole_WithCategoryInFormat (Req 11.4 / 11.8)
+    - Log_DifferentCategories_AllEmitWithCorrespondingCategoryToken (Req 11.1〜11.6)
+    - MinimumLevel_RuntimeMutable_AffectsSubsequentDispatch (Req 11.8)
+- 既存テスト（リグレッション確認のため同一テストフィルタで再実行）:
+    - FakeAsyncAssetLoaderSmokeTests (4 件)
+    - FakeIpcClientSmokeTests (3 件)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-3.2-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-3.2-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: testcasecount=13 result=Passed total=13 passed=13 failed=0 inconclusive=0 skipped=0
+    （DiagnosticsLoggerContractTests 6 件 / FakeAsyncAssetLoaderSmokeTests 4 件 /
+      FakeIpcClientSmokeTests 3 件、すべて Passed。リグレッションなし）
+
+Coverage of Requirements (per tasks.md 3.2):
+- 11.1 Preload ログ（カテゴリ Preload）— LogCategory として宣言、Log API 経路で出力可能
+- 11.2 タブ切替ログ（カテゴリ TabSwitch）— 同上
+- 11.3 非同期ロードログ（カテゴリ AssetLoad）— 同上
+- 11.4 Command 送信ログ（カテゴリ Ipc）— Warning/Error 時のフォーマットも確認
+- 11.5 受信ログ（カテゴリ Ipc）— 同上
+- 11.6 接続イベントログ（カテゴリ Connection）— Warning レベルでの出力例をテストで担保
+- 11.7 メイン出力サーフェスへ描画しない構造保証 — DiagnosticsLogger は UIDocument / PanelSettings
+                                              への参照を一切持たず、Display 2+ への描画経路が
+                                              コード構造上存在しない（asmdef も同様）。
+- 11.8 ログレベル外部切替（MinimumLevel） — getter/setter 公開、実行時切替テストで Green。
+
+Result: OK (Green)
