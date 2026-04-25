@@ -1,0 +1,221 @@
+OK
+4.4 WebSocketClient の実装（ClientWebSocket ラッパ） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketClient.cs
+    System.Net.WebSockets.ClientWebSocket をラップした
+    IClientConnection 実装。Core asmdef 配下、namespace
+    VTuberSystemBase.CoreIpc.Core.Transport.WebSocket。
+
+    主要 API:
+        WebSocketClient : IClientConnection
+            ctor(ClientBindOptions, WebSocketClientOptions?,
+                 logInfo?, logWarning?, logError?)
+            Task<IpcResult> ConnectAsync(CancellationToken)
+                ws://host:port/ への 1 回限りの接続。接続成功で
+                Volatile に _connected を立て、ReceiveLoop を
+                Task.Run で起動。失敗時は IpcResult.Fail で
+                CoreIpcError.TransportFailure を返す（例外を
+                上位に投げない）。タイムアウトは
+                ClientBindOptions.ConnectTimeout を採用、
+                未指定 (Zero) は 5 秒にフォールバック。
+            ValueTask SendAsync(ReadOnlyMemory<byte>, CancellationToken)
+                ClientWebSocket.SendAsync(Text, EndOfMessage=true)
+                でテキストフレーム送信。未接続/Dispose 後は
+                InvalidOperationException / ObjectDisposedException
+                を throw（上位 Bus が NotConnected に変換する設計）。
+            IAsyncEnumerable<ReadOnlyMemory<byte>> ReceiveAsync(CancellationToken)
+                内部 InboundQueue (lock + TaskCompletionSource
+                ベースの非同期キュー、WebSocketServer と同型実装)
+                からテキストペイロードを yield。受信ループ終了時に
+                Complete されて列挙が break する。
+            ValueTask DisposeAsync()
+                CloseAsync(NormalClosure, "client-dispose") を
+                CloseTimeout (既定 5 秒) でキャンセル付きに発行。
+                その後 _lifetimeCts.Cancel → 受信タスク await →
+                socket.Dispose → InboundQueue.Complete →
+                Disconnected イベント (LocalClose) 発火。
+                多重 Dispose は no-op (Interlocked で防御)。
+            string RemoteEndpoint                     // "host:port"
+            bool IsConnected                          // 接続中かつ Open
+            event Action<DisconnectReason> Disconnected
+                受信ループ終了時に 1 回だけ発火。理由は
+                LocalClose / PeerClose / TransportError /
+                PolicyViolation / Unknown の 5 種。
+
+        WebSocketClient.DisconnectReason (nested enum)
+            Unknown / LocalClose / PeerClose / TransportError /
+            PolicyViolation
+
+    フレーム I/O (System.Net.WebSockets 経由):
+        - 受信は ClientWebSocket.ReceiveAsync ループで 1 メッセージ
+          を MemoryStream に積み、EndOfMessage=true で 1 件として
+          InboundQueue.Enqueue
+        - WebSocketMessageType.Binary は破棄 + 警告ログ。複数
+          フラグメントの場合は EndOfMessage=true まで読み捨てる
+        - WebSocketMessageType.Close 受信で peer-close と判定し
+          ReceiveLoop を抜ける
+        - 累積ペイロード MaxMessagePayloadBytes (既定 1 MiB)
+          超過は CloseAsync(MessageTooBig, "message too big")
+          で切断 → DisconnectReason.PolicyViolation
+
+    例外隔離 (Req 5.7):
+        - WebSocketException / ObjectDisposedException / 一般 Exception
+          を ReceiveLoop 内で catch → ログ → exitReason 設定 → return
+        - Disconnected ハンドラの例外は catch + ログで隔離
+        - SendAsync は失敗を呼び出し元へ throw（上位 Bus が
+          NotConnected 等に変換する設計、WebSocketServer.SendAsync と
+          同じ契約）
+
+    Single-use 契約:
+        - ClientWebSocket は Dispose 後に再利用不可な Microsoft
+          仕様。本実装も ConnectAsync 二度目を Interlocked で
+          検出し InvalidOperationException を throw。
+        - 再接続時は新規 WebSocketClient インスタンスを作成する
+          (ClientSessionManager の責務)
+
+    依存:
+        - System.Net.WebSockets.ClientWebSocket (.NET Standard 2.1)
+        - ClientBindOptions / IClientConnection /
+          CoreIpcError / IpcResult (Abstractions)
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketClient.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketClientOptions.cs
+    WebSocketClient の振る舞いを構成する record (init-only
+    プロパティ)。デフォルト値:
+        CloseTimeout=5s
+        MaxMessagePayloadBytes=1 MiB
+        ReceiveBufferSize=16 KiB
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketClientOptions.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketClientTests.cs
+    NUnit テスト 10 本 (Tests.Editor asmdef)。
+    実 WebSocketServer (task 4.3 実装) との統合的検証。
+
+    Coverage map (10 tests):
+        ConnectAsync_AgainstRunningServer_Succeeds
+            空きポートで起動した実 WebSocketServer に接続成功し
+            IpcResult.Success / IsConnected=true / RemoteEndpoint=
+            "127.0.0.1:port" を確認
+        ConnectAsync_NoServer_ReturnsTransportFailure
+            サーバ非起動ポートに 1 秒タイムアウトで接続 →
+            IpcResult.Fail(CoreIpcError.TransportFailure) を返し
+            IsConnected=false を確認
+        ConnectAsync_TwiceOnSameInstance_ThrowsInvalidOperation
+            同一インスタンスで 2 回 ConnectAsync すると
+            InvalidOperationException を throw（single-use 契約）
+        SendReceive_TextRoundTrip_DeliversBothDirections
+            client→server / server→client 両方向で UTF-8 テキスト
+            "hello-from-client" / "hello-from-server" のラウンド
+            トリップを検証
+        DisposeAsync_AfterConnect_ClosesConnectionGracefully
+            Dispose で IsConnected=false / Disconnected イベント
+            発火（LocalClose）/ サーバ側が ClientDisconnected を
+            観測 / 多重 Dispose 冪等
+        ServerInitiatedClose_RaisesDisconnectedAndCompletesReceive
+            サーバ側 Dispose → クライアントが Disconnected を
+            PeerClose または TransportError で観測 → ReceiveAsync
+            の IAsyncEnumerable が break する
+        SendAsync_BeforeConnect_ThrowsInvalidOperation
+            Connect 前の SendAsync は InvalidOperationException
+        SendAsync_AfterDispose_ThrowsObjectDisposed
+            Dispose 後の SendAsync は ObjectDisposedException
+        ReconnectFlow_NewInstancePerAttempt_Works
+            client1.Dispose 後、新規 client2 で同一サーバに
+            再接続が成功する（再接続は新規インスタンス）
+        ConnectAsync_RespectsConnectTimeout_OnUnreachableEndpoint
+            ConnectTimeout=250ms でサーバ非起動 → 上位タイム
+            アウト 15 秒に達する前に IpcResult.Fail で TransportFailure
+            を返す
+
+    テストインフラ:
+        - FindFreeTcpPort(): TcpListener(0) で OS から空きポート
+          を取得 → 即停止して返す
+        - FastServerOptions(): PingInterval=0 / CloseTimeout=2s /
+          HandshakeTimeout=5s でサーバ側を高速化
+        - WaitForServerConnectionAsync: Task.WhenAny でテストの
+          15 秒デッドラインを各待機に適用
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketClientTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- WebSocketClient は 1 接続 = 1 インスタンスの設計（ClientWebSocket
+  仕様に準拠）。再接続は ClientSessionManager (task 3.3 実装済み)
+  が新規インスタンスを毎回生成する責務を持つ (本タスクは
+  WebSocketClient 単独の動作までを担当)。
+- ConnectAsync の失敗は例外で投げず IpcResult.Fail で返す。
+  これは WebSocketServer.StartAsync (task 4.3) の契約に揃え、
+  CoreIpcRuntime.InitializeAsync が IpcResult を見て描画ループに
+  影響なく診断ログを出せる設計（Req 2.6, 5.7）。
+- 受信ループは Task.Run でフォーク並列。ClientWebSocket.ReceiveAsync
+  の OperationCanceledException / WebSocketException /
+  ObjectDisposedException を catch して exitReason を確定し、
+  Disconnected イベントを 1 回だけ発火する。これにより上位
+  ConnectionStateMachine が遷移を駆動可能になる（Req 2.4, 5.1）。
+- Binary フレームは破棄するが、複数フラグメントの場合に
+  ReceiveLoop が混乱しないよう EndOfMessage=true まで読み捨てる
+  (DrainBinaryFragmentsAsync)。これにより後続の Text メッセージが
+  Continuation として誤認されない。
+- 1 MiB 超過の累積ペイロードは MessageTooBig (1009) で
+  CloseAsync を発行して切断 (Req 3.10)。
+- IClientConnection の SendAsync 契約は WebSocketServer 側と
+  対称。失敗を呼び出し元へ throw する点も同一（上位 Bus が
+  NotConnected 等に変換する責務を持つ）。
+- InboundQueue は WebSocketServer.ServerSideClientConnection
+  と同型の実装（lock + Queue<byte[]> + TCS の最小 async queue）。
+  System.Threading.Channels に依存せず、.NET Standard 2.1
+  builtin の IAsyncEnumerable + EnumeratorCancellation で完結。
+- task 4.5 (WebSocketTransportAdapter) では、本クラスを
+  ConnectClientAsync ファクトリで生成して IClientConnection として
+  返す予定 (本タスクは WebSocketClient 単独動作までを担当)。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 10 new tests
+    WebSocketClientTests : 10 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.4-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.4-editmode.log
+    Result XML: 248 tests, 248 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (regression)
+        WebSocketClientTests : 10/10 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.4-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.4-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
