@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="13" result="Passed" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.0681728">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="473" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.068173" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1102" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="90" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.047021" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="41128" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1103" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="90" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.045076" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1104" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="90" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.043510" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1105" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="90" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.041984" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1106" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="90" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.040378" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1060" name="SkinValidationRulesTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.036536" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1073" name="AllTabRequiredClasses_Are_Prefixed" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.AllTabRequiredClasses_Are_Prefixed" methodname="AllTabRequiredClasses_Are_Prefixed" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1678039497" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.008503" asserts="0">
+                  <properties>
+                    <property name="Description" value="全 TabId の RequiredTabClassesFor 結果が vsb- プレフィクスで揃っている" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="EveryTab_Exposes_SharedTabRoot_Constant" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.EveryTab_Exposes_SharedTabRoot_Constant" methodname="EveryTab_Exposes_SharedTabRoot_Constant" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1647521397" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.002421" asserts="0">
+                  <properties>
+                    <property name="Description" value="各タブの TabRoot 共通クラスは vsb-tab-root で固定（design.md §SkinValidator）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="EveryTab_Exposes_TabIdentifyingModifier" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.EveryTab_Exposes_TabIdentifyingModifier" methodname="EveryTab_Exposes_TabIdentifyingModifier" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1629975914" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000202" asserts="0">
+                  <properties>
+                    <property name="Description" value="各タブには tab 識別 modifier が定義されている（BEM 修飾子）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1061" name="Prefix_Constant_Equals_Vsb" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.Prefix_Constant_Equals_Vsb" methodname="Prefix_Constant_Equals_Vsb" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1014573248" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000183" asserts="0">
+                  <properties>
+                    <property name="Description" value="vsb- プレフィクスが定数として公開されている（命名規約の起点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1072" name="PublicLists_AreReadOnly" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.PublicLists_AreReadOnly" methodname="PublicLists_AreReadOnly" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="372933189" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.001937" asserts="0">
+                  <properties>
+                    <property name="Description" value="公開リストは IReadOnlyList&lt;string&gt; であり、書き換え不能" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1069" name="RequiredCameraSwitcherTabClasses_Contains_RootAndModifier" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredCameraSwitcherTabClasses_Contains_RootAndModifier" methodname="RequiredCameraSwitcherTabClasses_Contains_RootAndModifier" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1970630463" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000908" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredCameraSwitcherTabClasses は TabRoot + CameraSwitcher 識別 modifier を含む" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="RequiredCharacterTabClasses_Contains_RootAndModifier" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredCharacterTabClasses_Contains_RootAndModifier" methodname="RequiredCharacterTabClasses_Contains_RootAndModifier" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="492544405" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000146" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredCharacterTabClasses は TabRoot + Character 識別 modifier を含む" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="RequiredRootClasses_Are_Unique_And_Prefixed" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredRootClasses_Are_Unique_And_Prefixed" methodname="RequiredRootClasses_Are_Unique_And_Prefixed" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="123563026" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.001219" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredRootClasses は重複なし、全要素が vsb- プレフィクスを持つ" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="RequiredRootClasses_Contains_AllRootStructuralSelectors" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredRootClasses_Contains_AllRootStructuralSelectors" methodname="RequiredRootClasses_Contains_AllRootStructuralSelectors" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1971545560" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000153" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredRootClasses にタブバー・タブバーボタン・通知バーの必須クラスが含まれる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1068" name="RequiredStageLightingTabClasses_Contains_RootAndModifier" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredStageLightingTabClasses_Contains_RootAndModifier" methodname="RequiredStageLightingTabClasses_Contains_RootAndModifier" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="191006707" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000149" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredStageLightingTabClasses は TabRoot + StageLighting 識別 modifier を含む" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1070" name="RequiredTabClassesFor_Resolves_PerTabList" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredTabClassesFor_Resolves_PerTabList" methodname="RequiredTabClassesFor_Resolves_PerTabList" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="1085577548" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000311" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequiredTabClassesFor は TabId に対応するタブ別クラス一覧を返す（タブ別分離の単一参照点）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1071" name="RequiredTabClassesFor_UnknownTabId_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RequiredTabClassesFor_UnknownTabId_Throws" methodname="RequiredTabClassesFor_UnknownTabId_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="937494093" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000704" asserts="0">
+                  <properties>
+                    <property name="Description" value="未定義 TabId に対しては ArgumentOutOfRangeException を投げる（防御的契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="RootSection_Constants_FollowConvention" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests.RootSection_Constants_FollowConvention" methodname="RootSection_Constants_FollowConvention" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidationRulesTests" runstate="Runnable" seed="404412735" result="Passed" start-time="2026-04-25 18:27:08Z" end-time="2026-04-25 18:27:08Z" duration="0.000233" asserts="0">
+                  <properties>
+                    <property name="Description" value="Root セクションの必須クラス名が vsb- プレフィクス + BEM 風で固定されている" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
