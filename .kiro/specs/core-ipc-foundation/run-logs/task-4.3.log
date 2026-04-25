@@ -1,0 +1,254 @@
+OK
+4.3 WebSocketServer の実装（TcpListener ベースの自前実装） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketServer.cs
+    TcpListener ベースの自前 RFC 6455 サーバ。Core asmdef
+    配下、namespace VTuberSystemBase.CoreIpc.Core.Transport.WebSocket。
+
+    主要 API:
+        WebSocketServer
+            ctor(ServerBindOptions, WebSocketServerOptions?,
+                 logInfo?, logWarning?, logError?)
+            Task<IpcResult> StartAsync(CancellationToken)
+                TcpListener を生成 → SO_REUSEADDR を有効化 →
+                Start() を試行。SocketException が
+                AddressAlreadyInUse / AccessDenied なら
+                IpcResult.Fail(CoreIpcError.PortInUse(port))
+                を返す（例外を上位に投げない）。それ以外の
+                SocketException は CoreIpcError.TransportFailure
+                でラップして返却。
+            Task StopAsync()
+                cancel + listener.Stop + 全クライアント Dispose
+                の冪等な停止。
+            ValueTask DisposeAsync()
+                StopAsync を呼んでから CTS を破棄。
+            event Action<IClientConnection> ClientConnected
+                ハンドシェイク完了 + 受信ループ開始後に発火。
+            event Action<IClientConnection> ClientDisconnected
+                受信ループ終了時 (peer close / 例外 / cancel)
+                に発火。
+            bool IsRunning / int ConnectedClientCount /
+            int BoundPort
+
+        ServerSideClientConnection : IClientConnection
+            内部クラス。1 接続あたりの状態を保持。
+            string RemoteEndpoint
+            ValueTask SendAsync(ReadOnlyMemory<byte>, CancellationToken)
+                WebSocketFrameWriter で Text フレーム送信
+                (FIN=true, opcode=0x1, mask なし)。
+            IAsyncEnumerable<ReadOnlyMemory<byte>> ReceiveAsync(CancellationToken)
+                内部 InboundQueue (lock + TaskCompletionSource
+                ベースの非同期キュー) からテキストペイロードを
+                yield。受信ループ終了時に Complete されて
+                列挙が break する。
+
+        WebSocketServerOptions (record)
+            MaxConcurrentClients=16 / PingInterval=30s /
+            PongTimeout=60s / CloseTimeout=5s /
+            MaxMessagePayloadBytes=1MiB /
+            HandshakeMaxRequestBytes=16KiB /
+            HandshakeTimeout=10s
+
+    フレーム I/O (WebSocketFrameReader/Writer 経由):
+        - 受信は ReadMessageAsync で 1 メッセージ単位
+          (Continuation 集約済み)
+        - クライアント→サーバ方向の masking 必須検証
+          (requireMask=true)
+        - サーバ→クライアント方向は非マスク (maskOutgoing=false)
+        - 累積ペイロード 1 MiB 超過は close code 1009
+          (MessageTooBig) で切断
+        - UTF-8 不正は close code 1007
+          (InvalidFramePayloadData) で切断
+        - Text 以外のデータフレーム (Binary) は close code 1003
+          (UnsupportedData) で切断
+        - 受信した Ping にはそのままの payload で Pong を返送
+        - Pong は _lastInboundUtcTicks 更新のみ
+
+    Ping/Pong 制御:
+        - PingInterval (既定 30 秒) ごとに HeartbeatLoop が
+          Pong (空 payload) を送信
+        - 直近 PongTimeout (既定 60 秒) 受信が無ければ
+          close code 1008 (PolicyViolation) で切断
+        - PingInterval=0 にすると Heartbeat タスクは起動しない
+          (テスト用のオプション)
+
+    Close ハンドシェイク:
+        - 自発 close は CloseTimeout (既定 5 秒) でキャンセル
+          付きの WriteCloseAsync を 1 回だけ発行
+        - DisposeAsync は close 送信 → cancel → 受信タスク
+          await → ハートビートタスク await → writer/stream/
+          tcpClient を順に解放
+
+    例外隔離 (Req 5.7):
+        - accept ループは ObjectDisposed/SocketException/
+          InvalidOperationException を catch して継続
+        - クライアントごとの handshake / 受信 / ping / pong /
+          close 書き込みは全て try/catch + ログ
+        - SendAsync は失敗を呼び出し元へ throw する
+          (上位 Bus が NotConnected 等に変換する設計)
+        - ClientConnected / ClientDisconnected ハンドラの
+          例外も catch + ログで隔離
+
+    SO_REUSEADDR:
+        - listener.Start() の前に SetSocketOption で有効化
+        - Set 失敗 (Mono が拒否する稀なケース) は警告ログで
+          継続して Start を試行
+        - PlayMode 再起動時の TIME_WAIT 起因 bind 失敗を抑止
+          する用途 (task 6.5 で活用)
+
+    InboundQueue (private nested class):
+        - lock + Queue<byte[]> + TaskCompletionSource<bool>
+          で実装した最小限の async queue
+        - ReadAllAsync は IAsyncEnumerable<ReadOnlyMemory<byte>>
+          を返し、Enqueue で TCS を完了させる
+        - cancellationToken 発火時は TCS を Cancel し
+          IAsyncEnumerable を yield break
+
+    依存:
+        - HandshakeProcessor (task 4.2)
+        - WebSocketFrameReader / WebSocketFrameWriter (task 4.1)
+        - ServerBindOptions / IClientConnection /
+          CoreIpcError / IpcResult (Abstractions)
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketServer.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketServerOptions.cs
+    WebSocketServer の振る舞いを構成する record (init-only
+    プロパティ)。デフォルト値はタスク 4.3 仕様 (16 接続上限,
+    30s/60s/5s, 1 MiB 上限) を反映。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketServerOptions.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/IsExternalInit.cs
+    Core asmdef 用の System.Runtime.CompilerServices.IsExternalInit
+    polyfill (internal)。Abstractions 側の同名 polyfill は
+    internal なので Core からは参照できないため、各 asmdef
+    で個別に保持する。これにより record の init setter が
+    Core で利用可能になる。
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/IsExternalInit.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketServerTests.cs
+    NUnit テスト 5 本 (Tests.Editor asmdef)。
+    実 TcpListener / 実 ClientWebSocket を用いた統合的検証。
+
+    Coverage map (5 tests):
+        StartAsync_OnAvailablePort_Succeeds
+            127.0.0.1:<空きポート> でバインド成功 →
+            IsRunning=true, BoundPort==選択ポート
+        StartAsync_OnAlreadyBoundPort_ReturnsPortInUseError
+            事前に SO_EXCLUSIVEADDRUSE で同ポートを保持し、
+            WebSocketServer.StartAsync が IpcResult.Fail で
+            CoreIpcError.PortInUse(port) を返すことを検証
+        ClientWebSocket_CanConnectExchangeTextAndDisconnect
+            ClientWebSocket → ws://127.0.0.1:port/ で接続 →
+            ClientConnected 発火 → クライアント→サーバ方向で
+            UTF-8 テキスト送受信 → サーバ→クライアント方向
+            でテキスト送受信 → CloseAsync(NormalClosure) →
+            ClientDisconnected 発火 を 1 シナリオで網羅
+        MultipleClients_CanConnectAndReceiveBroadcast
+            3 つの ClientWebSocket を順次接続し、
+            ConnectedClientCount==3 を確認 → 各サーバ側
+            connection に同一ペイロードを送信 → 各クライアント
+            が同一ペイロードを受信 (Req 2.8 複数接続)
+        StopAsync_AfterStart_DisposesListenerAndDoesNotThrow
+            Start → IsRunning → StopAsync → IsRunning=false →
+            DisposeAsync まで例外なく到達
+
+    テストインフラ:
+        - FindFreeTcpPort(): TcpListener(0) で OS から空きポート
+          を取得 → 即停止して返す
+        - FastTestOptions(): PingInterval=0 (heartbeat 無効)
+          + CloseTimeout=2s + HandshakeTimeout=5s でテスト
+          高速化
+        - WaitForAsync: Task.WhenAny + Task.Delay(Infinite, ct)
+          で 15 秒のテストタイムアウトを各待機に適用
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketServerTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- WebSocketServer は TcpListener で 127.0.0.1:port を待受し、
+  接続受理ごとに HandleAcceptedClientAsync を Task.Run で
+  起動する設計。1 接続 = 1 ServerSideClientConnection +
+  1 受信タスク (+ 任意で 1 ハートビートタスク) のフォーク
+  並列構成。
+- ハンドシェイクは task 4.2 の HandshakeProcessor に委譲し、
+  HandshakeTimeout 超過時は接続を破棄して accept ループに
+  戻る。これにより悪意ある "GET" だけ送って黙る相手で
+  サーバが詰まらない。
+- 接続数上限 (MaxConcurrentClients, 既定 16) は accept 直後に
+  検査。超過時は handshake 前にソケット close で拒否し、
+  ClientConnected を発火しない (Req 2.8: 複数接続をサポート
+  しつつ DoS 防御)。
+- ポート占有検出は SocketError.AddressAlreadyInUse と
+  AccessDenied の 2 種類を PortInUse に変換 (Windows は
+  両方が出得る)。それ以外の SocketException は
+  CoreIpcError.TransportFailure に丸める。例外を上位に
+  伝搬しないので、CoreIpcRuntime.InitializeAsync は
+  IpcResult を見て描画ループへの影響なく診断ログを出せる
+  (Req 2.6, 5.7)。
+- ServerSideClientConnection.ReceiveAsync は
+  IClientConnection の契約 (IAsyncEnumerable<ReadOnlyMemory
+  <byte>>) を満たす純 C# 実装。System.Threading.Channels に
+  依存せず、最小限の Queue + TCS で構築している。これにより
+  Microsoft.Bcl.AsyncInterfaces を Core asmdef に追加する
+  必要がない (.NET Standard 2.1 builtin の IAsyncEnumerable
+  + EnumeratorCancellation で完結)。
+- IsExternalInit polyfill を Core asmdef にも追加した。
+  Abstractions 側の同名 polyfill は internal なので
+  Core asmdef からは参照できないため、record の init setter
+  を Core で利用するには各 asmdef に個別に持たせる必要が
+  あった。
+- task 4.5 (WebSocketTransportAdapter) では、本クラスの
+  IpcResult.Fail(PortInUse) を CoreIpcException に lift
+  する責務を持たせる予定 (本タスクは「WebSocketServer 単独で
+  PortInUse を返せる」までを担当)。
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 5 new tests
+    WebSocketServerTests : 5 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.3-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.3-editmode.log
+    Result XML: 238 tests, 238 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        HandshakeProcessorTests : 26/26 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketFrameCodecTests : 29/29 (regression)
+        WebSocketServerTests : 5/5 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.3-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.3-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
