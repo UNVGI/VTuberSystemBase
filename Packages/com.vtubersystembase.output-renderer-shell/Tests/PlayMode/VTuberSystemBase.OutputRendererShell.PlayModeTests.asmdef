@@ -5,7 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "VTuberSystemBase.OutputRendererShell.Runtime",
-        "VTuberSystemBase.CoreIpc.Abstractions"
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
