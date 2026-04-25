@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="9" result="Passed" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.0951768">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="677" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.095177" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1320" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="294" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.083310" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="49596" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1321" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="294" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.082036" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1322" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="294" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.080841" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1323" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="294" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.079706" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1324" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="294" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.078545" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1052" name="FailsafeIntegrationTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.070945" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1059" name="LateConnect_AfterStartup_PublishStateSwitchesToSuccess" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.LateConnect_AfterStartup_PublishStateSwitchesToSuccess" methodname="LateConnect_AfterStartup_PublishStateSwitchesToSuccess" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="602736610" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.049883" asserts="0">
+                  <properties>
+                    <property name="Description" value="起動時は未接続でも、後から接続が確立すれば PublishState が通常成功する（Requirement 9.3）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1060" name="LateConnect_TabSwitchingAndNotifications_StayConsistentAcrossTransition" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.LateConnect_TabSwitchingAndNotifications_StayConsistentAcrossTransition" methodname="LateConnect_TabSwitchingAndNotifications_StayConsistentAcrossTransition" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="1757040647" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.004121" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続復旧の前後で UI（タブ切替・通知バー）が一貫して動作する（Requirements 9.2, 9.3, 9.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1055" name="PermanentFailure_CommonUiComponent_RemainsFunctional" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_CommonUiComponent_RemainsFunctional" methodname="PermanentFailure_CommonUiComponent_RemainsFunctional" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="1025229953" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.001980" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続未確立中も共通 UI コンポーネント（VsbNumberedList）の操作とイベント発火が継続する（Requirement 9.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1057" name="PermanentFailure_PublishEvent_ReturnsNotConnected_NoException" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_PublishEvent_ReturnsNotConnected_NoException" methodname="PermanentFailure_PublishEvent_ReturnsNotConnected_NoException" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="761189544" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.000828" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続未確立時の PublishEvent も SendErrorCode.NotConnected を即時返却し例外を外に投げない（Requirement 9.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1056" name="PermanentFailure_PublishState_ReturnsNotConnected_NoException" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_PublishState_ReturnsNotConnected_NoException" methodname="PermanentFailure_PublishState_ReturnsNotConnected_NoException" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="556790660" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.000644" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続未確立時の PublishState は SendErrorCode.NotConnected を即時返却し例外を外に投げない（Requirement 9.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1058" name="PermanentFailure_RepeatedPublish_NeverThrows" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_RepeatedPublish_NeverThrows" methodname="PermanentFailure_RepeatedPublish_NeverThrows" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="927758924" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.000788" asserts="0">
+                  <properties>
+                    <property name="Description" value="未接続状態が継続している間に複数回 PublishState を呼んでも UI 側に例外が波及しない（Requirements 9.2, 9.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1053" name="PermanentFailure_StartShell_Completes_UiBecomesOperable" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_StartShell_Completes_UiBecomesOperable" methodname="PermanentFailure_StartShell_Completes_UiBecomesOperable" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="1800047036" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.000660" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続が永続失敗していても UI 起動（プリロード→タブバー有効化→初期タブ Character 表示）が完了する（Requirement 9.1）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1054" name="PermanentFailure_TabSwitching_RemainsOperable" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.PermanentFailure_TabSwitching_RemainsOperable" methodname="PermanentFailure_TabSwitching_RemainsOperable" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="41299109" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.001094" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続未確立の状態でもタブ切替が継続して機能する（Requirements 9.2, 9.7）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1061" name="Reconnect_ThenDisconnect_PublishStateReturnsNotConnectedAgain" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests.Reconnect_ThenDisconnect_PublishStateReturnsNotConnectedAgain" methodname="Reconnect_ThenDisconnect_PublishStateReturnsNotConnectedAgain" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.FailsafeIntegrationTests" runstate="Runnable" seed="823305694" result="Passed" start-time="2026-04-25 20:13:33Z" end-time="2026-04-25 20:13:33Z" duration="0.000741" asserts="0">
+                  <properties>
+                    <property name="Description" value="再切断（Connected → Disconnected）後の PublishState は再び NotConnected を返す（Requirements 9.3, 9.4）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
