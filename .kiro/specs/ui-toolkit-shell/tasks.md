@@ -48,7 +48,7 @@
 
 ## 3. Core: 診断ロガーと診断スナップショット（最内周依存）
 
-- [ ] 3.1 (P) `IDiagnosticsLogger` 契約と `LogLevel` / `LogCategory` 列挙のテストを先に書く
+- [x] 3.1 (P) `IDiagnosticsLogger` 契約と `LogLevel` / `LogCategory` 列挙のテストを先に書く
   - `MinimumLevel` を下回るログが出力されないこと、カテゴリ別のメッセージが正しく配信されることを検証するテストを追加する
   - Red 状態のテストが「型未定義」で失敗することを確認する
   - 観測可能な完了状態: テスト 4〜6 件が「型未定義」で失敗する（Red）

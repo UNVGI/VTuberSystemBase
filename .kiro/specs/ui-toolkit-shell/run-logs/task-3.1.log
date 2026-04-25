@@ -1,0 +1,63 @@
+Task 3.1 (P) IDiagnosticsLogger 契約と LogLevel / LogCategory 列挙のテストを先に書く — run log
+==============================================================================
+
+Date: 2026-04-26
+Unity: 6000.3.10f1
+
+Phase: TDD Red — 先に契約テストのみを置き、実装は 3.2 で追加する。
+
+Files created (Tests side):
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/DiagnosticsLoggerContractTests.cs
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/DiagnosticsLoggerContractTests.cs.meta
+
+Files modified:
+- .kiro/specs/ui-toolkit-shell/tasks.md (3.1 を [x] に更新)
+
+Test inventory (DiagnosticsLoggerContractTests.cs, 6 cases):
+- LogLevel_OrderingIsAscendingBySeverity
+    LogLevel が Trace < Debug < Info < Warning < Error の昇順で宣言されることを検証
+    (Req 11.8)。
+- LogCategory_DeclaresAllRequiredCategories
+    LogCategory が design.md §Diagnostics で定義する 8 カテゴリ
+    (Preload / TabSwitch / AssetLoad / Ipc / Connection / Skin / Lifecycle / TabSpec)
+    を宣言することを検証 (Req 11.1〜11.6)。
+- Log_BelowMinimumLevel_IsNotEmittedToUnityConsole
+    MinimumLevel = Warning のとき Trace / Debug / Info の各レベルが Unity Console に
+    一切出力されないことを LogAssert.NoUnexpectedReceived で検証 (Req 11.8)。
+- Log_AtMinimumLevelOrAbove_EmitsToUnityConsole_WithCategoryInFormat
+    MinimumLevel = Info のとき Warning / Error が LogType.Warning / LogType.Error として
+    Console へ流れ、フォーマットにカテゴリ名 ("Connection" / "Ipc") が含まれることを
+    LogAssert.Expect で検証 (Req 11.4 / 11.8)。
+- Log_DifferentCategories_AllEmitWithCorrespondingCategoryToken
+    8 カテゴリそれぞれを Info レベルで送出し、各 Console 出力に対応するカテゴリトークン
+    (Preload / TabSwitch / AssetLoad / Ipc / Connection / Skin / Lifecycle / TabSpec)
+    が含まれることを LogAssert.Expect で検証 (Req 11.1〜11.6)。
+- MinimumLevel_RuntimeMutable_AffectsSubsequentDispatch
+    実行時に MinimumLevel を Error → Trace に切り替えると、変更後の Warning が
+    出力されるようになることを LogAssert.Expect / NoUnexpectedReceived の組合せで
+    検証 (Req 11.8)。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command:
+    Unity.exe -batchmode -nographics -projectPath . -runTests
+              -testPlatform EditMode
+              -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-3.1-editmode-results.xml
+              -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-3.1-editmode.log
+              -testFilter VTuberSystemBase.UiToolkitShell.Tests
+  - Result: Compile-fail (exit 1, "Scripts have compiler errors")
+    UiToolkitShell.Tests asmdef のコンパイルが
+      CS0234: The type or namespace name 'Diagnostics' does not exist
+              in the namespace 'VTuberSystemBase.UiToolkitShell'
+    で失敗。test results XML は生成されない（=テスト探索前にコンパイルが落ちる Red 状態）。
+  - 期待される失敗: 6 件のテストが参照する型 IDiagnosticsLogger / LogLevel /
+    LogCategory / DiagnosticsLogger（いずれも VTuberSystemBase.UiToolkitShell.Diagnostics
+    名前空間配下、3.2 で追加予定）が未定義のため、テスト本体のシンボル解決前に
+    名前空間自体が未定義として CS0234 で停止する。
+  - これは TDD Red 状態（型未定義による失敗）として task 3.1 の観測可能な完了条件
+    （「テスト 4〜6 件が型未定義で失敗する」）を満たす。
+  - 3.2 で IDiagnosticsLogger / LogLevel / LogCategory / DiagnosticsLogger を実装
+    すれば本 6 件 + 既存 7 件（FakeIpcClientSmokeTests 3 件・
+    FakeAsyncAssetLoaderSmokeTests 4 件）が同時に Green になる見込み。
+
+Result: OK (Red as designed)
