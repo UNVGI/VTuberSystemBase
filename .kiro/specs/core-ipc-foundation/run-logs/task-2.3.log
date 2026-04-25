@@ -1,0 +1,153 @@
+OK
+2.3 RequestCorrelationRegistry の実装（相関 ID・TCS・タイムアウト） — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Correlation/RequestCorrelationRegistry.cs
+    Pure C# request/response correlation registry. Internal state is a
+    ConcurrentDictionary<string, PendingRequest> keyed by GUID-N
+    correlation ids. Per-request timeout is enforced via
+    System.Threading.Timer. Public API:
+        - AllocateCorrelationId() → 32-char hex GUID without dashes
+          (Guid.NewGuid().ToString("N")). Cheap and thread-safe.
+        - RegisterPending(correlationId, [timeout], [ct]) →
+          Task<IpcResult<JsonElement>>. Adds the entry, registers a
+          CancellationToken callback (if cancellable) and schedules a
+          single-shot Timer for the timeout. Default timeout is taken
+          from CoreIpcOptions.DefaultRequestTimeout (5s by default,
+          Req 1.5 / D-8); callers may override per-call. The TCS is
+          allocated with TaskCreationOptions.RunContinuationsAsynch-
+          ronously so completing the source on the timer / cancel /
+          transport thread does not run downstream awaiters inline.
+          Disposed-state and pre-cancelled-token are handled by
+          short-circuiting before insertion to avoid registering a
+          callback against an already-cancelled token.
+        - MatchResponse(correlationId, payload) → bool. Atomic
+          TryRemove + Complete-with-Ok. Returns false for unknown ids
+          (Req 9.3). On match, the timer and the cancellation
+          registration are disposed so neither fires after the TCS
+          is completed.
+        - FailPending(correlationId, error) → bool. Atomic TryRemove
+          + Complete-with-Fail. Used by transport/Bus integrations
+          to surface domain errors (e.g., transport failures during
+          a pending request).
+        - FailAllPending(error) → int. Drains the dictionary and
+          completes every pending TCS with the supplied error. Used
+          internally by Dispose to deliver NotConnected to all
+          in-flight callers (Req 5.x / 9.3).
+        - Dispose() — Idempotent (Interlocked.Exchange guard). Marks
+          the registry as disposed first, then drains. Subsequent
+          RegisterPending calls return a faulted-with-NotConnected
+          result without ever entering the dictionary.
+    Concurrency notes:
+        - All dictionary mutations go through TryAdd / TryRemove
+          which are atomic on ConcurrentDictionary.
+        - Timer / CancellationToken / MatchResponse / Dispose all
+          race for the same correlation id; whichever wins
+          TryRemove completes the TCS, the others observe the entry
+          as gone and return early. TrySetResult / TrySetCanceled
+          on the TCS are themselves idempotent so no double-set
+          can leak through.
+        - completeOnMainThread (Action<Action>?) is an optional
+          injection point so that, when wired to MainThreadDispatch-
+          Queue or PlayerLoop, every TCS resolution is marshalled
+          onto the Unity main thread (design.md §617-§642 / Flow 2).
+          Default null = inline completion; tests cover both modes.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Correlation/RequestCorrelationRegistry.cs.meta
+    Meta for the new source file.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Correlation.meta
+    New folder asset entry inside the existing
+    VTuberSystemBase.CoreIpc.Core asmdef.
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/RequestCorrelationRegistryTests.cs
+    21 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor that
+    exercise the contract called out in tasks.md §2.3 plus
+    defensive cases:
+        AllocateCorrelationId_ProducesUniqueGuidLikeStrings
+        DefaultTimeout_MatchesCoreIpcOptionsDefaultOfFiveSeconds
+        Constructor_RejectsNullOptions
+        Constructor_RejectsNegativeDefaultTimeout
+        RegisterPending_MatchResponse_CompletesWithOkPayload
+        MatchResponse_UnknownCorrelationId_ReturnsFalseAndIsNoOp
+        RegisterPending_DefaultTimeoutFromOptions_FiresWhenNoResponse
+        RegisterPending_ExplicitTimeoutOverride_OverridesOptionsDefault
+        MatchResponse_BeforeTimeoutFires_PreventsTimeoutCompletion
+        FailPending_CompletesPendingWithProvidedError
+        FailPending_NullError_Throws
+        Dispose_CompletesAllPendingWithNotConnected
+        Dispose_IsIdempotent
+        RegisterPending_AfterDispose_FailsImmediatelyWithNotConnected
+        RegisterPending_RejectsNullOrEmptyCorrelationId
+        RegisterPending_RejectsDuplicateCorrelationId
+        RegisterPending_RejectsNegativeTimeoutOtherThanInfinite
+        RegisterPending_AlreadyCancelledToken_CompletesAsCancelledImmediately
+        RegisterPending_CancellationDuringWait_CompletesAsCancelledAndCleansUp
+        CompleteOnMainThread_DelegateIsInvokedForResolution
+        ConcurrentRequests_ResponseTimeoutAndCancel_AllResolveWithoutLeaks
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/RequestCorrelationRegistryTests.cs.meta
+    Meta for the new test source file.
+
+Modified files:
+- (none)
+
+Implementation summary:
+- Lives in namespace VTuberSystemBase.CoreIpc.Core.Correlation inside
+  the existing VTuberSystemBase.CoreIpc.Core asmdef. No asmdef change
+  required because Core already references the Abstractions package
+  and System.Threading / System.Threading.Tasks are part of the BCL.
+- Made the type public sealed (vs. the internal sketch in
+  design.md §632) for test reachability and parity with
+  SystemTextJsonCodec / MainThreadDispatchQueue, both of which expose
+  the same access level. CoreIpc.Bus (task 2.5) will be the actual
+  caller.
+- Default timeout comes from CoreIpcOptions.DefaultRequestTimeout
+  (5s by default, Req 1.5). Per-call override via the explicit
+  timeout overload, which RequestOptions.Timeout will feed into from
+  the Bus side. Negative timeouts other than Timeout.InfiniteTimeSpan
+  are rejected up front.
+- Cancellation completes the Task with TrySetCanceled (the .NET
+  idiomatic shape) instead of an IpcResult.Fail; the registry never
+  faults the Task, so aware callers can branch on
+  Task.IsCanceled vs Task.Result.Success without a fault path.
+- Concurrent stress test resolves 100 in-flight requests across the
+  three branches (matched response / 500 ms timeout / external
+  cancellation). The test asserts every Task completes within 5 s
+  and that PendingRequestCount returns to zero — i.e., no leaks
+  when the timer, the cancellation callback, and Dispose race for
+  the same entry.
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 21 new tests
+    RequestCorrelationRegistryTests : 21 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests (existing 16 still pass)
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults task-2.3-editmode-results.xml
+             -logFile task-2.3-editmode.log
+    Result XML: 86 tests, 86 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        RequestCorrelationRegistryTests : 21/21 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults task-2.3-playmode-results.xml
+             -logFile task-2.3-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll both built without
+  warnings or errors.
+
+Result: OK
