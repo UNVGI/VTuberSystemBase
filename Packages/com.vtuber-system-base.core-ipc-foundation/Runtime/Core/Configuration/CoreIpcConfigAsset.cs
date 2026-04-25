@@ -15,19 +15,19 @@ namespace VTuberSystemBase.CoreIpc.Core.Configuration
 
         [SerializeField] private int port = 61874;
 
-        [SerializeField, Min(0.0f)] private double defaultRequestTimeoutSeconds = 5.0;
+        [SerializeField] private double defaultRequestTimeoutSeconds = 5.0;
 
-        [SerializeField, Min(0.0f)] private double reconnectInitialDelaySeconds = 0.25;
+        [SerializeField] private double reconnectInitialDelaySeconds = 0.25;
 
-        [SerializeField, Min(0.0f)] private double reconnectMultiplier = 2.0;
+        [SerializeField] private double reconnectMultiplier = 2.0;
 
-        [SerializeField, Min(0.0f)] private double reconnectMaxDelaySeconds = 5.0;
+        [SerializeField] private double reconnectMaxDelaySeconds = 5.0;
 
-        [SerializeField, Min(0)] private int reconnectMaxAttempts = 20;
+        [SerializeField] private int reconnectMaxAttempts = 20;
 
-        [SerializeField, Min(1)] private long maxMessageSizeBytes = 1_048_576;
+        [SerializeField] private long maxMessageSizeBytes = 1_048_576;
 
-        [SerializeField, Min(1)] private int eventQueueWarningThresholdPerTopic = 1000;
+        [SerializeField] private int eventQueueWarningThresholdPerTopic = 1000;
 
         [SerializeField] private LogLevel logLevel = LogLevel.Info;
 
