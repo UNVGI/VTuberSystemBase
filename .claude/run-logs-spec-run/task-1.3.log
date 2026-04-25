@@ -1,3 +1,4 @@
-Test run: EditMode 382/382 Passed (13 new OutputShellLoggerTests cases included). Implemented LogLevel enum and OutputShellLogger 薄ラッパ in Runtime/Diagnostics with structured component/topic/correlationId formatting and Verbose/Info/Warning/Error -> Debug.Log* routing only.
+OK
+t run: EditMode 382/382 Passed (13 new OutputShellLoggerTests cases included). Implemented LogLevel enum and OutputShellLogger 薄ラッパ in Runtime/Diagnostics with structured component/topic/correlationId formatting and Verbose/Info/Warning/Error -> Debug.Log* routing only.
 
 OK

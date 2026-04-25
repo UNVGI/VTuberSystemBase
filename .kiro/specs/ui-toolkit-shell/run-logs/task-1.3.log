@@ -1,0 +1,76 @@
+Task 1.3 package.json とライセンス/バージョン情報を整備する — run log
+==============================================================================
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/package.json
+- Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/CHANGELOG.md
+
+Implementation summary:
+- package.json をパッケージルートに新規作成し、Unity Package Manager に
+  ローカル組み込みパッケージとして登録される最低限のメタデータを宣言。
+  - name: jp.hidano.vtuber-system-base.ui-toolkit-shell
+  - version: 0.1.0 (プレリリース、タスク 1.x〜12.x 完了後に確定)
+  - displayName: VTuberSystemBase UI Toolkit Shell
+  - description: Display 1 用 UI Toolkit シェル / 3 タブ切替 / 起動時
+    プリロード / Addressables ベース非同期ロード Facade / Command 送信
+    と購読の Facade / 共通 UI ライブラリ / スキン拡張点を提供する旨を
+    明記。core-ipc-foundation の抽象 asmdef のみに依存し、具体実装には
+    依存しないことを description で宣言。
+  - unity: "6000.3" (Unity 6.3 系最低バージョン、design.md L181 と
+    既存パッケージに準拠)
+  - type: library
+  - author: VTuberSystemBase
+  - keywords: vtuber / ui-toolkit / uxml / uss / addressables / shell /
+    ui-toolkit-shell の 7 件
+  - dependencies:
+    * com.unity.addressables: "2.6.0" (Requirement 4 / UI-6 で
+      Addressables 一次採用、design.md L182 の "2.x 系" を満たす最新
+      安定バージョンを指定)
+    * com.vtuber-system-base.core-ipc-foundation: "0.1.0"
+      (リポジトリ内で実在するパッケージ ID。タスク文書の
+      `jp.hidano.vtuber-system-base.core-ipc-foundation` 抽象 という
+      表記は、実体パッケージ名 `com.vtuber-system-base.core-ipc-foundation`
+      と一致しないため、実在 ID を使用しないと PackageManager が
+      解決失敗するため実在 ID を採用。Runtime asmdef は当該
+      パッケージの抽象 asmdef `VTuberSystemBase.CoreIpc.Abstractions`
+      のみを参照しており、抽象限定依存の構造は asmdef 側で保証
+      されている。)
+
+- CHANGELOG.md を Keep a Changelog 1.1.0 / SemVer 2.0.0 準拠の雛形
+  として新規作成。Unreleased セクションに 1.1〜1.3 タスクで導入した
+  Foundation 内容（フォルダ構成・asmdef 分割・package.json 雛形）を
+  Added として記録。0.1.0 は TBD として確定タイミングをタスク
+  完了後に委譲。
+
+Verification: Unity Test Runner (batchmode)
+- EditMode:
+  - Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/ui-toolkit-shell/run-logs/task-1.3-editmode-results.xml
+             -logFile .kiro/specs/ui-toolkit-shell/run-logs/task-1.3-editmode.log
+  - Exit code: 0
+  - Result XML summary: testcasecount=383, result=Passed,
+    passed=383, failed=0, inconclusive=0, skipped=0,
+    duration=96.88s
+  - 既存テスト全件緑、新パッケージ起因のコンパイルエラー / 参照
+    エラーなし。
+
+Package Manager 認識確認 (task-1.3-editmode.log より):
+- L225: 新パッケージが
+    jp.hidano.vtuber-system-base.ui-toolkit-shell@file:...
+  として PackageManager に登録された。
+- L706: package.json が PackageManifestImporter で正常にインポート。
+- L697: CHANGELOG.md が TextScriptImporter で正常にインポート。
+- L232 / L246 / L260 / L288: 4 件の asmdef は
+  "will not be compiled, because it has no scripts associated with it"
+  の通常情報メッセージ (タスク 3.x 以降にスクリプト追加予定で想定通り)。
+- 依存先 com.unity.addressables 2.6.0 / com.vtuber-system-base.core-ipc-foundation
+  0.1.0 ともに resolve エラーなく取り込み完了。Addressables の
+  doc-example tests (Unity.Addressables.DocExampleCode.Editor.Tests.dll)
+  が新たにテスト対象に加わり、テスト件数が前タスクの 369 から 383 へ
+  増加（差分 +14 はすべて Addressables 公式 docexample の Passed）。
+
+Result: OK

@@ -20,7 +20,7 @@
   - 観測可能な完了状態: `タブ spec asmdef → CommonUi → Runtime → core-ipc-foundation 抽象` の一方向参照チェインが成立し、逆方向参照が asmdef エラーで拒否される
   - _Requirements: 1.5, 5.8, 5.10, 7.5, 10.5_
 
-- [ ] 1.3 package.json とライセンス/バージョン情報を整備する
+- [x] 1.3 package.json とライセンス/バージョン情報を整備する
   - `package.json` に feature 名・Unity 最低バージョン（6.3）・依存（`com.unity.addressables` 2.x, `jp.hidano.vtuber-system-base.core-ipc-foundation` 抽象）を記述する
   - `CHANGELOG.md` の雛形を置く（本タスクは実装メタデータのみ、機能コード生成を伴わない）
   - 観測可能な完了状態: Package Manager ウィンドウでローカルパッケージとして認識され、依存解決が成功する
