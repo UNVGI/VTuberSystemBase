@@ -1,0 +1,281 @@
+OK
+4.1 WebSocketFrameReader / WebSocketFrameWriter の実装 — run log
+
+Date: 2026-04-25
+Unity: 6000.3.10f1
+
+Created files:
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport.meta
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket.meta
+    Folder asset stubs so Unity recognises the new
+    Transport/WebSocket/ hierarchy under the Core asmdef.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrame.cs
+    Shared types for the RFC 6455 wire layer:
+        WebSocketOpcode (Continuation 0x0, Text 0x1, Binary 0x2,
+            Close 0x8, Ping 0x9, Pong 0xA)
+        WebSocketCloseCode (1000/1001/1002/1003/1007/1008/1009/
+            1010/1011)
+        WebSocketReadStatus (Frame, Close, EndOfStream,
+            ProtocolError, MessageTooBig, InvalidUtf8,
+            MaskRequired, MaskForbidden)
+        WebSocketFrame readonly struct (Fin, Opcode, WasMasked,
+            Payload — payload always returned already-unmasked)
+        WebSocketReadResult readonly struct with private ctor and
+            named factory methods (OkFrame / Close / EndOfStream
+            / ProtocolError / MessageTooBig / InvalidUtf8 /
+            MaskRequired / MaskForbidden)
+        WebSocketFrameRules internal helper for IsControlOpcode,
+            IsKnownOpcode, MaxControlPayloadBytes (=125 per RFC
+            6455 §5.5).
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrame.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrameReader.cs
+    Stream-oriented reader for RFC 6455 frames.
+
+    Constructor:
+        WebSocketFrameReader(Stream stream, bool requireMask,
+            long maxMessagePayloadBytes = 1_048_576)
+        - requireMask=true on the server side (frames from clients
+          MUST be masked, RFC 6455 §5.1) — false on the client
+          side (frames from server MUST NOT be masked).
+        - maxMessagePayloadBytes guards both single-frame and
+          fragmented-message accumulation against the 1 MB ceiling
+          mandated by Req 3.10.
+
+    Public methods:
+        Task<WebSocketReadResult> ReadFrameAsync(CancellationToken)
+            One physical frame: parses FIN, RSV (must be 0),
+            opcode, MASK bit, payload length (7 / 7+16 / 7+64),
+            optional masking key, then reads and unmasks the
+            payload. Returns:
+              Frame    — header + payload OK
+              EndOfStream — stream returned 0 before header/payload
+                            could be filled
+              ProtocolError — RSV bits set, unknown opcode,
+                              fragmented control frame, control
+                              payload > 125 bytes, or 64-bit
+                              length MSB set
+              MaskRequired / MaskForbidden — direction mismatch
+              MessageTooBig — single frame payload > limit (does
+                              NOT consume payload bytes)
+
+        Task<WebSocketReadResult> ReadMessageAsync(CancellationToken)
+            Higher-level: assembles fragmented Text/Binary
+            messages, delivers control frames as their own
+            results, parses Close payload (status code + reason),
+            and validates UTF-8 on assembled Text messages
+            (Req 3.10 / RFC 6455 §5.6 → close 1007 surface).
+            Multi-frame accumulation also enforces the size
+            ceiling (close 1009 surface).
+
+    Static helpers (used by tests and by the future
+    WebSocketServer / HandshakeProcessor):
+        ParseCloseFrame(byte[]) → (code?, reason?)
+            length 0 → (null, null), length 1 → caller treats as
+            protocol error (ReadMessageAsync surfaces this), >=2
+            → big-endian status code + UTF-8 reason (strict).
+        IsValidUtf8(byte[]) → bool
+            UTF8Encoding(throwOnInvalidBytes: true).GetCharCount.
+
+    Notes:
+        - Pure C# on the existing Core asmdef (no Unity engine
+          references), so it runs in EditMode tests against
+          MemoryStream without any PlayerLoop pumping.
+        - All reads use Stream.ReadAsync(byte[], int, int, ct);
+          no Memory<byte> overload required, which keeps it
+          portable across the Unity .NET Standard 2.1 surface.
+        - The reader keeps minimal state across calls: one
+          per-instance scratch buffer and the in-progress message
+          opcode + accumulator buffer. Each ReadFrameAsync call
+          is otherwise stateless.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrameReader.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrameWriter.cs
+    Stream-oriented writer for RFC 6455 frames.
+
+    Constructor:
+        WebSocketFrameWriter(Stream stream, bool maskOutgoing,
+            Func<uint>? maskingKeyProvider = null)
+        - maskOutgoing=true on the client side (must mask),
+          false on the server side (must not mask).
+        - maskingKeyProvider injection makes mask values
+          deterministic in tests (FixedMaskKey = 0xDEADBEEF);
+          the production default uses
+          RandomNumberGenerator.Create() for cryptographic-
+          quality 32-bit keys.
+
+    Public methods:
+        Task WriteFrameAsync(bool fin, WebSocketOpcode opcode,
+            ReadOnlyMemory<byte> payload, CancellationToken)
+            Generic primitive — writes one physical frame.
+            Validates: known opcode (else ArgumentOutOfRangeException),
+            fragmented control frame rejected (else
+            ArgumentException), control payload > 125 bytes
+            rejected (else ArgumentException). Acquires a per-
+            instance SemaphoreSlim so concurrent WriteFrameAsync
+            calls cannot interleave bytes on the wire. Flushes
+            after each frame.
+        Task WriteTextMessageAsync(string text, CancellationToken)
+            UTF-8 encodes and writes a single FIN=1 Text frame.
+        Task WritePingAsync(ReadOnlyMemory<byte>, CancellationToken)
+        Task WritePongAsync(ReadOnlyMemory<byte>, CancellationToken)
+        Task WriteCloseAsync(WebSocketCloseCode code,
+            string? reason, CancellationToken)
+            Builds the standard close payload (2-byte big-endian
+            status code + UTF-8 reason). Rejects payloads > 125
+            bytes (per control-frame rule).
+
+    Static helper:
+        EncodeFrame(bool fin, WebSocketOpcode opcode,
+            ReadOnlySpan<byte> payload, uint? maskingKey) → byte[]
+            Pure-function encoder used by WriteFrameAsync and by
+            tests that want to craft a frame without a Stream.
+            Picks 7-bit / 7+16-bit / 7+64-bit payload-length
+            encoding by size, applies XOR masking when a key is
+            present, sets FIN/MASK header bits accordingly.
+
+    Notes:
+        - Pure C# on the existing Core asmdef.
+        - Disposing the writer disposes the SemaphoreSlim only;
+          the underlying Stream lifetime is owned by the caller
+          (WebSocketServer / WebSocketClient in tasks 4.3 / 4.4).
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Runtime/Core/Transport/WebSocket/WebSocketFrameWriter.cs.meta
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketFrameCodecTests.cs
+    29 NUnit tests under VTuberSystemBase.CoreIpc.Tests.Editor.
+    All tests use a deterministic MaskingKeyProvider
+    (() => 0xDEADBEEFu) so byte-level assertions are stable.
+
+    Coverage map (29 tests, well past the "10 本以上" floor in
+    tasks.md §4.1):
+        Frame size encoding (4):
+            EncodeFrame_Unmasked_ShortPayload_TwoByteHeader
+            EncodeFrame_Unmasked_MediumPayload_UsesTwoByteExtendedLength
+            EncodeFrame_Unmasked_LargePayload_UsesEightByteExtendedLength
+            EncodeFrame_Masked_AppliesMaskAndSetsMaskBit
+        Roundtrip read/write (3):
+            RoundTrip_Text_ServerToClient_Unmasked
+            RoundTrip_Text_ClientToServer_Masked  (multibyte UTF-8)
+            RoundTrip_Text_LargePayload_OverSixteenBitBoundary
+                (70_000 bytes — exercises the 64-bit length path)
+        Fragmentation (3):
+            Fragmented_Text_AcrossThreeFrames_Reassembles
+            Fragmented_Continuation_WithoutInitialFrame_IsProtocolError
+            Fragmented_NewDataFrameInsteadOfContinuation_IsProtocolError
+        Ping / Pong (2):
+            RoundTrip_Ping_Unmasked
+            RoundTrip_Pong_Masked
+        Close (2):
+            Close_WithCodeAndReason_RoundTripsThroughReadMessage
+            Close_EmptyPayload_RoundTrips
+        Mask enforcement (2):
+            Server_Reading_Unmasked_FrameFromClient_ReturnsMaskRequired
+            Client_Reading_Masked_FrameFromServer_ReturnsMaskForbidden
+        Size limits (2):
+            SinglePayload_OverLimit_ReturnsMessageTooBig
+            FragmentedPayload_AccumulatedOverLimit_ReturnsMessageTooBig
+        UTF-8 validation (1):
+            TextFrame_WithInvalidUtf8_ReturnsInvalidUtf8
+        Header validation (5):
+            UnknownOpcode_ReturnsProtocolError
+            RsvBitsSet_ReturnsProtocolError
+            ControlFrame_WithFinUnset_ReturnsProtocolError
+            ControlFrame_WithOversizedPayload_ReturnsProtocolError
+            EmptyStream_ReturnsEndOfStream
+        Writer guard rails (3):
+            Writer_FragmentedControlFrame_Throws
+            Writer_OversizedControlFrame_Throws
+            Writer_UnknownOpcode_Throws
+        IsValidUtf8 helper (2):
+            IsValidUtf8_ValidSequence_ReturnsTrue
+            IsValidUtf8_InvalidSequence_ReturnsFalse
+
+    Test infrastructure:
+        - NewWriter(MemoryStream, bool) — constructs a writer
+          bound to the in-memory stream with the deterministic
+          masking key.
+        - RewindCopy(MemoryStream) — snapshots the writer-side
+          stream and returns a fresh read-only MemoryStream so
+          the reader sees a clean position-0 view.
+
+- Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Editor/WebSocketFrameCodecTests.cs.meta
+
+Modified files:
+- (none)
+
+Implementation summary:
+- The reader/writer pair is the wire-level foundation for the
+  WebSocket transport stack (tasks 4.2–4.5). Both classes live
+  in a new Transport/WebSocket/ folder under the existing Core
+  asmdef so they share the project's nullable-enable / langver
+  10 surface.
+- The reader implements all five mandated opcodes (Text 0x1,
+  Continuation 0x0, Close 0x8, Ping 0x9, Pong 0xA) plus Binary
+  0x2 (parsed but the higher-level transport will reject it per
+  design.md §WebSocketServer "非サポート: Binary"). Direction-
+  specific masking enforcement is encoded by the requireMask
+  ctor argument so the same class serves both server and client
+  read paths.
+- The accumulated 1 MB ceiling is enforced both at the single-
+  frame layer (Req 3.10 — drop oversized frame) and at the
+  multi-fragment assembly layer (Req 3.10 — close 1009 will be
+  emitted by WebSocketServer in task 4.3 once the reader reports
+  MessageTooBig). UTF-8 validation runs on the assembled Text
+  message so that mid-fragment partial code points are not
+  spuriously rejected; close 1007 emission lives in the future
+  WebSocketServer.
+- The writer's masking key is injected via Func<uint> so the
+  EditMode tests get byte-stable output. Production code passes
+  no provider and gets the cryptographic
+  RandomNumberGenerator.Create() default. Concurrent writes are
+  serialised by a SemaphoreSlim — required because each
+  IClientConnection will share one writer between the inbound
+  request handler and the outbound publish path.
+- No Unity engine references, no PlayerLoop coupling — the
+  whole module is unit-testable in EditMode against
+  MemoryStream, which is exactly what the spec calls for ("RFC
+  6455 §5 の主要ケースを網羅する Editor テスト").
+
+Tests added (NUnit):
+- EditMode (Tests.Editor asmdef): 29 new tests
+    WebSocketFrameCodecTests : 29 (listed above)
+- PlayMode (Tests.Runtime asmdef): 0 new tests
+
+Verification: Unity Test Runner (batchmode)
+- EditMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform EditMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.1-editmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.1-editmode.log
+    Result XML: 207 tests, 207 passed, 0 failed, 0 skipped, 0 inconclusive
+        AbstractInterfaceContractTests : 14/14 (regression)
+        ClientSessionManagerTests : 9/9 (regression)
+        ConnectionStateMachineTests : 21/21 (regression)
+        CoreIpcBusTests : 24/24 (regression)
+        CoreIpcErrorVariantsTests : 4/4 (regression)
+        CoreIpcOptionsDefaultsTests : 3/3 (regression)
+        IpcResultTests : 5/5 (regression)
+        MainThreadDispatchQueueTests : 16/16 (regression)
+        MessageEnvelopeAndEnumTypeTests : 7/7 (regression)
+        ReconnectBackoffTests : 21/21 (regression)
+        RequestCorrelationRegistryTests : 21/21 (regression)
+        SystemTextJsonCodecTests : 16/16 (regression)
+        TopicSubscriptionRegistryTests : 17/17 (regression)
+        WebSocketFrameCodecTests : 29/29 (new)
+- PlayMode
+    Command: Unity.exe -batchmode -nographics -projectPath . -runTests
+             -testPlatform PlayMode
+             -testResults .kiro/specs/core-ipc-foundation/run-logs/task-4.1-playmode-results.xml
+             -logFile .kiro/specs/core-ipc-foundation/run-logs/task-4.1-playmode.log
+    Result XML: 16 tests, 16 passed, 0 failed, 0 skipped, 0 inconclusive
+        RuntimeAssemblySmokeTests : 2/2 (regression)
+        TestSupport.FakeClockTests : 8/8 (regression)
+        TestSupport.TestMainThreadPumpTests : 6/6 (regression)
+- Compilation: VTuberSystemBase.CoreIpc.Core.dll and
+  VTuberSystemBase.CoreIpc.Tests.Editor.dll built without errors.
+
+Result: OK
