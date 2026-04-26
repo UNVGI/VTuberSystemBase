@@ -378,7 +378,7 @@
   - _Boundary: Tests/Runtime_
   - _Depends: 10.1_
 
-- [ ] 12.7 E2E (PlayMode): `UiShellPlayModeSample` 最小シーンを仕上げて手動検証手順を付ける
+- [x] 12.7 E2E (PlayMode): `UiShellPlayModeSample` 最小シーンを仕上げて手動検証手順を付ける
   - 2.3 で置いたシーンに `UiShellBootstrapper` 駆動用コンポーネントと既定 SkinProfile を割当てる
   - 手動検証チェックリスト（起動→タブバー表示→クリック切替→通知バー表示）を tests ディレクトリの Markdown で残す
   - 観測可能な完了状態: Editor で PlayMode に入ると Display 1 に UI が出て 3 タブ切替が確認でき、手順書のチェック項目が全て埋まる
