@@ -355,7 +355,7 @@
   - _Boundary: Tests/Runtime_
   - _Depends: 4.4_
 
-- [ ] 12.4 (P) Unit: SkinValidator の必須クラス欠落検出テストを追加する
+- [x] 12.4 (P) Unit: SkinValidator の必須クラス欠落検出テストを追加する
   - 必須クラスを欠落させた UXML と、全クラスが揃った UXML の 2 パターンで Report 差を検証する
   - 観測可能な完了状態: `SkinValidatorTests` が全緑で CI に乗る
   - _Requirements: 6.5, 6.6, 10.5_
