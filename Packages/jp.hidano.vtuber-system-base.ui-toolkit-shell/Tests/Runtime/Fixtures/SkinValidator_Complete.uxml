@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Task 12.4 fixture: ルート + 3 タブの全必須クラス
+  (SkinValidationRules.RequiredRootClasses / RequiredTabClassesFor) が
+  揃った "正常 UXML"。SkinValidatorTests がこの VTA をクローンして
+  AllValid==true / Issues==空 を assert する。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="root-panel" class="vsb-shell-root">
+        <VisualElement name="vsb-tab-bar" class="vsb-tab-bar">
+            <Button name="vsb-tab-bar__button--character"
+                    class="vsb-tab-bar__button"
+                    text="Character" />
+            <Button name="vsb-tab-bar__button--stage-lighting"
+                    class="vsb-tab-bar__button"
+                    text="Stage" />
+            <Button name="vsb-tab-bar__button--camera-switcher"
+                    class="vsb-tab-bar__button"
+                    text="Camera" />
+        </VisualElement>
+        <VisualElement name="vsb-notification-bar" class="vsb-notification-bar" />
+    </VisualElement>
+    <VisualElement name="tab-root-character"
+                   class="vsb-tab-root vsb-tab-root--character" />
+    <VisualElement name="tab-root-stage-lighting"
+                   class="vsb-tab-root vsb-tab-root--stage-lighting" />
+    <VisualElement name="tab-root-camera-switcher"
+                   class="vsb-tab-root vsb-tab-root--camera-switcher" />
+</UXML>

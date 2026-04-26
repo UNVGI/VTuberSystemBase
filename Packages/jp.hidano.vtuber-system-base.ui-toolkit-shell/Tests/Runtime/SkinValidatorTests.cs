@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine.UIElements;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using VTuberSystemBase.UiToolkitShell.Panels;
@@ -239,6 +240,143 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
             var report = _validator.Validate(rootPanel, tabRoots);
 
             Assert.That(report.AllValid, Is.True);
+        }
+
+        // ----- task 12.4: UXML-driven必須クラス欠落検出テスト -----------------
+
+        private const string CompleteUxmlPath =
+            "Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/Fixtures/SkinValidator_Complete.uxml";
+
+        private const string MissingRequiredUxmlPath =
+            "Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/Fixtures/SkinValidator_MissingRequired.uxml";
+
+        [Test]
+        [Description("task 12.4: 全クラスが揃った UXML をクローンして Validate するとAllValid==true / Issues==空 (Requirement 6.5, 6.6)")]
+        public void Validate_CompleteUxmlFixture_ReturnsAllValidWithEmptyIssues()
+        {
+            using var tree = LoadFixtureTree(CompleteUxmlPath);
+            var (rootPanel, tabRoots) = ExtractShellRoots(tree.Instance);
+
+            var report = _validator.Validate(rootPanel, tabRoots);
+
+            Assert.That(report.AllValid, Is.True,
+                "Complete fixture must satisfy every required selector");
+            Assert.That(report.Issues, Is.Empty);
+            Assert.That(_logger.Entries, Is.Empty,
+                "正常パスでは Skin カテゴリのエラーログを出さない");
+        }
+
+        [Test]
+        [Description("task 12.4: 必須クラスを欠落させた UXML は AllValid==false かつ欠落セレクタを Report に含める (Requirement 6.5, 6.6)")]
+        public void Validate_MissingRequiredUxmlFixture_ReportsMissingSelectors()
+        {
+            using var tree = LoadFixtureTree(MissingRequiredUxmlPath);
+            var (rootPanel, tabRoots) = ExtractShellRoots(tree.Instance);
+
+            var report = _validator.Validate(rootPanel, tabRoots);
+
+            Assert.That(report.AllValid, Is.False);
+            // Root: vsb-notification-bar 欠落 1 件 + Character: modifier 欠落 1 件 = 2 件
+            Assert.That(report.Issues.Count, Is.EqualTo(2));
+
+            var rootIssue = report.Issues.Single(i => i.TabId is null);
+            Assert.That(rootIssue.MissingSelector,
+                Is.EqualTo(SkinValidationRules.Root.NotificationBar),
+                "ルート欠落 Issue は TabId==null かつ MissingSelector が vsb-notification-bar");
+
+            var characterIssue = report.Issues.Single(i => i.TabId == TabId.Character);
+            Assert.That(characterIssue.MissingSelector,
+                Is.EqualTo(SkinValidationRules.CharacterTab.TabRootModifier),
+                "Character タブ欠落 Issue は TabId==Character かつ modifier セレクタ");
+
+            Assert.That(report.Issues.Any(i => i.TabId == TabId.StageLighting), Is.False,
+                "完備な StageLighting タブには Issue を生成しない");
+            Assert.That(report.Issues.Any(i => i.TabId == TabId.CameraSwitcher), Is.False,
+                "完備な CameraSwitcher タブには Issue を生成しない");
+        }
+
+        [Test]
+        [Description("task 12.4: 2 パターンの UXML で Report が差分化する (AllValid と Issues.Count が反転)")]
+        public void Validate_CompleteVsMissingUxml_ProducesDistinguishableReports()
+        {
+            SkinValidationReport completeReport;
+            SkinValidationReport missingReport;
+
+            using (var completeTree = LoadFixtureTree(CompleteUxmlPath))
+            {
+                var (root, tabs) = ExtractShellRoots(completeTree.Instance);
+                completeReport = _validator.Validate(root, tabs);
+            }
+
+            // Reset logger between fixtures so log assertions reflect only the failure case.
+            _logger = new RecordingDiagnosticsLogger();
+            _validator = new SkinValidator(_logger);
+
+            using (var missingTree = LoadFixtureTree(MissingRequiredUxmlPath))
+            {
+                var (root, tabs) = ExtractShellRoots(missingTree.Instance);
+                missingReport = _validator.Validate(root, tabs);
+            }
+
+            Assert.That(completeReport.AllValid, Is.True);
+            Assert.That(missingReport.AllValid, Is.False);
+            Assert.That(completeReport.Issues.Count, Is.EqualTo(0));
+            Assert.That(missingReport.Issues.Count, Is.GreaterThan(0));
+            Assert.That(_logger.Entries.Count, Is.EqualTo(missingReport.Issues.Count),
+                "欠落 UXML の Validate 1 回につき Issue 件数と等しいログが Skin カテゴリで残る");
+            Assert.That(_logger.Entries.All(e => e.Category == LogCategory.Skin), Is.True);
+        }
+
+        // ----- UXML fixture helpers ---------------------------------------
+
+        private readonly struct LoadedFixtureTree : IDisposable
+        {
+            public LoadedFixtureTree(VisualElement instance)
+            {
+                Instance = instance;
+            }
+
+            public VisualElement Instance { get; }
+
+            public void Dispose()
+            {
+                Instance?.RemoveFromHierarchy();
+            }
+        }
+
+        private static LoadedFixtureTree LoadFixtureTree(string path)
+        {
+            var vta = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
+            Assume.That(vta, Is.Not.Null,
+                $"Fixture UXML must be reachable at '{path}' (task 12.4)");
+            var instance = vta.Instantiate();
+            return new LoadedFixtureTree(instance);
+        }
+
+        private static (VisualElement rootPanel, IReadOnlyDictionary<TabId, VisualElement> tabRoots)
+            ExtractShellRoots(VisualElement instance)
+        {
+            var rootPanel = instance.Q<VisualElement>("root-panel");
+            Assume.That(rootPanel, Is.Not.Null,
+                "Fixture UXML must declare an element named 'root-panel'");
+
+            var character = instance.Q<VisualElement>("tab-root-character");
+            var stage = instance.Q<VisualElement>("tab-root-stage-lighting");
+            var camera = instance.Q<VisualElement>("tab-root-camera-switcher");
+            Assume.That(character, Is.Not.Null,
+                "Fixture UXML must declare an element named 'tab-root-character'");
+            Assume.That(stage, Is.Not.Null,
+                "Fixture UXML must declare an element named 'tab-root-stage-lighting'");
+            Assume.That(camera, Is.Not.Null,
+                "Fixture UXML must declare an element named 'tab-root-camera-switcher'");
+
+            var tabRoots = new Dictionary<TabId, VisualElement>
+            {
+                { TabId.Character, character! },
+                { TabId.StageLighting, stage! },
+                { TabId.CameraSwitcher, camera! },
+            };
+            return (rootPanel!, tabRoots);
         }
 
         // ----- helpers ----------------------------------------------------

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Task 12.4 fixture: 必須クラスを意図的に欠落させた "破損 UXML"。
+    - ルート: vsb-notification-bar 要素を欠落 → Root スコープの欠落 1 件
+    - Character タブ: vsb-tab-root のみ (vsb-tab-root--character modifier 欠落)
+                       → TabId.Character スコープの欠落 1 件
+  StageLighting / CameraSwitcher は完備のままで、欠落検出が
+  欠落のあるスコープに限定されることを Report で確認できる。
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="root-panel" class="vsb-shell-root">
+        <VisualElement name="vsb-tab-bar" class="vsb-tab-bar">
+            <Button name="vsb-tab-bar__button--character"
+                    class="vsb-tab-bar__button"
+                    text="Character" />
+            <Button name="vsb-tab-bar__button--stage-lighting"
+                    class="vsb-tab-bar__button"
+                    text="Stage" />
+            <Button name="vsb-tab-bar__button--camera-switcher"
+                    class="vsb-tab-bar__button"
+                    text="Camera" />
+        </VisualElement>
+        <!-- vsb-notification-bar 要素は意図的に省略 (Root スコープの違反) -->
+    </VisualElement>
+    <!-- Character タブは vsb-tab-root のみで modifier 欠落 -->
+    <VisualElement name="tab-root-character" class="vsb-tab-root" />
+    <VisualElement name="tab-root-stage-lighting"
+                   class="vsb-tab-root vsb-tab-root--stage-lighting" />
+    <VisualElement name="tab-root-camera-switcher"
+                   class="vsb-tab-root vsb-tab-root--camera-switcher" />
+</UXML>
