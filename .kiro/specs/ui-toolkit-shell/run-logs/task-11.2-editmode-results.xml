@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="12" result="Passed" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.1676428">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="754" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.167643" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1405" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="371" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.142391" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60016" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1406" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="371" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.134800" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1407" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="371" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.127216" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1408" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="371" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.119734" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1409" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="371" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.112215" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1152" name="SkinProfileEditorTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-04-26 02:15:06Z" end-time="2026-04-26 02:15:07Z" duration="0.083529" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1161" name="CopyPackageDefaults_FillsEmptyFields_AndClearsMissingRoot" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.CopyPackageDefaults_FillsEmptyFields_AndClearsMissingRoot" methodname="CopyPackageDefaults_FillsEmptyFields_AndClearsMissingRoot" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="425314751" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.051159" asserts="0">
+                  <properties>
+                    <property name="Description" value="CopyPackageDefaults が空フィールドを埋め、Validate が成功するようになる" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1163" name="CopyPackageDefaults_NullProfile_ReturnsZero" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.CopyPackageDefaults_NullProfile_ReturnsZero" methodname="CopyPackageDefaults_NullProfile_ReturnsZero" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="69964232" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.002589" asserts="0">
+                  <properties>
+                    <property name="Description" value="CopyPackageDefaults は null プロファイルに対して 0 を返し例外を投げない" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1162" name="CopyPackageDefaults_PreservesExistingFields" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.CopyPackageDefaults_PreservesExistingFields" methodname="CopyPackageDefaults_PreservesExistingFields" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="1966470173" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000553" asserts="0">
+                  <properties>
+                    <property name="Description" value="CopyPackageDefaults は既存の手動設定を上書きしない（idempotent / non-destructive）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1160" name="DefaultAssetPaths_PointToExistingPackageAssets" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.DefaultAssetPaths_PointToExistingPackageAssets" methodname="DefaultAssetPaths_PointToExistingPackageAssets" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="1836223379" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000362" asserts="0">
+                  <properties>
+                    <property name="Description" value="既定 UXML/USS のパッケージパスが実在する（ボタン押下時に欠落しない）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1153" name="Editor_DeclaresCustomEditorAttribute_AndIsBoundBySerializedObject" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.Editor_DeclaresCustomEditorAttribute_AndIsBoundBySerializedObject" methodname="Editor_DeclaresCustomEditorAttribute_AndIsBoundBySerializedObject" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="1414991192" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.012085" asserts="0">
+                  <properties>
+                    <property name="Description" value="CustomEditor 属性が宣言されており、Unity が SkinProfile の Inspector として認識する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1154" name="Editor_DerivesFromUnityEditor_Editor" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.Editor_DerivesFromUnityEditor_Editor" methodname="Editor_DerivesFromUnityEditor_Editor" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="1922763207" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000207" asserts="0">
+                  <properties>
+                    <property name="Description" value="Editor 型は UnityEditor.Editor 派生である" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1155" name="GetTabSectionHeading_ReturnsUniqueLabel_ForEachTab" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.GetTabSectionHeading_ReturnsUniqueLabel_ForEachTab" methodname="GetTabSectionHeading_ReturnsUniqueLabel_ForEachTab" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="324529269" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000975" asserts="0">
+                  <properties>
+                    <property name="Description" value="3 タブそれぞれにユニークな見出しが定義されている (task 11.2 観測可能な完了状態)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1164" name="GuidanceCopy_IsPresent" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.GuidanceCopy_IsPresent" methodname="GuidanceCopy_IsPresent" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="1709243173" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.001020" asserts="0">
+                  <properties>
+                    <property name="Description" value="Inspector の主要文言（イントロ / 警告 / ボタン）は非空で利用者ガイドとして使える" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1158" name="HasMissingRequiredField_EmptyProfile_IsTrue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.HasMissingRequiredField_EmptyProfile_IsTrue" methodname="HasMissingRequiredField_EmptyProfile_IsTrue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="314543998" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000186" asserts="0">
+                  <properties>
+                    <property name="Description" value="HasMissingRequiredField は RootVisualTreeAsset 未設定の空プロファイルを true と判定する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1157" name="HasMissingRequiredField_NullProfile_IsTrue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.HasMissingRequiredField_NullProfile_IsTrue" methodname="HasMissingRequiredField_NullProfile_IsTrue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="128060924" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000116" asserts="0">
+                  <properties>
+                    <property name="Description" value="HasMissingRequiredField は null プロファイルを true（警告対象）と判定する" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1159" name="HasMissingRequiredField_ProfileWithRoot_IsFalse" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.HasMissingRequiredField_ProfileWithRoot_IsFalse" methodname="HasMissingRequiredField_ProfileWithRoot_IsFalse" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="237270335" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000289" asserts="0">
+                  <properties>
+                    <property name="Description" value="HasMissingRequiredField は RootVisualTreeAsset が埋まっていれば false" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1156" name="RootAndCommonUiSectionLabels_AreNonEmpty" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests.RootAndCommonUiSectionLabels_AreNonEmpty" methodname="RootAndCommonUiSectionLabels_AreNonEmpty" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinProfileEditorTests" runstate="Runnable" seed="271373436" result="Passed" start-time="2026-04-26 02:15:07Z" end-time="2026-04-26 02:15:07Z" duration="0.000147" asserts="0">
+                  <properties>
+                    <property name="Description" value="Root / Common UI セクションラベルも非空（タブ以外の見出しもガイド対象）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
