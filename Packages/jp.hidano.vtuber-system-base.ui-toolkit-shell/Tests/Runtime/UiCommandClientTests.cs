@@ -209,19 +209,14 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
 
         [Test]
         [Description("RequestAsync のタイムアウト超過は RequestErrorCode.Timeout を返し、例外を外に投げない (Req 5.9, core-ipc D-8 継承)")]
-        public void RequestAsync_OnTimeout_ReturnsTimeoutError_NoException()
+        public async Task RequestAsync_OnTimeout_ReturnsTimeoutError_NoException()
         {
             Connect();
 
-            RequestResult<ResponsePayload> result = default;
-            Assert.DoesNotThrowAsync(async () =>
-                {
-                    result = await _sut.RequestAsync<RequestPayload, ResponsePayload>(
-                        "ui/character/request",
-                        new RequestPayload { Echo = "hi" },
-                        timeout: TimeSpan.FromMilliseconds(50));
-                },
-                "Timeout path must never escape as an exception (UI must not crash).");
+            RequestResult<ResponsePayload> result = await _sut.RequestAsync<RequestPayload, ResponsePayload>(
+                "ui/character/request",
+                new RequestPayload { Echo = "hi" },
+                timeout: TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
 
             AssertRequestError(result, RequestErrorCode.Timeout,
                 "Bus-side RequestTimeout must be mapped onto RequestErrorCode.Timeout.");
