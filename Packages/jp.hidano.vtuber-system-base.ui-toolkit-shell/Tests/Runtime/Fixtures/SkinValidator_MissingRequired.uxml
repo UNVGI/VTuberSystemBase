@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Task 12.4 fixture: 必須クラスを意図的に欠落させた "破損 UXML"。
-    - ルート: vsb-notification-bar 要素を欠落 → Root スコープの欠落 1 件
-    - Character タブ: vsb-tab-root のみ (vsb-tab-root--character modifier 欠落)
+    * ルート: vsb-notification-bar 要素を欠落 → Root スコープの欠落 1 件
+    * Character タブ: vsb-tab-root のみ (modifier 欠落)
                        → TabId.Character スコープの欠落 1 件
   StageLighting / CameraSwitcher は完備のままで、欠落検出が
   欠落のあるスコープに限定されることを Report で確認できる。

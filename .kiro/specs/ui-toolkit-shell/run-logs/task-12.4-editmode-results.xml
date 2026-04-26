@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="17" result="Passed" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.1062208">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="780" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.106221" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1434" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="397" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.092189" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60252" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1435" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="397" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.088875" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1436" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="397" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.085633" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1437" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="397" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.082413" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1438" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="397" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.079191" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1188" name="SkinValidatorTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.068958" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1189" name="Constructor_NullLogger_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Constructor_NullLogger_Throws" methodname="Constructor_NullLogger_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="539094321" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.008265" asserts="0">
+                  <properties>
+                    <property name="Description" value="コンストラクタは null logger を拒否する（DI 契約）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1200" name="DefaultReport_IsTreatedAsValidAndExposesEmptyIssues" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.DefaultReport_IsTreatedAsValidAndExposesEmptyIssues" methodname="DefaultReport_IsTreatedAsValidAndExposesEmptyIssues" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1294970884" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.001732" asserts="0">
+                  <properties>
+                    <property name="Description" value="default(SkinValidationReport) は AllValid==true / Issues==空コレクションとして安全に扱える" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1201" name="SkinValidator_Implements_ISkinValidator" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.SkinValidator_Implements_ISkinValidator" methodname="SkinValidator_Implements_ISkinValidator" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="496701684" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000312" asserts="0">
+                  <properties>
+                    <property name="Description" value="ISkinValidator が公開インタフェースとして存在し、SkinValidator が実装している（design.md §SkinValidator Service Interface）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1192" name="Validate_AllRequiredClassesPresent_ReturnsAllValidTrue" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_AllRequiredClassesPresent_ReturnsAllValidTrue" methodname="Validate_AllRequiredClassesPresent_ReturnsAllValidTrue" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="475733572" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.020010" asserts="0">
+                  <properties>
+                    <property name="Description" value="ルート + 全タブが必須クラスを揃えていれば AllValid==true / Issues==空（design.md §SkinValidator 正常パス）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1203" name="Validate_CompleteUxmlFixture_ReturnsAllValidWithEmptyIssues" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_CompleteUxmlFixture_ReturnsAllValidWithEmptyIssues" methodname="Validate_CompleteUxmlFixture_ReturnsAllValidWithEmptyIssues" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="351294729" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.013074" asserts="0">
+                  <properties>
+                    <property name="Description" value="task 12.4: 全クラスが揃った UXML をクローンして Validate するとAllValid==true / Issues==空 (Requirement 6.5, 6.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1205" name="Validate_CompleteVsMissingUxml_ProducesDistinguishableReports" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_CompleteVsMissingUxml_ProducesDistinguishableReports" methodname="Validate_CompleteVsMissingUxml_ProducesDistinguishableReports" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="173028232" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.005065" asserts="0">
+                  <properties>
+                    <property name="Description" value="task 12.4: 2 パターンの UXML で Report が差分化する (AllValid と Issues.Count が反転)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1197" name="Validate_DoesNotMutateInputs" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_DoesNotMutateInputs" methodname="Validate_DoesNotMutateInputs" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1231073960" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.001532" asserts="0">
+                  <properties>
+                    <property name="Description" value="Validator は副作用として UIDocument の状態を変更しない（design.md §SkinValidator Invariants）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1199" name="Validate_LogMessage_ContainsMissingSelector" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_LogMessage_ContainsMissingSelector" methodname="Validate_LogMessage_ContainsMissingSelector" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="847089545" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000557" asserts="0">
+                  <properties>
+                    <property name="Description" value="ログメッセージに Issue.MissingSelector が含まれる（運用者がログだけで欠落セレクタを特定できる）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1198" name="Validate_LogsEachIssueAtErrorLevel_WithSkinCategory" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_LogsEachIssueAtErrorLevel_WithSkinCategory" methodname="Validate_LogsEachIssueAtErrorLevel_WithSkinCategory" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1025805121" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000654" asserts="0">
+                  <properties>
+                    <property name="Description" value="失敗時に DiagnosticsLogger.Log が LogLevel.Error / LogCategory.Skin で発火する（task 6.3 ログが Skin カテゴリで残る）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1204" name="Validate_MissingRequiredUxmlFixture_ReportsMissingSelectors" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_MissingRequiredUxmlFixture_ReportsMissingSelectors" methodname="Validate_MissingRequiredUxmlFixture_ReportsMissingSelectors" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1979403088" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.001216" asserts="0">
+                  <properties>
+                    <property name="Description" value="task 12.4: 必須クラスを欠落させた UXML は AllValid==false かつ欠落セレクタを Report に含める (Requirement 6.5, 6.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1196" name="Validate_MultipleScopesMissingClasses_AggregatesIssuesPerScope" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_MultipleScopesMissingClasses_AggregatesIssuesPerScope" methodname="Validate_MultipleScopesMissingClasses_AggregatesIssuesPerScope" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1846407374" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.001763" asserts="0">
+                  <properties>
+                    <property name="Description" value="複数タブ + ルートが同時に違反した場合、各 Issue にそれぞれの TabId が紐付く（縮退検出の網羅性）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1193" name="Validate_NoIssues_DoesNotEmitLog" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_NoIssues_DoesNotEmitLog" methodname="Validate_NoIssues_DoesNotEmitLog" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="778794977" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000282" asserts="0">
+                  <properties>
+                    <property name="Description" value="正常パスでは DiagnosticsLogger にエントリが残らない（規約違反のみログ出力）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1190" name="Validate_NullRoot_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_NullRoot_Throws" methodname="Validate_NullRoot_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1457685479" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000275" asserts="0">
+                  <properties>
+                    <property name="Description" value="Validate は null rootPanel を拒否する（前提条件: OnEnable 完了済み rootVisualElement）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1191" name="Validate_NullTabRoots_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_NullTabRoots_Throws" methodname="Validate_NullTabRoots_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="767957827" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000265" asserts="0">
+                  <properties>
+                    <property name="Description" value="Validate は null tabRoots 辞書を拒否する（前提条件: 呼出し元が辞書を構築する）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1194" name="Validate_RootMissingTabBar_AppendsIssueWithNullTabId" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_RootMissingTabBar_AppendsIssueWithNullTabId" methodname="Validate_RootMissingTabBar_AppendsIssueWithNullTabId" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="19043853" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000461" asserts="0">
+                  <properties>
+                    <property name="Description" value="Root に必須クラス（vsb-tab-bar）が無い場合、TabId==null の Issue として報告される（規約違反検出 task 6.3 観測可能な完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1202" name="Validate_RootSelector_OnRootElementItself_IsDetected" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_RootSelector_OnRootElementItself_IsDetected" methodname="Validate_RootSelector_OnRootElementItself_IsDetected" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1883151401" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000213" asserts="0">
+                  <properties>
+                    <property name="Description" value="ルートは ClassListContains（自身に付与）でも検出される（rootVisualElement 自身が必須クラスを持つケースを許容）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1195" name="Validate_TabMissingRequiredModifier_AppendsIssueWithThatTabId" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests.Validate_TabMissingRequiredModifier_AppendsIssueWithThatTabId" methodname="Validate_TabMissingRequiredModifier_AppendsIssueWithThatTabId" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.SkinValidatorTests" runstate="Runnable" seed="1057811475" result="Passed" start-time="2026-04-26 13:57:06Z" end-time="2026-04-26 13:57:06Z" duration="0.000509" asserts="0">
+                  <properties>
+                    <property name="Description" value="特定タブの必須 modifier 欠落時、該当 TabId を Issue.TabId に持つ Issue が返る（task 6.3 観測可能な完了状態）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
