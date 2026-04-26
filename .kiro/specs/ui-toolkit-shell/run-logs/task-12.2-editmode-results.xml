@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Passed" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.096985">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="769" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.096985" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1422" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="386" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.077079" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="55536" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1423" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="386" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.076404" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1424" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="386" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.075953" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1425" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="386" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.075524" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1426" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="386" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.074966" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1001" name="AddressablesAssetLoaderTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.063958" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1008" name="Cancel_CallbackFiresOnCapturedMainThread" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.Cancel_CallbackFiresOnCapturedMainThread" methodname="Cancel_CallbackFiresOnCapturedMainThread" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="979981004" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.039975" asserts="0">
+                  <properties>
+                    <property name="Description" value="Cancel callback は呼出しスレッド (= Unity メインスレッド for EditMode tests) で発火する (Req 4.3)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+System.Exception: Invalid path in TextDataProvider : 'Library/com.unity.addressables/aa/Windows/settings.json'.
+RuntimeData is null.  Please ensure you have built the correct Player Content.
+Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=stage/light/key
+]]></output>
+                </test-case>
+                <test-case id="1007" name="Cancel_OneOfDuplicateHandles_DoesNotAffectTheOther" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.Cancel_OneOfDuplicateHandles_DoesNotAffectTheOther" methodname="Cancel_OneOfDuplicateHandles_DoesNotAffectTheOther" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="1592706116" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.003934" asserts="0">
+                  <properties>
+                    <property name="Description" value="重複ロードのうち片方を Cancel しても、他方は Pending を維持し callback も発火しない (Req 4.7 + 4.8)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=character/avatar/main
+]]></output>
+                </test-case>
+                <test-case id="1006" name="Cancel_PendingHandle_DeliversCancelledCallbackWithCorrectKey" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.Cancel_PendingHandle_DeliversCancelledCallbackWithCorrectKey" methodname="Cancel_PendingHandle_DeliversCancelledCallbackWithCorrectKey" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="1727033001" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.001516" asserts="0">
+                  <properties>
+                    <property name="Description" value="Cancel: pending wrapper の callback は LoadErrorCode.Cancelled で 1 回だけ発火し、AddressableKey が保持される (design.md §AssetLoading Invariants)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=camera/preview/render
+]]></output>
+                </test-case>
+                <test-case id="1009" name="Cancel_Twice_DoesNotInvokeCallbackTwice" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.Cancel_Twice_DoesNotInvokeCallbackTwice" methodname="Cancel_Twice_DoesNotInvokeCallbackTwice" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="64201504" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.000917" asserts="0">
+                  <properties>
+                    <property name="Description" value="Cancel 後の再 Cancel は callback を再発火させない (callback は高々 1 回; design.md §AssetLoading Invariants)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=stage/lighting/key
+]]></output>
+                </test-case>
+                <test-case id="1002" name="Constructor_NullLogger_Throws" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.Constructor_NullLogger_Throws" methodname="Constructor_NullLogger_Throws" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="1223513362" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.001580" asserts="0">
+                  <properties>
+                    <property name="Description" value="Constructor は null logger を拒否する (Composition Root invariant)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1003" name="LoadAsync_InvalidArguments_ThrowImmediately" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.LoadAsync_InvalidArguments_ThrowImmediately" methodname="LoadAsync_InvalidArguments_ThrowImmediately" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="742285383" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.000465" asserts="0">
+                  <properties>
+                    <property name="Description" value="LoadAsync は空 key / 空 scopeId / null callback を即時拒否する (design.md §AssetLoading Preconditions)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1004" name="LoadAsync_SameKeyTwice_DedupsToSingleSharedEntry_EmitsOneAssetUnloadedLog" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.LoadAsync_SameKeyTwice_DedupsToSingleSharedEntry_EmitsOneAssetUnloadedLog" methodname="LoadAsync_SameKeyTwice_DedupsToSingleSharedEntry_EmitsOneAssetUnloadedLog" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="860331437" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.002295" asserts="0">
+                  <properties>
+                    <property name="Description" value="同一 (key, type) の連続 LoadAsync は 1 本の underlying ハンドルに集約され、両 wrapper を Release しきった時点でのみ AssetUnloaded ログが 1 回出る (Req 4.7, 11.3)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=character/avatar/main
+]]></output>
+                </test-case>
+                <test-case id="1005" name="LoadAsync_SingleCall_Release_EmitsOneAssetUnloadedLog" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests.LoadAsync_SingleCall_Release_EmitsOneAssetUnloadedLog" methodname="LoadAsync_SingleCall_Release_EmitsOneAssetUnloadedLog" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.AddressablesAssetLoaderTests" runstate="Runnable" seed="97866674" result="Passed" start-time="2026-04-26 02:41:49Z" end-time="2026-04-26 02:41:49Z" duration="0.000817" asserts="0">
+                  <properties>
+                    <property name="Description" value="LoadAsync が 1 回しか呼ばれていない場合、Release で AssetUnloaded ログは 1 回 (regression baseline for the dedupe count)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[
+IgnoreFailingMessages:true
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=stage/light/key
+OperationException : ChainOperation failed because dependent operation failed
+UnityEngine.AddressableAssets.InvalidKeyException: Exception of type 'UnityEngine.AddressableAssets.InvalidKeyException' was thrown. No Location found for Key=stage/light/key
+Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
