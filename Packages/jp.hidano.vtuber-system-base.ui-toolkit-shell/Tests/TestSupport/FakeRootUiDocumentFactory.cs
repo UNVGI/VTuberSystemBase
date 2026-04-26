@@ -22,6 +22,8 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
         public PanelSettings? LastPanelSettings { get; private set; }
         public VisualElement? LastRoot { get; private set; }
         public VisualElement? LastNotificationHost { get; private set; }
+        public UiToolkitShellSkinProfile? LastSkinProfile { get; private set; }
+        public UnityEngine.UIElements.VisualTreeAsset? LastSkinRootVisualTreeAsset { get; private set; }
         public int CreateInvocationCount { get; private set; }
         public int DisposeInvocationCount { get; private set; }
         public int LastRequestedTargetDisplay { get; private set; }
@@ -33,6 +35,8 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
         {
             CreateInvocationCount++;
             LastRequestedTargetDisplay = requestedTargetDisplay;
+            LastSkinProfile = skinProfile;
+            LastSkinRootVisualTreeAsset = skinProfile?.RootVisualTreeAsset;
 
             if (ShouldThrow)
             {

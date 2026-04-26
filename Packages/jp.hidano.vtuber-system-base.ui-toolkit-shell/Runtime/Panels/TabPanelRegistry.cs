@@ -248,6 +248,48 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
         }
 
         /// <summary>
+        /// Returns a snapshot of the per-tab <see cref="VisualElement"/> roots that have
+        /// been bound via <see cref="NotifyTabMounted(TabId, VisualElement)"/>. Used by
+        /// <c>UiShellBootstrapper</c> to feed <see cref="VTuberSystemBase.UiToolkitShell.Skin.SkinValidator"/>
+        /// (task 11.1) and to apply per-tab style sheets to the bound roots after mount.
+        /// The returned dictionary is a copy so callers can mutate it without aliasing
+        /// registry state (Requirement 6.5, 6.6).
+        /// </summary>
+        public IReadOnlyDictionary<TabId, VisualElement> SnapshotTabRoots()
+        {
+            return new Dictionary<TabId, VisualElement>(_roots);
+        }
+
+        /// <summary>
+        /// Skin-validation specific failure mark: unlike <see cref="MarkTabFailed"/>
+        /// (which is a no-op once the tab has resolved to Mounted, so OnEnable
+        /// re-entrancy can't downgrade a healthy tab) this entry point explicitly
+        /// allows a Mounted tab to be downgraded to Failed when
+        /// <c>SkinValidator</c> detects required-selector breakage on the post-mount
+        /// tree. The asymmetry is intentional: skin validation runs after
+        /// <c>NotifyTabMounted</c> in the bootstrap order (task 11.1), so without
+        /// this override the failed tab would remain switchable and Requirement 6.6
+        /// (該当タブのみ非活性化) would not hold. Already-Failed tabs short-circuit
+        /// (failure wins).
+        /// </summary>
+        public void MarkTabFailedFromSkinValidation(TabId tabId, string reason)
+        {
+            if (string.IsNullOrEmpty(reason))
+            {
+                throw new ArgumentException(
+                    "reason must not be null or empty",
+                    nameof(reason));
+            }
+            if (_states[tabId] == TabState.Failed) return;
+            _states[tabId] = TabState.Failed;
+            _logger.Log(
+                LogLevel.Error,
+                LogCategory.Skin,
+                $"Tab {tabId} disabled by skin validation: {reason}");
+            RaisePreloadEvent(tabId, PreloadOutcome.Failed);
+        }
+
+        /// <summary>
         /// Backstop sweep — disposes every live <see cref="ITabLifecycleHandle"/>
         /// produced by <see cref="RegisterTab"/>. Used by
         /// <c>UiShellBootstrapper.StopShell</c> so that subscriptions and asset

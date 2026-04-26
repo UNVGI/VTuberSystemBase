@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using VTuberSystemBase.UiToolkitShell.Bootstrap;
 using VTuberSystemBase.UiToolkitShell.Panels;
+using VTuberSystemBase.UiToolkitShell.Skin;
 
 namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
 {
@@ -23,6 +24,14 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
         public int InvocationCount { get; private set; }
         public TabMountContext? LastContext { get; private set; }
 
+        /// <summary>
+        /// Tab IDs whose root <see cref="VisualElement"/> should be created without the
+        /// per-tab modifier class (e.g. <c>vsb-tab-root--character</c>). Used by skin
+        /// integration tests (task 11.1) to drive the "missing required class → tab marked
+        /// failed" path through <see cref="SkinValidator"/>.
+        /// </summary>
+        public HashSet<TabId> OmitModifierClassFor { get; } = new HashSet<TabId>();
+
         public bool MountTabs(TabMountContext context)
         {
             InvocationCount++;
@@ -41,13 +50,28 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.TestSupport
             foreach (TabId tabId in new[] { TabId.Character, TabId.StageLighting, TabId.CameraSwitcher })
             {
                 var element = new VisualElement { name = $"fake-tab-{tabId}" };
-                element.AddToClassList("vsb-tab-root");
+                element.AddToClassList(SkinValidationRules.CharacterTab.TabRoot);
+                if (!OmitModifierClassFor.Contains(tabId))
+                {
+                    element.AddToClassList(ModifierClassFor(tabId));
+                }
                 CreatedRoots[tabId] = element;
                 context.RootVisualElement.Add(element);
                 context.Registry.NotifyTabMounted(tabId, element);
             }
 
             return true;
+        }
+
+        private static string ModifierClassFor(TabId tabId)
+        {
+            return tabId switch
+            {
+                TabId.Character => SkinValidationRules.CharacterTab.TabRootModifier,
+                TabId.StageLighting => SkinValidationRules.StageLightingTab.TabRootModifier,
+                TabId.CameraSwitcher => SkinValidationRules.CameraSwitcherTab.TabRootModifier,
+                _ => throw new ArgumentOutOfRangeException(nameof(tabId), tabId, null),
+            };
         }
     }
 }

@@ -11,6 +11,7 @@ using VTuberSystemBase.UiToolkitShell.Panels;
 using VTuberSystemBase.UiToolkitShell.Skin;
 using LogLevel = VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel;
 using LogCategory = VTuberSystemBase.UiToolkitShell.Diagnostics.LogCategory;
+using StyleSheet = UnityEngine.UIElements.StyleSheet;
 
 namespace VTuberSystemBase.UiToolkitShell.Bootstrap
 {
@@ -214,6 +215,24 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
             }
             _steps.Add(BootstrapStep.TabUiDocumentsMounted);
 
+            // ---- Apply skin USS to root + bound tab roots (task 11.1) ----
+            // RootStyleSheets are applied first, then CommonUiStyleSheets so that user-
+            // supplied common UI overrides win over the package defaults (Requirement 6.3,
+            // 6.4 — "後ろほど優先" ordering contract). Per-tab StyleSheets are applied to
+            // the corresponding bound tab root in declaration order. Style-sheet
+            // application is best-effort: a skin profile that omits any of the lists is
+            // valid (the bootstrapper still boots), so missing collections short-circuit
+            // without raising errors.
+            try
+            {
+                ApplySkinStyleSheets(rootArtifacts.RootVisualElement, registry, skinProfile, logger);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(LogLevel.Warning, LogCategory.Skin,
+                    $"ApplySkinStyleSheets threw; continuing without full USS application: {ex.Message}", ex);
+            }
+
             // ---- TabBarController ----------------------------------------
             try
             {
@@ -246,8 +265,12 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
                     {
                         if (issue.TabId.HasValue)
                         {
-                            registry.MarkTabFailed(issue.TabId.Value,
-                                $"Skin validation: missing '{issue.MissingSelector}'");
+                            // SkinValidator runs after NotifyTabMounted, so the tab is
+                            // already in Mounted state. Use the skin-validation-specific
+                            // entry point that explicitly allows Mounted -> Failed
+                            // downgrade (Requirement 6.6, task 11.1).
+                            registry.MarkTabFailedFromSkinValidation(issue.TabId.Value,
+                                $"missing '{issue.MissingSelector}'");
                         }
                     }
                 }
@@ -436,14 +459,68 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
         private static IReadOnlyDictionary<TabId, VisualElement> ResolveTabRoots(TabPanelRegistry registry)
         {
             // Tab roots are tracked inside the registry via NotifyTabMounted(VisualElement).
-            // We re-snapshot them by querying the registry's switch surface — but the
-            // registry doesn't expose its dictionary directly, so we reflect through
-            // SwitchTo / a no-op probe is unsafe. Instead, the SkinValidator path here
-            // operates with an empty map when the registry omits the bound elements.
-            // (Concrete validation against tab UXML happens in the spec-level integration
-            // task 11.1.)
-            _ = registry;
-            return new Dictionary<TabId, VisualElement>();
+            // The registry exposes a defensive copy through SnapshotTabRoots so the
+            // SkinValidator can walk the per-tab subtrees and surface missing required
+            // selectors (Requirement 6.5, 6.6; task 11.1). Strategies that bypass element
+            // binding (older tests / synthetic mounts) cause the snapshot to be empty,
+            // in which case the validator only inspects the root panel.
+            return registry.SnapshotTabRoots();
+        }
+
+        private static void ApplySkinStyleSheets(
+            VisualElement rootVisualElement,
+            TabPanelRegistry registry,
+            UiToolkitShellSkinProfile skinProfile,
+            IDiagnosticsLogger logger)
+        {
+            if (rootVisualElement == null || skinProfile == null) return;
+
+            // Root sheets — package-shipped defaults first, then user "additional USS"
+            // through CommonUiStyleSheets. Later sheets override earlier ones so the
+            // user's overrides take precedence (design.md §UiToolkitShellSkinProfile).
+            ApplyStyleSheets(rootVisualElement, skinProfile.RootStyleSheets, logger,
+                "skin.RootStyleSheets[root]");
+            ApplyStyleSheets(rootVisualElement, skinProfile.CommonUiStyleSheets, logger,
+                "skin.CommonUiStyleSheets[root]");
+
+            // Per-tab sheets — only applied to bound tab roots. Tabs that haven't yet
+            // been bound (e.g. failed mount) are skipped silently because there is no
+            // VisualElement to attach the sheets to.
+            var snapshot = registry.SnapshotTabRoots();
+            ApplyTabStyleSheets(snapshot, TabId.Character,
+                skinProfile.CharacterTabStyleSheets, logger);
+            ApplyTabStyleSheets(snapshot, TabId.StageLighting,
+                skinProfile.StageLightingTabStyleSheets, logger);
+            ApplyTabStyleSheets(snapshot, TabId.CameraSwitcher,
+                skinProfile.CameraSwitcherTabStyleSheets, logger);
+        }
+
+        private static void ApplyTabStyleSheets(
+            IReadOnlyDictionary<TabId, VisualElement> tabRoots,
+            TabId tabId,
+            List<StyleSheet>? sheets,
+            IDiagnosticsLogger logger)
+        {
+            if (sheets == null || sheets.Count == 0) return;
+            if (!tabRoots.TryGetValue(tabId, out var tabRoot) || tabRoot == null) return;
+            ApplyStyleSheets(tabRoot, sheets, logger, $"skin.{tabId}TabStyleSheets[tab/{tabId}]");
+        }
+
+        private static void ApplyStyleSheets(
+            VisualElement target,
+            List<StyleSheet>? sheets,
+            IDiagnosticsLogger logger,
+            string scopeLabel)
+        {
+            if (sheets == null || sheets.Count == 0) return;
+            for (var i = 0; i < sheets.Count; i++)
+            {
+                var sheet = sheets[i];
+                if (sheet == null) continue;
+                target.styleSheets.Add(sheet);
+            }
+            logger.Log(LogLevel.Debug, LogCategory.Skin,
+                $"Applied {sheets.Count} StyleSheet(s) to {scopeLabel}.");
         }
 
         private readonly struct DisposalRecord
