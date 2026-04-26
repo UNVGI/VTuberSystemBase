@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.096293">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="761" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.096293" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1413" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="378" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.080759" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="50396" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1414" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="378" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.076608" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1415" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="378" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.072274" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1416" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="378" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.068211" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1417" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="378" result="Passed" start-time="2026-04-26 02:20:45Z" end-time="2026-04-26 02:20:46Z" duration="0.064142" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1222" name="TabPanelRegistryRepresentativeTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.053481" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1223" name="PreloadCompletion_AllThreeTabsMounted_IsCompleteWithoutFailures" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.PreloadCompletion_AllThreeTabsMounted_IsCompleteWithoutFailures" methodname="PreloadCompletion_AllThreeTabsMounted_IsCompleteWithoutFailures" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="706093301" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.012357" asserts="0">
+                  <properties>
+                    <property name="Description" value="成功ケース: 3 タブ全 Mount で IsPreloadComplete==true, LoadedCount==3, FailedTabs 空 (Requirement 3.1)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1225" name="PreloadCompletion_DegradedFinalisesWithRemainingMount_IsCompleteWithFailureRecorded" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.PreloadCompletion_DegradedFinalisesWithRemainingMount_IsCompleteWithFailureRecorded" methodname="PreloadCompletion_DegradedFinalisesWithRemainingMount_IsCompleteWithFailureRecorded" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="222098593" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.001662" asserts="0">
+                  <properties>
+                    <property name="Description" value="縮退ケース継続: 残り Pending タブが Mount すると IsPreloadComplete==true, FailedTabs は維持される (Requirement 3.5)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1224" name="PreloadCompletion_OneMountedOneFailedOnePending_LoadedCountIsTwoAndStillProgressing" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.PreloadCompletion_OneMountedOneFailedOnePending_LoadedCountIsTwoAndStillProgressing" methodname="PreloadCompletion_OneMountedOneFailedOnePending_LoadedCountIsTwoAndStillProgressing" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="1027288704" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.001262" asserts="0">
+                  <properties>
+                    <property name="Description" value="縮退ケース: 1 Mount + 1 Failure + 1 Pending で LoadedCount==2 / IsPreloadComplete==false / FailedTabs に該当 ID (Requirement 3.5)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1229" name="PreloadThenSwitchSequence_HoldsAllRepresentativeContractsTogether" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.PreloadThenSwitchSequence_HoldsAllRepresentativeContractsTogether" methodname="PreloadThenSwitchSequence_HoldsAllRepresentativeContractsTogether" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="162644310" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.020031" asserts="0">
+                  <properties>
+                    <property name="Description" value="プリロード完了から SwitchTo 連発まで一気通貫: ActiveTab・display 切替・参照不変が同時に成立する (Requirement 2.3, 2.4, 3.1, 3.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1228" name="SwitchTo_DoesNotMutateUnrelatedStyleFields" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.SwitchTo_DoesNotMutateUnrelatedStyleFields" methodname="SwitchTo_DoesNotMutateUnrelatedStyleFields" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="127315156" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.004237" asserts="0">
+                  <properties>
+                    <property name="Description" value="SwitchTo は style.display 以外を変更しない: opacity 等の style snapshot が不変 (Requirement 2.4, 3.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1226" name="SwitchTo_PreservesBoundVisualElementReferences_AcrossMultipleSwitches" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.SwitchTo_PreservesBoundVisualElementReferences_AcrossMultipleSwitches" methodname="SwitchTo_PreservesBoundVisualElementReferences_AcrossMultipleSwitches" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="232179490" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.000602" asserts="0">
+                  <properties>
+                    <property name="Description" value="SwitchTo は bind 済み VisualElement の参照を再 clone・差し替えしない: 複数回切替後も最初の参照と同一 (Requirement 2.4, 3.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1227" name="SwitchTo_PreservesChildHierarchyOfBoundRoots" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests.SwitchTo_PreservesChildHierarchyOfBoundRoots" methodname="SwitchTo_PreservesChildHierarchyOfBoundRoots" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.TabPanelRegistryRepresentativeTests" runstate="Runnable" seed="1433911956" result="Passed" start-time="2026-04-26 02:20:46Z" end-time="2026-04-26 02:20:46Z" duration="0.002562" asserts="0">
+                  <properties>
+                    <property name="Description" value="SwitchTo は VisualElement の子要素・hierarchy を破壊しない (再 clone 禁止; Requirement 2.4, 3.6)" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
