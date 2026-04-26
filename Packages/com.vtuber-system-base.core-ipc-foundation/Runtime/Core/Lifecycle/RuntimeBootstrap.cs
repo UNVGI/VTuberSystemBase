@@ -14,6 +14,7 @@ namespace VTuberSystemBase.CoreIpc.Core.Lifecycle
         private static readonly object s_sync = new();
         private static bool s_quitSubscribed;
         private static bool s_isBootstrapped;
+        private static bool s_autoBootstrapDisabled;
         private static Task? s_lastInitializationTask;
 
         public static bool IsBootstrapped
@@ -26,9 +27,28 @@ namespace VTuberSystemBase.CoreIpc.Core.Lifecycle
             get { lock (s_sync) return s_lastInitializationTask; }
         }
 
+        /// <summary>
+        /// Permanently suppresses <see cref="OnBeforeSceneLoad"/> for the lifetime of the
+        /// current AppDomain. Intended exclusively for the Unity Test Runner: tests that
+        /// drive their own <see cref="CoreIpcRuntimeHost"/> instances must call this from
+        /// a <c>[RuntimeInitializeOnLoadMethod(SubsystemRegistration)]</c> hook in a
+        /// test-only assembly so the auto-started runtime never binds the production port
+        /// or installs a competing PlayerLoop dispatch step. Production code must never
+        /// call this — it is the test harness's seam, not a runtime feature flag.
+        /// </summary>
+        public static void DisableAutoBootstrap()
+        {
+            lock (s_sync) s_autoBootstrapDisabled = true;
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void OnBeforeSceneLoad()
         {
+            lock (s_sync)
+            {
+                if (s_autoBootstrapDisabled) return;
+            }
+
             try
             {
                 Bootstrap(

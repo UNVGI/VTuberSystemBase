@@ -16,12 +16,11 @@ namespace VTuberSystemBase.CoreIpc.Tests
         [SetUp]
         public void SetUp()
         {
-            // RuntimeBootstrap.OnBeforeSceneLoad auto-starts a CoreIpcRuntime and
-            // installs an IpcDispatchStep into PlayerLoop on every PlayMode entry.
-            // In batch test runs this leaked state races with the loopback host
-            // this fixture sets up — leaving the test's bus undispatched and the
-            // first PlayMode test hanging. Wipe both before every test so we get
-            // the same clean slate single-test runs already enjoy.
+            // Defensive cleanup. AutoBootstrapDisabler suppresses RuntimeBootstrap's
+            // RuntimeInitializeOnLoadMethod under the test runner, so by the time we
+            // arrive here CoreIpcRuntime.Current and the PlayerLoop dispatch step
+            // should already be untouched. Mirror the TearDown anyway so a prior
+            // test that forgot to clean up cannot strand state into this fixture.
             CoreIpcRuntime.ResetForTesting();
             if (PlayerLoopInstaller.IsInstalled)
             {
