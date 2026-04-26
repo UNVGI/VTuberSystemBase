@@ -370,7 +370,7 @@
   - _Boundary: Tests/Runtime_
   - _Depends: 4.4, 4.6_
 
-- [ ] 12.6 Integration: 起動→プリロード→初期タブ表示のエンドツーエンド結合テスト
+- [x] 12.6 Integration: 起動→プリロード→初期タブ表示のエンドツーエンド結合テスト
   - `UiShellBootstrapper.StartShell` 後、診断スナップショットで `Preload.LoadedCount == 3` かつ `ActiveTab == Character` を確認する
   - IPC 未接続・Addressables 初期化成功の設定でも最終的に UI が操作可能になることを確認する
   - 観測可能な完了状態: 結合シナリオが緑、シェル単独で Wave 2 完了条件を満たすことを示すログ出力を伴う
