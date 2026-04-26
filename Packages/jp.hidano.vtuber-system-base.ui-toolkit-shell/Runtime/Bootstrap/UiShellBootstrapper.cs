@@ -362,6 +362,27 @@ namespace VTuberSystemBase.UiToolkitShell.Bootstrap
         {
             if (!_running && _disposalStack.Count == 0) return;
             _running = false;
+
+            // Backstop sweep — force-dispose every live ITabLifecycleHandle so
+            // subscriptions tracked via Track(IDisposable) and asset scopes
+            // tracked via TrackAssetScope(IAsyncAssetLoader) are released even
+            // when a tab spec forgot to call Dispose. Must run BEFORE Rollback
+            // so the IPC bus, UiSubscriptionClient, and AddressablesAssetLoader
+            // are still alive to acknowledge the disposal
+            // (Requirement 2.8, 5.7; design.md §TabPanelRegistry §Risks; task 10.4).
+            if (TabPanelRegistry != null)
+            {
+                try
+                {
+                    TabPanelRegistry.DisposeAllHandles();
+                }
+                catch (Exception ex)
+                {
+                    DiagnosticsLogger?.Log(LogLevel.Warning, LogCategory.Lifecycle,
+                        $"TabPanelRegistry.DisposeAllHandles threw during StopShell: {ex.Message}", ex);
+                }
+            }
+
             Rollback();
             DiagnosticsLogger?.Log(LogLevel.Info, LogCategory.Lifecycle,
                 "UiShellBootstrapper: shell stopped.");

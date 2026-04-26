@@ -123,7 +123,7 @@
 
 ## 5. Core: Addressables 非同期ロード基盤
 
-- [ ] 5.1 `IAsyncAssetLoader` の契約テストを `FakeAsyncAssetLoader` で先に書く
+- [x] 5.1 `IAsyncAssetLoader` の契約テストを `FakeAsyncAssetLoader` で先に書く
   - `LoadAsync<T>(key, scopeId, callback)` が handle を即時返却すること、Completion は `callback` 経由のみで受け取ること、メインスレッド発火であることを検証する
   - 同一 key の重複 `LoadAsync` が 1 本のハンドルに集約され両 callback が呼ばれること（4.7）を検証する
   - `Release` / `ReleaseAll(scopeId)` / `Cancel` の挙動、失敗時の `LoadError` 伝搬（4.4）、`GetSnapshot()` の件数整合性を検証する
@@ -131,7 +131,7 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.6, 4.7, 4.8_
   - _Boundary: AssetLoading_
 
-- [ ] 5.2 `AddressablesAssetLoader` を実装し、`WaitForCompletion` を使わず Green にする
+- [x] 5.2 `AddressablesAssetLoader` を実装し、`WaitForCompletion` を使わず Green にする
   - Addressables `LoadAssetAsync<T>` + `AsyncOperationHandle<T>.Completed` を用いた実装を追加する
   - ハンドルキャッシュで同一 key の重複ロードを抑止する
   - scopeId 単位での Release 一括管理を実装する
@@ -142,7 +142,7 @@
   - _Boundary: AssetLoading_
   - _Depends: 5.1_
 
-- [ ] 5.3 Addressables 初期化ブートストラップと `BootstrapErrorCode.AddressablesInitFailed` 伝搬をテスト付きで実装する
+- [x] 5.3 Addressables 初期化ブートストラップと `BootstrapErrorCode.AddressablesInitFailed` 伝搬をテスト付きで実装する
   - `Addressables.InitializeAsync()` を包み、失敗時にエラーコード返却パスを用意する
   - ロード開始/完了/失敗/アンロードの各イベントを `DiagnosticsLogger` へ `LogCategory.AssetLoad` で出力する
   - 観測可能な完了状態: 初期化失敗注入時に `BootstrapErrorCode.AddressablesInitFailed` が返り、シェルが安全に起動中断するテストが緑
@@ -151,7 +151,7 @@
 
 ## 6. Core: スキン差し替え拡張点と検証
 
-- [ ] 6.1 (P) `UiToolkitShellSkinProfile` ScriptableObject を TDD で定義する
+- [x] 6.1 (P) `UiToolkitShellSkinProfile` ScriptableObject を TDD で定義する
   - ルート / 3 タブ / 共通 UI の `VisualTreeAsset` と `List<StyleSheet>` を保持するフィールド構成をテストで固定する
   - `CreateAssetMenu` によりプロジェクトから生成できることを確認する
   - 既定スキン（`DefaultSkinProfile.asset`）を Runtime.UxmlUss 配下に同梱し、必須フィールドが埋まっていることを検証する
@@ -159,14 +159,14 @@
   - _Requirements: 6.3, 6.4, 6.7, 6.8_
   - _Boundary: Skin/SkinProfile_
 
-- [ ] 6.2 (P) USS セレクタ命名規約（`vsb-` プレフィクス + BEM 風）と必須クラス一覧を定数化する
+- [x] 6.2 (P) USS セレクタ命名規約（`vsb-` プレフィクス + BEM 風）と必須クラス一覧を定数化する
   - `SkinValidationRules` 静的クラスに必須セレクタ一覧を列挙する（例: `vsb-tab-root`, `vsb-tab-bar__button`, `vsb-notification-bar` 等）
   - 規約文書を本 spec 内部の C# コメント／XML Doc で明文化する
   - 観測可能な完了状態: 必須クラス一覧が単一ソースで参照でき、タブ別に分離された定数が Runtime から利用可能になる
   - _Requirements: 6.1, 6.2_
   - _Boundary: Skin/ValidationRules_
 
-- [ ] 6.3 `SkinValidator` を TDD で実装する
+- [x] 6.3 `SkinValidator` を TDD で実装する
   - 必須クラスが欠落した UXML を読み込ませて `SkinValidationReport.AllValid == false` と該当タブ ID を Issues に返すテストを先に書く
   - 実装後、Validator が副作用（状態変更）を持たず、呼出し元が受け取った Report に基づき `TabPanelRegistry` に失敗マーク指示を出す構造であることを検証する
   - 検証結果は `DiagnosticsLogger` に `LogCategory.Skin` で記録する
@@ -177,7 +177,7 @@
 
 ## 7. Core: 共通 UI コンポーネントライブラリ
 
-- [ ] 7.1 (P) `VsbSlider`（数値スライダー）を UXML カスタムコントロール + USS + C# ロジックで実装する
+- [x] 7.1 (P) `VsbSlider`（数値スライダー）を UXML カスタムコントロール + USS + C# ロジックで実装する
   - TDD: `ValueChanged` / `Committed` イベントの発火、min/max/step の UxmlAttribute 反映、値域違反時の挙動を検証するテストを先に書く
   - `VsbControlBase` に `vsb-` プレフィクス登録と `DiagnosticsLogger` 注入を集約する
   - 内部でメインスレッドブロッキング処理を行わない
@@ -185,7 +185,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_
   - _Boundary: CommonUi/VsbSlider_
 
-- [ ] 7.2 (P) `VsbColorPicker`（RGB/HSV 色選択）を実装する
+- [x] 7.2 (P) `VsbColorPicker`（RGB/HSV 色選択）を実装する
   - TDD: RGB/HSV 切替を UxmlAttribute `mode` で受け、`ValueChanged(Color)` / `Committed(Color)` が発火することを検証する
   - 観測可能な完了状態: UXML 参照で `vsb-color-picker` がレンダリングされ、色変更イベントが緑テストで受信できる
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_
@@ -197,13 +197,13 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_
   - _Boundary: CommonUi/VsbNumberedList_
 
-- [ ] 7.4 (P) `VsbToggleGroup`（排他選択）を実装する
+- [x] 7.4 (P) `VsbToggleGroup`（排他選択）を実装する
   - TDD: `Keys` UxmlAttribute（カンマ区切り）で項目群を定義し、選択時 `SelectionChanged(selectedKey)` が排他発火することを検証する
   - 観測可能な完了状態: 2 個以上の Key を持つグループで同時選択不可になる緑テストがある
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7_
   - _Boundary: CommonUi/VsbToggleGroup_
 
-- [ ] 7.5 `CommonUiRegistration` で 4 コントロールの UxmlFactory と既定 USS を一括登録する
+- [x] 7.5 `CommonUiRegistration` で 4 コントロールの UxmlFactory と既定 USS を一括登録する
   - `RegisterAll()` を提供し、`UiShellBootstrapper` の初期化時に 1 度だけ呼ぶ契約を用意する
   - 登録後、UXML から `<VsbSlider />` 等の参照が解決されることをテストで確認する
   - 観測可能な完了状態: UXML 参照テストが 4 コントロール全てで緑になる
@@ -213,7 +213,7 @@
 
 ## 8. Core: ルート UIDocument / タブレジストリ / タブバー
 
-- [ ] 8.1 ルート UXML / USS と PanelSettings の構築を TDD で実装する
+- [x] 8.1 ルート UXML / USS と PanelSettings の構築を TDD で実装する
   - `TabBar.uxml` / `TabBar.uss` / `NotificationBar.uxml` / `EmptyTabShell.uxml` を Runtime.UxmlUss 下に作成する
   - `RootUiDocumentBuilder` が単一 PanelSettings（`targetDisplay = 0`）を生成・共有すること、タブバー領域とタブコンテンツ領域の階層が構築されることを検証する
   - `targetDisplay != 0` 設定を入力された場合に警告ログ + 0 に強制するテストを追加する
@@ -221,7 +221,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.7, 6.8_
   - _Boundary: Panels/RootUiDocumentBuilder_
 
-- [ ] 8.2 `TabPanelRegistry` のプリロード完了判定を TDD で実装する
+- [x] 8.2 `TabPanelRegistry` のプリロード完了判定を TDD で実装する
   - 3 タブ分の OnEnable 到着を待って `IsPreloadComplete` が `true` になるテストを先に書く
   - `RegisterTab(tabId, metadata)` が `ITabLifecycleHandle` を返すこと、`Dispose` で購読が解除されることを検証する
   - `PreloadProgress` が `LoadedCount / TotalCount / FailedTabs` を正しく返す
@@ -230,7 +230,7 @@
   - _Requirements: 2.1, 3.1, 3.3, 3.4, 3.5, 3.6, 3.7, 5.7, 10.1, 10.2_
   - _Boundary: Panels/TabPanelRegistry_
 
-- [ ] 8.3 `TabPanelRegistry.SwitchTo` を「`style.display` 切替のみ」で実装する
+- [x] 8.3 `TabPanelRegistry.SwitchTo` を「`style.display` 切替のみ」で実装する
   - TDD: `SwitchTo(TabId)` 呼出し前後で VisualTreeAsset 参照が不変、`rootVisualElement.style.display` のみ変化することを検証する（Requirement 2.4, 3.6）
   - `PreloadIncomplete` / `TabDisabled` / `AlreadyActive` の `SwitchErrorCode` 返却条件をテストで固定する
   - `OnTabSwitched` イベント発火と `ITabLifecycleHandle.OnActivated` / `OnDeactivated` の順序をテストで固定する
@@ -259,14 +259,14 @@
   - _Requirements: 6.6, 9.5, 9.6_
   - _Boundary: Diagnostics/NotificationBar_
 
-- [ ] 9.2 (P) `MainOutputStatusWatcher` を TDD で実装する
+- [x] 9.2 (P) `MainOutputStatusWatcher` を TDD で実装する
   - TDD: `UiSubscriptionClient` 経由で `output/display/fallback` トピックの state を購読し、受信時に `NotificationBarController` へ警告発行指示を出すことを検証する
   - フェイク IPC を使って Display 1 フォールバック発生／解除のシナリオを往復させる
   - 観測可能な完了状態: フォールバック state 受信で警告が出現し、解除 state 受信で警告が消える PlayMode テストが緑
   - _Requirements: 9.6, 11.6_
   - _Boundary: FailsafeAndConnection/MainOutputStatusWatcher_
 
-- [ ] 9.3 接続未確立時のフェイルセーフ挙動を結合テストで固定する
+- [x] 9.3 接続未確立時のフェイルセーフ挙動を結合テストで固定する
   - `FakeIpcClient` の接続を失敗状態で固定し、UI 起動・タブ切替・共通コンポーネント動作が継続することを検証する
   - `PublishState` 呼出しが `SendError.NotConnected` を即時返却し、UI 側に例外が波及しないこと（Requirement 9.4）を検証する
   - 後から接続が確立した場合に送信が通常成功に切り替わること（Requirement 9.3）を検証する
@@ -277,7 +277,7 @@
 
 ## 10. Integration: ブートストラップとライフサイクル統合
 
-- [ ] 10.1 `UiShellConfig` と `UiShellBootstrapper` の Composition Root を実装する
+- [x] 10.1 `UiShellConfig` と `UiShellBootstrapper` の Composition Root を実装する
   - 初期化順序: `PanelSettings → RootUIDocument → 3 TabUIDocument → TabPanelRegistry/TabBarController → SkinValidator → AddressablesAssetLoader → UiCommandClient/UiSubscriptionClient → MainOutputStatusWatcher → IPC 接続試行` をテストで固定する
   - 解放は逆順で Dispose パターンを徹底する
   - `BootstrapErrorCode`（`SkinProfileMissing`, `PanelSettingsAssignFailed`, `TabUxmlAttachFailed`, `AddressablesInitFailed`, `IpcAbstractionUnavailable`）の返却条件を全て網羅するテストを書く
@@ -287,7 +287,7 @@
   - _Boundary: Bootstrap/UiShellBootstrapper_
   - _Depends: 3.2, 3.3, 4.2, 4.4, 4.6, 5.2, 5.3, 6.1, 6.3, 7.5, 8.2, 8.3, 8.4, 9.1, 9.2_
 
-- [ ] 10.2 `UiShellLifecycleDriver` で PlayMode / Standalone / Edit モード分岐を実装する
+- [x] 10.2 `UiShellLifecycleDriver` で PlayMode / Standalone / Edit モード分岐を実装する
   - `[RuntimeInitializeOnLoadMethod(BeforeSceneLoad)]` で Standalone / PlayMode 開始時に `StartShell` を呼ぶ
   - Editor 限定で `EditorApplication.playModeStateChanged` をフックし、PlayMode 終了時に `StopShell` を呼ぶ（`#if UNITY_EDITOR`）
   - `Application.quitting` で Standalone 終了時の解放を保証する
@@ -297,7 +297,7 @@
   - _Boundary: Bootstrap/UiShellLifecycleDriver_
   - _Depends: 10.1_
 
-- [ ] 10.3 Display 1 割当の抽象点（`IDisplayAssignmentStrategy`）をフック点として残す
+- [x] 10.3 Display 1 割当の抽象点（`IDisplayAssignmentStrategy`）をフック点として残す
   - 現行実装は `targetDisplay = 0` 固定だが、将来 `runtime-display-selector-integration`（spec #7）で差し替え可能にするため、Strategy インタフェースを内部に用意する
   - デフォルト実装は固定割当、差替え可能性をテストで確認する（差替え Strategy を渡した場合にのみ別 display に割当される）
   - 観測可能な完了状態: モック Strategy を渡したテストで `targetDisplay` が変化し、デフォルトでは常に 0 に固定される
@@ -305,7 +305,7 @@
   - _Boundary: Bootstrap/DisplayAssignmentHook_
   - _Depends: 10.1_
 
-- [ ] 10.4 タブ ライフサイクルと購読解除のバックストップを結合する
+- [x] 10.4 タブ ライフサイクルと購読解除のバックストップを結合する
   - `ITabLifecycleHandle.Dispose` および `UiShellBootstrapper.StopShell` 時に、`UiSubscriptionClient` 経由の購読・`AddressablesAssetLoader` の scope を一括解除するバックストップを実装する
   - タブ spec 相当のモックが `Dispose` を忘れた場合でもシェル停止時に全解除される結合テストを追加する
   - 観測可能な完了状態: モックが購読を 10 件残してもシェル停止後に残存 0 件となる緑テストがある
