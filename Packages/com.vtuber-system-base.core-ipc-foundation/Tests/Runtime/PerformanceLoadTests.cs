@@ -89,7 +89,15 @@ namespace VTuberSystemBase.CoreIpc.Tests
                 "Latest state value (" + (totalPublishes - 1) +
                 ") was not delivered within the timeout. latest=" + latestReceivedValue);
 
-            long memoryEnd = GC.GetTotalMemory(false);
+            // Mirror the start-of-test GC discipline: the budget is a *retention* bound,
+            // not an allocation bound, so we must let the collector reclaim the gen-0
+            // garbage produced by JSON encoding / envelope construction before snapshotting.
+            // Using GetTotalMemory(false) here was bundling that ephemeral garbage into the
+            // delta and pushing the test ~18 MB over a 10 MB retention budget.
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            long memoryEnd = GC.GetTotalMemory(true);
             long memoryDelta = memoryEnd - memoryStart;
 
             Assert.AreEqual(totalPublishes - 1, latestReceivedValue,
