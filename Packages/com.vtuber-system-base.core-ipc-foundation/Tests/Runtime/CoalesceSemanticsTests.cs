@@ -13,6 +13,22 @@ namespace VTuberSystemBase.CoreIpc.Tests
     [TestFixture]
     public sealed class CoalesceSemanticsTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            // RuntimeBootstrap.OnBeforeSceneLoad auto-starts a CoreIpcRuntime and
+            // installs an IpcDispatchStep into PlayerLoop on every PlayMode entry.
+            // In batch test runs this leaked state races with the loopback host
+            // this fixture sets up — leaving the test's bus undispatched and the
+            // first PlayMode test hanging. Wipe both before every test so we get
+            // the same clean slate single-test runs already enjoy.
+            CoreIpcRuntime.ResetForTesting();
+            if (PlayerLoopInstaller.IsInstalled)
+            {
+                PlayerLoopInstaller.Uninstall();
+            }
+        }
+
         [TearDown]
         public void TearDown()
         {
