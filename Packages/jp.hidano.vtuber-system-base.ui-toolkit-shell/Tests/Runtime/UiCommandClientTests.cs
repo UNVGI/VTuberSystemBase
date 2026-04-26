@@ -209,7 +209,7 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
 
         [Test]
         [Description("RequestAsync のタイムアウト超過は RequestErrorCode.Timeout を返し、例外を外に投げない (Req 5.9, core-ipc D-8 継承)")]
-        public async Task RequestAsync_OnTimeout_ReturnsTimeoutError_NoException()
+        public void RequestAsync_OnTimeout_ReturnsTimeoutError_NoException()
         {
             Connect();
 
