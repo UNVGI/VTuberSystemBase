@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine.UIElements;
+using VTuberSystemBase.UiToolkitShell.AssetLoading;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 
 namespace VTuberSystemBase.UiToolkitShell.Panels
@@ -246,6 +247,40 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
             return SwitchResult.Ok();
         }
 
+        /// <summary>
+        /// Backstop sweep — disposes every live <see cref="ITabLifecycleHandle"/>
+        /// produced by <see cref="RegisterTab"/>. Used by
+        /// <c>UiShellBootstrapper.StopShell</c> so that subscriptions and asset
+        /// loader scopes registered through the handle are released even when
+        /// the tab spec forgot to call <see cref="IDisposable.Dispose"/>
+        /// (Requirement 2.8, 5.7; design.md §Risks). Iteration is performed on
+        /// a snapshot copy so the disposing handles can safely mutate the
+        /// underlying handle map via <see cref="UnregisterHandle"/>.
+        /// </summary>
+        public void DisposeAllHandles()
+        {
+            if (_handles.Count == 0) return;
+            var snapshot = new List<TabLifecycleHandle>(_handles.Values);
+            foreach (var handle in snapshot)
+            {
+                try
+                {
+                    handle.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(
+                        LogLevel.Warning,
+                        LogCategory.Lifecycle,
+                        $"TabLifecycleHandle for {handle.TabId} threw during forced dispose: {ex.Message}",
+                        ex);
+                }
+            }
+            // Defensive: ensure the map is clear even if a misbehaving handle
+            // skipped the UnregisterHandle path.
+            _handles.Clear();
+        }
+
         private void RaisePreloadEvent(TabId tabId, PreloadOutcome outcome)
         {
             var handler = OnPreloadChanged;
@@ -314,6 +349,8 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
         private sealed class TabLifecycleHandle : ITabLifecycleHandle
         {
             private readonly TabPanelRegistry _owner;
+            private readonly List<IDisposable> _trackedResources = new List<IDisposable>();
+            private readonly HashSet<IAsyncAssetLoader> _trackedAssetScopes = new HashSet<IAsyncAssetLoader>();
             private bool _disposed;
             private Action? _onActivated;
             private Action? _onDeactivated;
@@ -322,11 +359,19 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
             {
                 _owner = owner;
                 TabId = tabId;
+                ScopeId = $"tab/{tabId}";
             }
 
             public TabId TabId { get; }
 
             public bool IsActive { get; private set; }
+
+            public string ScopeId { get; }
+
+            public bool IsDisposed => _disposed;
+
+            public int TrackedResourceCount =>
+                _disposed ? 0 : (_trackedResources.Count + _trackedAssetScopes.Count);
 
             public event Action OnActivated
             {
@@ -340,13 +385,90 @@ namespace VTuberSystemBase.UiToolkitShell.Panels
                 remove { _onDeactivated -= value; }
             }
 
+            public void Track(IDisposable resource)
+            {
+                if (resource is null) throw new ArgumentNullException(nameof(resource));
+                if (_disposed)
+                {
+                    // Late registration after Dispose — drain immediately so
+                    // the resource cannot outlive the handle.
+                    SafeDispose(resource);
+                    return;
+                }
+                _trackedResources.Add(resource);
+            }
+
+            public void TrackAssetScope(IAsyncAssetLoader loader)
+            {
+                if (loader is null) throw new ArgumentNullException(nameof(loader));
+                if (_disposed)
+                {
+                    try
+                    {
+                        loader.ReleaseAll(ScopeId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _owner._logger.Log(
+                            LogLevel.Warning,
+                            LogCategory.Lifecycle,
+                            $"IAsyncAssetLoader.ReleaseAll({ScopeId}) threw during late TrackAssetScope: {ex.Message}",
+                            ex);
+                    }
+                    return;
+                }
+                _trackedAssetScopes.Add(loader);
+            }
+
             public void Dispose()
             {
                 if (_disposed) return;
                 _disposed = true;
                 _onActivated = null;
                 _onDeactivated = null;
+
+                // Dispose tracked resources in reverse registration order so
+                // that resources depending on earlier ones unwind first.
+                for (var i = _trackedResources.Count - 1; i >= 0; i--)
+                {
+                    SafeDispose(_trackedResources[i]);
+                }
+                _trackedResources.Clear();
+
+                foreach (var loader in _trackedAssetScopes)
+                {
+                    try
+                    {
+                        loader.ReleaseAll(ScopeId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _owner._logger.Log(
+                            LogLevel.Warning,
+                            LogCategory.Lifecycle,
+                            $"IAsyncAssetLoader.ReleaseAll({ScopeId}) threw during handle dispose: {ex.Message}",
+                            ex);
+                    }
+                }
+                _trackedAssetScopes.Clear();
+
                 _owner.UnregisterHandle(TabId);
+            }
+
+            private void SafeDispose(IDisposable resource)
+            {
+                try
+                {
+                    resource.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    _owner._logger.Log(
+                        LogLevel.Warning,
+                        LogCategory.Lifecycle,
+                        $"Tracked resource disposal threw on TabId.{TabId}: {ex.Message}",
+                        ex);
+                }
             }
 
             internal void RaiseActivated()
