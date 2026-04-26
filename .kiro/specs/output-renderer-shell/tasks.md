@@ -16,13 +16,13 @@
   - Unity Editor で Assembly Reload がエラーなく完了し、Test Runner に EditMode / PlayMode の空テストランナーが現れることをもって完了とする
   - _Requirements: 3.7, 6.7_
 
-- [ ] 1.2 共通型（enum / struct / 登録トークン）と XMLDoc 契約の定義
+- [x] 1.2 共通型（enum / struct / 登録トークン）と XMLDoc 契約の定義
   - `OutputCommandKind`（`State` / `Event` / `Request` / `Response`）、`OutputSceneInitPhase`（`Uninitialized` 〜 `Complete` / `Failed`）、`DisplayAssignmentInfo`、`DisplayRoutingConfig`、`StateCommand<T>` / `EventCommand<T>` / `RequestCommand<T>`、`OutputSceneRootNames` 定数クラスを `Runtime/Abstractions/` に追加する
   - XMLDoc で以下の契約を明文化する：state ハンドラ実装の冪等性要求（Req 4.4）／ハンドラからのメイン出力サーフェスへの GUI 描画禁止（Req 5.6）／`DisplayAssignmentInfo.IsFallbackActive` の意味（Req 2.4a）
   - 各値型が `readonly struct` / `record struct` として不変であり、既定値で NPE を起こさないことを EditMode テスト `CommonTypesDefaultsTests` で検証して完了とする
   - _Requirements: 1.7, 2.4a, 4.4, 4.5, 5.6_
 
-- [ ] 1.3 `OutputShellLogger` とログレベル切替設定の導入
+- [x] 1.3 `OutputShellLogger` とログレベル切替設定の導入
   - `LogLevel`（`Verbose` / `Info` / `Warning` / `Error`）と `OutputShellLogger`（`Verbose` / `Info` / `Warning` / `Error` メソッド、構造化情報として `component` / `topic` / `correlationId` を引数で受ける）を実装
   - 出力先は `UnityEngine.Debug.Log*` に限定し、`OnGUI` / `IMGUI` / UI Toolkit への出力経路を持たないことをコードレベルで保証
   - EditMode テスト `OutputShellLoggerTests` で、`MinLevel` を切り替えると下位レベルのログが抑制される／`Error` が `Debug.LogError` 経由で呼ばれることをログスコープキャプチャで確認し完了とする

@@ -315,7 +315,7 @@
 
 ## 11. Integration: スキン適用と検証の結合
 
-- [ ] 11.1 `UiShellBootstrapper` が `UiToolkitShellSkinProfile` を読み込み、ルート/タブ UXML/USS を差し替える経路を結合する
+- [x] 11.1 `UiShellBootstrapper` が `UiToolkitShellSkinProfile` を読み込み、ルート/タブ UXML/USS を差し替える経路を結合する
   - TDD: 既定プロファイルで起動 → 別 SO 注入で起動 の 2 ケースで USS 変化と UXML 差し替えが反映されることを検証する
   - UXML 差し替え結果として必須クラスが不足する場合に `SkinValidator` が検出し、該当タブのみ非活性化して他タブ・シェル全体は継続する（Requirement 6.6）ことを結合テストで固定する
   - 追加 USS（利用者プロジェクト）が `CommonUiStyleSheets` 経由で積まれ、後ろほど優先される順序契約を検証する
@@ -324,7 +324,7 @@
   - _Boundary: Bootstrap/UiShellBootstrapper, Skin/SkinProfile, Skin/SkinValidator_
   - _Depends: 10.1_
 
-- [ ] 11.2 `SkinProfileEditor`（Inspector カスタム）をガイド付き UX として追加する
+- [x] 11.2 `SkinProfileEditor`（Inspector カスタム）をガイド付き UX として追加する
   - Editor で `UiToolkitShellSkinProfile` の Inspector にセクション見出し・必須フィールド警告・既定値コピーボタンを提供する
   - 観測可能な完了状態: Editor で SO を開いた際に 3 タブセクションごとの見出しと警告バナーが表示される
   - _Requirements: 6.7, 6.4_
@@ -333,7 +333,7 @@
 
 ## 12. Validation: 単体・結合・E2E テスト網羅
 
-- [ ] 12.1 (P) Unit: TabPanelRegistry のプリロード完了判定と表示切替契約をまとめた代表テストを追加する
+- [x] 12.1 (P) Unit: TabPanelRegistry のプリロード完了判定と表示切替契約をまとめた代表テストを追加する
   - 3 タブ完了→`IsPreloadComplete == true` の成功ケースと、1 タブ失敗時も `LoadedCount == 2` で進行する縮退ケースをそれぞれ追加する
   - `SwitchTo` 前後の VisualTreeAsset 参照不変性を明示検証する
   - 観測可能な完了状態: `TabPanelRegistryTests` / `TabSwitchTests` が全緑で CI に乗る
@@ -341,14 +341,14 @@
   - _Boundary: Tests/Runtime_
   - _Depends: 8.2, 8.3_
 
-- [ ] 12.2 (P) Unit: AddressablesAssetLoader の重複ロード抑止・Completion メインスレッド配信テストを追加する
+- [x] 12.2 (P) Unit: AddressablesAssetLoader の重複ロード抑止・Completion メインスレッド配信テストを追加する
   - 同一 key 連続 2 回の `LoadAsync` が 1 本のハンドルに集約されるケース、Cancel 時に `LoadErrorCode.Cancelled` で callback が呼ばれるケースを追加する
   - 観測可能な完了状態: `AsyncAssetLoaderTests` が全緑で CI に乗る
   - _Requirements: 4.3, 4.4, 4.7, 4.8, 10.5_
   - _Boundary: Tests/Runtime_
   - _Depends: 5.2_
 
-- [ ] 12.3 (P) Unit: UiCommandClient の 3 系統呼び分けと SendError 伝搬テストを追加する
+- [x] 12.3 (P) Unit: UiCommandClient の 3 系統呼び分けと SendError 伝搬テストを追加する
   - `PublishState` / `PublishEvent` / `RequestAsync` の経路分岐、`NotConnected` / `TopicInvalid` / `Timeout` の各エラーコード返却を検証する
   - 観測可能な完了状態: `UiCommandClientTests` が全緑で CI に乗る
   - _Requirements: 5.2, 5.3, 5.4, 5.5, 5.9, 9.4, 10.5_
