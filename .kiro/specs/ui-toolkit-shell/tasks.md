@@ -402,7 +402,7 @@
   - _Boundary: Tests/Runtime, Tests/PlayMode_
   - _Depends: 12.6_
 
-- [ ] 12.10 Coverage Audit: Requirement 全 ID の任意サンプリング検証と診断 API 実機確認
+- [x] 12.10 Coverage Audit: Requirement 全 ID の任意サンプリング検証と診断 API 実機確認
   - Requirement 1.x〜11.x から無作為に 5 件ピックし、該当タスクの成果物がコード / テストで観測可能な完了条件を満たしていることを目視確認する
   - `ShellDiagnosticsSnapshot.Capture()` が全フィールドを埋めた状態で返ることを実機 PlayMode で確認する
   - 観測可能な完了状態: 抜き取り検証表（Req ID → 成果物リンク → 確認結果）が tests ディレクトリの Markdown に残る
