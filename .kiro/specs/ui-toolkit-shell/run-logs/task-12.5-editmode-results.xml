@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="9" result="Passed" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.0767921">
+  <test-suite type="TestSuite" id="1000" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="789" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.076792" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1444" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" runstate="Runnable" testcasecount="406" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.062544" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="44396" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1445" name="VTuberSystemBase" fullname="VTuberSystemBase" runstate="Runnable" testcasecount="406" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.060444" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1446" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" runstate="Runnable" testcasecount="406" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.058629" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1447" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" runstate="Runnable" testcasecount="406" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.056820" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1448" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" runstate="Runnable" testcasecount="406" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.054905" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1098" name="IpcRoundTripIntegrationTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.043550" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1106" name="DisconnectedBus_PublishStateShortCircuits_NoRoundTrip" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.DisconnectedBus_PublishStateShortCircuits_NoRoundTrip" methodname="DisconnectedBus_PublishStateShortCircuits_NoRoundTrip" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="755870740" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.015128" asserts="0">
+                  <properties>
+                    <property name="Description" value="接続が切れている場合、UiCommandClient が NotConnected を即時返却し、自己ループは発火しない（Req 9.4 round-trip 経由での再確認）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1104" name="DisposedSubscription_StopsReceivingRoundTrippedMessages" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.DisposedSubscription_StopsReceivingRoundTrippedMessages" methodname="DisposedSubscription_StopsReceivingRoundTrippedMessages" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="906411436" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.002141" asserts="0">
+                  <properties>
+                    <property name="Description" value="購読トークン Dispose 後は以降の Publish 由来メッセージが届かない（Req 5.7 round-trip 経由での再確認; Req 10.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1100" name="PublishEvent_RoundTripsToEventSubscribersOnly" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.PublishEvent_RoundTripsToEventSubscribersOnly" methodname="PublishEvent_RoundTripsToEventSubscribersOnly" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="1988139285" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.000769" asserts="0">
+                  <properties>
+                    <property name="Description" value="PublishEvent 経由のメッセージは Subscribe(MessageKind.Event) で受信され、State 購読には届かない（kind 別ルーティング維持; Req 10.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1103" name="PublishState_DifferentTopics_DoNotCrosstalk" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.PublishState_DifferentTopics_DoNotCrosstalk" methodname="PublishState_DifferentTopics_DoNotCrosstalk" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="1466407404" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.000433" asserts="0">
+                  <properties>
+                    <property name="Description" value="異なる topic 間ではメッセージが混線しない（topic ルーティングが Facade 越しに保持される; Req 10.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1102" name="PublishState_FanOutToMultipleSubscribers" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.PublishState_FanOutToMultipleSubscribers" methodname="PublishState_FanOutToMultipleSubscribers" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="875937685" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.000418" asserts="0">
+                  <properties>
+                    <property name="Description" value="複数購読者が同一 topic を購読しているとき、1 度の Publish ですべての購読者に配信される（Req 10.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1101" name="PublishState_MultiplePublishes_AreAllDeliveredInOrder" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.PublishState_MultiplePublishes_AreAllDeliveredInOrder" methodname="PublishState_MultiplePublishes_AreAllDeliveredInOrder" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="2028638099" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.001023" asserts="0">
+                  <properties>
+                    <property name="Description" value="複数 Publish の連続送信が、同一購読者にすべて配信される（送信順序は維持される; Req 10.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1099" name="PublishState_RoundTripsThroughSubscriptionFacade" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.PublishState_RoundTripsThroughSubscriptionFacade" methodname="PublishState_RoundTripsThroughSubscriptionFacade" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="2069018504" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.001876" asserts="0">
+                  <properties>
+                    <property name="Description" value="PublishState 経由で送出した payload が UiSubscriptionClient.Subscribe コールバックに envelope 付きで届く（Req 10.3, 10.5, 10.6）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1107" name="RequestAsync_RoundTripsThroughRegisteredHandler" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.RequestAsync_RoundTripsThroughRegisteredHandler" methodname="RequestAsync_RoundTripsThroughRegisteredHandler" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="974846877" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.008378" asserts="0">
+                  <properties>
+                    <property name="Description" value="RequestAsync は登録済みハンドラ経由で Response が返る完全な round-trip を完遂する（Req 5.5 + 10.3 round-trip 検証）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1105" name="RoundTrip_EmitsSendAndReceiveLogsInIpcCategory" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests.RoundTrip_EmitsSendAndReceiveLogsInIpcCategory" methodname="RoundTrip_EmitsSendAndReceiveLogsInIpcCategory" classname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.IpcRoundTripIntegrationTests" runstate="Runnable" seed="1766160704" result="Passed" start-time="2026-04-26 14:45:08Z" end-time="2026-04-26 14:45:08Z" duration="0.002068" asserts="0">
+                  <properties>
+                    <property name="Description" value="round-trip 1 件につき UiCommandClient の SendStarted / SendResult と UiSubscriptionClient の Received が LogCategory.Ipc で記録される（Req 11.4, 11.5）" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hidano/AppData/LocalLow/DefaultCompany/VTuberSystemBase\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

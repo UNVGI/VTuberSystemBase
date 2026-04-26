@@ -362,7 +362,7 @@
   - _Boundary: Tests/Runtime_
   - _Depends: 6.3_
 
-- [ ] 12.5 Integration: IPC モック注入による送信↔受信 round-trip 結合テストを追加する
+- [x] 12.5 Integration: IPC モック注入による送信↔受信 round-trip 結合テストを追加する
   - `FakeIpcClient` を差し込み、`PublishState` → `Subscribe` コールバック受信までのパスを検証する
   - `core-ipc-foundation` の自己ループ機構（spec #1 Requirement 8）を模したテスト手順書を tests ディレクトリに残す
   - 観測可能な完了状態: round-trip 結合テストが緑、ダミーコマンドの送受信が UI 単体で完結する
