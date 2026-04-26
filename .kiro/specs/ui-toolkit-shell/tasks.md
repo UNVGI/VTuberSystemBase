@@ -386,7 +386,7 @@
   - _Boundary: Tests/PlayMode_
   - _Depends: 10.2_
 
-- [ ] 12.8 E2E (PlayMode): PlayMode 反復起動リーク試験と単独検証可能性の総合確認
+- [x] 12.8 E2E (PlayMode): PlayMode 反復起動リーク試験と単独検証可能性の総合確認
   - PlayMode Start/Stop を 5 回繰り返しても `UIDocument` 重複生成・購読残存・Addressables ハンドル残存がないことを自動検証する
   - タブ spec が未実装な状態でも空枠 UXML (`EmptyTabShell.uxml`) で各タブが表示可能なことを確認する
   - 観測可能な完了状態: リーク試験・空枠起動ともに緑、Wave 2 の完了判定が Wave 3 実装と独立に下せることをログで示す
