@@ -108,7 +108,7 @@
 
 ## 5. Core: 診断 API
 
-- [ ] 5.1 `IOutputDiagnostics` / `OutputDiagnostics` の実装
+- [x] 5.1 `IOutputDiagnostics` / `OutputDiagnostics` の実装
   - `CurrentPhase`（`OutputSceneInitPhase`）／ `CurrentDisplayAssignment`（`DisplayAssignmentInfo`）／ `RegisteredHandlerCount` ／ `LastErrorMessage` ／ `LastErrorAtUnixMs` の読み取り API を公開
   - 書き込みは本 spec 内コンポーネントからのみ許可する `internal` セッター or 明示的 `Set*` メソッドで実装し、任意スレッドから `Get*` が安全に呼べるよう volatile / lock を適切に選択
   - `Uninitialized → RootsCreated → CameraReady → LightReady → VolumeReady → IpcServerReady → DispatcherReady → DisplayRouted → Complete` の単調遷移、および任意段階から `Failed` への脱出のみを許容する遷移検証ロジックを実装
