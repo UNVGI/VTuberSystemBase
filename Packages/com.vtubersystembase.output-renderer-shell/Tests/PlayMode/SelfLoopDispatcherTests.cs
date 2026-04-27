@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using UnityEngine.TestTools;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.CoreIpc.Core;
 using VTuberSystemBase.CoreIpc.Core.Transport.Loopback;

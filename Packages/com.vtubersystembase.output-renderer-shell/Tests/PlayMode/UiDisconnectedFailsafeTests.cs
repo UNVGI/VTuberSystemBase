@@ -10,6 +10,7 @@ using UnityEngine.TestTools;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Scene;
+using Object = UnityEngine.Object;
 
 namespace VTuberSystemBase.OutputRendererShell.PlayModeTests
 {
