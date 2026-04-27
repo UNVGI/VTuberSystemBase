@@ -142,7 +142,7 @@
   - _Requirements: 6.3, 6.4, 6.6_
   - _Depends: 6.2_
 
-- [ ] 6.4 メイン出力サーフェス描画禁止契約の固定化
+- [x] 6.4 メイン出力サーフェス描画禁止契約の固定化
   - `OutputSceneBootstrapper` が生成するメイン出力カメラ配下および Roots 配下へ `OnGUI` / `IMGUI` / UI Toolkit の `UIDocument` / `PanelSettings` を一切アタッチしないことを構造的に保証する（コード上で追加を試みない、XMLDoc で禁止契約を明示）
   - Unity 既定のエラーダイアログ・クラッシュダイアログ・Development Build オーバーレイがメイン出力側で表示される可能性への運用ガイダンスを `Samples~/MinimalMainOutputScene/README.md` に記載（Player Settings の関連オプションと Editor 側での確認手順）
   - `OutputShellLogger` から出るすべてのメッセージが Unity Console のみに流れ、メイン出力サーフェスのピクセルに影響しないことを PlayMode テスト `MainOutputNoOverlayTests` で（カメラ描画結果に GUI 由来のピクセルが混入しないこと、ハンドラ例外ログ発生時も描画が継続していることを確認して）検証し完了とする
