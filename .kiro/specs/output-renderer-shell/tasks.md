@@ -161,7 +161,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7_
   - _Depends: 6.2_
 
-- [ ] 7.2 `core-ipc-foundation` 自己ループ機構を用いた End-to-End ディスパッチ検証
+- [x] 7.2 `core-ipc-foundation` 自己ループ機構を用いた End-to-End ディスパッチ検証
   - `core-ipc-foundation` の `InMemoryLoopbackTransport`（spec #1 Requirement 8）を用い、同一プロセス内でサーバ／クライアント双方を起動してダミーコマンドを送受信する PlayMode テスト `SelfLoopDispatcherTests` を追加
   - state（同一 topic への連続送信で最新値のみ反映されること、ハンドラが冪等に呼ばれること）／ event（FIFO 順と取りこぼしゼロ）／ request-response（correlationId の 1:1 対応）の 3 種類をすべて検証
   - 複数クライアント想定のシミュレーション（2 セッション分の送信）で、state は last-write-wins、event は到着順 FIFO が守られることも検証（OR-2）
