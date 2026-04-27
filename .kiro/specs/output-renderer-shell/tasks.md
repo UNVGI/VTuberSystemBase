@@ -85,7 +85,7 @@
 
 ## 4. Core: コマンドディスパッチャ
 
-- [ ] 4.1 `HandlerRegistry` と登録解除トークンの実装
+- [x] 4.1 `HandlerRegistry` と登録解除トークンの実装
   - `Dictionary<(string topic, OutputCommandKind kind), Delegate>` を内部状態として保持し、登録・ルックアップ・解除（`IDisposable` トークン Dispose）を提供
   - 同一 `(topic, kind)` への重複登録は例外を送出する Fail-Fast 方針を実装
   - EditMode テスト `HandlerRegistryTests` で、登録 → ルックアップ → 解除後ルックアップ不可、重複登録で例外、異なる `(topic, kind)` は独立管理されること、Dispose 後に登録数が減少することを検証して完了とする
