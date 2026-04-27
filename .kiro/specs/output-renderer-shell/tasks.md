@@ -53,7 +53,7 @@
   - _Requirements: 1.3_
   - _Boundary: DefaultLightFactory_
 
-- [ ] 2.4 (P) `GlobalVolumeFactory` による空の Global Volume と空 `VolumeProfile` の生成
+- [x] 2.4 (P) `GlobalVolumeFactory` による空の Global Volume と空 `VolumeProfile` の生成
   - `VolumeRoot` 配下に `Volume` コンポーネントを付与した GameObject を生成し、`isGlobal = true` / `priority = 0` / ランタイム生成の空 `VolumeProfile` を割り当て
   - `IOutputSceneRoots.GlobalVolumeProfile` から取得したインスタンスに対し、後続 spec が `AddComponent<T>()` で Override を追加可能であることを PlayMode テスト `GlobalVolumeFactoryTests` で検証
   - 生成直後の `VolumeProfile.components` が空配列であり、かつ Dispose／PlayMode 停止後に ScriptableObject インスタンスがリークしないことをもって完了とする
