@@ -173,7 +173,7 @@
 
 ## 8. Validation: サンプルシーンと単独検証経路の整備
 
-- [ ] 8.1 `Samples~/MinimalMainOutputScene` 最小サンプルシーンと手動検証手順
+- [x] 8.1 `Samples~/MinimalMainOutputScene` 最小サンプルシーンと手動検証手順
   - `Samples~/MinimalMainOutputScene/MainOutput.unity` に `OutputSceneBootstrapper` 1 つのみを配置した最小シーンを作成し、PlayMode で開くだけで Requirement 1〜9 の主要挙動が観察可能な状態にする
   - `Samples~/MinimalMainOutputScene/README.md` に手動検証手順を記載（PlayMode 起動→ Console で全フェーズの完了ログ確認／Display 2 接続有無でのフォールバック挙動確認／PlayMode 停止→再開 3 回の回帰確認／Unity 既定ダイアログ抑止に関する Player Settings ガイダンス）
   - サンプル UPM `Samples` の import 手順も README に含め、後続 spec の担当者が開発開始時に本シェル単体で起動を確認できる状態とする
