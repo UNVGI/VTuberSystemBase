@@ -120,7 +120,7 @@
 
 ## 6. Integration: Composition Root と起動シーケンス
 
-- [ ] 6.1 `OutputSceneBootstrapper` MonoBehaviour の骨格と `OverrideServices` 注入ポイント
+- [x] 6.1 `OutputSceneBootstrapper` MonoBehaviour の骨格と `OverrideServices` 注入ポイント
   - `OutputSceneBootstrapper` を MonoBehaviour として実装し、`[SerializeField] DisplayRoutingConfig _routingConfig` と `[SerializeField] bool _autoStart` を公開
   - `OverrideServices(IDisplayRoutingService, ICoreIpcServer)` を `Awake` 前に呼ぶことでテスト時のモック差し替えを可能にする（本番ビルドでは呼ばれず既定具体実装が使われる）
   - `FindObjectsByType<OutputSceneBootstrapper>()` による重複配置検出を `Awake` で実施し、2 つ目以降を警告ログ付きで自己破棄
