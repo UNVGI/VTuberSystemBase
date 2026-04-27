@@ -47,7 +47,7 @@
   - _Requirements: 1.2, 1.4, 5.1_
   - _Boundary: DefaultCameraFactory_
 
-- [ ] 2.3 (P) `DefaultLightFactory` によるデフォルト Directional Light の生成
+- [x] 2.3 (P) `DefaultLightFactory` によるデフォルト Directional Light の生成
   - `LightsRoot` 配下に Directional Light 1 基を生成し、真っ黒画面を回避する既定輝度・角度を設定
   - PlayMode テスト `DefaultLightFactoryTests` で、ライトが `LightsRoot` の子であり、`type == Directional` / `enabled == true` であること、およびシーン描画結果がデフォルトカメラで有効な輝度を返すことをもって完了とする
   - _Requirements: 1.3_
