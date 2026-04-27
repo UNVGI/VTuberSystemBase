@@ -71,7 +71,7 @@
   - EditMode テスト `IDisplayRoutingServiceContractTests` で、Fake 実装が契約（Activate 後に `GetAssignment` が同値を返す／`IsFallbackActive` フラグが立つ）を満たすことをもって完了とする
   - _Requirements: 2.1, 2.5, 2.6, 8.5_
 
-- [ ] 3.2 `BuiltInDisplayRoutingService` による暫定実装
+- [x] 3.2 `BuiltInDisplayRoutingService` による暫定実装
   - `Display.displays[n].Activate()` ベースで `TargetDisplayIndex` のディスプレイをアクティブ化し、`Camera.targetDisplay` を設定
   - 指定インデックスが `Display.displays.Length` を超える場合は Display 0 へフォールバックし、`DisplayAssignmentInfo.IsFallbackActive = true` と警告ログを残す（OR-1）
   - `Application.isEditor == true` の場合は Editor PlayMode 固有の制限（`Display.Activate` が効かない）を `IsEditorLimitedMode = true` として記録し、`SuppressEditorWarning` が false の場合に Info 以上のログで通知
