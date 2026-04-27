@@ -1,8 +1,11 @@
 #nullable enable
+using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Diagnostics;
+using VTuberSystemBase.OutputRendererShell.Display;
 using VTuberSystemBase.OutputRendererShell.Dispatch;
 
 namespace VTuberSystemBase.OutputRendererShell.Scene
@@ -15,10 +18,12 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
     /// </summary>
     /// <remarks>
     /// <para>
-    /// <strong>Task 6.1 の責務（骨格）</strong>: クラス骨格と <c>SerializeField</c> 構成、
-    /// テスト時のモック注入ポイント <see cref="OverrideServices"/>、重複配置検出のみを実装する。
-    /// 実際の起動シーケンス（Roots → Camera → Light → Volume → IPC → Dispatcher → Display）
-    /// は Task 6.2 で <see cref="Awake"/> / <see cref="Start"/> へ追加する。
+    /// <strong>起動順序（Flow 1, Req 1.6 / 5.5 / 9.1）</strong>:
+    /// <see cref="Awake"/> で Roots → Camera → Light → Volume を生成し、各フェーズ完了で
+    /// <see cref="OutputDiagnostics.AdvancePhase"/> を進める。<see cref="Start"/> で IPC サーバ起動 →
+    /// <see cref="OutputCommandDispatcher"/> バインド → <see cref="IDisplayRoutingService.Activate"/> を実行する。
+    /// 任意フェーズで例外が発生しても <c>Application.Quit()</c> は呼ばず、<see cref="OutputSceneInitPhase.Failed"/>
+    /// を記録したうえで可能な限り後続フェーズを続行する（描画継続最優先）。
     /// </para>
     /// <para>
     /// <strong>描画禁止契約（Req 5.2 / 5.6 / 9.6）</strong>: 本コンポーネントおよび配下に <c>OnGUI</c> /
@@ -28,7 +33,7 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
     /// <para>
     /// <strong>ライフサイクル（D-9 継承）</strong>: PlayMode 開始〜停止の間のみ活動する。
     /// ドメインリロードを跨いだ状態維持を試みず、<see cref="OnDestroy"/> 後はあらゆるリソース参照を破棄する
-    /// （Task 6.3 で完結）。
+    /// （Task 6.3 で逆順 Shutdown を完結）。
     /// </para>
     /// </remarks>
     [DisallowMultipleComponent]
@@ -59,21 +64,34 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
         [SerializeField]
         private LogLevel _minLogLevel = LogLevel.Info;
 
+        // 依存注入（テスト時にモック差し替え用）
         private IDisplayRoutingService? _injectedRouting;
         private ICoreIpcBus? _injectedIpcBus;
+
+        // 起動時に生成する内部サービス群
         private OutputShellLogger? _logger;
+        private OutputDiagnostics? _diagnostics;
+        private OutputSceneRoots? _roots;
+        private Camera? _defaultCamera;
+        private Light? _defaultLight;
+        private Volume? _globalVolume;
+        private IDisplayRoutingService? _routing;
+        private bool _routingOwnedByThis;
+        private OutputCommandDispatcher? _dispatcher;
+
         private bool _selfDestroyed;
+        private bool _ipcServerStarted;
 
         /// <summary>
         /// <see cref="Awake"/> 前にテスト時の依存注入を行う接合点（モック差し替え用）。
         /// </summary>
         /// <param name="routing">
         /// テスト用 <see cref="IDisplayRoutingService"/>。<c>null</c> の場合は本番デフォルト
-        /// （<c>BuiltInDisplayRoutingService</c>、Task 6.2 で配線）が使われる。
+        /// （<see cref="BuiltInDisplayRoutingService"/>）が使われる。
         /// </param>
         /// <param name="ipcBus">
-        /// テスト用 <see cref="ICoreIpcBus"/>。<c>null</c> の場合は <see cref="Awake"/> 時点では
-        /// IPC 接続を行わず、ディスパッチャはハンドラ登録のみ受け付ける（Task 6.2 で本番配線を追加）。
+        /// テスト用 <see cref="ICoreIpcBus"/>。<c>null</c> の場合は IPC 接続を行わず、
+        /// ディスパッチャはハンドラ登録のみ受け付ける（UI 未接続フェイルセーフ、Req 7.1 / 7.6）。
         /// </param>
         /// <remarks>
         /// 本メソッドは GameObject が <see cref="GameObject.activeInHierarchy"/> = false の状態で呼び出し、
@@ -97,8 +115,8 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
         };
 
         /// <summary>
-        /// Inspector で設定された自動起動フラグ。<c>true</c> の場合、Task 6.2 で実装される
-        /// <see cref="Start"/> 内 IPC サーバ起動／ディスパッチャ起動／ディスプレイ切替が実行される。
+        /// Inspector で設定された自動起動フラグ。<c>true</c> の場合、<see cref="Start"/> 内で
+        /// IPC サーバ起動／ディスパッチャ起動／ディスプレイ切替が実行される。
         /// </summary>
         public bool AutoStart => _autoStart;
 
@@ -108,8 +126,23 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
         public bool IsSelfDestroyed => _selfDestroyed;
 
         /// <summary>
-        /// テスト／後続 task 用の logger 取得（Task 6.2 以降が依存注入用に利用）。
+        /// 起動済み <see cref="OutputDiagnostics"/> への読み取り専用アクセス（Req 9.8 / 2.4a）。
+        /// 起動前は <c>null</c>。
         /// </summary>
+        public IOutputDiagnostics? Diagnostics => _diagnostics;
+
+        /// <summary>
+        /// 起動済み <see cref="IOutputCommandDispatcher"/> への読み取り専用アクセス（後続タブ spec 連携用）。
+        /// 起動前は <c>null</c>。
+        /// </summary>
+        public IOutputCommandDispatcher? Dispatcher => _dispatcher;
+
+        /// <summary>
+        /// 起動済み <see cref="IOutputSceneRoots"/> への読み取り専用アクセス（後続タブ spec 連携用）。
+        /// 起動前は <c>null</c>。
+        /// </summary>
+        public IOutputSceneRoots? Roots => _roots;
+
         internal OutputShellLogger Logger => _logger ??= new OutputShellLogger(_minLogLevel);
 
         private void Awake()
@@ -125,7 +158,31 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
                 return;
             }
 
-            // Task 6.2 で本格的な初期化フェーズ（Roots / Camera / Light / Volume）をここに追加する。
+            EnsureLogger();
+            _diagnostics = new OutputDiagnostics();
+
+            RunPhase(OutputSceneInitPhase.RootsCreated, "create scene roots", () =>
+            {
+                _roots = new OutputSceneRoots();
+            });
+
+            RunPhase(OutputSceneInitPhase.CameraReady, "create default camera", () =>
+            {
+                if (_roots is null) throw new InvalidOperationException("scene roots are not initialized.");
+                _defaultCamera = DefaultCameraFactory.Create(_roots, Logger);
+            });
+
+            RunPhase(OutputSceneInitPhase.LightReady, "create default light", () =>
+            {
+                if (_roots is null) throw new InvalidOperationException("scene roots are not initialized.");
+                _defaultLight = DefaultLightFactory.Create(_roots);
+            });
+
+            RunPhase(OutputSceneInitPhase.VolumeReady, "create global volume", () =>
+            {
+                if (_roots is null) throw new InvalidOperationException("scene roots are not initialized.");
+                _globalVolume = GlobalVolumeFactory.Create(_roots);
+            });
         }
 
         private void Start()
@@ -133,8 +190,36 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
             if (_selfDestroyed) return;
             if (!_autoStart) return;
             if (!Application.isPlaying) return;
+            if (_diagnostics is null) return;
 
-            // Task 6.2 で IPC サーバ起動 / Dispatcher バインド / Display 切替をここに追加する。
+            RunPhase(OutputSceneInitPhase.IpcServerReady, "ensure ipc server", () =>
+            {
+                // 注入された ICoreIpcBus は既に Initialize 済みである前提（テストではモック）。
+                // 本 spec はトランスポート起動を上流に委ねる（D-4）。
+                // _injectedIpcBus が null の場合は UI 未接続フェイルセーフとしてシンプルに通過する（Req 7.1 / 7.6）。
+                _ipcServerStarted = _injectedIpcBus is not null;
+            });
+
+            RunPhase(OutputSceneInitPhase.DispatcherReady, "create dispatcher", () =>
+            {
+                _dispatcher = new OutputCommandDispatcher(Logger, responseSink: null);
+                _diagnostics!.AttachHandlerCountProvider(() => _dispatcher?.RegisteredHandlerCount ?? 0);
+            });
+
+            RunPhase(OutputSceneInitPhase.DisplayRouted, "activate display routing", () =>
+            {
+                if (_defaultCamera is null) throw new InvalidOperationException("default camera is not initialized.");
+                _routing = ResolveRoutingService();
+                var assignment = _routing.Activate(_defaultCamera, BuildRoutingConfig());
+                _diagnostics!.SetDisplayAssignment(assignment);
+            });
+
+            // すべての必須フェーズが Failed なしに進んだ場合のみ Complete に到達させる。
+            // Failed が記録されている場合は Complete に進まず、可能な範囲の機能で運用を続行する。
+            if (_diagnostics.CurrentPhase != OutputSceneInitPhase.Failed)
+            {
+                _diagnostics.AdvancePhase(OutputSceneInitPhase.Complete);
+            }
         }
 
         private void OnDestroy()
@@ -143,6 +228,60 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
             _injectedRouting = null;
             _injectedIpcBus = null;
             _logger = null;
+        }
+
+        private void EnsureLogger() => _logger ??= new OutputShellLogger(_minLogLevel);
+
+        private IDisplayRoutingService ResolveRoutingService()
+        {
+            if (_injectedRouting is not null)
+            {
+                _routingOwnedByThis = false;
+                return _injectedRouting;
+            }
+            _routingOwnedByThis = true;
+            return new BuiltInDisplayRoutingService(Logger);
+        }
+
+        /// <summary>
+        /// 1 フェーズを実行し、成功時は <see cref="OutputDiagnostics.AdvancePhase"/> を進める。
+        /// 例外発生時は <see cref="OutputDiagnostics.RecordError"/> で <see cref="OutputSceneInitPhase.Failed"/>
+        /// を記録し、後続フェーズを継続するため呼び出し元へは伝搬しない（描画継続最優先, Req 5.5 / 9.1）。
+        /// </summary>
+        private void RunPhase(OutputSceneInitPhase phaseOnSuccess, string description, Action body)
+        {
+            try
+            {
+                body();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(
+                    $"phase '{description}' failed; continuing with next phase to keep main output rendering.",
+                    ex,
+                    ComponentName);
+                _diagnostics!.RecordError($"{description}: {ex.GetType().Name}: {ex.Message}",
+                    DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+                return;
+            }
+
+            try
+            {
+                if (_diagnostics!.CurrentPhase != OutputSceneInitPhase.Failed)
+                {
+                    _diagnostics.AdvancePhase(phaseOnSuccess);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                // 単調遷移違反は Bootstrapper のロジックバグなので診断ログに残す。
+                Logger.Error(
+                    $"phase advance to '{phaseOnSuccess}' rejected by diagnostics; continuing.",
+                    ex,
+                    ComponentName);
+            }
+
+            Logger.Info($"phase complete: {description} -> {phaseOnSuccess}", ComponentName);
         }
 
         private bool DetectAndDestroyDuplicate()

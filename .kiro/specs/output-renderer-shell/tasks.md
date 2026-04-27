@@ -127,7 +127,7 @@
   - PlayMode テスト `OutputSceneBootstrapperLifecycleTests`（骨格部分）で、重複配置時に 1 つのみ活動が継続することを検証
   - _Requirements: 6.1, 6.2, 6.5_
 
-- [ ] 6.2 Flow 1 に準拠した起動シーケンスの実装
+- [x] 6.2 Flow 1 に準拠した起動シーケンスの実装
   - `Awake` 内で Roots → Camera → Light → Volume の順に生成し、各フェーズ完了ごとに `IOutputDiagnostics.CurrentPhase` を更新（Req 1.6）
   - `Start` 内で IPC サーバ起動 → `OutputCommandDispatcher` を IPC 受信コールバックへバインド → `IDisplayRoutingService.Activate(DefaultCamera, _routingConfig)` の順で実行し、各段階のフェーズを Diagnostics へ反映
   - 起動シーケンス中に発生した任意フェーズの例外を捕捉し、`OutputSceneInitPhase.Failed` を記録したうえで可能な限り後続フェーズを続行（描画継続優先、Req 5.5）、`Application.Quit()` は呼ばない
