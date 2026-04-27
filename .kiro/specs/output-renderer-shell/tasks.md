@@ -39,7 +39,7 @@
   - _Requirements: 1.1, 1.7, 1.8_
   - _Boundary: OutputSceneRoots_
 
-- [ ] 2.2 (P) `DefaultCameraFactory` による URP 対応デフォルトカメラの生成
+- [x] 2.2 (P) `DefaultCameraFactory` による URP 対応デフォルトカメラの生成
   - プロジェクトの URP Asset が参照された状態で `CamerasRoot` 配下に 1 台のデフォルトカメラを配置し、ステージ全景を捉える既定 Transform を設定
   - メイン出力カメラのカリングマスクから「オペレーター UI 専用レイヤー」を除外する初期構成をコードで固定（UI レイヤーの想定名称をコメントで明示）
   - `UniversalAdditionalCameraData` が付与され、`targetDisplay` の設定は `IDisplayRoutingService` の責務として委譲する構造になっていることを PlayMode テスト `DefaultCameraFactoryTests` で確認
