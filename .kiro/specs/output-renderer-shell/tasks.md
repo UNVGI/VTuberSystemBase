@@ -92,7 +92,7 @@
   - _Requirements: 3.3, 4.5, 4.6_
   - _Boundary: HandlerRegistry_
 
-- [ ] 4.2 `IOutputCommandDispatcher` と `OutputCommandDispatcher` の実装
+- [x] 4.2 `IOutputCommandDispatcher` と `OutputCommandDispatcher` の実装
   - `RegisterStateHandler<TPayload>` / `RegisterEventHandler<TPayload>` / `RegisterRequestHandler<TRequest, TResponse>` を分離 API として公開（Req 4.5）
   - 受信コールバック（`ICoreIpcServer` の `OnCommandReceived` 相当）で `(topic, kind)` ルックアップ → 登録 kind と envelope.kind の二重検証 → ハンドラを `try/catch` でラップして invoke する流れを実装
   - 未登録コマンド受信時は `OutputShellLogger.Warning` で topic と kind を記録し破棄（Req 3.5, 9.4）

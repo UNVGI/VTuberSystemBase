@@ -68,5 +68,20 @@ namespace VTuberSystemBase.OutputRendererShell.Dispatch
 
         /// <summary>登録済みエントリ全件をクリアする（Dispatcher.Dispose で利用）。</summary>
         public void Clear() => _entries.Clear();
+
+        /// <summary>
+        /// <paramref name="topic"/> に対して任意の <see cref="OutputCommandKind"/> でハンドラが
+        /// 1 件以上登録されているかを返す。
+        /// kind 不整合（Req 4.6）と未登録（Req 3.5）を区別するために <c>OutputCommandDispatcher</c> が利用する。
+        /// </summary>
+        public bool HasAnyForTopic(string topic)
+        {
+            if (string.IsNullOrEmpty(topic)) return false;
+            foreach (var key in _entries.Keys)
+            {
+                if (key.topic == topic) return true;
+            }
+            return false;
+        }
     }
 }
