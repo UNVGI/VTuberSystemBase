@@ -7,6 +7,9 @@ using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Diagnostics;
 using VTuberSystemBase.OutputRendererShell.Display;
 using VTuberSystemBase.OutputRendererShell.Dispatch;
+// CoreIpc.Abstractions と OutputRendererShell.Diagnostics の双方が LogLevel を公開しているため、
+// 本ファイル内では shell 側の LogLevel をエイリアスで固定する（Req 9.7 のログレベル切替は shell 側の定義に従う）。
+using LogLevel = VTuberSystemBase.OutputRendererShell.Diagnostics.LogLevel;
 
 namespace VTuberSystemBase.OutputRendererShell.Scene
 {

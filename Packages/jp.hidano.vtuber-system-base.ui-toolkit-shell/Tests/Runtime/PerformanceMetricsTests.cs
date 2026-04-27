@@ -78,8 +78,8 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
         [TearDown]
         public void TearDown()
         {
-            if (_skinRoot != null) Object.DestroyImmediate(_skinRoot);
-            if (_skin != null) Object.DestroyImmediate(_skin);
+            if (_skinRoot != null) UnityEngine.Object.DestroyImmediate(_skinRoot);
+            if (_skin != null) UnityEngine.Object.DestroyImmediate(_skin);
             MainThreadAffinity.Reset();
         }
 

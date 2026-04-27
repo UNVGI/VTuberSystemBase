@@ -13,6 +13,7 @@ using VTuberSystemBase.CoreIpc.Core.Transport.Loopback;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Diagnostics;
 using VTuberSystemBase.OutputRendererShell.Dispatch;
+using LogLevel = VTuberSystemBase.OutputRendererShell.Diagnostics.LogLevel;
 
 namespace VTuberSystemBase.OutputRendererShell.PlayModeTests
 {
