@@ -181,7 +181,7 @@
   - _Requirements: 8.1, 8.3_
   - _Depends: 6.3_
 
-- [ ] 8.2 Requirements カバレッジ回帰スイートの整備
+- [x] 8.2 Requirements カバレッジ回帰スイートの整備
   - EditMode / PlayMode テスト全体を Test Runner でまとめて実行し、`requirements.md` の Requirement 1〜9 の各 Acceptance Criteria に対する検証テストが存在することを `docs` コメントまたはテストフィクスチャの `[Description]` 属性で対応付け
   - モック `IDisplayRoutingService`（FakeDisplayRoutingService）を用い物理ディスプレイに依存しない回帰実行が可能であることを確認（Req 8.5）
   - CI 相当（`unity -batchmode -runTests`）で 2 分以内に全テストが成功することをもって完了とする
