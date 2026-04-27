@@ -64,7 +64,7 @@
 
 ## 3. Core: ディスプレイ振り分け（抽象 + 暫定実装）
 
-- [ ] 3.1 `IDisplayRoutingService` 抽象と `DisplayRoutingConfig` の確定
+- [x] 3.1 `IDisplayRoutingService` 抽象と `DisplayRoutingConfig` の確定
   - `IDisplayRoutingService`（`Activate(Camera, DisplayRoutingConfig) -> DisplayAssignmentInfo` / `GetAssignment()` / `IsFallbackActive` / `IDisposable`）と `DisplayRoutingConfig`（`TargetDisplayIndex` 既定 1、`FullScreenMode` 既定 `FullScreenWindow`、`SuppressEditorWarning`）を最終化
   - XMLDoc で RDS（spec #7）差し替え接合点であること、`Activate` 呼び出しにより Camera の `targetDisplay` を実装側が設定する契約であることを明示
   - テストダブル用の `FakeDisplayRoutingService` を `Tests/EditMode/Fakes/` に配置し、Activate 呼び出し履歴と任意 `DisplayAssignmentInfo` を返せるように実装
