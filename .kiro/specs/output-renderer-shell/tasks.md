@@ -9,7 +9,7 @@
 
 ## 1. Foundation: パッケージ骨格とテスト基盤整備
 
-- [ ] 1.1 UPM パッケージとランタイム／テスト asmdef の初期配置
+- [x] 1.1 UPM パッケージとランタイム／テスト asmdef の初期配置
   - `Packages/com.vtubersystembase.output-renderer-shell/` を UPM パッケージとして作成（`package.json`、`Runtime/`、`Tests/EditMode/`、`Tests/PlayMode/`、`Samples~/MinimalMainOutputScene/` の空骨格を含む）
   - `VTuberSystemBase.OutputRendererShell.Runtime.asmdef` を作成し、`VTuberSystemBase.CoreIpcFoundation.Abstractions`・`Unity.RenderPipelines.Universal.Runtime`・`Unity.RenderPipelines.Core.Runtime` への参照のみを宣言（具体トランスポート asmdef へは参照しない）
   - `VTuberSystemBase.OutputRendererShell.EditModeTests.asmdef` / `VTuberSystemBase.OutputRendererShell.PlayModeTests.asmdef` を作成し、Runtime asmdef と NUnit・Unity Test Framework を参照
@@ -32,7 +32,7 @@
 
 ## 2. Core: シーン骨格（Roots / Camera / Light / Global Volume）
 
-- [ ] 2.1 (P) ルート GameObject 階層と `IOutputSceneRoots` サービスロケータの実装
+- [x] 2.1 (P) ルート GameObject 階層と `IOutputSceneRoots` サービスロケータの実装
   - `StageRoot` / `CharactersRoot` / `LightsRoot` / `CamerasRoot` / `VolumeRoot` を `OutputSceneRootNames` 定数に従って生成する `OutputSceneRoots` を実装し、`IOutputSceneRoots` のプロパティ（`Stage` / `Characters` / `Lights` / `Cameras` / `Volumes` / `GlobalVolumeProfile` / `DefaultCamera`）で参照を公開
   - シーン配置時に同名ルートが既に存在する場合は生成せず再利用する冪等な挙動を実装（Editor プロトタイプ保存シナリオに対応）
   - PlayMode テスト `OutputSceneRootsTests` で、Awake 直後に 5 ルートすべてが存在し、プロパティが non-null を返し、後続 spec が `Stage` 配下へ子 GameObject を追加しても他ルートを破壊しないことをもって完了とする
