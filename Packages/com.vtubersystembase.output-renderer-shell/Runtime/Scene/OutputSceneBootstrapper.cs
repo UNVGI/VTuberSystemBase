@@ -224,10 +224,91 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
 
         private void OnDestroy()
         {
-            // Task 6.3 で逆順 Shutdown / Dispose をここに追加する。
+            // 逆順 Shutdown（Flow 1 の構築順を反転、Req 6.3 / 6.4 / 6.6）。
+            // 例外が起きても後続の解放を続行する（描画継続最優先, Req 5.5）。
+            SafeDispose("dispatcher", () =>
+            {
+                _dispatcher?.Dispose();
+                _dispatcher = null;
+            });
+
+            SafeDispose("routing", () =>
+            {
+                if (_routingOwnedByThis)
+                {
+                    _routing?.Dispose();
+                }
+                _routing = null;
+                _routingOwnedByThis = false;
+            });
+
+            // IPC サーバの停止は本 spec では行わない：
+            //  - _injectedIpcBus は呼び出し元（テスト or 上位 Composition Root）が所有する
+            //  - 本 spec はそのライフサイクルに介入せず参照のみ手放す
+            //  これにより複数 spec が同一バスを共有してもサーバ停止が二重に走らない。
+            _ipcServerStarted = false;
+
+            SafeDispose("global volume", () =>
+            {
+                GlobalVolumeFactory.DestroyVolume(_globalVolume);
+                _globalVolume = null;
+            });
+
+            SafeDispose("default light", () =>
+            {
+                if (_defaultLight != null)
+                {
+                    UnityEngine.Object.Destroy(_defaultLight.gameObject);
+                }
+                _defaultLight = null;
+            });
+
+            SafeDispose("default camera", () =>
+            {
+                if (_defaultCamera != null)
+                {
+                    UnityEngine.Object.Destroy(_defaultCamera.gameObject);
+                }
+                _defaultCamera = null;
+            });
+
+            SafeDispose("scene roots", () =>
+            {
+                DestroyRootIfPresent(_roots?.Stage);
+                DestroyRootIfPresent(_roots?.Characters);
+                DestroyRootIfPresent(_roots?.Lights);
+                DestroyRootIfPresent(_roots?.Cameras);
+                DestroyRootIfPresent(_roots?.Volumes);
+                _roots = null;
+            });
+
+            SafeDispose("diagnostics reset", () =>
+            {
+                _diagnostics?.Reset();
+                _diagnostics = null;
+            });
+
             _injectedRouting = null;
             _injectedIpcBus = null;
             _logger = null;
+        }
+
+        private void SafeDispose(string label, System.Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Error($"shutdown step '{label}' threw; continuing.", ex, ComponentName);
+            }
+        }
+
+        private static void DestroyRootIfPresent(Transform? root)
+        {
+            if (root == null) return;
+            UnityEngine.Object.Destroy(root.gameObject);
         }
 
         private void EnsureLogger() => _logger ??= new OutputShellLogger(_minLogLevel);

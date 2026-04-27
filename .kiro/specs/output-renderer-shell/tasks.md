@@ -135,7 +135,7 @@
   - _Requirements: 1.6, 2.2, 2.5, 3.1, 5.5, 6.1, 6.2, 6.7, 9.1_
   - _Depends: 2.1, 2.2, 2.3, 2.4, 3.2, 4.2, 5.1_
 
-- [ ] 6.3 `OnDestroy` 逆順シャットダウンと PlayMode 反復時のクリーンアップ
+- [x] 6.3 `OnDestroy` 逆順シャットダウンと PlayMode 反復時のクリーンアップ
   - `OnDestroy` で `IOutputCommandDispatcher.Dispose` → `IDisplayRoutingService.Dispose` → IPC サーバ `Shutdown` → ルート GameObject 破棄 の逆順処理を実装
   - ドメインリロードを跨いだ状態維持を試みず、PlayMode 開始のたびに新しいライフサイクルで初期化する（D-9 継承）
   - PlayMode テスト `OutputSceneBootstrapperReinitTests` で、PlayMode 開始→停止を 10 回反復してもメモリリーク（ScriptableObject 残留、GameObject 残留、ディスパッチャハンドラ残留）が発生しないこと、および停止後に `CurrentPhase = Uninitialized` へ戻ることをもって完了とする
