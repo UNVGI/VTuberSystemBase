@@ -3,12 +3,9 @@
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.test-framework": "1.4.5",
     "com.unity.ide.rider": "3.0.34",
-    "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.imgui": "1.0.0",
     "com.unity.modules.jsonserialize": "1.0.0",
-    "com.unity.modules.uielements": "1.0.0",
-    "com.vtuber-system-base.core-ipc-foundation": "file:com.vtuber-system-base.core-ipc-foundation",
-    "com.vtubersystembase.output-renderer-shell": "file:com.vtubersystembase.output-renderer-shell"
+    "com.unity.modules.uielements": "1.0.0"
   }
 }
