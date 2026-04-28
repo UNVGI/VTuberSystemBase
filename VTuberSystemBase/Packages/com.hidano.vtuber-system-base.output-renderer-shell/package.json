@@ -1,14 +1,13 @@
 {
-  "name": "com.hidano.vtuber-system-base.output-renderer-shell",
+  "name": "jp.co.unvgi.vtuber-system-base.output-renderer-shell",
   "version": "0.1.0",
   "displayName": "VTuberSystemBase Output Renderer Shell",
   "description": "Composition root and minimal scene shell for the main output process (Display 2). Provides scene roots (Stage / Characters / Lights / Cameras / Volume), default URP camera/light/global volume, IDisplayRoutingService abstraction, IOutputCommandDispatcher (state/event/request-response), and IOutputDiagnostics. Receives commands from the UI process via VTuberSystemBase.CoreIpc abstractions; never renders any UI overlay onto the main output surface.",
   "unity": "6000.3",
   "type": "library",
   "author": {
-    "name": "Hidano",
-    "email": "n.hidano@hidano-dev.com",
-    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+    "name": "UNVGI Inc.",
+    "url": "https://github.com/UNVGI/VTuberSystemBase"
   },
   "keywords": [
     "vtuber",

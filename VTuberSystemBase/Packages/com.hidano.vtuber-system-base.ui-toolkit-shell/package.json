@@ -1,14 +1,13 @@
 {
-  "name": "com.hidano.vtuber-system-base.ui-toolkit-shell",
+  "name": "jp.co.unvgi.vtuber-system-base.ui-toolkit-shell",
   "version": "0.1.0",
   "displayName": "VTuberSystemBase UI Toolkit Shell",
   "description": "UI Toolkit-based main window shell for the VTuberSystemBase UI process (Display 1). Provides the root UIDocument with a 3-tab bar (Character / Stage-Lighting / Camera-Switcher), startup preload of all tab UIDocuments, display/hide-only tab switching to never freeze the main output frame, an Addressables-backed asynchronous asset loading facade with main-thread completion delivery, Command send / subscription facades over the core-ipc-foundation client abstractions, a common UI component library (slider / color picker / numbered list / toggle group), and skin (UXML/USS) extension points. Requires the core-ipc-foundation abstract assembly; never references its concrete transport implementation.",
   "unity": "6000.3",
   "type": "library",
   "author": {
-    "name": "Hidano",
-    "email": "n.hidano@hidano-dev.com",
-    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+    "name": "UNVGI Inc.",
+    "url": "https://github.com/UNVGI/VTuberSystemBase"
   },
   "keywords": [
     "vtuber",
@@ -21,6 +20,6 @@
   ],
   "dependencies": {
     "com.unity.addressables": "2.6.0",
-    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0"
+    "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0"
   }
 }

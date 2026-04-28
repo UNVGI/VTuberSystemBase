@@ -1,14 +1,13 @@
 {
-  "name": "com.hidano.vtuber-system-base.core-ipc-foundation",
+  "name": "jp.co.unvgi.vtuber-system-base.core-ipc-foundation",
   "version": "0.1.0",
   "displayName": "VTuberSystemBase Core IPC Foundation",
   "description": "LocalHost IPC foundation between the UI process (Display 1) and the main output process (Display 2+) for VTuberSystemBase. Provides abstract Pub/Sub and Request/Response over WebSocket (RFC 6455) + JSON, with Unity main-thread dispatch and PlayMode lifecycle integration.",
   "unity": "6000.3",
   "type": "library",
   "author": {
-    "name": "Hidano",
-    "email": "n.hidano@hidano-dev.com",
-    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+    "name": "UNVGI Inc.",
+    "url": "https://github.com/UNVGI/VTuberSystemBase"
   },
   "keywords": [
     "ipc",
