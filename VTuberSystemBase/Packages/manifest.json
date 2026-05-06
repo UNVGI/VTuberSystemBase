@@ -1,11 +1,31 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": "2.5.10",
+    "com.neuecc.unirx": "7.1.0",
+    "com.unity.ide.rider": "3.0.34",
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.test-framework": "1.4.5",
-    "com.unity.ide.rider": "3.0.34",
-    "com.unity.modules.unitywebrequest": "1.0.0",
+    "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.2",
     "com.unity.modules.imgui": "1.0.0",
     "com.unity.modules.jsonserialize": "1.0.0",
-    "com.unity.modules.uielements": "1.0.0"
-  }
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "UNVGI",
+      "url": "https://npm.unvgi.com",
+      "scopes": [
+        "jp.co.unvgi"
+      ]
+    },
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.neuecc",
+        "com.cysharp"
+      ]
+    }
+  ]
 }
