@@ -207,6 +207,18 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.timeline": {
+      "version": "1.8.10",
+      "depth": 4,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ugui": {
       "version": "2.0.0",
       "depth": 0,
@@ -216,21 +228,66 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "jp.co.unvgi.external.gpsnmeajp.evmc4u": {
+      "version": "0.5.1-fork.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "jp.co.unvgi.uosc": "1.0.0",
+        "jp.co.unvgi.external.vrmc.univrm": "0.131.0",
+        "jp.co.unvgi.external.vrmc.vrm": "0.131.0"
+      },
+      "url": "https://npm.unvgi.com"
+    },
+    "jp.co.unvgi.external.vrmc.gltf": {
+      "version": "0.131.0",
+      "depth": 4,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.test-framework": "1.4.6",
+        "com.unity.mathematics": "1.2.6"
+      },
+      "url": "https://npm.unvgi.com"
+    },
+    "jp.co.unvgi.external.vrmc.univrm": {
+      "version": "0.131.0",
+      "depth": 3,
+      "source": "registry",
+      "dependencies": {
+        "jp.co.unvgi.external.vrmc.gltf": "0.131.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://npm.unvgi.com"
+    },
+    "jp.co.unvgi.external.vrmc.vrm": {
+      "version": "0.131.0",
+      "depth": 3,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.7.6",
+        "jp.co.unvgi.external.vrmc.gltf": "0.131.0"
+      },
+      "url": "https://npm.unvgi.com"
+    },
     "jp.co.unvgi.realtimeavatarcontroller": {
-      "version": "0.1.1",
+      "version": "0.1.1-fork.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "jp.co.unvgi.uosc": "1.0.0"
+        "jp.co.unvgi.uosc": "1.0.0",
+        "jp.co.unvgi.external.gpsnmeajp.evmc4u": "0.5.1-fork.1"
       },
       "url": "https://npm.unvgi.com"
     },
     "jp.co.unvgi.realtimeavatarcontroller.movin": {
-      "version": "0.1.2",
+      "version": "0.1.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "jp.co.unvgi.realtimeavatarcontroller": "0.1.1"
+        "jp.co.unvgi.realtimeavatarcontroller": "0.1.1-fork.3"
       },
       "url": "https://npm.unvgi.com"
     },
