@@ -17,8 +17,7 @@
     "precompiledReferences": [
         "nunit.framework.dll",
         "System.Text.Json.dll",
-        "System.Text.Encodings.Web.dll",
-        "Microsoft.Bcl.AsyncInterfaces.dll"
+        "System.Text.Encodings.Web.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
