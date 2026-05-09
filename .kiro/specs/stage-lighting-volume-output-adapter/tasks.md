@@ -53,7 +53,7 @@
   - _Boundary: Diagnostics/StageLightingVolumeOutputAdapterDiagnostics_
   - _Depends: 1.1_
 
-- [ ] 1.6 テストダブル群の整備（TDD 基盤）
+- [x] 1.6 テストダブル群の整備（TDD 基盤）
   - `FakeOutputCommandDispatcher` を実装：`RegisterStateHandler<T>` / `RegisterEventHandler<T>` / `RegisterRequestHandler<TReq,TRes>` を記録、テストから `EmitState(topic, payload)` / `EmitEvent(topic, payload)` / `InvokeRequest(topic, request)` で受信を inject 可能、解除トークン Dispose 検証付き。`PublishedStates` / `PublishedEvents` リストで送信内容を観測可能（出力側 publish API を本 spec が呼ぶ場合の観測点）。
   - `FakeOutputSceneRoots : IOutputSceneRoots` を実装：`Stage`, `Lights`, `Cameras`, `Volumes` の各 Transform を内部 GameObject から作成、`GlobalVolumeProfile` は `ScriptableObject.CreateInstance<VolumeProfile>()` 生成、`DefaultCamera` は内部 Camera。`Dispose` で全 GameObject 破棄。
   - `FakeInstantiationProvider : IInstantiationProvider` を実装：`InstantiateAsync(addressableKey, parent)` の応答を辞書で設定可能（成功時は新 GameObject 返却、失敗時は `InstantiationResult.Success=false` + ErrorCode 設定）。`ReleaseInstance` 呼出を記録、`LoadResourceLocationsAsync(label)` 応答も差し替え可能。
