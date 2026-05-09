@@ -279,7 +279,7 @@
   - _Boundary: Preview/PreviewCameraFactory_
   - _Depends: 6.2_
 
-- [ ] 6.4 PreviewCommandHandler の実装
+- [x] 6.4 PreviewCommandHandler の実装
   - `PreviewCommandHandler` を実装し、コンストラクタで `IOutputCommandDispatcher`, `StagePreviewHost`, `AdapterLogger`, `StageLightingVolumeOutputAdapterDiagnostics` を受け取る。
   - `Start()` で以下を実行：
     1. `RegisterEventHandler<PreviewCommandDto>(StageLightingTopics.PreviewCommand, OnPreviewCommand)` 登録
