@@ -137,7 +137,7 @@
   - _Boundary: Lights/LightRegistry_
   - _Depends: 1.1_
 
-- [ ] 4.3 LightPropertyApplier の実装
+- [x] 4.3 LightPropertyApplier の実装
   - `LightPropertyApplier` を実装し、各プロパティ毎の Apply メソッドを提供する：
     - `ApplyIntensity(string lightId, StateCommand<float> cmd)` → `LightRegistry.TryGet` → `entry.Light.intensity = cmd.Payload`
     - `ApplyColor(string lightId, StateCommand<ColorDto> cmd)` → `entry.Light.color = DtoConverters.ToUnity(cmd.Payload)`
