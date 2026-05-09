@@ -36,7 +36,7 @@
 
 ## 2. Adapters: 採用パッケージのブリッジ実装
 
-- [ ] 2.1 (P) FlatRecordAddressDecoder と OscMessageRouter の実装
+- [x] 2.1 (P) FlatRecordAddressDecoder と OscMessageRouter の実装
   - `FlatRecordAddressDecoder`：`/ucapi/camera/{cameraId}/flat` の文字列から `cameraId` を抽出する純関数。`OscAddressBuilder.DefaultPrefix`（`/ucapi/camera`）との整合性を確認、不正アドレスは `null` を返す。
   - `OscMessageRouter`：`OscReceivedMessage`（cameraId 抽出済み）を CameraEntryRegistry へ流す前処理。未知 cameraId は `FailureAggregator.RecordUnknownCameraIdOnOsc` を呼び破棄。
   - Tests.Runtime の `OscMessageRouterTests` で「正常アドレス → cameraId 抽出」「不正プレフィクス → 破棄」「末尾 `/flat` 欠如 → 破棄」「`cameraId` に許容外文字 → 破棄」を検証する。
