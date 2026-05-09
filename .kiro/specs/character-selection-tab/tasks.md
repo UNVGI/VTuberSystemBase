@@ -170,7 +170,7 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.10, 6.1, 6.8, 7.4, 9.2, 9.3_
   - _Depends: 2.1, 2.2, 3.1_
 
-- [ ] 5.4 SettingsPanelPresenter による動的設定 UI と値変更送信
+- [x] 5.4 SettingsPanelPresenter による動的設定 UI と値変更送信
   - `OpenForAsync(slotId)` で `CharacterTabIpcBinder.RequestAvatarSchemaAsync(avatarKey, 5s)` を呼びスキーマを取得、`DynamicSettingControlFactory.Build` で VisualElement ツリーを構築し View にアタッチ、`SlotSnapshot.SettingValues` で初期値を復元する。
   - `ValueChanged` イベントで `IUiCommandClient.PublishState slot/{id}/settings/{key}` を送信し、`InteractionGuard.MarkInteracting` を発火する。`PointerUp` または 200ms アイドルで `EndInteracting` し、バッファされたリモート state を適用する。
   - スキーマの `Kind == "command"` 項目は `PublishEvent slot/{id}/settings/{key}` で送信し連続値と別トピック扱いとする。
