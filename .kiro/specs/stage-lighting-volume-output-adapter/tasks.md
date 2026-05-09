@@ -19,7 +19,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7_
   - _Boundary: Package skeleton_
 
-- [ ] 1.2 link.xml と IL2CPP strip 抑止設定
+- [x] 1.2 link.xml と IL2CPP strip 抑止設定
   - パッケージルートに `link.xml` を配置し、`<assembly fullname="Unity.RenderPipelines.Core.Runtime" preserve="all" />` および `<assembly fullname="Unity.RenderPipelines.Universal.Runtime" preserve="all" />` を含めて URP の `VolumeComponent` / `VolumeParameter<T>` 派生型がリフレクションで参照されても strip されないようにする。
   - 利用者プロジェクト独自の `VolumeComponent` についてはユーザーが追加 link.xml で対応するよう README に明記する手順を入れる。
   - 観測可能な完了条件: IL2CPP スタンドアロンビルドで `Bloom` / `Tonemapping` / `ColorAdjustments` の各 `VolumeParameter<T>` フィールドにリフレクションで `value` 代入できることが手動検証できる。
