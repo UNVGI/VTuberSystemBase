@@ -151,7 +151,7 @@
   - _Depends: 2.10, 3.1_
   - _Boundary: Views (ViewBinder, PreviewPanelController, CameraListView, LocalVolumeEditorView, PresetPanelView, DiagnosticsBadgeView)_
 
-- [ ] 3.4 Composition Root と ITabLifecycleHandle ブリッジの実装
+- [x] 3.4 Composition Root と ITabLifecycleHandle ブリッジの実装
   - `CameraSwitcherTabBehaviour` を MonoBehaviour として実装し、`UiShellBootstrapper` 経由で `ITabPanelRegistry.RegisterTab(TabId.CameraSwitcher)` を呼んで `ITabLifecycleHandle` を取得、`OnActivated` / `OnDeactivated` / `OnDisposed` を Coordinator の `OnTabActivated` / `OnTabDeactivated` / `Dispose` に橋渡しする。
   - DI 経由で全 Adapter（Ucapi4UnityFlatRecordSerializer / UoscFlatRecordEmitter + OscClientLifecycle / FileSystemPresetStore / UnityTimeProvider / RenderTextureHandleResolver）を生成して Coordinator に注入し、`IUiCommandClient` / `IUiSubscriptionClient` / `IAsyncAssetLoader` / `IConnectionStatus` / `IDiagnosticsLogger` を shell から受け取る。
   - `CameraSwitcherTabDiagnostics` を外部公開し、`Coordinator.Status` / カメラ数 / アクティブ cameraId / 編集対象 cameraId / OSC 状態 / IPC 接続状態 / 永続化最終時刻 / アクティブプリセット名 / FailureAggregator Kind 別件数 を取得可能にする。
