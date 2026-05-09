@@ -75,7 +75,7 @@
 
 ## 3. Stage Domain
 
-- [ ] 3.1 IInstantiationProvider と AddressablesInstantiationProvider の実装
+- [x] 3.1 IInstantiationProvider と AddressablesInstantiationProvider の実装
   - `IInstantiationProvider` interface を実装し、`InstantiateAsync(string addressableKey, Transform parent, CancellationToken ct)` / `ReleaseInstance(GameObject go)` / `LoadResourceLocationsAsync(string label, CancellationToken ct)` を定義する。
   - `AddressablesInstantiationProvider : IInstantiationProvider` を実装し、`Addressables.InstantiateAsync(addressableKey, parent, instantiateInWorldSpace: false)` を `Task<InstantiationResult>` でラップする。`AsyncOperationHandle<GameObject>.Completed` を購読し、`Status == Succeeded` なら `Success=true` + `Instance=handle.Result` を返し、`Status == Failed` なら `ErrorCode="load_failed"` または `"instantiate_failed"` + `ErrorMessage=handle.OperationException.Message` を返す。`InvalidKeyException` は `ErrorCode="not_found"`。
   - `ReleaseInstance` は `Addressables.ReleaseInstance(go)` を呼び、戻り値が false なら警告ログ。
