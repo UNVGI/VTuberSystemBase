@@ -48,7 +48,7 @@
   - _Requirements: 2.8, 2.9, 6.1, 6.4, 6.9, 7.2, 7.7_
   - _Boundary: CameraRegistry, ActiveCameraTracker_
 
-- [ ] 2.2 (P) TimeoutTracker と FailureAggregator の実装
+- [x] 2.2 (P) TimeoutTracker と FailureAggregator の実装
   - `TimeoutTracker.Arm(clientRequestId, timeout)` / `Cancel` / `OnTimeout` を `ITimeProvider` に依存した形で実装し、5 秒タイムアウト発火・Cancel 後の非発火・重複 Arm のガードを単体テストで確認する。
   - `FailureAggregator` に `OscFailure` / `IpcSendFailure` / `VolumeMetadataFailure` / `PresetIoFailure` / `CameraError` の Kind を定義し、件数集計 + 直近 N 件の履歴保持 + Subscribe API を備える。診断スナップショット API を通じて Kind 別件数が取得できること。
   - 観測可能な完了状態: 5 秒タイムアウト発火、Cancel による抑止、FailureAggregator の Kind 別カウントが Tests.Runtime のテストでグリーンになる。
