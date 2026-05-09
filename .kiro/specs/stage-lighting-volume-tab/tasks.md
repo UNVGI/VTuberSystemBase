@@ -134,7 +134,7 @@
   - _Requirements: 2.4, 2.8, 2.10_
   - _Boundary: StageLightingVolumeTab.Runtime.Preview.CameraAdapter_
 
-- [ ] 4.3 `PreviewPanelController` を RT バインド・アクティブ化連動・視点リセットの単体テスト駆動で実装する
+- [x] 4.3 `PreviewPanelController` を RT バインド・アクティブ化連動・視点リセットの単体テスト駆動で実装する
   - `PreviewPanelControllerTests` を PlayMode テストとして作成する（`UnityEngine.UIElements.VisualElement` と RenderTexture の実体が必要）
   - `OnActivated` で `preview/command` の `set-enabled:true` event が `FakeIpcClient` に送信されること、`OnDeactivated` で `set-enabled:false` event が送られること、`ResetView` で `reset-view` event が送られることを検証する
   - RT が `RenderTextureChanged` で差し替わったときに VisualElement の `style.backgroundImage`（`Background.FromRenderTexture(rt)`）が更新され、null 時は「プレビュー準備中」プレースホルダ表示になることを検証する
