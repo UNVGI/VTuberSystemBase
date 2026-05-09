@@ -9,7 +9,7 @@
 
 ## 1. Foundation: パッケージ雛形と共通抽象の整備
 
-- [ ] 1.1 UPM パッケージ骨格と asmdef 境界の確立
+- [x] 1.1 UPM パッケージ骨格と asmdef 境界の確立
   - UPM パッケージ `jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter` の `package.json` を作成し、`Unity 6.3` 最低バージョン、依存（`com.hidano.vtuber-system-base.core-ipc-foundation`, `com.hidano.vtuber-system-base.output-renderer-shell`, `jp.hidano.vtuber-system-base.stage-lighting-volume-tab`, `com.hidano.scene-view-style-camera-controller`, `com.unity.addressables`, `com.unity.render-pipelines.universal`）を宣言する。
   - `Runtime/`, `Tests/Editor/`, `Tests/PlayMode/` のフォルダ構造を File Structure Plan に従って作成する。
   - Runtime asmdef `VTuberSystemBase.StageLightingVolumeOutputAdapter.Runtime` を作成し、参照を `VTuberSystemBase.StageLightingVolumeTab.Contracts` / `VTuberSystemBase.OutputRendererShell.Runtime` / `VTuberSystemBase.CoreIpc.Abstractions` / `Unity.RenderPipelines.Universal.Runtime` / `Unity.RenderPipelines.Core.Runtime` / `Unity.Addressables` / `SceneViewStyleCameraController.Runtime` に限定する。`stage-lighting-volume-tab` の Runtime asmdef および `ui-toolkit-shell` への参照は禁止する。
