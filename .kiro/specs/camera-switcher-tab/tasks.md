@@ -171,7 +171,7 @@
 
 ## 4. Validation: 統合テスト・フェイルセーフ・手動検証
 
-- [ ] 4.1 (P) IPC ループバック統合テスト
+- [x] 4.1 (P) IPC ループバック統合テスト
   - `core-ipc-foundation` の `InMemoryLoopbackTransport`（または同等 Fake）を用いて、UI → メイン出力モック → UI の往復を検証する統合テスト群を追加する。
   - 「`camera/command add` → `camera/created` で Registry 更新 + 初期プレースホルダ差替え」「`cameras/list` / `cameras/active` 受信で UI 状態同期」「`camera/error` 受信で操作単位の失敗表示」「WebSocket 切断 → CRUD 非活性化 → 復旧 → 再購読 + 再スナップショット」を網羅する。
   - 観測可能な完了状態: 上記 4 系統のテストが Tests.Runtime でグリーンとなり、切断/復旧シナリオで Coordinator.Status 遷移が意図通りであることを確認できる。
