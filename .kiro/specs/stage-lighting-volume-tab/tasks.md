@@ -119,7 +119,7 @@
 ---
 
 - [ ] 4. Preview 層（RT アクセサ、カメラアダプタ、パネルコントローラ）を TDD で実装する
-- [ ] 4.1 `IPreviewRenderTextureAccessor` と `PreviewRenderTextureAccessor`（`StagePreviewHostLocator` 経由）を実装する
+- [x] 4.1 `IPreviewRenderTextureAccessor` と `PreviewRenderTextureAccessor`（`StagePreviewHostLocator` 経由）を実装する
   - `PreviewRenderTextureAccessorTests` で Locator に `IPreviewHostService` を登録 → `TryGet` が RT 参照を返す、`Unregister` 後は null を返す、`RenderTextureChanged` イベント購読で RT 差替を検知できることを検証する
   - 実装: Accessor は Locator のイベントを透過し、ライフサイクルで `IsReady` を提供する
   - 観測可能完了: RT 参照解決が同一プロセス内で完結し、メイン出力側 Host 未登録でも UI 側がクラッシュせず「準備中」状態を観測できる
