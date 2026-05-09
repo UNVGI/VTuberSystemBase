@@ -48,4 +48,23 @@ Composition Root (CharacterTabBootstrapper)
 
 ## PlayMode サンプル
 
-`Tests/PlayMode/CharacterTabPlayModeSample.unity`（task 8.2 で作成）でモック UI シェル構成のフル機能確認が可能。
+PlayMode 上で本タブのフル機能（プレイヤーカード描画 → アバター選択 → 割当確定 → 設定スライダー操作 → プリセット切替）を手動確認するための補助コンポーネントとして `CharacterTabPlayModeSampleDriver`（`Tests/Runtime/CharacterTabPlayModeSampleDriver.cs`）を同梱している。`UNITY_INCLUDE_TESTS` 限定で有効。
+
+### サンプルシーン作成手順
+
+1. Unity エディタの Hierarchy で空シーンを作成し `Assets/Tests/Scenes/CharacterTabPlayModeSample.unity` として保存する（ローカル検証用、リポジトリには含めない）。
+2. `GameObject > UI Toolkit > UI Document` を追加する。
+3. UIDocument の `Source Asset` には未指定でも可。利用者プロジェクトの PanelSettings を割り当てる。
+4. 同 GameObject に `CharacterTabPlayModeSampleDriver` を AddComponent する。
+5. Driver の `Tab Uxml` フィールドに本パッケージ同梱の `Runtime/View/CharacterTab.uxml` をドラッグ。
+6. `Style Sheets` リストに同梱の `Runtime/View/CharacterTab.uss` を追加。USS 差し替えを試したい場合は利用者プロジェクト側の追加 USS を後段に積む。
+7. PlayMode を実行するとモックの 3 Slot + 3 アバターが表示され、カード→候補→Activate→設定スライダーの一連を実行可能。
+
+### USS スキン差し替え検証
+
+- `UiToolkitShellSkinProfile.CharacterTabStyleSheets` に利用者 USS を加え、PlayMode で再起動し配色や余白の上書きが反映されることを確認する。
+- 上書きが反映されない場合は USS の specificity（`vsb-` prefix の階層）と読み込み順を確認する。
+
+### PlayMode 反復検証
+
+`PresetFlushHookTests.BootstrapperIteration_5Times_NoResourceLeak` で構築 → Activate → Deactivate → Dispose を 5 回反復し、購読・Addressables ハンドル・Track 済み資源のリークが発生しないことを自動検証している。手動でも PlayMode 開始/停止を 5 回繰り返し、Console に Init.Disposed が 5 回出ることを確認する。
