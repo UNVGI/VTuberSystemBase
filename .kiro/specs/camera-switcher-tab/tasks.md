@@ -32,7 +32,7 @@
   - 観測可能な完了状態: Port 抽象のみを参照するモックテストが Tests.Runtime でコンパイル可能になり、実装抜きで契約レベルの単体テストが書ける状態になる。
   - _Requirements: 1.7, 3.7, 3.8, 4.1, 4.6, 4.7, 4.8, 10.1, 10.2, 10.3, 11.10, 15.4, 15.7, 15.8_
 
-- [ ] 1.5 Fake Adapter とテスト支援ユーティリティの整備
+- [x] 1.5 Fake Adapter とテスト支援ユーティリティの整備
   - `FakeIpcClient` / `FakeIpcSubscription`（ui-toolkit-shell の `IUiCommandClient` / `IUiSubscriptionClient` を模擬）、`FakeOscEmitter`（送信 blob バッファ + OnSendFailure 手動発火）、`FakePresetStore`（InMemory）、`FakeTimeProvider`（手動前進）、`FakePreviewHandleResolver`、`FakeConnectionStatus` を Tests.Runtime 配下に実装する。
   - `FakeOscEmitter` は Address 文字列 / Blob 長 / cameraId 抽出を検証しやすい形で積み、`FakeTimeProvider.Advance(TimeSpan)` で登録済みタイマーを同期的に発火する。
   - 共通テストユーティリティ（AssertEnvelope / AssertTopic / PayloadFactory）を追加し、後続の Domain テストが定型コードなしで記述できるようにする。
