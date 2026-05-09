@@ -35,7 +35,7 @@
   - _Boundary: Internal/DtoConverters, Internal/HandlerRegistrationToken_
   - _Depends: 1.1_
 
-- [ ] 1.4 AdapterLogger と AdapterLoggerConfig の実装
+- [x] 1.4 AdapterLogger と AdapterLoggerConfig の実装
   - `AdapterLogger` を実装し、`Verbose` / `Info` / `Warning` / `Error` の各メソッドが `[StageLightingVolumeOutputAdapter] {component}.{event}: {context}` 形式で `UnityEngine.Debug.Log/LogWarning/LogError` にのみ出力するようにする。
   - `AdapterLoggerConfig.MinLevel` で外部からログレベル切替を可能にする。既定は `Info`。
   - 構造化フィールド（topic, lightId, typeFullName, paramName, exception）を `string?` 引数で受け取り、null は出力しない。
