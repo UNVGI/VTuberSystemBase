@@ -74,7 +74,7 @@
   - _Depends: 1.2_
   - _Boundary: SequentialCameraIdAllocator_
 
-- [ ] 2.5 GlobalEnabledLocalVolumeBinder の実装
+- [x] 2.5 GlobalEnabledLocalVolumeBinder の実装
   - `GlobalEnabledLocalVolumeBinder.CreateLocalVolume(parent, cameraId, priority)`：`new GameObject($"LocalVolume-{cameraId.Value}")` を `parent.transform` の子として生成、`Volume` コンポーネントを attach、`isGlobal=true`、`weight=1`、`priority=priority`、`enabled=false`、空 `VolumeProfile`（ScriptableObject 動的生成）を割り当てて返す。
   - `AddOverride(volume, overrideTypeName)`：`VolumeComponentTypeResolver.Resolve(overrideTypeName)` で型を取得、`volume.profile.Add(type, overrides: false)` を呼ぶ。失敗時 `VolumeBindResult.Error`。
   - `RemoveOverride(volume, overrideTypeName)`：`volume.profile.Remove(type)`。
