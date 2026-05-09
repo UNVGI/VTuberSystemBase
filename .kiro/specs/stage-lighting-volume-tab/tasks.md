@@ -18,7 +18,7 @@
   - 観測可能完了: Unity Editor で本パッケージが読み込まれコンパイルエラーが 0 件、`Assembly-CSharp` 側から Contracts / Runtime 双方の名前空間が参照できる
   - _Requirements: 1.7_
 
-- [ ] 1.2 テスト用 asmdef（Runtime / PlayMode / Editor）と DI 差替可能なフェイク／モック基盤を用意する
+- [x] 1.2 テスト用 asmdef（Runtime / PlayMode / Editor）と DI 差替可能なフェイク／モック基盤を用意する
   - `Tests/Runtime/VTuberSystemBase.StageLightingVolumeTab.Tests.Runtime.asmdef` を追加し、Contracts + Runtime + `core-ipc-foundation.Abstractions` + NUnit に参照を通す
   - `Tests/PlayMode/VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.asmdef` と `Tests/Editor/VTuberSystemBase.StageLightingVolumeTab.Tests.Editor.asmdef` を追加する
   - `FakeIpcClient`（`IUiCommandClient` / `IUiSubscriptionClient` を満たす in-memory 実装、送受信履歴を検証可能）、`FakePresetStorage`（`IPresetStorage` の on-memory 実装 + 破損ファイル再現フラグ）、`FakeClock`（`IClock` 実装、時刻を手動で進める）、`FakePreviewCameraAdapter`・`FakePreviewRenderTextureAccessor`、`FakeAsyncAssetLoader`、`FakeConnectionStatus`、`FakeDiagnosticsLogger` を `Tests/Runtime` 配下に実装する

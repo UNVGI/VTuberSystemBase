@@ -1,0 +1,31 @@
+{
+    "name": "VTuberSystemBase.StageLightingVolumeTab.Tests.Editor",
+    "rootNamespace": "VTuberSystemBase.StageLightingVolumeTab.Tests.Editor",
+    "references": [
+        "GUID:c1e3f1c64f8d44708462fddf03c28da1",
+        "GUID:45bef70d2f2b44319f83a1d2c94b44a9",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "GUID:a818a5dd2f716524e84c14c1b46c3430",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
