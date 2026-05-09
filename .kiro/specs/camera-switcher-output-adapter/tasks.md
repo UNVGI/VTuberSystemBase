@@ -279,7 +279,7 @@
   - _Depends: 4.4_
   - _Boundary: MainOutputNoOverlayCoverage_
 
-- [ ] 5.6 Samples~/MockedOscSenderSample の整備と手動検証手順
+- [x] 5.6 Samples~/MockedOscSenderSample の整備と手動検証手順
   - `Samples~/MockedOscSenderSample/` に `MockedOscSender.unity`、`MockedOscSenderTest.cs`（`uOscClient` を 127.0.0.1:9000 向けに用意し、編集対象の Camera を 1 つ持って `UcApi4UnityCamera.SerializeFromCamera` で blob 生成 + 60Hz 送信）、`README.md`（手順書）を配置。
   - README は次の手順を含める：
     1. Unity で本パッケージを Import + 本 sample を有効化。
