@@ -134,7 +134,7 @@
   - _Requirements: 1.1, 1.2, 1.8_
   - _Boundary: UxmlUss_
 
-- [ ] 3.2 (P) SceneViewStyleCameraControllerWrapper と EditingCameraTickDriver の実装
+- [x] 3.2 (P) SceneViewStyleCameraControllerWrapper と EditingCameraTickDriver の実装
   - `SceneViewStyleCameraControllerWrapper` でパッケージ本体を薄くラップし、`Enable()` / `Disable()` によりマウスキャプチャと回転/パン/ズームを制御。非アクティブ化時に `Disable()` で入力を解除する。
   - `EditingCameraTickDriver` を MonoBehaviour として実装し、`LateUpdate()` 内で `Application.isPlaying && ITabLifecycleHandle.IsActive` を満たす場合のみ `OscStreamController.FrameTick()` を駆動する。
   - PlayMode テストでマウスイベント相当の入力を注入して RenderTexture が更新されること、タブ非アクティブ化で Tick が停止することを観測する。
