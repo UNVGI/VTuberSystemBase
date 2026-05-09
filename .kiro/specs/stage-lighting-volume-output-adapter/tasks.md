@@ -312,7 +312,7 @@
   - _Boundary: Bootstrap/StageLightingVolumeOutputAdapterBootstrapper_
   - _Depends: 3.4, 4.4, 5.5, 6.3, 6.4, 1.5_
 
-- [ ] 7.2 AdapterStartupRegistration とシーン組み込み手順
+- [x] 7.2 AdapterStartupRegistration とシーン組み込み手順
   - `OutputSceneBootstrapper` の Init 完了タイミング（`OutputSceneInitPhase.Complete`）に応じて本 Bootstrapper を起動するための補助コードを実装する。`OutputSceneBootstrapper` 側に明示的な拡張点（`OnInitComplete` event 等）が無い場合は、本 Bootstrapper の `Start()` 内で `IOutputDiagnostics.CurrentPhase == Complete` をポーリング待機（最大 60 フレーム）するフォールバック実装を `AdapterStartupRegistration` ヘルパで提供する。
   - 利用者プロジェクトでの組み込み手順（Bootstrapper を `OutputSceneBootstrapper` のシーンに `AddComponent` する 1 ステップ）を README に記載する。
   - 観測可能な完了条件: PlayMode テストで `OutputSceneBootstrapper` の `OutputSceneInitPhase.Complete` 観測後に本 Bootstrapper の `Start()` ロジックが走ることが緑になる。
