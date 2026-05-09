@@ -21,7 +21,7 @@
   - _Requirements: 1.1, 1.2, 1.8, 6.1, 7.1, 7.5_
   - _Boundary: Abstractions/Ports_
 
-- [ ] 1.3 Fake Port 群とテスト支援ユーティリティの整備
+- [x] 1.3 Fake Port 群とテスト支援ユーティリティの整備
   - `Tests.Runtime/Fakes` 配下に以下を実装する：
     - `FakeOutputCommandDispatcher`（`IOutputCommandDispatcher` のテストダブル、登録した handler を test side から `InvokeStateAt(topic, payload)` / `InvokeEventAt(topic, payload)` / `InvokeRequestAt<TReq, TRes>(topic, req)` で呼び出せる、PublishState/PublishEvent/Response の送信先バッファを持つ）。
     - `FakeOutputSceneRoots`（`IOutputSceneRoots` のテストダブル、テストシーンに動的に GameObject を作って Cameras / DefaultCamera / Volumes を返す）。
