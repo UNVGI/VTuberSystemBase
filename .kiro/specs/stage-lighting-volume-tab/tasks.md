@@ -35,7 +35,7 @@
 ---
 
 - [ ] 2. IPC コントラクト層（Contracts asmdef）の DTO と Preview Locator を TDD で確定する
-- [ ] 2.1 (P) Light 系 DTO（`LightInitialDto` / `LightListItemDto` / `LightListDto` / `LightCommandDto` / `LightAddedDto` / `LightErrorDto`）を JSON ラウンドトリップ検証付きで実装する
+- [x] 2.1 (P) Light 系 DTO（`LightInitialDto` / `LightListItemDto` / `LightListDto` / `LightCommandDto` / `LightAddedDto` / `LightErrorDto`）を JSON ラウンドトリップ検証付きで実装する
   - Contracts 層に 6 つの record struct を追加する（`Intensity >= 0`、`Range >= 0`、`SpotAngle` 1〜179 等の前提コメントを明記）
   - `LightDtosJsonRoundtripTests` を先に書き、`System.Text.Json` でシリアライズ → デシリアライズ後に値が一致することを検証する
   - `LightCommandDto` は `Op = "add" | "remove"` のバリアント分岐（`Op=remove` で `LightId` 必須、`Op=add` で `Initial` 必須）をユニットテストで固定化する
@@ -43,7 +43,7 @@
   - _Requirements: 4.1, 4.3, 4.4, 4.5, 4.10_
   - _Boundary: StageLightingVolumeTab.Contracts.Dtos.Light_
 
-- [ ] 2.2 (P) Stage 系 DTO（`StageCatalogEntryDto` / `StageCatalogDto` / `StageCurrentDto` / `StageCommandDto` / `StageLoadFailedDto`）を JSON ラウンドトリップ検証付きで実装する
+- [x] 2.2 (P) Stage 系 DTO（`StageCatalogEntryDto` / `StageCatalogDto` / `StageCurrentDto` / `StageCommandDto` / `StageLoadFailedDto`）を JSON ラウンドトリップ検証付きで実装する
   - Contracts 層に 5 つの record struct を追加する（`StageCommandDto.Op = "load" | "unload"`、`load` 時 `AddressableKey` 必須）
   - `StageDtosJsonRoundtripTests` と Op バリアントテストを先に書く
   - 観測可能完了: `stage/catalog` / `stage/current` / `stage/command` / `stage/loaded` / `stage/load-failed` の全 topic の payload 型が固定し、テストで検証済み
