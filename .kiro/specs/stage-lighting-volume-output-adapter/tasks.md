@@ -342,7 +342,7 @@
   - _Boundary: Tests/PlayMode/BootstrapPlayModeTests_
   - _Depends: 7.1_
 
-- [ ] 8.3 診断 API と観測性ログの整備
+- [x] 8.3 診断 API と観測性ログの整備
   - `StageLightingVolumeOutputAdapterDiagnostics.Capture()` が副作用なくスナップショットを生成することを確認するテストを追加する。
   - design.md「Monitoring & Observability」で列挙された主要イベント（`Stage.SwapStarted`, `Stage.SwapCompleted`, `Stage.SwapFailed`, `Light.Added`, `Light.Removed`, `Volume.OverrideEnabled`, `Volume.ParamApplied`, `Preview.Enabled`, `Preview.Disabled`, `Preview.HostRegistered`, `Preview.HostUnregistered`, `Adapter.HandlerRegistered`, `Adapter.HandlerDisposed`, `Adapter.ErrorReported`）を `AdapterLogger` 経由で記録する経路を全 Handler に結線する。
   - ログレベル外部切替が `AdapterLoggerConfig.MinLevel` で機能することを統合テストで確認する。
