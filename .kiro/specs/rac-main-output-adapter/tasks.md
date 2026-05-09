@@ -13,7 +13,7 @@
   - _Requirements: 1.1, 1.2, 1.3_
   - _Boundary: PackageRoot, Runtime/asmdef_
 
-- [ ] 1.2 Domain 値型と列挙の定義
+- [x] 1.2 Domain 値型と列挙の定義
   - `AdapterApplyResult.cs`（`Applied` / `UnknownKey` / `OutOfRange` / `Failed`）と `PendingSettingValue.cs`（`(string SettingKey, SettingType Type, JsonElement Value, long ReceivedAtUnixMs)`）を実装する。
   - `RacMainOutputAdapterConfig.cs` を実装し、`SchemaProviderSlowThresholdMs = 4000` / `MaxErrorDetailLength = 512` / `PendingPublishQueueCapacity = 16` の既定値を持つ。
   - `IClock` / `DefaultClock`（`DateTimeOffset.UtcNow`）を実装する。
