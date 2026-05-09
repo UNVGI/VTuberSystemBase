@@ -224,7 +224,7 @@
 
 ## 7. Failure Handling & Observability Integration
 
-- [ ] 7.1 不可用アバターと RAC エラー受信時の Slot 縮退統合
+- [x] 7.1 不可用アバターと RAC エラー受信時の Slot 縮退統合
   - `CharacterTabIpcBinder` が受信する `slot/{id}/error`（RAC エラー）と、`PresetRestoreOrchestrator` が検出する保存済み `avatarKey` 未解決について、Store 上の該当 Slot を empty または error 状態に遷移させ、`SlotListPresenter` が警告バッジを表示する配線を完成させる。
   - `AvatarThumbnailResolver` のフォールバックが `AvatarCatalogPresenter` で可視化され、他候補・他 Slot の動作を阻害しないことを統合テストで検証する。
   - 失敗事由（topic / slotId / avatarKey / errorCode）を含む診断ログを `LogCategory.TabSpec` に記録する。
@@ -232,7 +232,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.9, 9.4, 9.5_
   - _Depends: 3.1, 3.2, 5.1, 5.2_
 
-- [ ] 7.2 IPC 切断 / 回復時の UI 縮退と自動再取得
+- [x] 7.2 IPC 切断 / 回復時の UI 縮退と自動再取得
   - `IConnectionStatus.OnStatusChanged` を Bootstrapper で購読し、切断中は Slot 割当・設定送信 UI を非活性化（プリセット CRUD のローカル操作は継続）する配線を実装する。
   - 回復時は `CharacterTabIpcBinder` が Slot 一覧・アバター候補を再取得する購読状態を保持し、`PresetRestoreOrchestrator` がアクティブプリセットを再送する。
   - Command 送信 API が接続未確立 / サイズ上限超過エラーを返した際は診断ログ記録のみで UI クラッシュ・描画停止を発生させない。
