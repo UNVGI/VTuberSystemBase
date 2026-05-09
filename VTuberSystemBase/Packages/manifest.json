@@ -1,8 +1,20 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": "2.5.10",
+    "com.hidano.realtimeavatarcontroller": "0.2.0",
+    "com.hidano.runtime-display-selector": "0.1.1",
+    "com.hidano.scene-view-style-camera-controller": "1.0.1",
+    "com.hidano.ucapi4unity": "0.1.0-preview.1",
+    "com.hidano.ulipsync-asio": "3.1.5-custom.2",
+    "com.hidano.uosc": "1.0.0",
+    "com.neuecc.unirx": "7.1.0",
+    "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Packages/UniGLTF#v0.131.0",
+    "com.vrmc.univrm": "https://github.com/vrm-c/UniVRM.git?path=/Packages/VRM#v0.131.0",
+    "com.vrmc.vrm": "https://github.com/vrm-c/UniVRM.git?path=/Packages/VRM10#v0.131.0",
+    "jp.keijiro.klak.spout": "2.0.6",
+    "com.unity.ide.rider": "3.0.34",
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.test-framework": "1.4.5",
-    "com.unity.ide.rider": "3.0.34",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
@@ -37,5 +49,29 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.neuecc",
+        "com.cysharp"
+      ]
+    },
+    {
+      "name": "npm (hidano)",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "com.hidano"
+      ]
+    },
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "jp.keijiro"
+      ]
+    }
+  ]
 }
