@@ -97,7 +97,7 @@
   - _Depends: 2.2_
   - _Boundary: VolumeUiStateManager_
 
-- [ ] 2.8 PresetController の実装
+- [x] 2.8 PresetController の実装
   - `PresetPayload { Cameras, VolumeConfigs, ActiveCameraId }` モデルを保持し、CRUD（create/rename/duplicate/delete/activate）API、`NotifyStateMutation` による 500 ms デバウンスフラッシュ、`FlushPendingAsync`、`RestoreOnStartAsync` を実装する。
   - 切替時は現状と target の差分を計算し、**delete → add → metadata → volume → active-set** の順で `IUiCommandClient` にディスパッチ。`camera/created` の clientRequestId 受信で論理 ID を新 cameraId にマッピングする。
   - 重複名拒否、切替直列化（SemaphoreSlim 相当）、部分失敗の継続、`Application.quitting` 相当での強制フラッシュ、破損フォールバック時の初回起動挙動、起動時ファイル不在時のスキップを単体テストでカバーする。
