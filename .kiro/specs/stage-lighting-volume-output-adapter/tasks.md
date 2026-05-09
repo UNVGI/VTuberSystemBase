@@ -392,7 +392,7 @@
   - _Boundary: Tests/PlayMode/PerformanceTests_
   - _Depends: 9.3_
 
-- [ ] 9.5* IL2CPP スタンドアロンビルドでの link.xml 検証手順（任意）
+- [x] 9.5* IL2CPP スタンドアロンビルドでの link.xml 検証手順（任意）
   - スタンドアロン IL2CPP ビルドを行い、`Bloom.intensity` のリフレクション代入が strip されていないことを確認する手動検証手順を README に整備する。
   - 利用者プロジェクト独自 `VolumeComponent` の strip 抑止のための `link.xml` 追加例を提供する。
   - _Requirements: 5.8, 10.8_

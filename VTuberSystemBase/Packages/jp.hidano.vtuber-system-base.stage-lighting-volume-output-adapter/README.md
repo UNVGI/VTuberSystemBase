@@ -8,6 +8,20 @@ URP の `VolumeParameter<T>` 派生型をリフレクションで読み書きす
 
 利用者プロジェクトが独自 `VolumeComponent` を追加する場合は、当該プロジェクトの `Assets/link.xml` に対応する `<assembly fullname="..." preserve="all" />` を追加する必要がある。
 
+利用者プロジェクト用 `link.xml` の例（自前 VolumeComponent を含むアセンブリ名が `MyGame.PostFx` の場合）:
+
+```xml
+<linker>
+  <assembly fullname="MyGame.PostFx" preserve="all" />
+</linker>
+```
+
+### IL2CPP ビルド検証（手動）
+
+1. `Build Settings > Player > IL2CPP` を選択し、`Bloom` / `Tonemapping` / `ColorAdjustments` を含む URP 設定でスタンドアロンビルドを行う。
+2. ビルド成果物を起動し、メイン出力カメラに対して `volume/override/UnityEngine.Rendering.Universal.Bloom/intensity = 1.5f` を publish する。
+3. ログに `[StageLightingVolumeOutputAdapter] VolumeParameterReflectionSetter.field_not_found` 等の警告が出ないこと、および Bloom が視覚的に効いていることを確認する。
+
 ## セットアップ概要
 
 1. `OutputSceneBootstrapper` を持つシーンに本パッケージの `StageLightingVolumeOutputAdapterBootstrapper` MonoBehaviour を 1 つ `AddComponent` する。
