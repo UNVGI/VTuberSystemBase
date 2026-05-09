@@ -158,7 +158,7 @@
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.4a, 3.5, 3.6, 3.7, 3.8, 3.9, 6.3, 6.7_
   - _Depends: 2.1, 2.4, 4.2_
 
-- [ ] 5.3 AssignmentFlowPresenter による割当 2 ステップ UX と送信
+- [x] 5.3 AssignmentFlowPresenter による割当 2 ステップ UX と送信
   - `SelectSlot` / `ClearSelectedSlot` / `RequestAssignment(avatarKey)` / `RequestOperationAsync(slotId, Reset|Reload)` を実装する。
   - `RequestAssignment` は `StateStore.TryBeginInFlight(Assignment)` 成功時のみ `IUiCommandClient.PublishState slot/{id}/assignment` を送信し、`IClock` でタイムアウト 5 秒タイマを起動する。
   - `RequestOperationAsync` は `PublishEvent slot/{id}/command` を送信し、`SendResult` を返却、Reload は UI をローディング表示に切替える。
