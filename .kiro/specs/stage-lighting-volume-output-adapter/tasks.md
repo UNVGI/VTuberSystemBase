@@ -44,7 +44,7 @@
   - _Boundary: Diagnostics/AdapterLogger_
   - _Depends: 1.1_
 
-- [ ] 1.5 StageLightingVolumeOutputAdapterDiagnostics の実装
+- [x] 1.5 StageLightingVolumeOutputAdapterDiagnostics の実装
   - `StageLightingVolumeOutputAdapterDiagnostics` を実装し、`IsReady`, `RegisteredHandlerCount`, `CurrentStageAddressableKey`, `LightCount`, `VolumeOverrideTypeCount`, `PreviewHostReady`, `LastErrorMessage`, `LastErrorAtUnixMs` を読み取り専用プロパティで公開する（書込は internal set）。
   - `DiagnosticsSnapshot Capture()` でスナップショット record struct を返却する。
   - スレッドセーフ（プリミティブ型は volatile、参照型は lock）にする。
