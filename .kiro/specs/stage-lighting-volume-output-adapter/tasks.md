@@ -222,7 +222,7 @@
   - _Boundary: Volume/VolumeParameterReflectionSetter_
   - _Depends: 1.3, 1.4_
 
-- [ ] 5.5 VolumeOverrideHandler の実装
+- [x] 5.5 VolumeOverrideHandler の実装
   - `VolumeOverrideHandler` を実装し、コンストラクタで `IOutputCommandDispatcher`, `IOutputSceneRoots`, `AdapterErrorReporter`, `AdapterLogger`, `StageLightingVolumeOutputAdapterDiagnostics` を受け取る。
   - `Start()` で以下を実行：
     1. `VolumeOverrideRegistry.Build(VolumeManager.instance.baseComponentTypeArray)` でレジストリ構築
