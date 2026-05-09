@@ -102,7 +102,7 @@
   - _Boundary: Stage/ActiveStageState_
   - _Depends: 1.1_
 
-- [ ] 3.4 StageHandler の実装
+- [x] 3.4 StageHandler の実装
   - `StageHandler` を実装し、コンストラクタで `IOutputCommandDispatcher`, `IOutputSceneRoots`, `IInstantiationProvider`, `StageCatalogBuilder`, `AdapterErrorReporter`, `AdapterLogger`, `StageLightingVolumeOutputAdapterDiagnostics` を受け取る。
   - `Start()` で以下を順次実行：
     1. `RegisterStateHandler<StageCommandDto>(StageLightingTopics.StageActive, ...)` 登録（Requirement 2.2, 3.10）
