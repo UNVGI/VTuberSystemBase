@@ -250,7 +250,7 @@
   - _Boundary: Preview/PreviewRenderTextureFactory_
   - _Depends: 1.1_
 
-- [ ] 6.2 StagePreviewHost MonoBehaviour の実装
+- [x] 6.2 StagePreviewHost MonoBehaviour の実装
   - `StagePreviewHost : MonoBehaviour, IPreviewHostService` を実装し、private field で `RenderTexture? _rt`, `Camera? _previewCamera`, `SceneViewStyleCameraController? _cameraController` を保持する。
   - `IPreviewHostService` 実装：`CurrentRenderTexture => _rt`, `IsReady`, `event RenderTextureChanged`。
   - `Awake()`：try/catch で囲み、`_rt = PreviewRenderTextureFactory.Create()` → 同 GameObject の `Camera` / `SceneViewStyleCameraController` 参照取得 → `_previewCamera.targetTexture = _rt` → `StagePreviewHostLocator.Register(this)` → `IsReady = true` → `RenderTextureChanged?.Invoke(_rt)` 発火。失敗時は `IsReady = false`, Locator Register せず, 警告ログ（Requirement 7.6）。
