@@ -18,7 +18,7 @@
   - 観測可能な完了状態: Tests.Runtime の DTO ラウンドトリップテストがグリーンで通り、Topic 定数の参照箇所が Abstractions asmdef 内に閉じている。
   - _Requirements: 1.7, 5.1, 5.2, 5.9, 6.1, 6.3, 6.4, 6.5, 6.6, 6.11, 6.12, 7.3, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.9, 11.1a, 11.1b_
 
-- [ ] 1.3 値型・ドメインモデル・Result 型の定義
+- [x] 1.3 値型・ドメインモデル・Result 型の定義
   - `CameraId`（string ラッパ、null/空文字ガード、許容文字 `[A-Za-z0-9_-]`）、`CameraType`、`CameraSnapshot`、`UcapiFlatRecord`（138 byte Blob を保持する readonly struct）、`VolumeOverrideSchema`、`PresetPayload`、`CameraMetadata`、`VolumeConfig`、`VolumeOverride` を Abstractions に定義する。
   - `SerializeResult` / `OscEmitResult` / `OscEmitFailure`（Kind / Detail / Inner）、`PresetIoResult` を discriminated union 相当の readonly struct として実装し、SerializeFailureReason / OscFailureKind / PresetIoFailureKind を enum で提供する。
   - `CameraId` の不変条件違反に対する例外フロー、Result 型が成功/失敗双方で null 参照を返さないガードを単体テストでカバーする。
