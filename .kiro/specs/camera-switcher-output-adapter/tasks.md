@@ -234,7 +234,7 @@
   - _Depends: 4.4_
   - _Boundary: OscLoopbackIntegrationTests_
 
-- [ ] 5.2 (P) IPC ハンドラ統合テスト
+- [x] 5.2 (P) IPC ハンドラ統合テスト
   - Tests.Runtime に `IpcHandlerIntegrationTests` を追加（Fake `IOutputCommandDispatcher` 経由でハンドラを直接呼び出し）：
     - `add` event 注入 → `camera/created` echo 発行 + `cameras/list` 再 publish + Camera GameObject 生成 + LocalVolume 生成。
     - `delete` event → Camera/LocalVolume 破棄 + `cameras/list` 再 publish。
