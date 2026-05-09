@@ -106,7 +106,7 @@
   - _Depends: 2.1, 2.2, 2.5_
   - _Boundary: PresetController_
 
-- [ ] 2.9 PreviewSubscriptionController の実装
+- [x] 2.9 PreviewSubscriptionController の実装
   - タブアクティブ化時に `camera/preview/command { op: "attach", cameraIds, size, fps }` を送信し、`camera/{id}/preview/handle` state 受信で `IPreviewHandleResolver.ResolveAsync` を呼んで RenderTexture を取得する。
   - タブ非アクティブ化・カメラ削除・編集対象切替の各ケースで `detach` を送り、対応する handle を Release する。解決失敗時はプレースホルダ表示情報を提示する state を外部に公開する。
   - Fake resolver と FakeIpcClient で「attach → handle 受信 → Texture 取得」「detach で Release 呼出し」「handle 未受信でプレースホルダ状態」を単体テストでカバーする。
