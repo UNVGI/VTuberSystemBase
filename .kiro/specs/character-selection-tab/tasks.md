@@ -25,7 +25,7 @@
   - 観測可能な完了条件: `CharacterTopicBuilderTests` が空文字・特殊文字・通常値に対して期待通りのトピック文字列を返し、各 payload DTO の JSON シリアライズ/デシリアライズ往復テストが通る。
   - _Requirements: 2.1, 3.1, 4.2, 4.3, 4.4, 5.3, 5.8, 7.2, 8.1, 9.2, 9.3, 9.4_
 
-- [ ] 1.4 テストダブル群の整備（TDD 基盤）
+- [x] 1.4 テストダブル群の整備（TDD 基盤）
   - `FakeUiCommandClient`（PublishState/PublishEvent/RequestAsync 記録、応答ペイロード投入用 API 付き）を実装する。
   - `FakeUiSubscriptionClient`（topic → コールバック登録、テストから `Emit(topic, payload)` で状態 state / event を注入可能）を実装する。
   - `FakeAsyncAssetLoader`（key に対して成功 Sprite / `KeyNotFound` / `TypeMismatch` を設定でき、scope 単位解放を検証可能）を実装する。
