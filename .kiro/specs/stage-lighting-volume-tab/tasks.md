@@ -25,7 +25,7 @@
   - 観測可能完了: テストプロジェクトが起動し、空の `SmokeTests` クラスに 1 本スモークテストを置いて緑で通る（`FakeIpcClient` を `new` してメソッドが呼び出せる）
   - _Requirements: 12.1, 12.2, 12.3, 12.6, 12.7, 12.8_
 
-- [ ] 1.3 共通型（`Vector3Dto` / `Vector4Dto` / `ColorDto` / `LightTypeDto` / `ParamKind`）と `StageLightingTopics` 定数クラスを Contracts 層に定義する
+- [x] 1.3 共通型（`Vector3Dto` / `Vector4Dto` / `ColorDto` / `LightTypeDto` / `ParamKind`）と `StageLightingTopics` 定数クラスを Contracts 層に定義する
   - `Contracts/Dtos/` に共通 record struct / enum を追加し、全 IPC DTO が共有するプリミティブ群を確定させる
   - `Contracts/Topics/StageLightingTopics.cs` を追加し、Stage / Light / Volume / Preview の全 topic 文字列定数と動的トピック生成ヘルパ（`LightProperty`, `VolumeOverrideEnabled`, `VolumeOverrideParam`）を実装する
   - Contract Smoke Test: `StageLightingTopicsTests` で各定数値とヘルパの出力（例: `light/{lightId}/intensity`、`volume/override/UnityEngine.Rendering.Universal.Bloom/intensity`）を固定化し、今後の typo を検出する
