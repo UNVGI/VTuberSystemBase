@@ -322,7 +322,7 @@
 
 ## 8. Failure Handling & Observability Integration
 
-- [ ] 8.1 Stage / Light / Volume / Preview の例外捕捉パスの結線確認
+- [x] 8.1 Stage / Light / Volume / Preview の例外捕捉パスの結線確認
   - 各 Handler の全 public メソッド（IPC ハンドラ + Start/Dispose）を try/catch で囲み、`AdapterLogger.Error` で診断ログを記録、必要に応じて `AdapterErrorReporter` 経由でエラー event を publish する経路を仕上げる（Requirement 7.1, 7.2, 7.3, 7.4）。
   - メイン出力サーフェス（Display 2+）への OnGUI / IMGUI 描画経路を持たないことを構造的にレビューし、テストで `EditorApplication.isPlaying` 中に `GameObject.Find` 等で UI レイヤー混入が無いことを確認する（Requirement 7.8）。
   - 構造化診断ログのフォーマット（topic, lightId, typeFullName, paramName, exception）を全 Handler で統一する（Requirement 7.9, 9.2）。
