@@ -137,7 +137,7 @@
   - _Depends: 3.1_
   - _Boundary: ActiveCameraGate_
 
-- [ ] 3.3 FailureAggregator の実装
+- [x] 3.3 FailureAggregator の実装
   - `FailureAggregator.RecordOscDecodeFailure(cameraId, exception)`：ログのみ、`camera/error` 発行しない（Requirement 2.4 / 12.2）。
   - `RecordCameraOperationFailure(op, cameraId, reason, detail, clientRequestId)`：`camera/error` event を `IOutputCommandDispatcher` 経由（実際には PublishEvent シンク）で発行。Kind 別カウンタを進める。
   - `RecordOscStartupFailure(detail)`：`camera/error { Reason: "OscStartupFailed" }` 発行。
