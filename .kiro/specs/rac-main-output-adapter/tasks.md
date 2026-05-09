@@ -125,7 +125,7 @@
 
 ## 4. Senders（送信層）の実装
 
-- [ ] 4.1 `SlotStatusPublisher` の実装
+- [x] 4.1 `SlotStatusPublisher` の実装
   - `IOutputCommandDispatcher.PublishState` 経由で `slot/{slotId}/status` を発行するヘルパクラスを実装する。
   - `Publish(slotId, status, detail)` で `SlotStatusPayload { Status, Detail }` を構築し、`CharacterTopics.SlotStatus(slotId)` topic で送信する。
   - `IClock` を注入し送信時刻のログ記録に使う。
@@ -134,7 +134,7 @@
   - _Boundary: Senders/SlotStatusPublisher_
   - _Depends: 3.1_
 
-- [ ] 4.2 `SlotErrorTranslator` の実装
+- [x] 4.2 `SlotErrorTranslator` の実装
   - `ISlotErrorChannel.Errors` を `.ObserveOnMainThread()` で購読し、`SlotError` を `slot/{slotId}/error` event に翻訳する。
   - `SlotErrorCodeMapper.Map` で `ErrorCode` を決定し、`Detail` には `category=...; type=...; message=...` を 512 文字までトリムして詰める。
   - `PublishError(slotId, errorCode, detail)` 直接呼出 API も提供する（Applier から例外時に呼ぶ）。
@@ -146,7 +146,7 @@
   - _Boundary: Senders/SlotErrorTranslator_
   - _Depends: 1.3, 4.1, 3.1_
 
-- [ ] 4.3 `PendingPublishQueue` と `SlotCatalogPublisher` の実装
+- [x] 4.3 `PendingPublishQueue` と `SlotCatalogPublisher` の実装
   - `PendingPublishQueue`：IPC 受信開始前に `slots/catalog` / `avatars/catalog` の publish を保留するキュー。`Enqueue(Action)` / `Flush(IOutputCommandDispatcher)` を提供。容量超過は警告ログ + 古い順に破棄。
   - `SlotCatalogPublisher` は `SlotManager.OnSlotStateChanged` を購読し、`Created` / `Active` / `Disposed` 遷移で `PublishState slots/catalog` を実行する。
   - 1 フレーム内に複数遷移があった場合は次フレーム冒頭で 1 回だけ publish する（Coroutine または `IClock` ベースの遅延）。上流 D-7 coalesce との整合を取る。
@@ -157,7 +157,7 @@
   - _Boundary: Senders/SlotCatalogPublisher, Internal/PendingPublishQueue_
   - _Depends: 3.1, 3.3_
 
-- [ ] 4.4 `AvatarCatalogPublisher` の実装
+- [x] 4.4 `AvatarCatalogPublisher` の実装
   - `IAvatarKeyResolver.OnAvatarKeysChanged` を購読し、変化があれば `avatars/catalog` を publish する。初回は `PendingPublishQueue` 経由で `Initialize` 時に enqueue する。
   - `AvatarCatalogEntry` の `DisplayName` は Resolver 由来の値、空ならば `AvatarKey` をフォールバックとして詰める。
   - `OnAvatarAdded` / `OnAvatarRemoved` イベントを公開し、`AvatarSchemaResponder` が動的登録に追従できるようにする。
