@@ -33,5 +33,22 @@ namespace VTuberSystemBase.OutputRendererShell.Abstractions
         /// Editor PlayMode 固有の警告ログを抑止する場合 <c>true</c>。既定 <c>false</c>（警告を出す）。
         /// </summary>
         public bool SuppressEditorWarning { get; init; }
+
+        /// <summary>
+        /// Klak Spout センダー名。<c>null</c> または空文字列の場合は Spout 経路を使用しない（物理ディスプレイ経路のみ）。
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// 本フィールドは <see cref="IDisplayRoutingService"/> の実装により利用方法が異なる：
+        /// </para>
+        /// <list type="bullet">
+        /// <item><description><c>BuiltInDisplayRoutingService</c>: 値を無視する（物理ディスプレイ振り分けのみ）。</description></item>
+        /// <item><description><c>RuntimeDisplaySelectorRoutingService</c>: 非 <c>null</c> / 非空のとき RDS の <c>KlakSpoutSenderStore</c> 経由で Spout センダー登録を行う。</description></item>
+        /// </list>
+        /// <para>
+        /// Wave 3e 統合計画に基づく追加。Spout 経路を併用することで OBS Spout Source からメイン出力カメラを直接取り込める。
+        /// </para>
+        /// </remarks>
+        public string? SpoutSenderName { get; init; }
     }
 }

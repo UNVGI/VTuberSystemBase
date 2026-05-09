@@ -57,6 +57,14 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
         [SerializeField]
         private bool _suppressEditorWarning;
 
+        [Tooltip("ディスプレイ振り分けサービスの実装。BuiltIn=Display.Activate ベース、RuntimeDisplaySelector=RDS Facade 経由。既定 BuiltIn。")]
+        [SerializeField]
+        private DisplayRoutingProvider _routingProvider = DisplayRoutingProvider.BuiltIn;
+
+        [Tooltip("Klak Spout センダー名。空のとき Spout 経路を使わない（物理ディスプレイ経路のみ）。RuntimeDisplaySelector 選択時のみ参照される。")]
+        [SerializeField]
+        private string _spoutSenderName = string.Empty;
+
         [Header("Lifecycle")]
         [Tooltip("シーン開始時に自動的に起動シーケンスを実行する場合は ON。既定 ON。")]
         [SerializeField]
@@ -115,7 +123,14 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
             TargetDisplayIndex = _targetDisplayIndex,
             FullScreenMode = _fullScreenMode,
             SuppressEditorWarning = _suppressEditorWarning,
+            SpoutSenderName = string.IsNullOrEmpty(_spoutSenderName) ? null : _spoutSenderName,
         };
+
+        /// <summary>
+        /// Inspector で選択された <see cref="IDisplayRoutingService"/> 実装の種別。
+        /// テスト時に <see cref="OverrideServices"/> 経由で実装を直接注入した場合は本値は無視される。
+        /// </summary>
+        public DisplayRoutingProvider RoutingProvider => _routingProvider;
 
         /// <summary>
         /// Inspector で設定された自動起動フラグ。<c>true</c> の場合、<see cref="Start"/> 内で
@@ -324,7 +339,11 @@ namespace VTuberSystemBase.OutputRendererShell.Scene
                 return _injectedRouting;
             }
             _routingOwnedByThis = true;
-            return new BuiltInDisplayRoutingService(Logger);
+            return _routingProvider switch
+            {
+                DisplayRoutingProvider.RuntimeDisplaySelector => new RuntimeDisplaySelectorRoutingService(Logger),
+                _ => new BuiltInDisplayRoutingService(Logger),
+            };
         }
 
         /// <summary>
