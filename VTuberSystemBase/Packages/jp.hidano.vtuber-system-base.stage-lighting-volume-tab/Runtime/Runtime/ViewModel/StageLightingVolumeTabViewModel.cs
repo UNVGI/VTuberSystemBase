@@ -766,12 +766,12 @@ namespace VTuberSystemBase.StageLightingVolumeTab.ViewModel
 
         private void OnConnectionStatusChanged(ConnectionStatusEvent ev)
         {
-            _diagnostics?.SetIpcConnected(ev.NextStatus == ConnectionStatusCode.Connected);
-            if (ev.NextStatus == ConnectionStatusCode.Connected && _activated && !_isInitialized)
+            _diagnostics?.SetIpcConnected(ev.To == ConnectionStatusCode.Connected);
+            if (ev.To == ConnectionStatusCode.Connected && _activated && !_isInitialized)
             {
                 _ = InitializeAsync();
             }
-            else if (ev.NextStatus == ConnectionStatusCode.Connected && _isInitialized)
+            else if (ev.To == ConnectionStatusCode.Connected && _isInitialized)
             {
                 // Connection recovery: refresh schema + re-publish state we hold.
                 _volumeSchemaCache.ResetCache();
