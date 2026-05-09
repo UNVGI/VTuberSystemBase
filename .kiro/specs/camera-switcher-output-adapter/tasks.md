@@ -175,7 +175,7 @@
 
 ## 4. Runtime: Composition Root と Unity 統合
 
-- [ ] 4.1 CameraGameObjectFactory の実装
+- [x] 4.1 CameraGameObjectFactory の実装
   - `CameraGameObjectFactory.Create(parent: Transform, cameraId, displayName, defaultTransform, allocOrder)`：`new GameObject($"Camera-{cameraId}-{displayName}")` を `parent` 下に生成、`Camera` コンポーネントを attach、`usePhysicalProperties=true`、`focalLength=defaultTransform.FocalLengthMm`、`sensorSize=(36,24)` 既定、デフォルト transform を `position` / `rotation` で適用、`enabled=false`（active-set されるまで）。
   - 子 GameObject `LocalVolume-{cameraId}` を `ILocalVolumeBinder.CreateLocalVolume(parent=cameraGo, cameraId, priority=allocOrder)` で生成。
   - `CameraEntry` を返す。
