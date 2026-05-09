@@ -25,7 +25,7 @@
   - 観測可能な完了状態: 値型のガード違反と Result の両状態が Tests.Runtime のユニットテストでグリーンとなり、すべての Port インタフェースがこれらの型だけで I/O 可能な状態になる。
   - _Requirements: 3.1, 3.3, 3.4, 3.8, 6.4, 6.9, 11.1, 11.2_
 
-- [ ] 1.4 Port 抽象（Serializer / Osc / Preset / Time / Preview）の定義
+- [x] 1.4 Port 抽象（Serializer / Osc / Preset / Time / Preview）の定義
   - `IUcapiFlatRecordSerializer.Serialize(in CameraSnapshot) → SerializeResult`、`IUcapiOscEmitter`（State / StartAsync / StopAsync / Send / OnSendFailure / Dispose）、`IPresetStore`（LoadAllAsync / SaveAllAsync）、`ITimeProvider`（UtcNow / MonotonicSeconds / CreateDebounce）、`IPreviewHandleResolver`（ResolveAsync / Release）を Abstractions に定義する。
   - 各 Port の pre/post condition（null 禁止、StartAsync 前の Send 禁止、Stop 後の Start 再許容、Release 後の Resolve 再利用可能性）を XML Doc コメントと境界テストで表現する。
   - `ICameraSwitcherCoordinator` のコントラクト（TabStatus / EditingCameraId / ActiveCameraId / Request* / Set* / OnTabActivated / FrameTick / OnStateChanged）も Domain asmdef に先行配置する。
