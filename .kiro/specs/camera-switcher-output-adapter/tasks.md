@@ -65,7 +65,7 @@
   - _Depends: 2.1_
   - _Boundary: UoscReceiverHostAdapter, CameraOscReceiverHost_
 
-- [ ] 2.4 (P) SequentialCameraIdAllocator の実装
+- [x] 2.4 (P) SequentialCameraIdAllocator の実装
   - `SequentialCameraIdAllocator` で `ICameraIdAllocator.Allocate()` を実装：内部カウンタ（初期 1、Allocate ごとにインクリメント）から `cam-{NNNN}`（4 桁ゼロ埋め、超えたら桁数拡張）の `CameraId` を返す。`OscAddressBuilder.IsValidCameraIdSegment` をパスする文字種を保証する。
   - 削除時にカウンタを減らさない（再利用しない、CSO-6）。スレッドセーフ性は要求しない（メインスレッド前提）。
   - Tests.Runtime の `SequentialCameraIdAllocatorTests` で「`cam-0001` / `cam-0002` / `cam-0003`」「9999 を超えると `cam-10000` の 5 桁拡張」「`OscAddressBuilder.IsValidCameraIdSegment(allocated)` が常に true」を検証する。
