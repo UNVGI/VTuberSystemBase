@@ -149,7 +149,7 @@
   - _Depends: 1.2, 1.3_
   - _Boundary: FailureAggregator_
 
-- [ ] 3.4 CamerasListPublisher の実装
+- [x] 3.4 CamerasListPublisher の実装
   - `CamerasListPublisher.PublishCamerasList(IEnumerable<CameraEntry>)`：`CamerasListPayload { Cameras=[CameraListEntry...], UpdatedAtUnixMs=now }` を構築して `IOutputCommandDispatcher` 経由（実際には shell 提供の PublishState シンク）で発行。
   - `PublishCamerasActive(CameraId? active)`：`CamerasActiveStatePayload { ActiveCameraId, UpdatedAtUnixMs }`。
   - `PublishCameraCreated(clientRequestId, cameraId, metadata)`：`CameraCreatedEventPayload`。
