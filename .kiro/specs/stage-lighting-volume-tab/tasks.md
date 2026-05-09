@@ -93,7 +93,7 @@
   - _Requirements: 4.7, 8.3, 12.8_
   - _Boundary: StageLightingVolumeTab.Runtime.Services.Debounce_
 
-- [ ] 3.3 (P) `LightListState` / `StageCatalogState` / `VolumeSchemaCache` を `FakeIpcClient` で購読・リクエストの単体テスト駆動で実装する
+- [x] 3.3 (P) `LightListState` / `StageCatalogState` / `VolumeSchemaCache` を `FakeIpcClient` で購読・リクエストの単体テスト駆動で実装する
   - `LightListStateTests` で `lights/list` 購読 → `LightListChangeEvent`（Added / Removed）の差分通知、lightId 採番順の安定ソート、重複 lightId 受信時の先着採用 + 警告ログを検証する
   - `StageCatalogStateTests` で `stage/catalog` 購読と更新時の追従、取得失敗時のエラー状態公開を検証する
   - `VolumeSchemaCacheTests` で `volume/override/schema` の `RequestAsync` 成功時キャッシュ、失敗時の再試行 API、`ParamKind=Unknown` を含むスキーマも受容することを検証する
