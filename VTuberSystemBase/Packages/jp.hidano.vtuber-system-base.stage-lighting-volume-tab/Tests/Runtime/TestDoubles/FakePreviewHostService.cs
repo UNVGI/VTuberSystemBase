@@ -16,10 +16,13 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Tests.TestDoubles
     {
         private RenderTexture? _texture;
         private bool _isReady;
+        private Camera? _camera;
 
         public RenderTexture? CurrentRenderTexture => _texture;
 
         public bool IsReady => _isReady;
+
+        public Camera? PreviewCamera => _camera;
 
         public event Action<RenderTexture?>? RenderTextureChanged;
 
@@ -33,6 +36,11 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Tests.TestDoubles
             _texture = rt;
             _isReady = rt != null;
             RenderTextureChanged?.Invoke(rt);
+        }
+
+        public void SetCamera(Camera? camera)
+        {
+            _camera = camera;
         }
     }
 }

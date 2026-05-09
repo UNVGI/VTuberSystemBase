@@ -27,5 +27,18 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Contracts
         /// released (null). Subscribers MUST drop cached references on null.
         /// </summary>
         event Action<RenderTexture?>? RenderTextureChanged;
+
+        /// <summary>
+        /// Live preview <see cref="Camera"/>, exposed so the UI-side
+        /// <c>IPreviewCameraAdapter</c> can implement "reset view" by writing the
+        /// camera's <see cref="Transform"/> directly. Returns null while the host is
+        /// not yet ready or has been disposed.
+        /// </summary>
+        /// <remarks>
+        /// Same-process only (D-1). Native pointer cannot cross IPC. Hosts MAY return
+        /// null even when <see cref="IsReady"/> is true if the camera has not been
+        /// allocated yet.
+        /// </remarks>
+        Camera? PreviewCamera { get; }
     }
 }

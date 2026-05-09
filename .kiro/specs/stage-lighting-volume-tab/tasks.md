@@ -126,7 +126,7 @@
   - _Requirements: 2.1, 2.2, 2.5_
   - _Boundary: StageLightingVolumeTab.Runtime.Preview.Accessor_
 
-- [ ] 4.2 `IPreviewCameraAdapter` 抽象と `SceneViewStylePreviewCameraAdapter`（SceneViewStyleCameraController ラップ）を実装する
+- [x] 4.2 `IPreviewCameraAdapter` 抽象と `SceneViewStylePreviewCameraAdapter`（SceneViewStyleCameraController ラップ）を実装する
   - `IPreviewCameraAdapter` に `ResetToDefaultView()` / `IsAvailable` / `OnAvailabilityChanged` を定義し、`FakePreviewCameraAdapter` で ViewModel テストから差替可能にする
   - `SceneViewStylePreviewCameraAdapter` は `StagePreviewHostLocator.Current` 経由で実カメラへ委譲し、Locator 未登録時は `IsAvailable = false`
   - SceneViewStyleCameraController の実際の公開 API 名（`ResetView()` 等）は実装時にパッケージソースを確認し、齟齬があれば Transform 直接操作にフォールバックする
