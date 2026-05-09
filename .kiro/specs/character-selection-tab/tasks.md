@@ -120,7 +120,7 @@
   - _Requirements: 1.1, 1.2, 1.8_
   - _Boundary: View/CharacterTab_
 
-- [ ] 4.2 (P) PlayerCard / AvatarCatalogItem / SettingRow / PresetBar 各 UXML テンプレートの実装
+- [x] 4.2 (P) PlayerCard / AvatarCatalogItem / SettingRow / PresetBar 各 UXML テンプレートの実装
   - `PlayerCard.uxml`：Slot 識別子ラベル、アバター表示名、設定ボタン、reset/reload ボタン、警告バッジ、empty/assigned/error 状態切替用 USS クラスフック（`vsb-player-card--empty` / `--assigned` / `--error`）を含む。
   - `AvatarCatalogItem.uxml`：サムネイル画像、表示名、選択ハイライト用クラス、ロード中プレースホルダ要素を含む。
   - `SettingRow.uxml`：設定項目 1 行のテンプレ（label + スロット用コンテナ、`DynamicSettingControlFactory` が子を挿入）。

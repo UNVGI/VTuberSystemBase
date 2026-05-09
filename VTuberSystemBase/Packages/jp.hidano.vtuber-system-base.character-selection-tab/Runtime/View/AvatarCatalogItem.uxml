@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AvatarCatalogItem template (task 4.2). One clone per avatar candidate.
+  AvatarCatalogPresenter swaps thumbnail Sprite once the resolver completes;
+  loading and selection states are toggled via USS modifier classes.
+  Required `name` attributes:
+    - vsb-avatar-item                : root, modifier classes attached here
+    - vsb-avatar-item__thumbnail     : Sprite holder (style.backgroundImage)
+    - vsb-avatar-item__label         : avatar display name
+    - vsb-avatar-item__loading       : placeholder shown while resolver pending
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-avatar-item" class="vsb-avatar-item vsb-avatar-item--loading">
+        <VisualElement name="vsb-avatar-item__thumbnail" class="vsb-avatar-item__thumbnail" />
+        <Label name="vsb-avatar-item__loading" class="vsb-avatar-item__loading" text="..." />
+        <Label name="vsb-avatar-item__label" class="vsb-avatar-item__label" text="(name)" />
+    </VisualElement>
+</UXML>

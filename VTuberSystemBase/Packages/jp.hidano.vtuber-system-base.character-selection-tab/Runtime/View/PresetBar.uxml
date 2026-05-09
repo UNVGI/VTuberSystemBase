@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PresetBar template (task 4.2). PresetManagerPresenter populates the dropdown
+  source list from PresetStoreLogic.ListPresets() and routes the action buttons
+  to the corresponding async APIs. Required `name` attributes:
+    - vsb-preset-bar                       : root
+    - vsb-preset-bar__active               : currently active preset name label
+    - vsb-preset-bar__name-input           : TextField for new / rename / duplicate names
+    - vsb-preset-bar__dropdown             : DropdownField listing preset names
+    - vsb-preset-bar__create-btn           : creates a new preset using name-input value
+    - vsb-preset-bar__rename-btn           : renames the dropdown selection to name-input value
+    - vsb-preset-bar__duplicate-btn        : duplicates the dropdown selection using name-input value
+    - vsb-preset-bar__delete-btn           : deletes the dropdown selection
+    - vsb-preset-bar__activate-btn         : activates the dropdown selection
+    - vsb-preset-bar__error                : last validation/operation error message
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-preset-bar" class="vsb-preset-bar">
+        <Label name="vsb-preset-bar__active" class="vsb-preset-bar__active" text="(no active preset)" />
+        <DropdownField name="vsb-preset-bar__dropdown" />
+        <TextField name="vsb-preset-bar__name-input" />
+        <Button name="vsb-preset-bar__create-btn" text="Create" />
+        <Button name="vsb-preset-bar__rename-btn" text="Rename" />
+        <Button name="vsb-preset-bar__duplicate-btn" text="Duplicate" />
+        <Button name="vsb-preset-bar__delete-btn" text="Delete" />
+        <Button name="vsb-preset-bar__activate-btn" text="Activate" />
+        <Label name="vsb-preset-bar__error" class="vsb-preset-bar__error" text="" />
+    </VisualElement>
+</UXML>
