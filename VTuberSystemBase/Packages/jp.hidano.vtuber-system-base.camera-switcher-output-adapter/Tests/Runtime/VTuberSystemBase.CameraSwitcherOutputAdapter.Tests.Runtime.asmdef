@@ -1,0 +1,35 @@
+{
+    "name": "VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Runtime",
+    "rootNamespace": "VTuberSystemBase.CameraSwitcherOutputAdapter.Tests",
+    "references": [
+        "VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions",
+        "VTuberSystemBase.CameraSwitcherOutputAdapter.Domain",
+        "VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime",
+        "GUID:c9117e022296498e9e1dd30888446ef1",
+        "GUID:8dd1f7ecef3d4c6cae1a52cee5304e5f",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "uOSC.Runtime",
+        "UcApi4Unity.UnityCamera",
+        "UcApi.Core",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
