@@ -11,7 +11,7 @@
   - 観測可能な完了条件: パッケージを Unity 6.3 プロジェクトに配置したときコンパイルエラーなしでロードされ、禁止参照を加えるとコンパイルエラーとなることを確認できる。
   - _Requirements: 1.7, 10.7_
 
-- [ ] 1.2 ランタイム DTO とドメイン値型の定義
+- [x] 1.2 ランタイム DTO とドメイン値型の定義
   - `SettingValue`（Float/Int/Bool/Color/Enum/Vector3 の discriminated union 相当 struct）とその `ToJson` / `FromJson` を実装する。
   - `SlotSnapshot`, `SlotStatus`, `InFlightOperationKind`, `InFlightToken`, `InFlightOutcome`, `StateChangeScope`, `ConnectionStatusCode`, `AvatarCatalogEntry`, `SettingSchemaEntry`, `SettingType` を定義する。
   - `CharacterTabConfig`（PresetDebounce=500ms, AssignmentTimeout=5s, SchemaRequestTimeout=5s, InteractionIdleThreshold=200ms, PresetScopeId, DefaultThumbnailAddressableKey の既定値付き）を実装する。
