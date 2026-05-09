@@ -87,7 +87,7 @@
   - _Depends: 1.2, 1.3_
   - _Boundary: GlobalEnabledLocalVolumeBinder, VolumeComponentTypeResolver_
 
-- [ ] 2.6 VolumeParameterValueWriter の実装
+- [x] 2.6 VolumeParameterValueWriter の実装
   - `VolumeParameterValueWriter.Write(component: VolumeComponent, paramName: string, value: JsonElement)`：
     - Reflection で `component` の public フィールドのうち名前が `paramName` のフィールドを探す。
     - フィールドが `VolumeParameter<T>` 派生型であることを確認、`T` の型に応じて `JsonElement` から値を取り出す（`float` / `int` / `bool` / `Color`（`{ r, g, b, a }` JSON object）/ `Enum`（int cast））。
