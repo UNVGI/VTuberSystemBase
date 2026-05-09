@@ -241,7 +241,7 @@
   - _Requirements: 7.4, 7.6, 7.7, 7.8, 7.9_
   - _Depends: 6.1, 7.1_
 
-- [ ] 7.3 診断 API と観測性ログの整備
+- [x] 7.3 診断 API と観測性ログの整備
   - `ICharacterTabDiagnostics.Capture()` を実装し、`TabDiagnosticsSnapshot`（Slot 数・割当済み・エラー数・InFlight 件数・最終保存時刻・接続状態・アクティブプリセット・破損バックアップ件数）を副作用なく生成する。
   - design.md の Monitoring セクションで列挙されたログ項目（Init.*, Assign.*, SettingSchema.*, Setting.Change, Preset.*, Thumbnail.*, Ipc.*, Restore.*, Connection.*）を `IDiagnosticsLogger` 経由で記録し、メイン出力サーフェスへ描画する経路を持たないことを構造的に保証する。
   - ログレベルは `ui-toolkit-shell` の設定から外部切替可能とする。
@@ -252,7 +252,7 @@
 
 ## 8. 単体検証と回帰テスト
 
-- [ ] 8.1 Integration テスト: 初期同期・割当ラウンドトリップ・設定スキーマ・プリセット・切断回復
+- [x] 8.1 Integration テスト: 初期同期・割当ラウンドトリップ・設定スキーマ・プリセット・切断回復
   - モック IPC で `slots/catalog` / `avatars/catalog` を発行 → Store 更新 → Presenter の UI 反映を 1 本で検証する統合テストを実装する。
   - `FakeUiCommandClient` に記録された割当 `PublishState` に対応する `slot/{id}/status` を `FakeUiSubscriptionClient` から流し、UI が `Assigned` 状態へ遷移するラウンドトリップテストを実装する。
   - モック `RequestAsync` がスキーマを返すと `DynamicSettingControlFactory` が VsbSlider 等を生成し View にアタッチされることを検証する。
