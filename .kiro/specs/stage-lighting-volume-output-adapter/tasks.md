@@ -366,7 +366,7 @@
   - _Boundary: Tests/Editor/Integration_
   - _Depends: 7.1, 8.1_
 
-- [ ] 9.2 PlayMode 統合テスト：実 Addressables / 実 URP / 実 RenderTexture
+- [x] 9.2 PlayMode 統合テスト：実 Addressables / 実 URP / 実 RenderTexture
   - `StageHandlerPlayModeTests` を実装し、サンプル Stage Prefab を Addressables Group に登録、本 Bootstrapper を Active な実シーンで起動、`stage/active` 受信で実 GameObject が `StageRoot` 配下に Instantiate されることを確認する。`stage/active` を別キーで再受信すると旧ステージが ReleaseInstance され新ステージが配置される lazy swap を確認する。
   - `VolumeOverrideHandlerPlayModeTests` を実装し、実 Camera + 実 GlobalVolumeProfile + Bloom を使ってスクリーンショット比較ではなく `bloom.intensity.value == 1.5f && bloom.intensity.overrideState == true` の状態確認を行う（Requirement 10.2）。
   - `StagePreviewHostPlayModeTests` を実装し、Awake → Locator Register → IsReady=true、OnDestroy → Locator Unregister → RenderTextureChanged(null) → RT 解放のラウンドトリップを実 GameObject で確認する（Requirement 10.5）。
