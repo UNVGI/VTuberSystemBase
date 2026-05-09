@@ -209,7 +209,7 @@
   - _Depends: 3.5_
   - _Boundary: MainThreadGuard, CameraSwitcherOutputAdapterDiagnostics_
 
-- [ ] 4.4 CameraSwitcherOutputAdapterBootstrapper の実装
+- [x] 4.4 CameraSwitcherOutputAdapterBootstrapper の実装
   - `CameraSwitcherOutputAdapterBootstrapper` MonoBehaviour を実装：
     - Inspector で `CameraSwitcherOutputAdapterConfig`（ScriptableObject、OSC Host/Port、DefaultCameraTransform）を受け取る。
     - `OutputSceneBootstrapper` の `IOutputSceneRoots` 提供完了を待ってから（イベント / Service Locator / FindObjectOfType の順で取得、本フェーズは FindObjectOfType を許容）、`Awake/Start` で全 Adapter を `new` し `CameraSwitcherOutputAdapter` に注入、`InitializeAsync` を呼ぶ。
