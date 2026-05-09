@@ -331,7 +331,7 @@
   - _Boundary: Diagnostics/AdapterErrorReporter, 全 Handler_
   - _Depends: 3.4, 4.4, 5.5, 6.4_
 
-- [ ] 8.2 PlayMode 反復 5 回ゼロリーク検証テスト
+- [x] 8.2 PlayMode 反復 5 回ゼロリーク検証テスト
   - `BootstrapPlayModeTests.PlayModeRepeats5TimesNoLeak` を実装し、`OutputSceneBootstrapper` シーン → 本 Bootstrapper Activate → PlayMode 終了 → 再起動を 5 回繰り返した後に以下を検査する：
     - `Resources.FindObjectsOfTypeAll<UnityEngine.Light>().Where(l => l.gameObject.name.StartsWith("Light_")).Count() == 0`
     - `Resources.FindObjectsOfTypeAll<StagePreviewHost>().Length == 0`
