@@ -79,7 +79,7 @@
   - _Requirements: 11.1, 11.2, 11.7, 11.9, 11.10_
   - _Boundary: FileSystemPresetStore_
 
-- [ ] 2.6 OscStreamController の実装
+- [x] 2.6 OscStreamController の実装
   - `SetTarget(CameraId?)` / `OnCameraDeleted(CameraId)` / `FrameTick()` を実装し、target=null 時は送信せず、FrameTick 1 回あたり 0 または 1 回の `IUcapiOscEmitter.Send` 発行にする（1 フレーム 1 メッセージ契約）。
   - Serialize 失敗時は送信 skip + `FailureAggregator.OscFailure` 記録、delete 連動停止、編集対象切替で即時に送信先切替、例外は上位に伝播させない。
   - FakeOscEmitter + FakeSerializer を用いた単体テストで「SetTarget → FrameTick 複数回 → 送信 blob 数 = FrameTick 回数」「SetTarget(null) で停止」「OnCameraDeleted(current) で null へ戻る」「Serialize Invalid で送信 0 件 + FailureAggregator に記録」を確認する。
