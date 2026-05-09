@@ -64,7 +64,7 @@
 
 ## 2. Diagnostics & Error Reporting
 
-- [ ] 2.1 AdapterErrorReporter の実装
+- [x] 2.1 AdapterErrorReporter の実装
   - `AdapterErrorReporter` を実装し、`ReportLightError(string? lightId, string errorCode, string message)` で `LightErrorDto`（CorrelationId="" 既定）を構築して `light/error` event を publish、`ReportStageLoadFailed(string addressableKey, string errorCode, string message)` で `StageLoadFailedDto` を構築して `stage/load-failed` event を publish する。
   - `IOutputCommandDispatcher` 経由で publish できる場合は dispatcher、そうでない場合は `output-renderer-shell` 側の出力→UI 方向 publish API を利用する（実 API は実装時に確認、抽象を `IAdapterEventPublisher` として切り出す方針も取れる）。
   - publish と同時に `AdapterLogger.Error` で診断ログ出力、`StageLightingVolumeOutputAdapterDiagnostics.LastErrorMessage / LastErrorAtUnixMs` を更新する。
