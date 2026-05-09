@@ -202,7 +202,7 @@
   - _Boundary: Volume/VolumeOverrideMetadataBuilder_
   - _Depends: 5.2, 1.4_
 
-- [ ] 5.4 VolumeParameterReflectionSetter の実装
+- [x] 5.4 VolumeParameterReflectionSetter の実装
   - `VolumeParameterReflectionSetter.ApplyValue(VolumeComponent component, string paramName, VolumeOverrideParamValueDto value, AdapterLogger logger)` を実装する。
   - リフレクション手順：
     1. `field = component.GetType().GetField(paramName, BindingFlags.Public | BindingFlags.Instance)`、null なら警告ログ + false return（Requirement 5.6）
