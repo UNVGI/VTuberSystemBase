@@ -186,7 +186,7 @@
   - _Depends: 2.5_
   - _Boundary: CameraGameObjectFactory_
 
-- [ ] 4.2 IpcHandlerRegistration の実装
+- [x] 4.2 IpcHandlerRegistration の実装
   - `IpcHandlerRegistration.RegisterAll(dispatcher: IOutputCommandDispatcher, adapter: CameraSwitcherOutputAdapter)`：
     - `RegisterEventHandler<CameraCommandPayload>(CameraIpcTopics.CameraCommand, adapter.OnCameraCommand)`
     - `RegisterEventHandler<PreviewCommandPayload>(CameraIpcTopics.PreviewCommand, adapter.OnPreviewCommand)`
