@@ -215,7 +215,7 @@
 ---
 
 - [ ] 6. View（UXML / USS / セクション View / 動的ファクトリ）を UI コンポーネント活用で実装する
-- [ ] 6.1 タブルート UXML / USS と `StageLightingVolumeTabPanel`（VisualElement ハンドル取得）を実装する
+- [x] 6.1 タブルート UXML / USS と `StageLightingVolumeTabPanel`（VisualElement ハンドル取得）を実装する
   - `Runtime.Uxml/StageLightingVolumeTab.uxml` を作成し、プレビューパネル・プリセットセクション・ステージ選択セクション・Light 一覧＋編集セクション・Volume Override セクションのコンテナを配置する
   - `Runtime.Uxml/StageLightingVolumeTab.uss` を作成し、`vsb-slv-` プレフィクス + BEM で USS セレクタを定義する（スキン差替 UI-3 対応）
   - `StageLightingVolumeTabPanel` は `UIDocument` から本タブルートを `Q<VisualElement>` で取得し、各セクション View に VisualElement を受け渡すだけの薄い層として実装する
@@ -224,7 +224,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.8_
   - _Boundary: StageLightingVolumeTab.Runtime.View.Panel_
 
-- [ ] 6.2 (P) `StagePresetSectionView`（プリセット CRUD UI）と `StageSelectionSectionView`（ステージ選択 + サムネイル）を実装する
+- [x] 6.2 (P) `StagePresetSectionView`（プリセット CRUD UI）と `StageSelectionSectionView`（ステージ選択 + サムネイル）を実装する
   - `StagePresetSectionView`: プリセット一覧表示（`VsbNumberedList` 相当）、新規作成・名前変更・複製・削除・アクティブ化の操作 UI、アクティブプリセット名の明示表示を組み、ViewModel の Command メソッドに結線する
   - `StageSelectionSectionView`: `StageCatalogState` のカタログを一覧表示し、各項目に `DisplayName` を表示、`ThumbnailAddressableKey` があれば `IAsyncAssetLoader` で非同期取得、失敗時はデフォルト画像にフォールバックする
   - 切替中は進行中表示（スピナー/オーバーレイ）を提示、切替失敗時は `OnOperationWarning` を受けてエラーバッジを表示する
@@ -232,7 +232,7 @@
   - _Requirements: 3.2, 3.3, 3.7, 3.8, 3.9, 3.10, 7.2, 7.3, 9.6_
   - _Boundary: StageLightingVolumeTab.Runtime.View.PresetAndStageSections_
 
-- [ ] 6.3 (P) `LightListSectionView`（Light 一覧 + 追加削除 + 追加中プレースホルダ）を実装する
+- [x] 6.3 (P) `LightListSectionView`（Light 一覧 + 追加削除 + 追加中プレースホルダ）を実装する
   - 一覧は `LightListState.CurrentList` を lightId 採番順で安定表示し、`LightListChangeEvent` で差分反映する
   - `Add Light` ボタンは ViewModel に `AddLight(初期値)` を要求、送信中はボタンを一時無効化して連打を抑止、「追加中」プレースホルダ行を挿入する
   - タイムアウト（5 秒、ViewModel 発火）時にプレースホルダをエラー表示に切り替え、再試行ボタンを露出する
@@ -241,7 +241,7 @@
   - _Requirements: 4.2, 4.6, 4.7, 4.9, 4.10_
   - _Boundary: StageLightingVolumeTab.Runtime.View.LightListSection_
 
-- [ ] 6.4 (P) `LightPropertyEditorView`（選択 Light のプロパティ編集）を `VsbSlider` / `VsbColorPicker` / `VsbToggleGroup` で実装する
+- [x] 6.4 (P) `LightPropertyEditorView`（選択 Light のプロパティ編集）を `VsbSlider` / `VsbColorPicker` / `VsbToggleGroup` で実装する
   - 選択時に Light の Type / 角度 / 色 / 強さ / Range / Spot Angle を現在 state で初期化し、変更時は ViewModel の `UpdateLightProperty` を呼ぶ
   - Type（Directional / Point / Spot / Area）変更に応じて派生プロパティの活性/非活性を切り替える（例: Directional は Range / Spot Angle 非活性、Spot のみ Spot Angle 活性）
   - コントロール近傍に `LightPropertyValidator` 由来のインラインバリデーションエラーを表示する
@@ -250,7 +250,7 @@
   - _Requirements: 5.1, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.10, 5.11, 9.3_
   - _Boundary: StageLightingVolumeTab.Runtime.View.LightPropertyEditor_
 
-- [ ] 6.5 (P) `VolumeOverrideSectionView` と `VolumeOverrideParamFactory`（ParamKind → VisualElement 動的生成）を実装する
+- [x] 6.5 (P) `VolumeOverrideSectionView` と `VolumeOverrideParamFactory`（ParamKind → VisualElement 動的生成）を実装する
   - `VolumeOverrideParamFactoryTests` を先に書き、`ParamKind.Bool → Toggle`、`Int/Float/ClampedFloat → VsbSlider`、`Color → VsbColorPicker`、`Vector2/3/4 → 各軸 VsbSlider 組み合わせ`、`Enum → VsbToggleGroup または DropdownField`、`Unknown → null 返却 + 診断ログ` の 6 分岐を検証する
   - `VolumeOverrideSectionView` は `VolumeSchemaCache` から取得した `VolumeOverrideSchemaDto` を元に Override ごとに enabled トグル + param コントロール群を動的配置する
   - 各 param の変更時に `VolumeOverrideParamValueDto` を構築し ViewModel の `UpdateVolumeOverrideParam` を呼ぶ。スキーマ取得失敗時は再試行ボタンを露出する

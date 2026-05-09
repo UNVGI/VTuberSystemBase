@@ -1,0 +1,36 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="stage-lighting-volume-tab" class="vsb-slv-tab">
+        <ui:VisualElement name="preview-panel" class="vsb-slv-preview" />
+        <ui:VisualElement name="preset-section" class="vsb-slv-preset-section">
+            <ui:Label text="Presets" class="vsb-slv-section-title" />
+            <ui:VisualElement name="preset-list" class="vsb-slv-preset-list" />
+            <ui:VisualElement name="preset-toolbar" class="vsb-slv-preset-toolbar">
+                <ui:Button name="preset-create" text="Create" class="vsb-slv-button" />
+                <ui:Button name="preset-rename" text="Rename" class="vsb-slv-button" />
+                <ui:Button name="preset-duplicate" text="Duplicate" class="vsb-slv-button" />
+                <ui:Button name="preset-delete" text="Delete" class="vsb-slv-button" />
+                <ui:Button name="preset-activate" text="Activate" class="vsb-slv-button" />
+            </ui:VisualElement>
+            <ui:Label name="active-preset-label" class="vsb-slv-active-preset" />
+        </ui:VisualElement>
+        <ui:VisualElement name="stage-selection-section" class="vsb-slv-stage-section">
+            <ui:Label text="Stage" class="vsb-slv-section-title" />
+            <ui:VisualElement name="stage-list" class="vsb-slv-stage-list" />
+            <ui:Button name="stage-unload" text="Unload Stage" class="vsb-slv-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="light-list-section" class="vsb-slv-light-list-section">
+            <ui:Label text="Lights" class="vsb-slv-section-title" />
+            <ui:VisualElement name="light-list" class="vsb-slv-light-list" />
+            <ui:Button name="light-add" text="Add Light" class="vsb-slv-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="light-editor-section" class="vsb-slv-light-editor">
+            <ui:Label text="Light Properties" class="vsb-slv-section-title" />
+            <ui:VisualElement name="light-property-editor" class="vsb-slv-light-property-editor" />
+        </ui:VisualElement>
+        <ui:VisualElement name="volume-override-section" class="vsb-slv-volume-section">
+            <ui:Label text="Volume Overrides" class="vsb-slv-section-title" />
+            <ui:VisualElement name="volume-override-list" class="vsb-slv-volume-list" />
+            <ui:Button name="volume-schema-retry" text="Retry Schema" class="vsb-slv-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
