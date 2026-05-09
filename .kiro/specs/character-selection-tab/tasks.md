@@ -44,7 +44,7 @@
   - _Requirements: 2.1, 2.3, 2.8, 2.9, 3.9, 4.5, 4.7, 4.10, 5.7_
   - _Boundary: CharacterTabStateStore_
 
-- [ ] 2.2 (P) IClock / SystemClock と InteractionGuard の実装
+- [x] 2.2 (P) IClock / SystemClock と InteractionGuard の実装
   - `IClock` / `SystemClock`（`DateTimeOffset.UtcNow` 既定）を実装し、テストから `ManualClock` で差替可能にする。
   - `IInteractionGuard` を実装し、`MarkInteracting(slotId, settingKey)` / `EndInteracting` / `Tick(now)` により 200ms アイドル自動 end、`OnChanged(InteractingChangedEventArgs)` を発火する。
   - `settingKey` 単位の追跡、複数 Slot × 複数 key の同時進行を許容、単調時刻前提を実装する。
