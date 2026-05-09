@@ -1,0 +1,193 @@
+/*
+ * Camera Switcher Tab default USS (task 3.1, design.md §View).
+ *
+ * USS class names follow the ui-toolkit-shell vsb- BEM convention so user
+ * projects can layer their skin via UiToolkitShellSkinProfile.
+ * The renames listed here are SemVer-major-equivalent breaking changes.
+ */
+
+.vsb-cam-tab {
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: rgb(22, 22, 24);
+    color: rgb(220, 220, 220);
+}
+
+.vsb-cam-tab__preview {
+    flex-shrink: 0;
+    flex-direction: column;
+    height: 360px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(60, 60, 60);
+}
+
+.vsb-cam-tab__preview-active {
+    flex-grow: 1;
+    background-color: rgb(0, 0, 0);
+    margin: 4px;
+}
+
+.vsb-cam-tab__preview-multi {
+    flex-shrink: 0;
+    flex-direction: row;
+    height: 108px;
+    background-color: rgb(28, 28, 30);
+    padding: 4px;
+}
+
+.vsb-cam-tab__main {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.vsb-cam-tab__camera-list {
+    width: 260px;
+    flex-shrink: 0;
+    flex-direction: column;
+    background-color: rgb(28, 28, 30);
+    border-right-width: 1px;
+    border-right-color: rgb(60, 60, 60);
+    padding: 8px;
+}
+
+.vsb-cam-tab__volume-editor {
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.vsb-cam-tab__preset-panel {
+    width: 280px;
+    flex-shrink: 0;
+    flex-direction: column;
+    background-color: rgb(28, 28, 30);
+    border-left-width: 1px;
+    border-left-color: rgb(60, 60, 60);
+    padding: 8px;
+}
+
+.vsb-cam-tab__diagnostics {
+    flex-shrink: 0;
+    flex-direction: row;
+    height: 28px;
+    background-color: rgb(18, 18, 20);
+    border-top-width: 1px;
+    border-top-color: rgb(60, 60, 60);
+    padding-left: 8px;
+    padding-right: 8px;
+    align-items: center;
+}
+
+/* Camera card */
+
+.vsb-camera-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px;
+    margin-bottom: 4px;
+    background-color: rgb(36, 36, 40);
+    border-radius: 4px;
+}
+
+.vsb-camera-card--selected {
+    background-color: rgb(50, 50, 56);
+}
+
+.vsb-camera-card--editing {
+    border-left-width: 3px;
+    border-left-color: rgb(120, 180, 255);
+}
+
+.vsb-camera-card--active {
+    border-color: rgb(255, 200, 80);
+    border-width: 1px;
+}
+
+.vsb-camera-card__name {
+    flex-grow: 1;
+    -unity-font-style: bold;
+}
+
+.vsb-camera-card__type {
+    color: rgb(160, 160, 160);
+    margin-left: 8px;
+}
+
+/* Volume override item */
+
+.vsb-volume-override-item {
+    flex-direction: column;
+    margin-bottom: 6px;
+    padding: 6px;
+    background-color: rgb(34, 34, 38);
+    border-radius: 4px;
+}
+
+.vsb-volume-override-item__header {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.vsb-volume-override-item__title {
+    -unity-font-style: bold;
+    flex-grow: 1;
+}
+
+/* Preset row */
+
+.vsb-preset-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+}
+
+.vsb-preset-row--active {
+    background-color: rgb(50, 60, 76);
+}
+
+.vsb-preset-row__name {
+    flex-grow: 1;
+}
+
+.vsb-preset-row__name--invalid {
+    color: rgb(255, 110, 110);
+}
+
+/* Diagnostics badge */
+
+.vsb-diagnostics-badge {
+    flex-direction: row;
+    align-items: center;
+}
+
+.vsb-diagnostics-badge__indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 6px;
+}
+
+.vsb-diagnostics-badge__indicator--ok {
+    background-color: rgb(80, 200, 120);
+}
+
+.vsb-diagnostics-badge__indicator--warn {
+    background-color: rgb(240, 200, 60);
+}
+
+.vsb-diagnostics-badge__indicator--error {
+    background-color: rgb(240, 80, 80);
+}
+
+/* Empty state CTA */
+
+.vsb-empty-state {
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 24px;
+    color: rgb(140, 140, 140);
+}

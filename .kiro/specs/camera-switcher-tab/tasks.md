@@ -126,7 +126,7 @@
 
 ## 3. Integration: Unity 層・View・ライフサイクルの組み上げ
 
-- [ ] 3.1 (P) UXML / USS アセットの作成
+- [x] 3.1 (P) UXML / USS アセットの作成
   - `CameraSwitcherTab.uxml` と `CameraSwitcherTab.uss`（vsb- プレフィクス + BEM 風クラス命名）、`PreviewPanel.uxml/.uss`、`CameraCard.uxml/.uss`、`VolumeOverrideItem.uxml/.uss`、`PresetRow.uxml/.uss`、`DiagnosticsBadge.uxml/.uss` を新規作成する。
   - マルチプレビュー + 大アクティブプレビューの二層レイアウト、カメラリスト（追加/削除/選択/アクティブ切替）、Local Volume 編集領域（Override アイテムコンテナ）、プリセット CRUD 領域、診断バッジの配置を構造的に表現する。
   - Editor PlayMode で UIDocument をアタッチし、ui-toolkit-shell の `CameraSwitcherTabVisualTreeAsset` スロットに手動で差し込んだ状態で USS が適用されていることを目視確認する。
