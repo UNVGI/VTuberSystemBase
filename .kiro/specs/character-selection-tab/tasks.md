@@ -203,7 +203,7 @@
 
 ## 6. Composition Root と Lifecycle 統合
 
-- [ ] 6.1 CharacterTabBootstrapper による Composition Root と購読ライフサイクル
+- [x] 6.1 CharacterTabBootstrapper による Composition Root と購読ライフサイクル
   - コンストラクタで `ITabLifecycleHandle` / `IUiCommandClient` / `IUiSubscriptionClient` / `IConnectionStatus` / `IAsyncAssetLoader` / `IDiagnosticsLogger` / `IPresetStorage` / `IClock`（+ テスト用 override）を受け取り、Store → Services → Presenters → IpcBinder → RestoreOrchestrator の順で構築する。
   - `CharacterTabConfig` の境界値検証（負値・ゼロ禁止）を行い、違反時は既定値フォールバック + 診断ログ。
   - `OnActivated`/`OnDeactivated`/`Dispose` に応じて Presenter のアニメーション・タイマ再開、購読は常時維持（タブ非アクティブ中もバックグラウンド最新化）、`Dispose` で Presenter カスケード解放 + `CharacterTabIpcBinder.UnsubscribeAll()` + `AssetLoader.ReleaseAll("tab:character")` + `PresetStoreLogic.FlushPendingAsync()` を実行する。
@@ -213,7 +213,7 @@
   - _Requirements: 1.1, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 7.7, 8.4, 9.1_
   - _Depends: 3.1, 3.2, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 6.2 アプリ終了フラッシュと Standalone / PlayMode 両対応
+- [x] 6.2 アプリ終了フラッシュと Standalone / PlayMode 両対応
   - `Application.quitting` と Editor の `playModeStateChanged == ExitingPlayMode` の両方で `PresetStoreLogic.FlushPendingAsync` を冪等に呼び出すフックを実装する。
   - Edit モードでは実行時ロジック（UI 初期化・IPC 購読・永続化読込）を起動しないことを `ui-toolkit-shell` の PlayMode 限定駆動契約で構造的に担保し、単体テストで検証する。
   - PlayMode 開始・停止を 5 回繰り返しても購読重複・UI 要素重複生成・ファイルロック残存がないことをテストで確認する（ドメインリロード跨ぎの状態維持を禁止）。
