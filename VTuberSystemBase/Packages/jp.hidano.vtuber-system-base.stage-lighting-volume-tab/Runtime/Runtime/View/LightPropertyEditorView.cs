@@ -24,7 +24,7 @@ namespace VTuberSystemBase.StageLightingVolumeTab.View
         private FloatField? _rangeField;
         private FloatField? _spotAngleField;
         private TextField? _displayNameField;
-        private EnumField? _typeField;
+        private DropdownField? _typeField;
         private VisualElement? _rangeRow;
         private VisualElement? _spotRow;
         private Label? _validationLabel;
@@ -62,10 +62,12 @@ namespace VTuberSystemBase.StageLightingVolumeTab.View
                 Send(StageLightingTopics.PropertyDisplayName, evt.newValue));
             _editor.Add(_displayNameField);
 
-            _typeField = new EnumField("Type", LightTypeDto.Directional);
+            _typeField = new DropdownField("Type",
+                new System.Collections.Generic.List<string> { "Directional", "Point", "Spot", "Area" },
+                0);
             _typeField.RegisterValueChangedCallback(evt =>
             {
-                if (evt.newValue is LightTypeDto t)
+                if (System.Enum.TryParse<LightTypeDto>(evt.newValue, out var t))
                 {
                     Send(StageLightingTopics.PropertyType, t);
                     UpdateTypeSensitiveControls(t);

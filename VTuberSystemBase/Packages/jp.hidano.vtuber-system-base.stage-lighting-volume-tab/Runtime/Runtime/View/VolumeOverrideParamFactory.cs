@@ -1,7 +1,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 using VTuberSystemBase.StageLightingVolumeTab.Contracts;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
@@ -10,10 +9,18 @@ namespace VTuberSystemBase.StageLightingVolumeTab.View
 {
     /// <summary>
     /// Maps <see cref="ParamKind"/> values to concrete <see cref="VisualElement"/>
-    /// controls. Returns null for <see cref="ParamKind.Unknown"/> (with a diagnostic log)
-    /// so callers can skip rendering per Requirement 6.10.
+    /// controls available in Unity runtime UI Toolkit (<c>UnityEngine.UIElements</c>).
+    /// Returns null for <see cref="ParamKind.Unknown"/> (with a diagnostic log) so
+    /// callers can skip rendering per Requirement 6.10.
     /// (Task 6.5, Requirements 6.2, 6.7, 6.10, 6.11.)
     /// </summary>
+    /// <remarks>
+    /// Only runtime-side controls are used here so the assembly compiles in player
+    /// builds. Color / Vector controls are composed from primitive
+    /// <see cref="FloatField"/> rows because Unity's <c>ColorField</c> /
+    /// <c>Vector2Field</c> / <c>Vector3Field</c> / <c>Vector4Field</c> live in
+    /// <c>UnityEditor.UIElements</c> and would not be available in player builds.
+    /// </remarks>
     public sealed class VolumeOverrideParamFactory : IVolumeOverrideParamFactory
     {
         private readonly IDiagnosticsLogger? _log;
@@ -61,45 +68,59 @@ namespace VTuberSystemBase.StageLightingVolumeTab.View
                 case ParamKind.Color:
                 {
                     var c = currentValue.ColorValue ?? new ColorDto(1, 1, 1, 1);
-                    var cf = new ColorField(param.DisplayName) { value = new Color(c.R, c.G, c.B, c.A) };
-                    cf.RegisterValueChangedCallback(e =>
-                    {
-                        var col = e.newValue;
-                        onChanged(new VolumeOverrideParamValueDto(
-                            ParamKind.Color, null, null, null,
-                            new ColorDto(col.r, col.g, col.b, col.a), null, null));
-                    });
-                    return cf;
+                    var box = new VisualElement();
+                    box.AddToClassList("vsb-slv-color-row");
+                    box.Add(new Label(param.DisplayName));
+                    float r = c.R, g = c.G, b = c.B, a = c.A;
+                    var rField = new FloatField("R") { value = r };
+                    var gField = new FloatField("G") { value = g };
+                    var bField = new FloatField("B") { value = b };
+                    var aField = new FloatField("A") { value = a };
+                    void Push() => onChanged(new VolumeOverrideParamValueDto(
+                        ParamKind.Color, null, null, null,
+                        new ColorDto(r, g, b, a), null, null));
+                    rField.RegisterValueChangedCallback(e => { r = e.newValue; Push(); });
+                    gField.RegisterValueChangedCallback(e => { g = e.newValue; Push(); });
+                    bField.RegisterValueChangedCallback(e => { b = e.newValue; Push(); });
+                    aField.RegisterValueChangedCallback(e => { a = e.newValue; Push(); });
+                    box.Add(rField);
+                    box.Add(gField);
+                    box.Add(bField);
+                    box.Add(aField);
+                    return box;
                 }
                 case ParamKind.Vector2:
-                {
-                    var v = currentValue.VectorValue ?? new Vector4Dto(0, 0, 0, 0);
-                    var f = new Vector2Field(param.DisplayName) { value = new Vector2(v.X, v.Y) };
-                    f.RegisterValueChangedCallback(e =>
-                        onChanged(new VolumeOverrideParamValueDto(
-                            ParamKind.Vector2, null, null, null, null,
-                            new Vector4Dto(e.newValue.x, e.newValue.y, 0, 0), null)));
-                    return f;
-                }
                 case ParamKind.Vector3:
-                {
-                    var v = currentValue.VectorValue ?? new Vector4Dto(0, 0, 0, 0);
-                    var f = new Vector3Field(param.DisplayName) { value = new Vector3(v.X, v.Y, v.Z) };
-                    f.RegisterValueChangedCallback(e =>
-                        onChanged(new VolumeOverrideParamValueDto(
-                            ParamKind.Vector3, null, null, null, null,
-                            new Vector4Dto(e.newValue.x, e.newValue.y, e.newValue.z, 0), null)));
-                    return f;
-                }
                 case ParamKind.Vector4:
                 {
                     var v = currentValue.VectorValue ?? new Vector4Dto(0, 0, 0, 0);
-                    var f = new Vector4Field(param.DisplayName) { value = new Vector4(v.X, v.Y, v.Z, v.W) };
-                    f.RegisterValueChangedCallback(e =>
-                        onChanged(new VolumeOverrideParamValueDto(
-                            ParamKind.Vector4, null, null, null, null,
-                            new Vector4Dto(e.newValue.x, e.newValue.y, e.newValue.z, e.newValue.w), null)));
-                    return f;
+                    var box = new VisualElement();
+                    box.AddToClassList("vsb-slv-vector-row");
+                    box.Add(new Label(param.DisplayName));
+                    float x = v.X, y = v.Y, z = v.Z, w = v.W;
+                    var capturedKind = param.Kind;
+                    void Push() => onChanged(new VolumeOverrideParamValueDto(
+                        capturedKind, null, null, null, null,
+                        new Vector4Dto(x, y, z, w), null));
+                    var xField = new FloatField("X") { value = x };
+                    xField.RegisterValueChangedCallback(e => { x = e.newValue; Push(); });
+                    box.Add(xField);
+                    var yField = new FloatField("Y") { value = y };
+                    yField.RegisterValueChangedCallback(e => { y = e.newValue; Push(); });
+                    box.Add(yField);
+                    if (param.Kind == ParamKind.Vector3 || param.Kind == ParamKind.Vector4)
+                    {
+                        var zField = new FloatField("Z") { value = z };
+                        zField.RegisterValueChangedCallback(e => { z = e.newValue; Push(); });
+                        box.Add(zField);
+                    }
+                    if (param.Kind == ParamKind.Vector4)
+                    {
+                        var wField = new FloatField("W") { value = w };
+                        wField.RegisterValueChangedCallback(e => { w = e.newValue; Push(); });
+                        box.Add(wField);
+                    }
+                    return box;
                 }
                 case ParamKind.Enum:
                 {
