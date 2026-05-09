@@ -250,7 +250,7 @@
   - _Depends: 4.4_
   - _Boundary: IpcHandlerIntegrationTests_
 
-- [ ] 5.3 フェイルセーフ統合テスト
+- [x] 5.3 フェイルセーフ統合テスト
   - Tests.Runtime に `FailsafeTests` を追加：
     - **OSC 起動失敗**: 別の `uOscServer` で `127.0.0.1:9000` を先に占有 → 本 spec を起動 → `OscReceiverStartResult.Failure` が返り、`camera/error { Reason="OscStartupFailed" }` が UI 側 publish バッファに出ること。IPC ハンドラ系（add / delete / metadata / volume）は引き続き動作。
     - **未知 cameraId on OSC**: `add` 完了前に `/ucapi/camera/cam-0001/flat` を送信 → 破棄、`camera/error` 発行されない、ログのみ。
