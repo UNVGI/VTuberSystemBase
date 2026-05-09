@@ -160,7 +160,7 @@
   - _Depends: 3.1_
   - _Boundary: CamerasListPublisher_
 
-- [ ] 3.5 CameraSwitcherOutputAdapter 状態機械の統合
+- [x] 3.5 CameraSwitcherOutputAdapter 状態機械の統合
   - `CameraSwitcherOutputAdapter` を実装し、内部に `CameraEntryRegistry` / `ActiveCameraGate` / `CamerasListPublisher` / `DefaultCameraFallbackController` / `FailureAggregator` / `OscMessageRouter` を composition として保持。
   - 全 port を DI で受け取る `InitializeAsync(ct)` を実装：`IpcHandlerRegistration.RegisterAll(dispatcher, this)` を呼んで IPC ハンドラ登録 → `oscReceiverHost.StartAsync(...)` で OSC 起動 → 初期 `cameras/list` / `cameras/active=null` を publish。
   - `OnOscMessageReceived(in OscReceivedMessage)`：`MainThreadGuard.AssertMainThread()` → `OscMessageRouter` で cameraId 解決 → `CameraEntryRegistry.TryGet` → `Ucapi4UnityFlatRecordApplier.Apply(blob, entry.CameraComponent)`。未知 cameraId は破棄。
