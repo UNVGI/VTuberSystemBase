@@ -85,7 +85,7 @@
   - _Boundary: Stage/IInstantiationProvider, Stage/AddressablesInstantiationProvider_
   - _Depends: 1.6_
 
-- [ ] 3.2 StageCatalogBuilder の実装
+- [x] 3.2 StageCatalogBuilder の実装
   - `StageCatalogBuilder` を実装し、`BuildAsync(IInstantiationProvider provider)` で `provider.LoadResourceLocationsAsync(label: "stage")` を呼び、結果の各 `primaryKey` を `AddressableKey` とし、`DisplayName` は `primaryKey` をそのまま採用（実装フェーズで Addressables の `IResourceLocation.InternalId` 等を確認して改善余地あり）、`ThumbnailAddressableKey = $"{primaryKey}.thumbnail"` に設定して `StageCatalogEntryDto` 配列を構築、`StageCatalogDto(Items)` を返す。
   - 「stage」ラベル未登録時は空配列 + 警告ログ（`AdapterLogger.Warning("Stage label not found in Addressables")`）。
   - 例外時は `AdapterLogger.Error` + 空配列返却（描画継続）。
