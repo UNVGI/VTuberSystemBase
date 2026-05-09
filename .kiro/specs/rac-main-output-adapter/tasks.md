@@ -51,14 +51,14 @@
   - _Boundary: ExtensionPoints/*_
   - _Depends: 1.2, 1.3_
 
-- [ ] 2.2 (P) `NoOpAvatarSettingsAdapter` の実装
+- [x] 2.2 (P) `NoOpAvatarSettingsAdapter` の実装
   - 全 `(avatar, settingKey, type, value)` に対して `AdapterApplyResult.UnknownKey` を返す既定実装を作成する。
   - 観測可能な完了条件: 任意入力で `UnknownKey` を返すことを単体テストで確認できる。利用者プロジェクトが差し替えるべきサインとして README に明記する。
   - _Requirements: 8.3, 3.4_
   - _Boundary: Defaults/NoOpAvatarSettingsAdapter_
   - _Depends: 2.1_
 
-- [ ] 2.3 (P) `StubMoCapSourceConfigFactory` の実装
+- [x] 2.3 (P) `StubMoCapSourceConfigFactory` の実装
   - RAC 同梱の Stub MoCap Source Descriptor（`MoCapSourceDescriptor` の最小値、`SourceTypeId = "Stub"`）を返す既定実装を作成する。
   - `MoCapSourceConfigBase` を継承する Stub Config（あるいは RAC 既存の Stub Config）を `ScriptableObject.CreateInstance` で動的生成する。
   - 観測可能な完了条件: 任意 `slotId` で同一構造の Descriptor を返すことを単体テストで確認できる。
@@ -66,7 +66,7 @@
   - _Boundary: Defaults/StubMoCapSourceConfigFactory_
   - _Depends: 2.1_
 
-- [ ] 2.4 (P) `AddressablesAvatarKeyResolver` の実装
+- [x] 2.4 (P) `AddressablesAvatarKeyResolver` の実装
   - `IAvatarKeyResolver.Resolve(avatarKey)` で Addressables の存在判定（`LoadResourceLocationsAsync(avatarKey, typeof(GameObject))`）を行い、`BuiltinAvatarProviderConfig` を `ScriptableObject.CreateInstance` で動的生成して `AvatarProviderDescriptor { ProviderTypeId = "Builtin", Config = config }` を返す。
   - `Refresh()` で全 avatar key を `LoadResourceLocationsAsync` 経由で再列挙し `AvatarKeys` キャッシュを更新、変更があれば `OnAvatarKeysChanged` を発火する。
   - Addressables カタログが空 / 未ロードのときは空配列を返し、`Resolve` は `null` を返す（呼出側で `KeyNotFound` 翻訳）。
@@ -75,7 +75,7 @@
   - _Boundary: Defaults/AddressablesAvatarKeyResolver_
   - _Depends: 2.1_
 
-- [ ] 2.5 (P) `AddressablesAvatarSchemaProvider` の実装
+- [x] 2.5 (P) `AddressablesAvatarSchemaProvider` の実装
   - `Resolve(avatarKey)` で `Addressables.LoadAssetAsync<ScriptableObject>($"{avatarKey}.schema").WaitForCompletion()` を同期呼び出しし、ScriptableObject から `AvatarSettingsSchemaPayload` を構築する。
   - スキーマ用 ScriptableObject 型は本 spec で `AvatarSchemaScriptableObject`（`Settings: List<SettingSchemaEntrySerializable>`）を提供し、利用者プロジェクトが Addressables に登録する。
   - `WaitForCompletion` 失敗時は `null` を返し、診断ログに `SchemaProvider.Fallback(avatarKey)` を残す（呼出側で空応答に翻訳）。
