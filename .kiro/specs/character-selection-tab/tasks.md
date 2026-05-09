@@ -18,7 +18,7 @@
   - 観測可能な完了条件: 各値型のラウンドトリップ（生成 → JSON → 復元）テストが緑色で通る。
   - _Requirements: 4.10, 5.2, 5.6_
 
-- [ ] 1.3 IPC トピックビルダとペイロード DTO 群の実装
+- [x] 1.3 IPC トピックビルダとペイロード DTO 群の実装
   - `CharacterTopics` の定数と `SlotAssignment` / `SlotStatus` / `SlotSettingValue` / `SlotSettingsPrefix` / `SlotCommand` / `SlotError` / `AvatarSchema` ビルダを実装し、`Safe(value)` で ASCII 英数字 + `- _ .` 以外を percent-encode する。
   - `SlotCatalogPayload`, `SlotCatalogEntry`, `AvatarCatalogPayload`, `SlotAssignmentPayload`, `SlotStatusPayload`, `SlotSettingValuePayload`, `SlotCommandPayload`, `SlotErrorPayload`, `AvatarSchemaRequestPayload`, `AvatarSettingsSchemaPayload`, `SettingSchemaEntry` DTO を `[Serializable]` + `init` プロパティで定義する。
   - 未知列挙値・未知フィールドは前方互換で無視する方針を DTO 実装で担保（列挙には `Unknown` 値または文字列持ち回し）。
