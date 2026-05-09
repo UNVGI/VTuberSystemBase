@@ -86,7 +86,7 @@
   - _Requirements: 8.1, 8.3, 8.4, 8.5, 8.7, 8.9, 8.10, 10.5_
   - _Boundary: StageLightingVolumeTab.Runtime.Services.Persistence_
 
-- [ ] 3.2 (P) `IClock` / `DebounceFlusher` を 500 ms デバウンスとテスト可能な時刻抽象で実装する
+- [x] 3.2 (P) `IClock` / `DebounceFlusher` を 500 ms デバウンスとテスト可能な時刻抽象で実装する
   - 先に `DebounceFlusherTests` を書き、`FakeClock` で時刻を 500 ms 進めたときのみ flush が 1 度だけ発火すること、連続 `Schedule` で最新の `flushAction` のみが実行されること、`FlushImmediateAsync` が保留アクションを即時実行すること、`Dispose` で保留アクションが破棄されることを検証する
   - 実装: 内部で最新の `CancellationTokenSource` のみ保持し、古いものは破棄してリソース膨張を防ぐ
   - 観測可能完了: `DebounceFlusherTests` が全ケース緑で通り、ViewModel が後段で `Schedule(() => JsonPresetStorage.FlushAsync(...))` を安全に呼び出せる
