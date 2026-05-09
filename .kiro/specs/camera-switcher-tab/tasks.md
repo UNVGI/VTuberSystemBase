@@ -187,7 +187,7 @@
   - _Depends: 3.2, 3.4_
   - _Boundary: OscLoopbackIntegrationTests_
 
-- [ ] 4.3 フェイルセーフ統合テスト
+- [x] 4.3 フェイルセーフ統合テスト
   - OSC 断（`OscFailureKind.PortInUse` / `InitializationFailed` を Fake で注入）時に WebSocket 経路の CRUD/Volume/プリセットが継続可能であること、UI バッジが「OSC 送信不可」を示し、他タブ・メイン出力描画に波及しないことを検証する。
   - WebSocket 断時に CRUD が非活性化、OSC は UDP 特性で送信継続、復旧で再購読 + 再スナップショットが走ること、Volume メタデータ Request 失敗時に対象カメラだけがエラー表示になること、`camera/error` の操作単位局所化、範囲外入力の送信抑止を網羅する。
   - 観測可能な完了状態: FailureAggregator のカウントと Diagnostics Snapshot が期待通りで、いずれの失敗経路も例外を送出せず、メイン出力描画に影響しないこと（shell の targetDisplay=0 確認）を整合テストで確認できる。
