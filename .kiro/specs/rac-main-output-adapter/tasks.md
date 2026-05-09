@@ -168,7 +168,7 @@
 
 ## 5. Receivers（受信層）の実装
 
-- [ ] 5.1 `SlotAssignmentApplier` の実装
+- [x] 5.1 `SlotAssignmentApplier` の実装
   - `RegisterDynamic(slotId)` で `IOutputCommandDispatcher.RegisterStateHandler<SlotAssignmentPayload>(CharacterTopics.SlotAssignment(slotId))` を登録する。`UnregisterDynamic(slotId)` で Registration.Dispose。
   - 受信ハンドラで `AvatarKeyValidator.Validate(payload.AvatarKey)`（null は許容、空は拒否）。
   - `null` AvatarKey → `RemoveSlotAsync(slotId)` + `slot/{id}/status = Empty` publish。
@@ -182,7 +182,7 @@
   - _Boundary: Receivers/SlotAssignmentApplier_
   - _Depends: 3.1, 3.2, 3.3, 4.1, 4.2_
 
-- [ ] 5.2 `SlotSettingsApplier` の実装
+- [x] 5.2 `SlotSettingsApplier` の実装
   - `OnSchemaResolved(slotId, avatarKey, schema)` で当該 avatarKey の各 settingKey に対して `RegisterStateHandler<SlotSettingValuePayload>(CharacterTopics.SlotSettingValue(slotId, settingKey))` を動的登録する。
   - 受信ハンドラで `SlotManager.TryGetSlotResources(slotId, out source, out avatar)` を試行。`Active` であれば `SettingValueDecoder.Decode` → `IAvatarSettingsAdapter.Apply` を呼ぶ。
   - 非 Active（Empty / Assigning / Disposed）であれば `_pendingSettings[(slotId, avatarKey)][settingKey] = PendingSettingValue` に格納（key 単位 last-write-wins）。
@@ -195,7 +195,7 @@
   - _Boundary: Receivers/SlotSettingsApplier_
   - _Depends: 1.3, 3.1, 3.2, 3.3, 4.2, 5.1_
 
-- [ ] 5.3 `SlotCommandApplier` の実装
+- [x] 5.3 `SlotCommandApplier` の実装
   - `RegisterDynamic(slotId)` で `RegisterEventHandler<SlotCommandPayload>(CharacterTopics.SlotCommand(slotId))` を登録する。
   - `Kind == "Reset"` → `SlotManager.RemoveSlotAsync(slotId)` + `Empty` status publish。
   - `Kind == "Reload"` → `SlotAssignmentApplier.ReloadAsync(slotId)` を呼ぶ。Empty 状態なら no-op + 警告ログ。
@@ -207,7 +207,7 @@
   - _Boundary: Receivers/SlotCommandApplier_
   - _Depends: 3.1, 3.3, 4.2, 5.1_
 
-- [ ] 5.4 `AvatarSchemaResponder` の実装
+- [x] 5.4 `AvatarSchemaResponder` の実装
   - `RegisterDynamic(avatarKey)` で `RegisterRequestHandler<AvatarSchemaRequestPayload, AvatarSettingsSchemaPayload>(CharacterTopics.AvatarSchema(avatarKey))` を登録する。
   - 受信ハンドラで `Stopwatch.StartNew()` → `IAvatarSchemaProvider.Resolve(payload.AvatarKey)` を同期実行 → 経過時間計測。
   - null 結果 → 空配列の `AvatarSettingsSchemaPayload` を返却 + `SchemaProvider.Fallback(avatarKey)` ログ。
