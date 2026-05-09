@@ -11,7 +11,7 @@
   - 観測可能な完了状態: Unity プロジェクトで Compile が通り、`output-renderer-shell` と他タブ asmdef への参照が存在しない状態で Assembly Definition Inspector から確認できる。
   - _Requirements: 1.7, 13.1, 13.2, 13.5, 13.6_
 
-- [ ] 1.2 IPC トピック定数と Payload DTO の整備
+- [x] 1.2 IPC トピック定数と Payload DTO の整備
   - `CameraIpcTopics` を単一ソースとして定義し、`camera/command` / `cameras/list` / `cameras/active` / `camera/created` / `camera/error` / `camera/{id}/metadata/{key}` / `camera/{id}/volume/*` / `camera/preset/*` / `camera/preview/*` / `camera/{id}/preview/handle` のアドレスを string 定数として集約する。
   - `CameraCommandPayload` / `CamerasListPayload` / `CameraListEntry` / `CameraDefaultTransform` / `CameraCreatedEventPayload` / `CameraErrorEventPayload` / `VolumeCommandPayload` / `VolumeOverrideState` / `VolumeMetadataRequest` / `VolumeMetadataResponse` / `VolumeOverrideSchema` / `VolumeParamSchema` / `PresetCommandPayload` / `PresetListState` / `PresetActiveState` / `PreviewCommandPayload` / `PreviewHandleState` を Abstractions に readonly struct として実装する。
   - すべての DTO に対して System.Text.Json ラウンドトリップ単体テストを追加し、optional フィールド（null 相当）を含めて既定値挙動が破壊的でないことを確認する。
