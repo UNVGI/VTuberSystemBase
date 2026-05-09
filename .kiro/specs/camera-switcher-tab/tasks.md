@@ -63,7 +63,7 @@
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
   - _Boundary: Ucapi4UnityFlatRecordSerializer, UnityCameraSnapshotCapture_
 
-- [ ] 2.4 (P) uOSC ベースの OSC 送信 Adapter の実装
+- [x] 2.4 (P) uOSC ベースの OSC 送信 Adapter の実装
   - `OscAddressBuilder` で `/ucapi/camera/{cameraId}/flat` プレフィクス組立（プレフィクスは設定で上書き可能）を実装し、`UoscFlatRecordEmitter` が `uOscClient` を動的 GameObject に attach して `Send(address, blob)` を呼ぶ構造を整える。
   - `OscClientLifecycle` で host/port の設定ファイル読込 + デフォルトフォールバック（`127.0.0.1:57300`）、`StartAsync` / `StopAsync`、`uOscClient.onErrorInSend` のコールバックを `FailureAggregator` に橋渡しする。ポート占有・LibraryNotAvailable・SocketError を `OscFailureKind` に分類。
   - uOSC client と server を同プロセス内で立てるループバック統合テストで 138 byte blob がアドレス通りに受信できることを検証する。
