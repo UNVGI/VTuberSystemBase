@@ -283,7 +283,7 @@
 ---
 
 - [ ] 8. Validation: 自己ループ IPC・再接続・タブライフサイクル・プリセット完全サイクルの統合テストを整備する
-- [ ] 8.1 自己ループ IPC 統合テスト（`SelfLoopIpcTest`）を PlayMode で実装する
+- [x] 8.1 自己ループ IPC 統合テスト（`SelfLoopIpcTest`）を PlayMode で実装する
   - `core-ipc-foundation` の `InMemoryLoopbackTransport` を用いて、ViewModel の Command 送信 → 仮想メイン出力ハンドラ → state/event 応答 → ViewModel 反映の往復を検証する
   - 検証ケース: ステージ候補 UI の反映、ステージ切替 event 送信、Light 追加 event 送信 + `light/added` 反映、Light プロパティ state 送信、Light 削除 event 送信、Volume Override enabled 切替、Volume param state 送信
   - 観測可能完了: `SelfLoopIpcTest` が緑で通り、メイン出力側アダプタ未実装の段階でも本 spec の IPC 契約が全経路で閉じていることが保証される
@@ -291,7 +291,7 @@
   - _Requirements: 12.2, 12.5_
   - _Boundary: StageLightingVolumeTab.Tests.PlayMode.SelfLoop_
 
-- [ ] 8.2 プリセット完全サイクル統合テスト（`CompleteWorkflowTest` / `PresetApplyIntegrationTest`）を実装する
+- [x] 8.2 プリセット完全サイクル統合テスト（`CompleteWorkflowTest` / `PresetApplyIntegrationTest`）を実装する
   - プリセット作成 → Light 追加 → Volume 編集 → プリセット保存（デバウンス経過）→ アプリ再起動相当（新しい ViewModel + 新しい JsonPresetStorage.LoadAsync）→ 復元の完全サイクルを実行する
   - プリセット切替時の送信順序（Flow 3 固定順序）を検証し、一部 Command が失敗 event を返したときも継続することを確認する
   - ステージ未解決時の未選択化 + 警告バッジ動作を結合レベルで検証する
@@ -300,7 +300,7 @@
   - _Requirements: 7.4, 7.6, 7.7, 8.5, 8.8, 8.11, 12.5_
   - _Boundary: StageLightingVolumeTab.Tests.PlayMode.Workflow_
 
-- [ ] 8.3 再接続・タブライフサイクルの統合テスト（`ReconnectIntegrationTest` / `TabSwitchLifecycleTest`）を実装する
+- [x] 8.3 再接続・タブライフサイクルの統合テスト（`ReconnectIntegrationTest` / `TabSwitchLifecycleTest`）を実装する
   - `FakeConnectionStatus` を切断 → UI 非活性化を観測 → 復帰 → 全 state/event 再取得と再購読が走ることを検証する
   - プリロード → 初回アクティブ化 → 非アクティブ化 → 再アクティブ化 → Dispose のサイクルを繰り返し、購読リーク（`IUiSubscriptionClient` 登録数が増え続けない）・RT 参照リーク（`RenderTexture` が GC 可能）・永続化ファイルロック残存がないことを検証する
   - 観測可能完了: 両テストが緑で通り、Requirement 9.8 / 9.9 / 11.4 が結合レベルで担保される
@@ -308,7 +308,7 @@
   - _Requirements: 9.8, 9.9, 11.4, 12.5_
   - _Boundary: StageLightingVolumeTab.Tests.PlayMode.Lifecycle_
 
-- [ ] 8.4 不可用ステージ・IPC 切断中フェイルセーフ・引きカメラ非アクティブ停止の統合テストを実装する
+- [x] 8.4 不可用ステージ・IPC 切断中フェイルセーフ・引きカメラ非アクティブ停止の統合テストを実装する
   - 保存プリセットのステージ key が `stage/catalog` に無い場合、UI がステージ未選択 + 警告バッジ表示となり他 UI（Light, Volume, プレビュー）は動作継続することを検証する
   - IPC 切断中に全操作 UI が非活性化されること、メイン出力側（Display 2+）にエラー UI が描画されていないことを検証する
   - タブ非アクティブ化時に `preview/command`（`set-enabled:false`）が送信され、再アクティブ化時に `set-enabled:true` が送信されることを検証する
