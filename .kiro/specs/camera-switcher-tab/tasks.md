@@ -71,7 +71,7 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.7, 4.8, 4.9, 4.13, 10.1, 10.8_
   - _Boundary: UoscFlatRecordEmitter, OscClientLifecycle, OscAddressBuilder_
 
-- [ ] 2.5 (P) FileSystemPresetStore の実装
+- [x] 2.5 (P) FileSystemPresetStore の実装
   - `Application.persistentDataPath/camera-switcher-presets.json` を UTF-8 + 整形で読み書きし、atomic write（tmp → rename）、`schemaVersion: 1` 付与、破損検知時の `*.bak.{unixMs}` リネームを実装する。
   - `LoadAllAsync` は不在時に空の `PresetCollection`、破損時は `.bak` リネーム後に空コレクションを返す。`SaveAllAsync` は IOException 捕捉で `PresetIoFailureKind.WriteFailed` を返す。
   - 実ファイル I/O を伴う Tests.Runtime テストで「新規保存 → 再読込で完全一致」「意図的に破損した JSON → `.bak` 作成 + 空コレクション返却」「読取専用ディレクトリ → WriteFailed」を検証する。
