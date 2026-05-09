@@ -177,7 +177,7 @@
   - _Boundary: Volume/VolumeOverrideRegistry_
   - _Depends: 1.1_
 
-- [ ] 5.2 VolumeParameterKindResolver の実装
+- [x] 5.2 VolumeParameterKindResolver の実装
   - `VolumeParameterKindResolver` を実装し、`Resolve(Type volumeParameterType) → ParamKind` で `BoolParameter → Bool`, `IntParameter / NoInterpIntParameter / ClampedIntParameter / MinIntParameter / MaxIntParameter → Int`, `FloatParameter / ClampedFloatParameter / NoInterpFloatParameter / MinFloatParameter / MaxFloatParameter → Float (or ClampedFloat for Clamped*)`, `ColorParameter → Color`, `Vector2Parameter → Vector2`, `Vector3Parameter → Vector3`, `Vector4Parameter → Vector4`, `VolumeParameter<TEnum> where TEnum : Enum → Enum`, それ以外 → `Unknown`。
   - リフレクションで `Type.IsSubclassOf(typeof(VolumeParameter))` と `BaseType.GetGenericArguments()` を確認する。
   - 観測可能な完了条件: URP 主要 9 種（Bool/Int/ClampedInt/Float/ClampedFloat/Color/Vector2/Vector3/Vector4 のいずれかを field に持つ Bloom/Tonemapping/ColorAdjustments）の各 field を Resolve すると正しい `ParamKind` が返ることが緑になる。
