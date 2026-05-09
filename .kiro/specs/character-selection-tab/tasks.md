@@ -112,7 +112,7 @@
 
 ## 4. View Assets (UXML / USS)
 
-- [ ] 4.1 (P) キャラクタータブ Root UXML / USS の実装
+- [x] 4.1 (P) キャラクタータブ Root UXML / USS の実装
   - `CharacterTab.uxml` を作成し、プレイヤーカード領域・アバター候補領域・設定パネル領域・プリセットバー・診断領域を含むレイアウトを構築する。
   - `CharacterTab.uss` を作成し、`ui-toolkit-shell` の USS セレクタ命名規約（`vsb-` プレフィクス + BEM 風 `vsb-char-tab__*`）を遵守し、スキン差し替え経路（UI-3）から見た目を変更可能にする。
   - `ViewQueryHelpers.cs` を作成し、VisualElement Query の定型化ヘルパを提供する。
