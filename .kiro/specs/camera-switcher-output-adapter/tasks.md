@@ -271,7 +271,7 @@
   - _Depends: 4.4_
   - _Boundary: PlayModeLifecycleTests_
 
-- [ ] 5.5 配信適合性テスト（メイン出力に UI 描画なし）の追加
+- [x] 5.5 配信適合性テスト（メイン出力に UI 描画なし）の追加
   - `output-renderer-shell` の `MainOutputNoOverlayTests`（既存）の対象範囲を本 spec が追加する `Camera-cam-*` / `LocalVolume-*` / `CameraOscReceiverHost` GameObject に拡張するテストを Tests.Runtime に追加（`AssertNoOverlayOnMainDisplay`）。
   - `OnGUI` / `IMGUI` / `UIDocument` / `PanelSettings.targetDisplay >= 1` を持つコンポーネントが本 spec が生成した GameObject 階層配下に存在しないことを構造的に検証する（FindObjectsOfType + 各コンポーネントタイプの検出）。
   - 観測可能な完了状態: 本 spec のすべての生成オブジェクトが `targetDisplay = 0` 限定、または描画コンポーネント自体を持たないことを単体テストでグリーン化。
