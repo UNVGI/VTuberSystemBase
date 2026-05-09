@@ -145,7 +145,7 @@
 ---
 
 - [ ] 5. ViewModel（全 UI ロジック集約）を TDD で実装する
-- [ ] 5.1 `StageLightingVolumeTabViewModel` のライフサイクル（OnActivated / OnDeactivated / Dispose）と購読・Volume Schema 取得・プリセット読込の初期化順序を実装する
+- [x] 5.1 `StageLightingVolumeTabViewModel` のライフサイクル（OnActivated / OnDeactivated / Dispose）と購読・Volume Schema 取得・プリセット読込の初期化順序を実装する
   - `ViewModelActivationTests` を先に書き、初回 `OnActivated` で `LightListState.StartSubscribing`・`StageCatalogState.StartSubscribing`・`VolumeSchemaCache.FetchAsync`・`IPresetStorage.LoadAsync` が呼ばれ、`OnStateChanged` が発火し、`OnDeactivated` で購読解除が走ることを検証する
   - IPC 未接続時は Command 送信が `SendError.NotConnected` を返す前提で、`OnActivated` は購読登録のみ行い、接続確立（`IConnectionStatus.OnStatusChanged`）後に Schema Fetch + プリセット復元を開始する分岐を実装する
   - `Dispose` で `JsonPresetStorage.FlushAsync()` が 200 ms タイムアウト付きで呼ばれ、超過時は警告ログのみで進めることを検証する
@@ -153,14 +153,14 @@
   - _Requirements: 1.5, 1.6, 3.1, 4.1, 6.1, 8.4, 8.5, 11.3_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.Lifecycle_
 
-- [ ] 5.2 Stage 操作系 Command（`SwitchStage` / `UnloadStage`）と Stage 進行中表示・重複抑止・失敗時状態維持を実装する
+- [x] 5.2 Stage 操作系 Command（`SwitchStage` / `UnloadStage`）と Stage 進行中表示・重複抑止・失敗時状態維持を実装する
   - `ViewModelStageTests` を先に書き、`SwitchStage(key)` で `stage/command`（`op=load`, `AddressableKey=key`）event が送信されること、待機中は `IsSwitchingStage = true` となり重複要求が抑止されること、`stage/loaded` 受信で解除されること、`stage/load-failed` 受信で直前のステージ状態が維持され `OnOperationWarning` が発火することを検証する
   - `UnloadStage` は `stage/command`（`op=unload`）event を送信する
   - 観測可能完了: Flow 3 のステージ切替経路の単体動作と、失敗時の縮退動作が ViewModel テストで検証済み
   - _Requirements: 3.4, 3.5, 3.7, 3.8, 3.11, 9.2_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.Stage_
 
-- [ ] 5.3 Light 操作系 Command（`AddLight` / `RemoveLight` / `SelectLight` / `UpdateLightProperty` / `SetLightPropertyDragging`）と 5 秒タイムアウト・連打抑止・プロパティ単位購読を実装する
+- [x] 5.3 Light 操作系 Command（`AddLight` / `RemoveLight` / `SelectLight` / `UpdateLightProperty` / `SetLightPropertyDragging`）と 5 秒タイムアウト・連打抑止・プロパティ単位購読を実装する
   - `ViewModelLightTests` を先に書き、`AddLight(initial)` で `light/command`（`op=add`）event が送信され、「追加中」プレースホルダ状態となること、`light/added` 受信で lightId が確定し `light/{lightId}/*` 購読が追加されること、`FakeClock` で 5 秒進めたときタイムアウト警告が発火すること、`RemoveLight(lightId)` で `light/command`（`op=remove`）event + 該当プロパティ購読解除が走ることを検証する
   - `UpdateLightProperty(lightId, property, value)` はバリデータを通過した値のみ `light/{lightId}/{property}` へ `PublishState` し、範囲外は `OnValidationError` 発火 + 送信抑止となることを検証する
   - `SetLightPropertyDragging(lightId, property, true)` 中は該当トピックの受信 state を保持し、false 後にまとめて反映する（操作中逆流抑止）
@@ -168,14 +168,14 @@
   - _Requirements: 4.3, 4.4, 4.5, 4.6, 4.7, 4.10, 5.1, 5.2, 5.3, 5.4, 5.7, 5.8, 5.11_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.Light_
 
-- [ ] 5.4 Volume 操作系 Command（`SetVolumeOverrideEnabled` / `UpdateVolumeOverrideParam` / `RetryVolumeSchemaFetch`）とスキーマ再試行・逆流追従を実装する
+- [x] 5.4 Volume 操作系 Command（`SetVolumeOverrideEnabled` / `UpdateVolumeOverrideParam` / `RetryVolumeSchemaFetch`）とスキーマ再試行・逆流追従を実装する
   - `ViewModelVolumeTests` を先に書き、`SetVolumeOverrideEnabled(typeFullName, true)` で `volume/override/{typeFullName}/enabled` へ `PublishState(true)` が送信されること、`UpdateVolumeOverrideParam(typeFullName, paramName, value)` でバリデータ通過後に `volume/override/{typeFullName}/{paramName}` へ `PublishState` が走ること、範囲外は送信抑止 + `OnValidationError` 発火となることを検証する
   - `RetryVolumeSchemaFetch` が `VolumeSchemaCache.FetchAsync` 再試行を呼ぶこと、タイムアウト時は `OnOperationWarning` 発火を検証する
   - 観測可能完了: Volume Override 編集の全 Command が ViewModel 単体で駆動でき、スキーマ欠落時のエラー UI 経路もテスト済み
   - _Requirements: 6.1, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.Volume_
 
-- [ ] 5.5 プリセット CRUD（Create / Rename / Duplicate / Delete / Activate）と重複名バリデーション、デバウンス保存結線を実装する
+- [x] 5.5 プリセット CRUD（Create / Rename / Duplicate / Delete / Activate）と重複名バリデーション、デバウンス保存結線を実装する
   - `ViewModelPresetCrudTests` を先に書き、`CreatePreset(name)` で空名拒否・重複名拒否（`PresetOpError.DuplicateName`）・成功時に `Presets` コレクション更新 + `DebounceFlusher.Schedule` 呼び出しを検証する
   - `RenamePreset` / `DuplicatePreset` / `DeletePreset` / `ActivatePreset` の各分岐を検証する（`DeletePreset` でアクティブが消えた場合は `ActivePresetName = null` に戻す）
   - プリセット CRUD が発生するたびに `DebounceFlusher.Schedule(() => JsonPresetStorage.FlushAsync(...))` が呼ばれ、`FakeClock` を 500 ms 進めると実際に保存が走ることを検証する
@@ -183,7 +183,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.5, 7.9, 8.3_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.Preset_
 
-- [ ] 5.6 プリセット切替オーケストレーション（Flow 3 のセマンティクス）と部分失敗継続、逆流抑止、プレビュー非阻害を実装する
+- [x] 5.6 プリセット切替オーケストレーション（Flow 3 のセマンティクス）と部分失敗継続、逆流抑止、プレビュー非阻害を実装する
   - `ViewModelPresetSwitchTests` を先に書き、`ActivatePreset(targetName)` の実行中に以下の固定順序で Command が送信されることを検証する:
     1. 既存有効な Volume Override を `enabled=false` で無効化
     2. ステージを `stage/command`（`op=load` または `op=unload`）で切替
@@ -197,14 +197,14 @@
   - _Requirements: 7.4, 7.6, 7.7, 7.8_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.PresetSwitch_
 
-- [ ] 5.7 プリセット復元（起動時）・破損フォールバック・ステージ未解決時の未選択化を実装する
+- [x] 5.7 プリセット復元（起動時）・破損フォールバック・ステージ未解決時の未選択化を実装する
   - `ViewModelPresetRestoreTests` を先に書き、`IPresetStorage.LoadAsync` がプリセットを返した場合に `ActivatePreset` のセマンティクスで復元送信されること、`StageAddressableKey` が `stage/catalog` に存在しない場合は未選択化 + `OnOperationWarning("stage_unresolved")` 発火となること、破損ファイル時は `.corrupted-{unixMs}` リネーム後に初回起動扱いにフォールバックすることを検証する
   - 復元中の部分失敗（Light 追加タイムアウト等）は Flow 3 と同じ戦略で個別警告 + 継続する
   - 観測可能完了: 破損ファイル・ステージ欠落・初回起動の全経路が ViewModel テストで駆動でき、Requirement 8.5〜8.11 が満たされる
   - _Requirements: 8.5, 8.6, 8.7, 8.8, 8.11, 9.1_
   - _Boundary: StageLightingVolumeTab.Runtime.ViewModel.PresetRestore_
 
-- [ ] 5.8 IPC 切断・接続回復・送信エラーのフェイルセーフを実装する
+- [x] 5.8 IPC 切断・接続回復・送信エラーのフェイルセーフを実装する
   - `ViewModelConnectionTests` を先に書き、`IConnectionStatus.IsConnected = false` の間は Command メソッドが `OnOperationWarning("ipc_disconnected")` 発火 + 早期リターンし、UI 側で操作 UI を非活性化できる状態（`IsConnected` プロパティ公開）となることを検証する
   - 接続回復時に `StageCatalogState` / `LightListState` / `VolumeSchemaCache` の再取得 + 全 Volume Override enabled トピックの再購読が走ることを検証する
   - 送信エラー（`SendResult.Error` の `NotConnected` / `PayloadTooLarge` / `InternalError`）は診断ログに記録され、UI クラッシュは発生しないことを検証する
