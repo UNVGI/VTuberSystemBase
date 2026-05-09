@@ -121,7 +121,7 @@
 
 ## 4. Light Domain
 
-- [ ] 4.1 LightTypeMapper の実装
+- [x] 4.1 LightTypeMapper の実装
   - `LightTypeMapper` を実装し、`ToUnity(LightTypeDto)` / `ToDto(UnityEngine.LightType)` の双方向マッピング（Directional/Point/Spot/Area）を提供する。
   - 観測可能な完了条件: 4 種すべてでラウンドトリップが一致するテストが緑になる。
   - _Requirements: 4.6_
