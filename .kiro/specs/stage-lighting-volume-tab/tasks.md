@@ -9,7 +9,7 @@
 
 ---
 
-- [ ] 1. Foundation: UPM パッケージ骨格と 2 asmdef 分割、テスト基盤、モック基盤の整備
+- [x] 1. Foundation: UPM パッケージ骨格と 2 asmdef 分割、テスト基盤、モック基盤の整備
 - [x] 1.1 UPM パッケージ骨格と 2 つの Runtime asmdef（Contracts / Runtime）を作成する
   - `Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-tab/` 配下に `package.json` を作成し、依存として `core-ipc-foundation`・`ui-toolkit-shell`・Unity UIElements・URP・System.Text.Json・SceneViewStyleCameraController を宣言する
   - `Runtime/Contracts/VTuberSystemBase.StageLightingVolumeTab.Contracts.asmdef` を追加し、Unity 標準型のみ参照可能な純 DTO 層として閉じる（`core-ipc-foundation.Core` 等の具体実装 asmdef への参照を禁止）
@@ -34,7 +34,7 @@
 
 ---
 
-- [ ] 2. IPC コントラクト層（Contracts asmdef）の DTO と Preview Locator を TDD で確定する
+- [x] 2. IPC コントラクト層（Contracts asmdef）の DTO と Preview Locator を TDD で確定する
 - [x] 2.1 (P) Light 系 DTO（`LightInitialDto` / `LightListItemDto` / `LightListDto` / `LightCommandDto` / `LightAddedDto` / `LightErrorDto`）を JSON ラウンドトリップ検証付きで実装する
   - Contracts 層に 6 つの record struct を追加する（`Intensity >= 0`、`Range >= 0`、`SpotAngle` 1〜179 等の前提コメントを明記）
   - `LightDtosJsonRoundtripTests` を先に書き、`System.Text.Json` でシリアライズ → デシリアライズ後に値が一致することを検証する
@@ -76,7 +76,7 @@
 
 ---
 
-- [ ] 3. Runtime Services 層（永続化・デバウンス・購読状態・キャッシュ・バリデーション）を TDD で実装する
+- [x] 3. Runtime Services 層（永続化・デバウンス・購読状態・キャッシュ・バリデーション）を TDD で実装する
 - [x] 3.1 `IPresetStorage` と `JsonPresetStorage` を atomic write・破損フォールバックを含めて実装する
   - 先に `JsonPresetStorageTests` を書き、保存 → 読込往復、初回起動時のファイル不在、書込中プロセスキル相当（temp ファイル残骸）、`.corrupted-{unixMs}` へのリネームによる破損フォールバック、`SemaphoreSlim` による並列書込直列化を検証する
   - 実装: `SaveAsync` は `tmp.json` への書込 → `File.Move(overwrite:true)` で atomic に差し替え、失敗時は `SaveResult.IOError` を返す
@@ -118,7 +118,7 @@
 
 ---
 
-- [ ] 4. Preview 層（RT アクセサ、カメラアダプタ、パネルコントローラ）を TDD で実装する
+- [x] 4. Preview 層（RT アクセサ、カメラアダプタ、パネルコントローラ）を TDD で実装する
 - [x] 4.1 `IPreviewRenderTextureAccessor` と `PreviewRenderTextureAccessor`（`StagePreviewHostLocator` 経由）を実装する
   - `PreviewRenderTextureAccessorTests` で Locator に `IPreviewHostService` を登録 → `TryGet` が RT 参照を返す、`Unregister` 後は null を返す、`RenderTextureChanged` イベント購読で RT 差替を検知できることを検証する
   - 実装: Accessor は Locator のイベントを透過し、ライフサイクルで `IsReady` を提供する
@@ -144,7 +144,7 @@
 
 ---
 
-- [ ] 5. ViewModel（全 UI ロジック集約）を TDD で実装する
+- [x] 5. ViewModel（全 UI ロジック集約）を TDD で実装する
 - [x] 5.1 `StageLightingVolumeTabViewModel` のライフサイクル（OnActivated / OnDeactivated / Dispose）と購読・Volume Schema 取得・プリセット読込の初期化順序を実装する
   - `ViewModelActivationTests` を先に書き、初回 `OnActivated` で `LightListState.StartSubscribing`・`StageCatalogState.StartSubscribing`・`VolumeSchemaCache.FetchAsync`・`IPresetStorage.LoadAsync` が呼ばれ、`OnStateChanged` が発火し、`OnDeactivated` で購読解除が走ることを検証する
   - IPC 未接続時は Command 送信が `SendError.NotConnected` を返す前提で、`OnActivated` は購読登録のみ行い、接続確立（`IConnectionStatus.OnStatusChanged`）後に Schema Fetch + プリセット復元を開始する分岐を実装する
@@ -214,7 +214,7 @@
 
 ---
 
-- [ ] 6. View（UXML / USS / セクション View / 動的ファクトリ）を UI コンポーネント活用で実装する
+- [x] 6. View（UXML / USS / セクション View / 動的ファクトリ）を UI コンポーネント活用で実装する
 - [x] 6.1 タブルート UXML / USS と `StageLightingVolumeTabPanel`（VisualElement ハンドル取得）を実装する
   - `Runtime.Uxml/StageLightingVolumeTab.uxml` を作成し、プレビューパネル・プリセットセクション・ステージ選択セクション・Light 一覧＋編集セクション・Volume Override セクションのコンテナを配置する
   - `Runtime.Uxml/StageLightingVolumeTab.uss` を作成し、`vsb-slv-` プレフィクス + BEM で USS セレクタを定義する（スキン差替 UI-3 対応）
@@ -260,7 +260,7 @@
 
 ---
 
-- [ ] 7. Integration: Bootstrapper によるタブ統合・ライフサイクル結線・エディタ検証を実装する
+- [x] 7. Integration: Bootstrapper によるタブ統合・ライフサイクル結線・エディタ検証を実装する
 - [x] 7.1 `StageLightingVolumeTabBootstrapper` で `RegisterTab`・DI 構築・Lifecycle 結線・Dispose 時 Flush を実装する
   - `ITabPanelRegistry.RegisterTab(TabId.StageLighting, metadata)` を起動時に呼び、返却された `ITabLifecycleHandle` の `OnActivated` / `OnDeactivated` / `OnDisposed` に ViewModel / PreviewController / JsonPresetStorage.Flush を結線する
   - DI 注入は コンストラクタで `IUiCommandClient` / `IUiSubscriptionClient` / `IAsyncAssetLoader` / `IConnectionStatus` / `IDiagnosticsLogger` / `IPresetStorage` / `IPreviewRenderTextureAccessor` / `IPreviewCameraAdapter` / `IClock` / `UIDocument` を受け取る
@@ -282,7 +282,7 @@
 
 ---
 
-- [ ] 8. Validation: 自己ループ IPC・再接続・タブライフサイクル・プリセット完全サイクルの統合テストを整備する
+- [x] 8. Validation: 自己ループ IPC・再接続・タブライフサイクル・プリセット完全サイクルの統合テストを整備する
 - [x] 8.1 自己ループ IPC 統合テスト（`SelfLoopIpcTest`）を PlayMode で実装する
   - `core-ipc-foundation` の `InMemoryLoopbackTransport` を用いて、ViewModel の Command 送信 → 仮想メイン出力ハンドラ → state/event 応答 → ViewModel 反映の往復を検証する
   - 検証ケース: ステージ候補 UI の反映、ステージ切替 event 送信、Light 追加 event 送信 + `light/added` 反映、Light プロパティ state 送信、Light 削除 event 送信、Volume Override enabled 切替、Volume param state 送信
