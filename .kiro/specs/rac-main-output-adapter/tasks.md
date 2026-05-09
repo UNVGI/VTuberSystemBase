@@ -31,7 +31,7 @@
   - _Boundary: Domain/SlotStateMapper, Domain/SlotErrorCodeMapper, Domain/SettingValueDecoder, Domain/AvatarKeyValidator_
   - _Depends: 1.2_
 
-- [ ] 1.4 ログカテゴリ定数と Diagnostics スナップショット型の定義
+- [x] 1.4 ログカテゴリ定数と Diagnostics スナップショット型の定義
   - `AdapterLogCategories.cs` を実装し、`Bootstrap` / `Assignment` / `Settings` / `Command` / `SchemaProvider` / `Catalog` / `Error` / `Lifecycle` の文字列定数を公開する。
   - `RacAdapterDiagnosticsSnapshot.cs`（record struct）を design.md のフィールド構成で実装する。
   - `IRacMainOutputAdapterDiagnostics.cs`（`Capture()` のみ）を定義する。
