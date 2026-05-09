@@ -195,7 +195,7 @@
   - _Depends: 4.1, 4.2_
   - _Boundary: FailsafeTests_
 
-- [ ] 4.4 プリセット永続化統合テストと送信順序検証
+- [x] 4.4 プリセット永続化統合テストと送信順序検証
   - `FileSystemPresetStore` 実体を使った round-trip（Create → 500 ms 待機 → 保存 → 再読込で一致）、破損 JSON → `.bak` リネーム → 初回起動扱い、書込失敗 → 次回変更で再試行、`Application.quitting` 相当での強制フラッシュを検証する。
   - プリセット切替時の送信順序が **delete → add → metadata → volume → active-set** であることを FakeIpcClient の送信ログで確定、`camera/created` の clientRequestId マッピングで論理 ID → 新 cameraId 差替え、切替中直列化（2 回連続切替の後続が前者完了を待つこと）を確認する。
   - 観測可能な完了状態: 上記シナリオがすべてグリーンで、実ファイル I/O のテストが teardown で persistentDataPath 配下の生成ファイルを除去する。
