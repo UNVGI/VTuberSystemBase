@@ -94,7 +94,7 @@
   - _Boundary: Stage/StageCatalogBuilder_
   - _Depends: 3.1, 1.4_
 
-- [ ] 3.3 ActiveStageState の実装
+- [x] 3.3 ActiveStageState の実装
   - `ActiveStageState` クラスを実装し、`CurrentStage : GameObject?` / `CurrentAddressableKey : string?` / `IsLoading : bool` を private set + public get で公開する。
   - `SetLoading(bool)`, `SetActive(GameObject stage, string key)`, `Clear()` を提供。
   - 観測可能な完了条件: 各遷移後のプロパティ値がテストで検証できる。
