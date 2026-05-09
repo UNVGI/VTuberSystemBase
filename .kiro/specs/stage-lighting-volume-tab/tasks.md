@@ -77,7 +77,7 @@
 ---
 
 - [ ] 3. Runtime Services 層（永続化・デバウンス・購読状態・キャッシュ・バリデーション）を TDD で実装する
-- [ ] 3.1 `IPresetStorage` と `JsonPresetStorage` を atomic write・破損フォールバックを含めて実装する
+- [x] 3.1 `IPresetStorage` と `JsonPresetStorage` を atomic write・破損フォールバックを含めて実装する
   - 先に `JsonPresetStorageTests` を書き、保存 → 読込往復、初回起動時のファイル不在、書込中プロセスキル相当（temp ファイル残骸）、`.corrupted-{unixMs}` へのリネームによる破損フォールバック、`SemaphoreSlim` による並列書込直列化を検証する
   - 実装: `SaveAsync` は `tmp.json` への書込 → `File.Move(overwrite:true)` で atomic に差し替え、失敗時は `SaveResult.IOError` を返す
   - `LoadAsync` はファイル不在なら `PresetLoadResult.Success=true, Data=null`、パース失敗なら破損ファイルをリネームして初回起動扱いにする
