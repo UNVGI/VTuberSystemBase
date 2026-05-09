@@ -223,7 +223,7 @@
 
 ## 5. Validation: 統合・フェイルセーフ・手動検証
 
-- [ ] 5.1 (P) OSC ループバック統合テスト（1000 件 / 60Hz）
+- [x] 5.1 (P) OSC ループバック統合テスト（1000 件 / 60Hz）
   - Tests.Runtime に `OscLoopbackIntegrationTests`（PlayMode）を追加：
     - 同プロセス内で `uOSC.uOscClient` を `127.0.0.1:9000` 向けに用意し、`UcApi4UnityCamera.SerializeFromCamera` で生成した本物の Flat Record blob を `/ucapi/camera/cam-0001/flat` に対して 1 秒間 60 fps × 60 秒（合計 3600 件、損失検出のため少なくとも 1000 件以上）送信。
     - 本 spec 側で `Bootstrapper` を起動し、`camera/command add` を IPC 経由で 1 台 add → 採番された cameraId で OSC 送信し、Camera transform が更新されることを検証。
