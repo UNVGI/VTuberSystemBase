@@ -128,7 +128,7 @@
   - _Boundary: Lights/LightTypeMapper_
   - _Depends: 1.3_
 
-- [ ] 4.2 LightRegistry の実装
+- [x] 4.2 LightRegistry の実装
   - `LightRegistry` を実装し、`Dictionary<string, LightEntry>` を内部に持ち、`TryGet(lightId, out entry)` / `Add(lightId, entry)` / `Remove(lightId)` / `ToListDto()` / `AllLightIds` / `Clear()` を提供する。
   - `ToListDto()` は安定順序（lightId 採番順 = 追加順）で `LightListItemDto` 配列を返す。
   - `Remove` 時は `LightEntry.PropertyHandlers` の全 `IDisposable` を Dispose する責務は呼び出し元（`LightHandler`）に委ねる（Registry 自身は GameObject 破棄も行わない、純データ構造）。
