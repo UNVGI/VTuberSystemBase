@@ -99,7 +99,7 @@
   - _Depends: 2.5_
   - _Boundary: VolumeParameterValueWriter_
 
-- [ ] 2.7 ReflectionVolumeOverrideSchemaResolver の実装
+- [x] 2.7 ReflectionVolumeOverrideSchemaResolver の実装
   - `ReflectionVolumeOverrideSchemaResolver.GetSchema()` で URP の `UnityEngine.Rendering.VolumeManager.instance.baseComponentTypeArray` から `VolumeComponent` 派生型を列挙する。
   - 各型について `VolumeOverrideSchema { Type=t.Name, DisplayName=VolumeComponentMenuAttribute.menu ?? t.Name, Params }` を構築。
   - 各型の public フィールドを Reflection で取得し、`VolumeParameter` 派生型のフィールドのみを残す。フィールドごとに `VolumeParamSchema { Name, TypeTag, Min, Max, Default, DisplayName, Unit, EnumValues }` を生成：
