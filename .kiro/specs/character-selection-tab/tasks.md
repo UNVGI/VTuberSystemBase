@@ -35,7 +35,7 @@
 
 ## 2. Core State & Services
 
-- [ ] 2.1 CharacterTabStateStore と状態スコープ通知の実装
+- [x] 2.1 CharacterTabStateStore と状態スコープ通知の実装
   - `ICharacterTabStateStore` と具象クラスを実装し、`ApplySlotCatalog` / `ApplyAvatarCatalog` / `ApplyAssignment` / `ApplyStatus` / `ApplySettingValue(isFromRemote)` / `ApplyError` / `TryBeginInFlight` / `EndInFlight` / `SetActivePreset` / `SetConnectionStatus` を提供する。
   - Slot ID 昇順での表示順安定化、未知 `slotId` への Apply は警告ログ + 無視、同一 Slot への重複 InFlight は `TryBeginInFlight=false` で拒否する挙動を実装する。
   - `OnChanged(StateChangeScope)` を必要最小スコープのみで発火、メインスレッド専有契約（ワーカー書込は `InvalidOperationException`）を enforce する。
