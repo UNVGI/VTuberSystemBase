@@ -115,7 +115,7 @@
   - _Depends: 2.1_
   - _Boundary: PreviewSubscriptionController_
 
-- [ ] 2.10 CameraSwitcherCoordinator 状態機械の実装
+- [x] 2.10 CameraSwitcherCoordinator 状態機械の実装
   - Coordinator に `TabStatus { Initializing / ConnectionPending / Ready / Suspended / Disposing }` と、全 port への委譲、`IConnectionStatus` 観察（Disconnected ↔ Connected 時の再購読 + CRUD 非活性化）、`camera/error` の FailureAggregator 転送、`OnTabActivated/Deactivated/Dispose` 経路を実装する。
   - UI 起点 API（RequestAddCamera / RequestDeleteCamera / ActivateCamera / SelectEditTarget / UpdateCameraMetadata / AddVolumeOverride / RemoveVolumeOverride / SetVolumeOverrideEnabled / SetVolumeOverrideParam / SetVolumeEnabled / CreatePreset 等）を同期受付 + 非同期送信ディスパッチで実装し、例外を送出しない（失敗は FailureAggregator 経由）。
   - clientRequestId (GUID) 採番と TimeoutTracker Arm、`camera/created` 受信での Cancel + Registry upsert、タイムアウト時のプレースホルダ `Failed` 遷移、0 台時の活性化抑止ヒント状態、切替進行中表示の直列化を単体テストで検証する。
