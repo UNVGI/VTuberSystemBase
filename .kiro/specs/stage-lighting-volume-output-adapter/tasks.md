@@ -242,7 +242,7 @@
 
 ## 6. Preview Domain
 
-- [ ] 6.1 PreviewRenderTextureFactory の実装
+- [x] 6.1 PreviewRenderTextureFactory の実装
   - `PreviewRenderTextureFactory.Create(int width = 1280, int height = 720, RenderTextureFormat format = RenderTextureFormat.ARGB32)` で `RenderTexture` を新規生成し、`name = "PreviewRT"` 設定、`Create()` 呼出で GPU メモリ確保まで行う。
   - `Release(RenderTexture? rt)` で `rt.Release()` + `Object.Destroy(rt)` を null 安全に実行する。
   - 観測可能な完了条件: PlayMode で Create 後 `IsCreated() == true` / Release 後 nullable 化が確認できる。
