@@ -353,7 +353,7 @@
 
 ## 9. 単体検証と回帰テスト
 
-- [ ] 9.1 EditMode 統合テスト：Stage / Light / Volume / Preview のラウンドトリップ
+- [x] 9.1 EditMode 統合テスト：Stage / Light / Volume / Preview のラウンドトリップ
   - `FakeOutputCommandDispatcher` + `FakeOutputSceneRoots` + `FakeInstantiationProvider` を組み合わせて以下のシナリオを 1 セッションで検証する EditMode 統合テストを実装する：
     1. Bootstrapper Start → 各 Handler の登録ハンドラ数を `Diagnostics.RegisteredHandlerCount` で確認
     2. `EmitState(stage/active, new StageCommandDto("load", "TestStage"))` → `FakeInstantiationProvider` で成功応答 → `PublishedStates` に `stage/current` が含まれることを確認
