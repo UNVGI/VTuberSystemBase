@@ -221,7 +221,7 @@
 
 ## 6. Composition Root と Lifecycle 統合
 
-- [ ] 6.1 `RacMainOutputAdapterBootstrapper` の実装
+- [x] 6.1 `RacMainOutputAdapterBootstrapper` の実装
   - コンストラクタで `RacMainOutputAdapterConfig` を受け取り、`OverrideServices(...)` で 8 つの依存（Dispatcher / SceneRoots / KeyResolver / SchemaProvider / SettingsAdapter / MoCapFactory / Clock / Logger）を任意差し替え可能にする。
   - `Initialize()` で順序固定 Step を実行する：
     1. 拡張点が未注入なら既定実装（`AddressablesAvatarKeyResolver` / `AddressablesAvatarSchemaProvider` / `NoOpAvatarSettingsAdapter` / `StubMoCapSourceConfigFactory` / `DefaultClock`）を採用。
@@ -241,7 +241,7 @@
   - _Boundary: Bootstrapper/RacMainOutputAdapterBootstrapper_
   - _Depends: 4.1, 4.2, 4.3, 4.4, 5.1, 5.2, 5.3, 5.4, 1.4, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 6.2 `RacMainOutputAdapterHost` MonoBehaviour と PlayMode ライフサイクル結線
+- [x] 6.2 `RacMainOutputAdapterHost` MonoBehaviour と PlayMode ライフサイクル結線
   - シーンに 1 つ配置する `MonoBehaviour` ホストを実装し、`Awake` で `RacMainOutputAdapterBootstrapper` を生成、`Start` で `Initialize`（`OutputSceneBootstrapper.Start` が完了していることを `[DefaultExecutionOrder(100)]` で保証）、`OnDestroy` で `Shutdown`。
   - SerializeField で `OutputSceneBootstrapper` 参照を持ち、`IOutputCommandDispatcher` / `IOutputSceneRoots` を取得する経路を明示する（`OutputSceneBootstrapper` が公開する getter を経由）。
   - `Application.isPlaying` ガードで Edit モードでは Awake で何もしない（D-9）。
@@ -254,7 +254,7 @@
 
 ## 7. Diagnostics と Observability
 
-- [ ] 7.1 `RacMainOutputAdapterDiagnostics` の実装
+- [x] 7.1 `RacMainOutputAdapterDiagnostics` の実装
   - `IRacMainOutputAdapterDiagnostics.Capture()` を実装し、`SlotManager.GetSlots()` / `SlotErrorTranslator` の最終エラー記録 / `IAvatarKeyResolver.AvatarKeys.Count` / Bootstrapper の `PhaseName` を集約して `RacAdapterDiagnosticsSnapshot` を返す。
   - `RegisteredHandlerCount` は本 spec 内で動的登録した Registration 数（catalog の動的増減を反映）。
   - スレッドセーフ（volatile or lock）で任意スレッドから取得可能にする。
@@ -263,7 +263,7 @@
   - _Boundary: Diagnostics/RacMainOutputAdapterDiagnostics_
   - _Depends: 6.1_
 
-- [ ] 7.2 ログ出力の整備とログレベル切替
+- [x] 7.2 ログ出力の整備とログレベル切替
   - design.md §System Flows の各ステップで `IDiagnosticsLogger` 経由でログを出力する（`Bootstrap.Init.Start/Complete/Failed` / `Assignment.Receive(slotId, avatarKey)` / `Settings.Apply(slotId, key, type, result)` / `Command.Receive(slotId, kind)` / `SchemaProvider.{Slow|Fallback|Failed}` / `Catalog.Publish(topic, count)` / `Error.Publish(slotId, errorCode)` / `Lifecycle.{Start|Shutdown}`）。
   - ログレベルは `IDiagnosticsLogger` の設定経由で外部から切替可能にする（`character-selection-tab` Requirement 9 第 8 項と整合）。
   - メイン出力サーフェス（`OnGUI` / `IMGUI` / `UIDocument` 経由）には一切描画しないことを構造的に保証（asmdef レベルでこれら API を使わないコードレビュー方針）。
@@ -274,7 +274,7 @@
 
 ## 8. Integration Tests と PlayMode 検証
 
-- [ ] 8.1 Integration テスト: assignment ラウンドトリップ
+- [x] 8.1 Integration テスト: assignment ラウンドトリップ
   - `InMemoryDispatcher` + RAC 実 `SlotManager`（`InMemoryProviderRegistry` + `StubAvatarProvider`）で次のシナリオを統合テストする：
     1. `slot/A1/assignment {AvatarKey:"miku"}` Emit → SlotManager に `A1` Slot 追加 → `slot/A1/status = Assigning → Assigned` の 2 件記録 + `slots/catalog` に `A1` を含むエントリが publish される。
     2. `slot/A1/assignment {AvatarKey:"rin"}` Emit → Remove → Add 直列 → 最終 `Assigned` で `rin` が反映される。
@@ -331,7 +331,7 @@
 
 ## 9. Package Boundary 検証
 
-- [ ] 9.1 asmdef 参照禁止リスト検証
+- [x] 9.1 asmdef 参照禁止リスト検証
   - `Tests/Editor/PackageBoundaryTests.cs` を実装し、Runtime asmdef の `references` に **禁止リスト**（`character-selection-tab` Runtime / 他タブ Runtime / 他出力アダプタ Runtime / `core-ipc-foundation` 具体実装 / `ui-toolkit-shell` Runtime）が含まれないことを Assembly-CSharp テストで検証する。
   - `RealtimeAvatarController.Core` 以外の RAC asmdef（`RealtimeAvatarController.Avatar.Builtin` 等）への直接参照も禁止し、利用者プロジェクト経由でのみアクセスする方針を確認する。
   - 観測可能な完了条件: 禁止リスト違反を意図的に追加すると `[Test]` が失敗することを手動で確認し、現状は緑色で通る。
@@ -339,7 +339,7 @@
   - _Boundary: Tests/Editor/PackageBoundaryTests_
   - _Depends: 1.1_
 
-- [ ] 9.2 README とパッケージドキュメントの整備
+- [x] 9.2 README とパッケージドキュメントの整備
   - パッケージ README を作成し、目的 / 依存関係 / `OverrideServices` の使用例 / 拡張点（`IAvatarKeyResolver` / `IAvatarSchemaProvider` / `IAvatarSettingsAdapter` / `IMoCapSourceConfigFactory`）の差し替え方 / Addressables 規約（`{avatarKey}` Prefab、`{avatarKey}.schema` ScriptableObject）/ 既知の制約（VMC 受信は別パッケージ）を記載する。
   - サンプル `RacAdapterPlayModeSample` への参照リンクを README に含める。
   - 観測可能な完了条件: README が他開発者に対して本 spec の利用方法と差し替え点を 1 ドキュメントで提示できる。
