@@ -185,7 +185,7 @@
   - _Boundary: Volume/VolumeParameterKindResolver_
   - _Depends: 1.1_
 
-- [ ] 5.3 VolumeOverrideMetadataBuilder の実装
+- [x] 5.3 VolumeOverrideMetadataBuilder の実装
   - `VolumeOverrideMetadataBuilder` を実装し、`Build(IReadOnlyList<Type> volumeComponentTypes)` で各型について以下を構築：
     - `TypeFullName = type.FullName`
     - `DisplayName`：`[VolumeComponentMenu]` 属性があれば末尾セグメント（`/` 区切り）を採用、無ければ型短名
