@@ -152,7 +152,7 @@
   - _Boundary: Lights/LightPropertyApplier_
   - _Depends: 1.3, 1.4, 4.1, 4.2_
 
-- [ ] 4.4 LightHandler の実装
+- [x] 4.4 LightHandler の実装
   - `LightHandler` を実装し、コンストラクタで `IOutputCommandDispatcher`, `IOutputSceneRoots`, `AdapterErrorReporter`, `AdapterLogger`, `StageLightingVolumeOutputAdapterDiagnostics` を受け取る。
   - `Start()` で以下を実行：
     1. `RegisterEventHandler<LightCommandDto>(StageLightingTopics.LightCommand, OnLightCommand)` 登録
