@@ -301,7 +301,7 @@
 
 ## 7. Composition Root と起動統合
 
-- [ ] 7.1 StageLightingVolumeOutputAdapterBootstrapper の実装
+- [x] 7.1 StageLightingVolumeOutputAdapterBootstrapper の実装
   - `StageLightingVolumeOutputAdapterBootstrapper : MonoBehaviour` を実装し、`SerializeField bool _autoStart = true` および全 Handler の private field を保持する。
   - `Awake()`：`if (!Application.isPlaying) return;` で Edit モード非常駐を担保（Requirement 8.5）。`ResolveDependencies()` で `IOutputCommandDispatcher` と `IOutputSceneRoots` を `OutputSceneBootstrapper` 経由で取得（実 API は実装フェーズで確認、`FindObjectOfType<OutputSceneBootstrapper>()?.GetService<IOutputCommandDispatcher>()` 等の Service Locator 経由）。
   - `Start()`：依存解決済みなら `AdapterLogger`, `AdapterErrorReporter`, `Diagnostics` を構築 → 各 Handler を構築 → `PreviewCameraFactory.Build(_roots)` で `StagePreviewHost` Instantiate → `PreviewCommandHandler` 構築 → 各 Handler の `Start()` 順次呼出 → `Diagnostics.SetReady(true)`。依存未解決時は警告ログ + 早期 return（Requirement 2.8）。
