@@ -102,7 +102,7 @@
   - _Requirements: 3.1, 3.9, 3.10, 4.1, 4.4, 4.8, 6.1, 6.9, 6.11, 7.8_
   - _Boundary: StageLightingVolumeTab.Runtime.Services.State_
 
-- [ ] 3.4 (P) `LightPropertyValidator` を境界値テストと `VolumeOverrideParamDto.Range` 適用で実装する
+- [x] 3.4 (P) `LightPropertyValidator` を境界値テストと `VolumeOverrideParamDto.Range` 適用で実装する
   - `LightPropertyValidatorTests` で `Intensity >= 0`、`Range >= 0`、`SpotAngle` 1〜179（境界: 1, 179, 0.99, 179.01, 負値）、`ColorDto` 各チャンネル 0〜1 の境界値を検証する
   - `ValidateVolumeParam(schema, value)` で ParamKind 別に `VolumeOverrideParamRangeDto` の FloatMin/Max / IntMin/Max / EnumValues を適用し、範囲外は `IsValid=false, ErrorCode="out_of_range_min" | "out_of_range_max" | "invalid_enum"` を返す
   - 観測可能完了: すべての境界値テストが緑で通り、UI 側のインラインバリデーション（Requirement 5.7, 6.7, 9.3）と VolumeOverrideParamFactory の初期値検証の単一情報源が確立される
