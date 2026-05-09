@@ -69,3 +69,8 @@ crashlytics-build.properties
 .vsconfig
 Recordings
 .claude/settings.local.json
+
+# codex / spec-run temporary files
+.tmp-codex-output.log
+.tmp-codex-prompt.txt
+tmp-codex-logs/
