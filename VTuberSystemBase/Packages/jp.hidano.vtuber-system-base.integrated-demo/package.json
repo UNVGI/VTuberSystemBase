@@ -1,0 +1,39 @@
+{
+  "name": "jp.hidano.vtuber-system-base.integrated-demo",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase Integrated Demo",
+  "description": "Wave 3d integration scaffold that wires the 3 UI tabs (character / stage-lighting-volume / camera-switcher) and their main-output adapters (rac / stage-lighting-volume / camera-switcher) into a single Unity scene. Provides a programmatic Bootstrap MonoBehaviour (IntegratedDemoBootstrap) that constructs the OutputSceneBootstrapper, the 3 main-output adapter Bootstrappers, the UiShellLifecycleDriver wiring, and a unified ICoreIpcBusProvider so that PlayMode UI <-> main-output IPC traffic round-trips inside the same process. Sample~/IntegratedDemo ships a step-by-step manual scene-construction README. The actual .unity scene is constructed manually by the user since Unity scene assets cannot be authored programmatically.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "integration",
+    "demo",
+    "wave3d",
+    "main-demo"
+  ],
+  "dependencies": {
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
+    "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+    "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
+    "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+    "jp.hidano.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+    "jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
+    "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
+    "com.unity.addressables": "2.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Integrated Demo Scene Walkthrough",
+      "description": "Step-by-step instructions for constructing the MainDemo.unity scene that wires every tab + adapter into a single PlayMode session.",
+      "path": "Samples~/IntegratedDemo"
+    }
+  ]
+}

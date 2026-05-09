@@ -1,0 +1,27 @@
+{
+    "name": "VTuberSystemBase.IntegratedDemo.Runtime",
+    "rootNamespace": "VTuberSystemBase.IntegratedDemo",
+    "references": [
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:37cfd27057e369e42b714633ff48512f",
+        "GUID:8dd1f7ecef3d4c6cae1a52cee5304e5f",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "GUID:bcd2ed36b7f64a45b7af056ac1469da5",
+        "GUID:41c4c0dfba0241ab92338a80ac6adb22",
+        "GUID:c1e3f1c64f8d44708462fddf03c28da1",
+        "GUID:9e643d5ab8aa42d89a35ddf4ee1b37e7",
+        "GUID:c47115a03e7145ddb9a7965cb13c1cea",
+        "GUID:1050828a41ed4915b285f31a339f4999",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
