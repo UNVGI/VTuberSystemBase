@@ -1,0 +1,20 @@
+{
+    "name": "VTuberSystemBase.CameraSwitcherTab.Contracts",
+    "rootNamespace": "VTuberSystemBase.CameraSwitcherTab.Contracts",
+    "references": [
+        "GUID:286be82527bb75547a774598be8243ab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
