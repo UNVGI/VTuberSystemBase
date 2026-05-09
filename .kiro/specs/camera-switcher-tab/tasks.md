@@ -55,7 +55,7 @@
   - _Requirements: 6.7, 6.8, 11.9, 12.1, 12.2, 12.3, 12.9, 12.10, 14.5, 14.6, 14.9_
   - _Boundary: TimeoutTracker, FailureAggregator_
 
-- [ ] 2.3 (P) UCAPI Flat Record シリアライザ Adapter の実装
+- [x] 2.3 (P) UCAPI Flat Record シリアライザ Adapter の実装
   - `Ucapi4UnityFlatRecordSerializer` を UCAPI4Unity 公開 API を薄くラップする形で実装し、`CameraSnapshot` → 138 byte blob（10 byte header + 128 byte record）に変換する。`UnityCameraSnapshotCapture` で `UnityEngine.Camera` → `CameraSnapshot` の抽出を担当させる。
   - Quaternion → rotation matrix 変換、focalLength / sensorSize / near-far clip / timecode の単位換算、NaN/Inf / focalLength ≤ 0 / sensorSize ≤ 0 の sanitize を行い、失敗時は `SerializeResult.Invalid(Reason)` を返す。
   - UCAPI API 変更が本 adapter の差分のみで吸収できるよう、変換ロジックを per-field に分離して Tests.Runtime で NaN/Inf / 境界値 / 正常値の 3 系を検証する。
