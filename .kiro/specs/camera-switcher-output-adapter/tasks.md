@@ -13,7 +13,7 @@
   - _Requirements: 11.7, 12.1_
   - _Boundary: PackageSkeleton_
 
-- [ ] 1.2 Port 抽象（IOscReceiverHost / ICameraIdAllocator / ILocalVolumeBinder / IVolumeOverrideSchemaResolver）の定義
+- [x] 1.2 Port 抽象（IOscReceiverHost / ICameraIdAllocator / ILocalVolumeBinder / IVolumeOverrideSchemaResolver）の定義
   - `Abstractions` asmdef に `IOscReceiverHost`（StartAsync / StopAsync / MessageReceived event / Status）、`ICameraIdAllocator`（Allocate）、`ILocalVolumeBinder`（CreateLocalVolume / AddOverride / RemoveOverride / SetOverrideEnabled / SetOverrideParam / SetVolumeEnabled / DestroyLocalVolume）、`IVolumeOverrideSchemaResolver`（GetSchema、cache 含む）、`ICameraSwitcherOutputAdapterClock` を定義する。
   - `OscReceivedMessage`（CameraId / Blob: byte[]）、`OscReceiverHostStatus`（Stopped/Starting/Running/Failed）、`OscReceiverStartResult`（Ok / Failure）、`VolumeBindResult`（Ok / Error）、`CameraEntry`、`CameraSwitcherOutputAdapterConfig`（ScriptableObject、OSC Host=127.0.0.1、Port=9000、DefaultCameraTransform 等）を定義する。
   - 各 Port の pre/post condition（null 禁止、StartAsync 前の MessageReceived 発火禁止、Stop 後の Start 再許容）を XML Doc コメントで明記する。
