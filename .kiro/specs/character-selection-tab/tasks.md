@@ -138,7 +138,7 @@
 
 ## 5. Presenters: UI 挙動の実装
 
-- [ ] 5.1 SlotListPresenter によるプレイヤーカード描画と操作ハンドリング
+- [x] 5.1 SlotListPresenter によるプレイヤーカード描画と操作ハンドリング
   - `StateStore.OnChanged(SlotCatalog | SlotStatus | Assignment | InFlight)` を購読し、`PlayerCard.uxml` を初回 Clone + 以降は差分更新で描画する。
   - empty / assigned / error の 3 状態を USS クラス切替で可視化、Slot ID 昇順で表示順を固定する。
   - カードクリックで `AssignmentFlowPresenter.SelectSlot(slotId)` を呼び、設定ボタンで `SettingsPanelPresenter.OpenForAsync(slotId)`、reset/reload ボタンで `AssignmentFlowPresenter.RequestOperationAsync(slotId, kind)` を呼ぶ。
