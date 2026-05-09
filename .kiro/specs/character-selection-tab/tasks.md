@@ -147,7 +147,7 @@
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 7.1, 7.2_
   - _Depends: 2.1, 4.2_
 
-- [ ] 5.2 AvatarCatalogPresenter によるアバター候補グリッドとサムネイル解決
+- [x] 5.2 AvatarCatalogPresenter によるアバター候補グリッドとサムネイル解決
   - `StateStore.OnChanged(AvatarCatalog)` を購読して `AvatarCatalogItem.uxml` を Clone/差分更新する。
   - 各アイテムで `IAvatarThumbnailResolver.LoadThumbnail(avatarKey, "tab:character", callback)` を起動し、読込中はプレースホルダ表示、完了で Sprite を適用する。
   - 候補重複 `avatarKey` は Store 側で一意化済みの前提を保険として検知し診断ログに記録する（Req 3.8）。
