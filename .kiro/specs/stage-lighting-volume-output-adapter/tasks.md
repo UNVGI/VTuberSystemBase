@@ -170,7 +170,7 @@
 
 ## 5. Volume Domain
 
-- [ ] 5.1 VolumeOverrideRegistry の実装
+- [x] 5.1 VolumeOverrideRegistry の実装
   - `VolumeOverrideRegistry` を実装し、`Dictionary<string, Type> typeFullNameToType` と逆引き `Dictionary<Type, string> typeToFullName` を保持する。`Build(IReadOnlyList<Type> volumeComponentTypes)` で起動時に構築、`GetTypeByFullName(string typeFullName, out Type type)` / `Contains(typeFullName)` を提供する。
   - 観測可能な完了条件: 既知型での GetType 取得、未知型での miss が緑になる。
   - _Requirements: 5.2, 5.5_
