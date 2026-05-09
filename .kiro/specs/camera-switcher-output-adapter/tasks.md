@@ -54,7 +54,7 @@
   - _Depends: 1.2, 1.3_
   - _Boundary: Ucapi4UnityFlatRecordApplier_
 
-- [ ] 2.3 UoscReceiverHostAdapter と CameraOscReceiverHost の実装
+- [x] 2.3 UoscReceiverHostAdapter と CameraOscReceiverHost の実装
   - `CameraOscReceiverHost` MonoBehaviour（空クラス、`uOscServer` の attach 先として `new GameObject` で動的生成される）。
   - `UoscReceiverHostAdapter` で `IOscReceiverHost` 実装：`StartAsync(host, port)` で `CameraOscReceiverHost` GameObject を生成、`uOscServer.AddComponent`、`port` 設定、`autoStart=false`、`StartServer()` を呼び、`onDataReceived` を購読。`onDataReceived` のメッセージから `address`、`values[0]` を取り出して `OscReceivedMessage{ CameraId（FlatRecordAddressDecoder で抽出）, Blob: byte[] }` として `MessageReceived` event を発火。
   - `StopAsync()`：`uOscServer.StopServer()` → `Destroy(GameObject)`。`Status` プロパティを更新。
