@@ -182,7 +182,7 @@
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10, 5.11, 7.4, 7.5, 9.2, 9.3_
   - _Depends: 2.1, 2.2, 2.3, 3.1_
 
-- [ ] 5.5 PresetManagerPresenter による CRUD UI とアクティブ化
+- [x] 5.5 PresetManagerPresenter による CRUD UI とアクティブ化
   - `RenderPresetBar` で `PresetStoreLogic.ListPresets()` を描画し、アクティブプリセット名を `PresetBar.uxml` 上に可視化する。
   - `CreatePresetAsync` / `RenamePresetAsync` / `DuplicatePresetAsync` / `DeletePresetAsync` / `ActivatePresetAsync` を実装し、`PresetOperationResult` で成功・失敗（`DuplicateName` / `NotFound` / `StorageFailure` / `InvalidName` / `CannotDeleteActive`）を返す。
   - 重複名称時は作成を拒否し UI にバリデーションエラーを表示する。アクティブプリセットの削除は拒否する。
