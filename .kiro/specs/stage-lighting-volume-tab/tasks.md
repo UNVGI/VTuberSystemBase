@@ -261,7 +261,7 @@
 ---
 
 - [ ] 7. Integration: Bootstrapper によるタブ統合・ライフサイクル結線・エディタ検証を実装する
-- [ ] 7.1 `StageLightingVolumeTabBootstrapper` で `RegisterTab`・DI 構築・Lifecycle 結線・Dispose 時 Flush を実装する
+- [x] 7.1 `StageLightingVolumeTabBootstrapper` で `RegisterTab`・DI 構築・Lifecycle 結線・Dispose 時 Flush を実装する
   - `ITabPanelRegistry.RegisterTab(TabId.StageLighting, metadata)` を起動時に呼び、返却された `ITabLifecycleHandle` の `OnActivated` / `OnDeactivated` / `OnDisposed` に ViewModel / PreviewController / JsonPresetStorage.Flush を結線する
   - DI 注入は コンストラクタで `IUiCommandClient` / `IUiSubscriptionClient` / `IAsyncAssetLoader` / `IConnectionStatus` / `IDiagnosticsLogger` / `IPresetStorage` / `IPreviewRenderTextureAccessor` / `IPreviewCameraAdapter` / `IClock` / `UIDocument` を受け取る
   - `Dispose` は冪等とし、200 ms タイムアウト付きで `JsonPresetStorage.FlushAsync()` を同期待機、超過時は警告ログのみで続行する
@@ -271,7 +271,7 @@
   - _Requirements: 1.3, 1.4, 1.5, 1.7, 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7_
   - _Boundary: StageLightingVolumeTab.Runtime.Bootstrap_
 
-- [ ] 7.2 Editor 側 `UxmlImportValidator` と PlayMode 手動検証シーン（`StageLightingVolumeTabPlayModeSample.unity`）を整備する
+- [x] 7.2 Editor 側 `UxmlImportValidator` と PlayMode 手動検証シーン（`StageLightingVolumeTabPlayModeSample.unity`）を整備する
   - `Editor/UxmlImportValidator.cs` は利用者プロジェクトが UXML を差し替えた際に必須要素（`preview-panel`, `preset-section`, `stage-selection-section`, `light-list-section`, `light-editor-section`, `volume-override-section`）の欠落を検出し、診断ログへ記録する
   - `Tests/PlayMode/StageLightingVolumeTabPlayModeSample.unity` にモック `StagePreviewHost` + モック `IUiCommandClient/IUiSubscriptionClient`（事前応答配信）+ モック Stage Catalog + モック Volume Schema を配置し、本タブの全表示・全操作を手動検証可能にする
   - サンプルシーンの README（コメント）に、どのモックがどの IPC 契約を模擬するかを明記する
