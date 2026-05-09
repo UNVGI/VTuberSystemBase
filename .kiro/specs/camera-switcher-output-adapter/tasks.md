@@ -118,7 +118,7 @@
 
 ## 3. Domain: 状態機械の実装
 
-- [ ] 3.1 (P) CameraEntryRegistry と DefaultCameraFallbackController の実装
+- [x] 3.1 (P) CameraEntryRegistry と DefaultCameraFallbackController の実装
   - `CameraEntryRegistry`：`Dictionary<CameraId, CameraEntry>` + 追加順 List を保持、`Upsert(entry)` / `Remove(cameraId)` / `TryGet` / `Enumerate()` を実装。並び順は `AllocOrder` 昇順で安定（CSO-6）。
   - `DefaultCameraFallbackController`：`IOutputSceneRoots.DefaultCamera` を保持、`NotifyCameraCountChanged(int count)` で `count >= 1 → DefaultCamera.enabled = false`、`count == 0 → DefaultCamera.enabled = true` を切替。
   - Tests.Runtime の `CameraEntryRegistryTests` で「Upsert 100 件 + Remove 50 件で残数 50 + 採番順安定」「未知 cameraId Remove で no-op」、`DefaultCameraFallbackControllerTests` で「count=1 で DefaultCamera 無効化」「count=0 復帰」を検証。
