@@ -109,7 +109,7 @@
   - _Requirements: 5.7, 6.7, 9.3_
   - _Boundary: StageLightingVolumeTab.Runtime.Validation_
 
-- [ ] 3.5 (P) `StageTabDiagnostics` と診断スナップショット API を `FakeDiagnosticsLogger` を使って実装する
+- [x] 3.5 (P) `StageTabDiagnostics` と診断スナップショット API を `FakeDiagnosticsLogger` を使って実装する
   - `StageTabDiagnosticsTests` で各 Log メソッド（Initialization / CommandSent / EventReceived / AssetLoadFailure / PersistenceFailure）がログチャネルに正しい payload を送ること、`GetSnapshot()` が `ActivePresetName` / `CurrentStageKey` / `LightCount` / `LightsInErrorState` / `VolumeOverridesEnabled` / `PendingAsyncLoads` / `LastPersistenceSaveAt` / `IpcConnected` を同期的に返すことを検証する
   - 実装: ログ経路は `ui-toolkit-shell` の `IDiagnosticsLogger` を再利用し、メイン出力（Display 2+）への描画は構造的に発生しないことをコメントで明示する
   - 観測可能完了: スナップショット API が全フィールドを返し、ログ出力が `ui-toolkit-shell` 側のみに流れることが単体テストで検証される
