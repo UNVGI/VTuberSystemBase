@@ -127,7 +127,7 @@
   - _Depends: 1.2_
   - _Boundary: CameraEntryRegistry, DefaultCameraFallbackController_
 
-- [ ] 3.2 (P) ActiveCameraGate の実装
+- [x] 3.2 (P) ActiveCameraGate の実装
   - `ActiveCameraGate.SetActive(target)`：`CameraEntryRegistry.Enumerate()` を走査し、target == entry.CameraId なら `entry.CameraComponent.enabled = true` + `entry.LocalVolume.enabled = true`、他は両方 `false` にする。`Active = target` を更新。
   - `OnCameraRemoved(removed)`：`Active == removed` なら `Active = null` にして `DefaultCameraFallbackController` にも通知（registry が空に近づいた場合）。
   - 未知 cameraId は `FailureAggregator.RecordUnknownCameraIdOnActiveSet` を呼び `Active` を変更しない。
