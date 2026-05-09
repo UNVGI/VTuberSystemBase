@@ -129,7 +129,7 @@
   - _Requirements: 1.1, 1.2, 2.2, 2.4, 2.7, 3.2, 3.3, 5.2, 8.1a, 8.1b_
   - _Boundary: View/Templates_
 
-- [ ] 4.3 (P) DefaultAvatarThumbnail アセット登録
+- [x] 4.3 (P) DefaultAvatarThumbnail アセット登録
   - 本 spec パッケージ同梱の `DefaultAvatarThumbnail.asset`（Sprite）を作成し、固定 Addressables key（`CharacterTabConfig.DefaultThumbnailAddressableKey`）に登録する。
   - Bootstrap 時に preload 存在検証を行い、失敗時は診断エラーを出す仕組みをドキュメント化する。
   - 観測可能な完了条件: Addressables Analyze で Default key が解決可能であり、未解決時には起動時診断で警告が出る挙動がテストから確認できる。
