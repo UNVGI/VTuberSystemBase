@@ -50,7 +50,7 @@
   - _Requirements: 3.1, 3.4, 3.5, 3.6, 3.8_
   - _Boundary: StageLightingVolumeTab.Contracts.Dtos.Stage_
 
-- [ ] 2.3 (P) Volume 系 DTO（`VolumeOverrideSchemaDto` / `VolumeOverrideTypeDto` / `VolumeOverrideParamDto` / `VolumeOverrideParamValueDto` / `VolumeOverrideParamRangeDto`）を ParamKind ディスクリミネータ方式で実装する
+- [x] 2.3 (P) Volume 系 DTO（`VolumeOverrideSchemaDto` / `VolumeOverrideTypeDto` / `VolumeOverrideParamDto` / `VolumeOverrideParamValueDto` / `VolumeOverrideParamRangeDto`）を ParamKind ディスクリミネータ方式で実装する
   - Contracts 層に `ParamKind` enum（Bool/Int/Float/ClampedFloat/Color/Vector2/Vector3/Vector4/Enum/Unknown）を追加する
   - `VolumeOverrideParamValueDto` を ParamKind + nullable payload フィールドのディスクリミネーテッドユニオンとして設計し、`JsonConverter` の polymorphism に依存しない形にする
   - `VolumeDtosJsonRoundtripTests` に加え、`Kind=Unknown` を含むスキーマが受信できることのテスト（後続 6.10 のスキップロジック向け入力）を追加する
@@ -58,7 +58,7 @@
   - _Requirements: 6.1, 6.2, 6.10, 6.11_
   - _Boundary: StageLightingVolumeTab.Contracts.Dtos.Volume_
 
-- [ ] 2.4 (P) Preview 系 DTO（`PreviewCommandDto` / `PreviewStateDto`）と `StagePreviewHostLocator` / `IPreviewHostService` を Contracts 層に実装する
+- [x] 2.4 (P) Preview 系 DTO（`PreviewCommandDto` / `PreviewStateDto`）と `StagePreviewHostLocator` / `IPreviewHostService` を Contracts 層に実装する
   - `PreviewCommandDto.Op = "set-enabled" | "reset-view" | "init" | "dispose"`、`set-enabled` 時 `Enabled` 必須のユニットテストを先に書く
   - `StagePreviewHostLocator` は同一プロセス内 Singleton アクセサとして `Register` / `Unregister` / `Current` を公開し、重複登録時は警告ログ + 最新採用、`Unregister` 後は `Current == null` を保証する
   - `StagePreviewHostLocatorTests` で登録 → 参照 → 解除 → null のライフサイクルと、重複登録時の最新採用を検証する
@@ -66,7 +66,7 @@
   - _Requirements: 2.1, 2.5, 2.6, 2.7, 2.8_
   - _Boundary: StageLightingVolumeTab.Contracts.Preview_
 
-- [ ] 2.5 (P) プリセット JSON スキーマ（`PresetFileRoot` / `PresetDto` / `LightConfigDto` / `VolumeOverrideConfigDto`）を SchemaVersion=1 で実装する
+- [x] 2.5 (P) プリセット JSON スキーマ（`PresetFileRoot` / `PresetDto` / `LightConfigDto` / `VolumeOverrideConfigDto`）を SchemaVersion=1 で実装する
   - Contracts 層に 4 クラスを追加する（`SchemaVersion` は既定 1、`LightConfigDto.LightId` は含めない = 復元時に再採番）
   - `PresetSchemaRoundtripTests` でサンプルプリセット（ステージあり/なし・Light 複数・Volume Override 複数）の JSON ラウンドトリップを検証する
   - 未知フィールド無視（`JsonSerializerOptions.IgnoreReadOnlyProperties` 等）と、`SchemaVersion != 1` の検出テストを追加し、将来 migrator を差し込む余地を残す
