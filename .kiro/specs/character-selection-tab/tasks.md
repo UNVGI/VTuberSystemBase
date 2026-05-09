@@ -52,7 +52,7 @@
   - _Requirements: 5.7, 11.7_
   - _Boundary: InteractionGuard, SystemClock_
 
-- [ ] 2.3 (P) DynamicSettingControlFactory による設定 UI 動的生成
+- [x] 2.3 (P) DynamicSettingControlFactory による設定 UI 動的生成
   - `IDynamicSettingControlFactory.Build(SettingSchemaEntry, SettingValue)` を実装し、Float/Int → `VsbSlider`、Bool → `Toggle`、Color → `VsbColorPicker`、Enum → `VsbToggleGroup`、Vector3 → 3 連スライダー、`Kind == "command"` → ボタンの型マッピングを行う。
   - 生成 Root に `vsb-char-tab__setting-row` クラスを付与し、子要素に label と入力コントロールを配置する。
   - `min > max`・未知 `SettingType`・必須フィールド欠落を検知したら診断ログに記録し、該当コントロールを非活性化または `null` Root でスキップ用 `SettingControl` を返す。
@@ -61,7 +61,7 @@
   - _Requirements: 5.2, 5.6, 5.11, 7.5_
   - _Boundary: DynamicSettingControlFactory_
 
-- [ ] 2.4 (P) AvatarThumbnailResolver と既定サムネイルフォールバック
+- [x] 2.4 (P) AvatarThumbnailResolver と既定サムネイルフォールバック
   - `IAvatarThumbnailResolver.LoadThumbnail(avatarKey, scopeId, onCompleted)` / `Release` / `ReleaseAll` を実装し、内部では `IAsyncAssetLoader.LoadAsync<Sprite>("{avatarKey}.thumbnail", scopeId, ...)` を呼ぶ。
   - 成功時 `AvatarThumbnailResult { Success=true, IsFallback=false }`、`KeyNotFound` / 型不一致時は `DefaultAvatarThumbnail.asset`（Addressables 固定 key）を返して `IsFallback=true` とし、診断ログに `Thumbnail.Fallback(avatarKey, reason)` を記録する。
   - 重複ロードは上流の重複抑止に委譲し、同一 `(avatarKey, scopeId)` の多重要求でもシングルハンドルに集約されることを検証する。
@@ -70,7 +70,7 @@
   - _Requirements: 3.4, 3.4a, 6.2, 6.3, 6.4, 6.5, 6.6, 9.5_
   - _Boundary: AvatarThumbnailResolver_
 
-- [ ] 2.5 (P) JsonPresetStorage のファイル I/O 実装
+- [x] 2.5 (P) JsonPresetStorage のファイル I/O 実装
   - `IPresetStorage` を実装する `JsonPresetStorage` を作成し、既定パス `Application.persistentDataPath/character-selection-tab/presets/`、`{presetId}.json`（UTF-8 JSON, GUID ファイル名）+ `_active.json` の配置規約を採用する。
   - `LoadAllAsync` / `LoadActivePresetIdAsync` / `SaveAsync`（一時ファイル → `File.Move` アトミック書込） / `DeleteAsync` / `SetActiveAsync` / `CheckHealthAsync` を実装する。
   - JSON パース失敗時は同ディレクトリに `{presetId}.json.bak.{unixms}` としてリネームし、診断ログ `Preset.Load(..., corrupted=true)` を記録、`StorageHealthReport.CorruptedCount / BackedUpFiles` に反映する。
@@ -79,7 +79,7 @@
   - _Requirements: 8.7, 8.9, 8.10, 9.6_
   - _Boundary: JsonPresetStorage_
 
-- [ ] 2.6 PresetStoreLogic によるプリセット CRUD とデバウンス
+- [x] 2.6 PresetStoreLogic によるプリセット CRUD とデバウンス
   - `IPresetStoreLogic` を実装し、`ListPresets` / `GetActivePreset` / `CreateAsync` / `RenameAsync` / `DuplicateAsync` / `DeleteAsync` / `SetActiveAsync` / `MarkSlotAssignmentChanged` / `MarkSettingValueChanged` / `FlushPendingAsync` と `OnSaved` / `OnLoaded` イベントを公開する。
   - 名称検証: trim 済み非空、重複不可（`DuplicateName`）、アクティブプリセット削除拒否（`CannotDeleteActive`）。
   - 変更マークから 500ms デバウンス（`IClock`）後に `IPresetStorage.SaveAsync` を呼び、書込中の追加変更はフラッシュ完了後に再デバウンスする。
@@ -91,7 +91,7 @@
 
 ## 3. IPC Integration Layer
 
-- [ ] 3.1 CharacterTabIpcBinder による購読集約と送信薄ラッパ
+- [x] 3.1 CharacterTabIpcBinder による購読集約と送信薄ラッパ
   - `ICharacterTabIpcBinder.SubscribeAll` / `UnsubscribeAll` で `slots/catalog` / `avatars/catalog` / `slot/+/assignment` / `slot/+/status` / `slot/+/settings/+` / `slot/+/error` を登録し、`ISubscriptionToken` を辞書で保持する。
   - 新規 Slot 発見時に `AddDynamicSubscriptions(slotId)`、Slot 削除時に対応トークンを Dispose するロジックを実装する。
   - 受信コールバックでは `CharacterTabStateStore.Apply*` に振り分け、`slot/{id}/error` 受信時は `ApplyError` + 該当 InFlight の `Failed` 解除、`slot/{id}/status` 受信時は `ApplyStatus` + InFlight 解除を行う。
@@ -101,7 +101,7 @@
   - _Requirements: 2.1, 3.1, 3.9, 4.2, 4.3, 4.4, 4.6, 4.9, 5.3, 5.8, 7.1, 7.2, 7.4, 7.8, 9.2, 9.3, 9.4_
   - _Depends: 2.1_
 
-- [ ] 3.2 PresetRestoreOrchestrator の実装と接続確立連動
+- [x] 3.2 PresetRestoreOrchestrator の実装と接続確立連動
   - `IPresetRestoreOrchestrator.ReplayActivePresetAsync` を実装し、アクティブプリセットの Slot ごとに `PublishState slot/{id}/assignment` を送信、続いて `slot/{id}/settings/{key}` を順次送信する。
   - `IConnectionStatus.OnStatusChanged` を購読し `Connecting → Connected` 遷移で 1 度自動起動、再接続時もアクティブプリセットで整合を取る。
   - 保存された `avatarKey` が `AvatarCatalog` に存在しない場合、当該 Slot のみ `null` 送信（empty） + 警告ログ、`UnresolvedAvatarKeys` に追加し、他 Slot は継続する。
