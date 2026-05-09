@@ -45,7 +45,7 @@
   - _Depends: 1.2_
   - _Boundary: OscMessageRouter, FlatRecordAddressDecoder_
 
-- [ ] 2.2 (P) Ucapi4UnityFlatRecordApplier の実装
+- [x] 2.2 (P) Ucapi4UnityFlatRecordApplier の実装
   - `Ucapi4UnityFlatRecordApplier.Apply(blob: byte[], camera: Camera)` で `UCAPI4Unity.UnityCamera.UcApi4UnityCamera.ApplyToCamera(blob, camera)` を呼ぶ薄ラップを実装する。
   - 例外（CRC 失敗 / DLL 不在 / 解析失敗）を try/catch、`FailureAggregator.RecordOscDecodeFailure(cameraId, ex)` を呼ぶ。`byte[]` 追加コピーは行わない。
   - Tests.Runtime の `Ucapi4UnityFlatRecordApplierTests` で「正常 blob で Camera プロパティ反映」（テスト用に `UcApi4UnityCamera.SerializeFromCamera` で生成した本物の blob を用いて round-trip）「無効 blob で例外捕捉 + FailureAggregator 呼出」を検証する。
