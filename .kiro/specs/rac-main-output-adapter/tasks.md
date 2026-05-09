@@ -21,7 +21,7 @@
   - _Requirements: 1.8, 8.7_
   - _Depends: 1.1_
 
-- [ ] 1.3 Domain ロジック（Mapper / Decoder / Validator）の実装
+- [x] 1.3 Domain ロジック（Mapper / Decoder / Validator）の実装
   - `SlotStateMapper.Map(SlotState, bool isAssigning)` を `"Empty"` / `"Assigning"` / `"Assigned"` / `"Error"` 文字列に翻訳するロジックで実装する。
   - `SlotErrorCodeMapper.Map(SlotErrorCategory, Exception)` を design.md §Data Models のマップで実装する。例外型名のパターンマッチ（"Addressable" / "AvatarKey" → `KeyNotFound`、"MoCap" / "Source" → `MotionPipelineInit`）。
   - `SettingValueDecoder.Decode(SettingType, JsonElement)` を `float` / `int` / `bool` / `Color` / `string`（Enum）/ `Vector3` 各 6 型で実装する。型不一致は `InvalidOperationException`、未知 `SettingType` は `null` を返す。
@@ -41,7 +41,7 @@
 
 ## 2. Extension Points と既定実装
 
-- [ ] 2.1 Extension Point インタフェース 4 種の定義
+- [x] 2.1 Extension Point インタフェース 4 種の定義
   - `IAvatarKeyResolver.cs`（`Resolve` / `AvatarKeys` / `Refresh` / `OnAvatarKeysChanged`）を実装する。
   - `IAvatarSchemaProvider.cs`（`Resolve(string) → AvatarSettingsSchemaPayload?`）を実装する。
   - `IAvatarSettingsAdapter.cs`（`Apply(GameObject, string, SettingType, JsonElement) → AdapterApplyResult`）を実装する。
