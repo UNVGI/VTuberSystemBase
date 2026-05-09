@@ -263,7 +263,7 @@
   - _Depends: 5.1, 5.2_
   - _Boundary: FailsafeTests_
 
-- [ ] 5.4 PlayMode ライフサイクル統合テスト
+- [x] 5.4 PlayMode ライフサイクル統合テスト
   - Tests.Runtime に `PlayModeLifecycleTests` を追加：PlayMode 開始 → Bootstrapper 起動 → 5 台 add + active-set + Volume 編集 → PlayMode 停止を 5 回繰返し、(1) `127.0.0.1:9000` ポート解放、(2) `Camera-cam-*` GameObject 残存数 0、(3) `CameraOscReceiverHost` GameObject 消滅、(4) IPC ハンドラ登録件数 0、(5) GC 可到達参照増加なし、を計測。
   - Edit モード経路では Bootstrapper が早期 return するため何も起きないことを検証。
   - 観測可能な完了状態: 5 回繰返しでベースラインからのリソース増加なしで収束。
