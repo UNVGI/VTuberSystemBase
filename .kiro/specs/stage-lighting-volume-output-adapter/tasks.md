@@ -374,7 +374,7 @@
   - _Boundary: Tests/PlayMode/*_
   - _Depends: 7.1_
 
-- [ ] 9.3 PlayMode サンプルシーンと手動検証手順
+- [x] 9.3 PlayMode サンプルシーンと手動検証手順
   - `StageLightingVolumeOutputAdapterPlayModeSample.unity` を作成し、最小構成（`OutputSceneBootstrapper` + 本 Bootstrapper + 簡易な Mock IPC ドライバ）で全機能を確認できるシーンを提供する。
   - シーン Inspector に「Light を追加」「Bloom を有効化」「Stage を切替（Addressables 必須）」「Preview を on/off」の各ボタンを持つ MonoBehaviour（Editor only）を配置し、`FakeOutputCommandDispatcher` 経由で IPC を inject できる構成にする。
   - README に手動検証手順（PlayMode 開始 → 各ボタン操作 → 期待結果の観察項目）を整備する。
