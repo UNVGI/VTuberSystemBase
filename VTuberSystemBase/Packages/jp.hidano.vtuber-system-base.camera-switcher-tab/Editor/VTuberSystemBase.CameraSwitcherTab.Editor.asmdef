@@ -1,0 +1,22 @@
+{
+    "name": "VTuberSystemBase.CameraSwitcherTab.Editor",
+    "rootNamespace": "VTuberSystemBase.CameraSwitcherTab.Editor",
+    "references": [
+        "GUID:41c4c0dfba0241ab92338a80ac6adb22",
+        "GUID:c9117e022296498e9e1dd30888446ef1",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "GUID:a818a5dd2f716524e84c14c1b46c3430"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

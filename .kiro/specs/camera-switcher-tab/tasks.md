@@ -4,7 +4,7 @@
 
 ## 1. Foundation: パッケージ骨格と共有抽象の整備
 
-- [ ] 1.1 パッケージ骨格と asmdef 参照方向の確立
+- [x] 1.1 パッケージ骨格と asmdef 参照方向の確立
   - `jp.hidano.vtuber-system-base.camera-switcher-tab` UPM パッケージ（package.json）を新規作成し、Runtime/Editor/Tests/Samples~/UxmlUss のディレクトリ骨格を配置する。
   - Abstractions / Domain / Runtime / Editor / Tests.Runtime / Tests.Editor の 6 つの asmdef を追加し、`Abstractions → Domain → Runtime → Editor` の一方向参照、および Tests が Runtime/Domain/Abstractions を参照する関係を precompiledReferences / versionDefines 含め成立させる。
   - Runtime asmdef から `ui-toolkit-shell` 公開 API、`core-ipc-foundation` 抽象、UCAPI4Unity、hecomi/uOSC、SceneViewStyleCameraController のみを参照し、`core-ipc-foundation` 具体実装 / `output-renderer-shell` / 他タブ asmdef は参照しないことを `.asmdef` ファイルで強制する。
