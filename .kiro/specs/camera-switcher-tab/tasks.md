@@ -160,7 +160,7 @@
   - _Depends: 2.3, 2.4, 2.5, 2.10, 3.2, 3.3_
   - _Boundary: CameraSwitcherTabBehaviour, CameraSwitcherTabDiagnostics_
 
-- [ ] 3.5 診断ロガーと観測性の結線
+- [x] 3.5 診断ロガーと観測性の結線
   - Coordinator / 各 Adapter / FailureAggregator / PresetController / OscStreamController / VolumeUiStateManager に `IDiagnosticsLogger.Log(Level, LogCategory.TabSpec, message, context)` を呼ぶ経路を埋め、初期化・UIDocument アタッチ・購読登録・OSC 起動停止・CRUD 送信・Volume 編集送信・プリセット I/O 成否・カメラエラー受信・OSC 送信件数と失敗件数を網羅する。
   - ログレベルは shell の `IDiagnosticsLogger.MinimumLevel` に従い、メイン出力サーフェス（Display 2+）に一切描画しない構造的保証（PanelSettings `targetDisplay=0`）を CI で確認可能なスモークテストに落とす。
   - `CameraSwitcherTabDiagnostics.GetSnapshot()` が Requirement 14.9 の全項目を返すことを単体テストで固定する。
