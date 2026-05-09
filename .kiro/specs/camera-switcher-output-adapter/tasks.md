@@ -200,7 +200,7 @@
   - _Depends: 3.5_
   - _Boundary: IpcHandlerRegistration_
 
-- [ ] 4.3 MainThreadGuard と CameraSwitcherOutputAdapterDiagnostics の実装
+- [x] 4.3 MainThreadGuard と CameraSwitcherOutputAdapterDiagnostics の実装
   - `MainThreadGuard.AssertMainThread()`：Unity の `UnitySynchronizationContext.Current` が `null` でないこと、現在のスレッドがメインスレッドと一致することをチェック。違反時は `InvalidOperationException` 送出。`Awake/Start` で `MainThreadId = Thread.CurrentThread.ManagedThreadId` を保存して以降の比較に使う。
   - `CameraSwitcherOutputAdapterDiagnostics.GetSnapshot()`：Adapter / Registry / OscReceiverHost / FailureAggregator から状態を集約した `Snapshot` 構造を返す（CameraCount / ActiveCameraId / OSC Status / OSC 受信件数 / IPC ハンドラ件数 / camera/error 発行件数 / Kind 別失敗カウント / DefaultCamera fallback 状態 / Registered topics）。
   - Tests.Runtime の `MainThreadGuardTests`（PlayMode、別スレッドから呼んで例外確認）と `DiagnosticsSnapshotTests` で各項目が期待値を返すことを検証。
