@@ -27,7 +27,7 @@
   - _Boundary: link.xml_
   - _Depends: 1.1_
 
-- [ ] 1.3 内部ヘルパ（DtoConverters / HandlerRegistrationToken）の実装
+- [x] 1.3 内部ヘルパ（DtoConverters / HandlerRegistrationToken）の実装
   - `DtoConverters` を実装し、`ColorDto ↔ UnityEngine.Color`、`Vector3Dto ↔ UnityEngine.Vector3`、`Vector3Dto → Quaternion (Euler)`、`Vector4Dto ↔ Vector4 / Vector2 / Vector3`、`LightTypeDto ↔ UnityEngine.LightType` の各変換ヘルパを提供する。
   - `HandlerRegistrationToken : IDisposable` を実装し、複数の `IDisposable` を子として保持して `Dispose` で逆順に Dispose する composite pattern を実装する。二重 Dispose は no-op。
   - 観測可能な完了条件: ラウンドトリップテスト（DTO → Unity 型 → DTO で値が一致）と composite Dispose のテストが緑になる。
