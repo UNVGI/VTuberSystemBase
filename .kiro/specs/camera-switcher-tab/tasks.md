@@ -41,7 +41,7 @@
 
 ## 2. Core: Domain 状態機械と送受信ロジックの実装
 
-- [ ] 2.1 (P) CameraRegistry と ActiveCameraTracker の実装
+- [x] 2.1 (P) CameraRegistry と ActiveCameraTracker の実装
   - cameraId → `CameraMetadata` の辞書と追加順序配列を保持する `CameraRegistry` を実装し、`Upsert` / `Remove` / `Enumerate` / `TryGet` の不変条件（採番順維持、重複排除）を単体テストで固定する。
   - `ActiveCameraTracker` で `ActiveCameraId` と `EditingCameraId` を独立に管理し、サーバ権威側 `cameras/active` state 受信時の更新、編集対象切替イベントの発火、active と editing の非同期差分検出を単体テストでカバーする。
   - 観測可能な完了状態: 1,000 件の Upsert → 並び順固定 / 削除時のギャップ不発生 / active ≠ editing のシナリオがすべて Tests.Runtime でグリーンになる。
