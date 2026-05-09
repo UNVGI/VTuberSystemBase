@@ -19,6 +19,10 @@
     "urp"
   ],
   "dependencies": {
-    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0"
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "com.hidano.scene-view-style-camera-controller": "1.0.1",
+    "com.unity.addressables": "2.0.0",
+    "com.unity.render-pipelines.universal": "17.3.0"
   }
 }
