@@ -192,7 +192,7 @@
   - _Requirements: 8.1a, 8.1b, 8.1c, 8.1d_
   - _Depends: 2.6, 3.2, 4.2_
 
-- [ ] 5.6 (P) TabDiagnosticsPresenter による診断パネル描画
+- [x] 5.6 (P) TabDiagnosticsPresenter による診断パネル描画
   - `CharacterTabDiagnostics.Capture()` から `TabDiagnosticsSnapshot`（Slot 数・割当済み数・エラー数・InFlight 件数・最終保存時刻・接続状態・アクティブプリセット ID・破損バックアップ件数）を取得し、タブ下部の診断領域に描画する。
   - `StateStore.OnChanged(Connection)` / `PresetStoreLogic.OnSaved` を 1 秒スロットルで購読して再描画する。
   - 接続断中はプレイヤーカード領域と協調してプレースホルダ表示を担う。
