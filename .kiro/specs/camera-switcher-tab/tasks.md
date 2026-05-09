@@ -88,7 +88,7 @@
   - _Depends: 2.1, 2.2, 2.3, 2.4_
   - _Boundary: OscStreamController_
 
-- [ ] 2.7 VolumeUiStateManager の実装
+- [x] 2.7 VolumeUiStateManager の実装
   - `OnEditTargetChanged(CameraId)` でメタデータ Request を発行してスキーマをキャッシュ、Request 失敗時はカメラ単位でエラー状態を保持して本タブ全体を落とさない。
   - `IsUserDragging(overrideType, param)` フラグを保持し、drag 中は受信 state echo を UI 反映キューに乗せない（drag 終了で最新値に追従）。`camera/{id}/volume/overrides` state と `camera/{id}/volume/override/{type}/{param}` state の双方向受信経路を実装する。
   - FakeIpcClient + FakeIpcSubscription を用いて「メタデータ取得成功 → UI binding 要求」「タイムアウト → エラー状態 + 本タブ継続」「drag 中 echo 抑止 → drag 解除後に最新値反映」を検証する。
