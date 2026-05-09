@@ -142,7 +142,7 @@
   - _Requirements: 2.1, 2.4, 2.6, 2.7, 2.8, 3.6, 4.4, 4.5_
   - _Boundary: SceneViewStyleCameraControllerWrapper, EditingCameraTickDriver_
 
-- [ ] 3.3 View レイヤの実装と ViewBinder への結線
+- [x] 3.3 View レイヤの実装と ViewBinder への結線
   - `CameraSwitcherViewBinder`（Coordinator の `OnStateChanged` 購読）、`PreviewPanelController`（マルチ + アクティブプレビュー、サムネイル fps 設定反映）、`CameraListView`（`VsbNumberedList` 利用、selected/editing/active USS クラス、0 台時 empty-state CTA）を実装する。
   - `LocalVolumeEditorView`（VolumeMetadataResponse スキーマから `VsbSlider` / `VsbColorPicker` / `VsbToggleGroup` を動的生成、drag 中 echo 抑止、min/max clip、編集対象切替時の再構成）、`PresetPanelView`（CRUD + アクティブ表示 + 重複名即時赤字）、`DiagnosticsBadgeView`（OSC/IPC 状態バッジ + 直近エラー件数）を実装する。
   - Unity PlayMode 最小シーンで Coordinator と View が Fake port 経由でエンドツーエンドに動作することを観測する。
