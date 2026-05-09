@@ -262,7 +262,7 @@
   - _Requirements: 11.1, 11.2, 11.5, 11.6, 11.7_
   - _Depends: 6.2, 7.2, 7.3_
 
-- [ ] 8.2 PlayMode サンプルシーンと手動検証手順
+- [x] 8.2 PlayMode サンプルシーンと手動検証手順
   - `CharacterTabPlayModeSample.unity` をモック UI シェル構成で作成し、プレイヤーカード表示 → アバター選択 → 割当確定 → 設定スライダー操作までを手動で確認できる手順を README に整備する。
   - `UiToolkitShellSkinProfile.CharacterTabStyleSheets` に利用者 USS を注入する差し替え検証手順をサンプルに含める。
   - PlayMode 開始・停止 5 回の反復が手動でも確認できる手順を README に記載する。
