@@ -265,7 +265,7 @@
   - _Boundary: Preview/StagePreviewHost_
   - _Depends: 1.4, 6.1_
 
-- [ ] 6.3 PreviewCameraFactory の実装
+- [x] 6.3 PreviewCameraFactory の実装
   - `PreviewCameraFactory.Build(IOutputSceneRoots roots) → StagePreviewHost` を実装し、以下を順次実行：
     1. `var go = new GameObject("PreviewCamera")`
     2. `go.transform.SetParent(roots.Cameras, worldPositionStays: false)`
