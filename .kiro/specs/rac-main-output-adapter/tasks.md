@@ -86,7 +86,7 @@
 
 ## 3. テストダブル群の整備（TDD 基盤）
 
-- [ ] 3.1 (P) `InMemoryDispatcher` の実装
+- [x] 3.1 (P) `InMemoryDispatcher` の実装
   - `IOutputCommandDispatcher` を実装し、`Dictionary<(string topic, MessageKind kind), Delegate>` を内部に持ち、`RegisterStateHandler` / `RegisterEventHandler` / `RegisterRequestHandler` で登録、戻り値の `OutputCommandHandlerRegistration` で解除可能にする。
   - テスト用 API として `EmitState<T>(string topic, T payload)`、`EmitEvent<T>(string topic, T payload)`、`EmitRequest<TReq, TRes>(string topic, TReq payload, out TRes response)` を提供する。
   - `_sentMessages: List<(string topic, MessageKind kind, object payload)>` を保持し、Applier / Sender が `PublishState` / `PublishEvent` 相当の操作で記録した送信履歴を取り出せる API（`GetSent(string topic)` 等）を提供する。
@@ -95,7 +95,7 @@
   - _Boundary: Tests/Doubles/InMemoryDispatcher_
   - _Depends: 1.1_
 
-- [ ] 3.2 (P) `InMemoryAvatarKeyResolver` / `InMemoryAvatarSchemaProvider` / `RecordingAvatarSettingsAdapter` の実装
+- [x] 3.2 (P) `InMemoryAvatarKeyResolver` / `InMemoryAvatarSchemaProvider` / `RecordingAvatarSettingsAdapter` の実装
   - `InMemoryAvatarKeyResolver` は `Dictionary<string, AvatarProviderDescriptor>` を持ち、`Resolve` / `AvatarKeys` を即時返却。`Refresh` は引数で渡された辞書で置き換えてイベント発火。
   - `InMemoryAvatarSchemaProvider` は `Dictionary<string, AvatarSettingsSchemaPayload>` を持ち、`Resolve` で取得（未登録時 null）。例外シミュレーション用 `_throwOnKeys: HashSet<string>` を持つ。
   - `RecordingAvatarSettingsAdapter` は `Apply` 呼出を `_calls: List<(GameObject avatar, string key, SettingType type, JsonElement value, AdapterApplyResult result)>` に記録、結果は事前設定可能（`SetResult(key, AdapterApplyResult)`）。
@@ -104,7 +104,7 @@
   - _Boundary: Tests/Doubles/*_
   - _Depends: 2.1_
 
-- [ ] 3.3 (P) `StubAvatarProvider` / `StubMoCapSource` / `InMemoryProviderRegistry` / `InMemoryMoCapSourceRegistry` の実装
+- [x] 3.3 (P) `StubAvatarProvider` / `StubMoCapSource` / `InMemoryProviderRegistry` / `InMemoryMoCapSourceRegistry` の実装
   - `StubAvatarProvider`：`IAvatarProvider`、`RequestAvatar` / `RequestAvatarAsync` で空の `GameObject`（new GameObject($"Stub-{slotId}")）を返し、`ReleaseAvatar` で `Object.Destroy`。
   - `StubMoCapSource`：`IMoCapSource`、`Initialize` で内部フラグ立て、`Tick` で何もしない。
   - `InMemoryProviderRegistry` / `InMemoryMoCapSourceRegistry`：`Resolve(descriptor)` で事前登録された Stub を返す。`Release` で参照カウントを管理。
@@ -114,7 +114,7 @@
   - _Boundary: Tests/Doubles/*_
   - _Depends: 1.1_
 
-- [ ] 3.4 (P) `ManualClock` / `StubMoCapSourceConfigFactoryForTests` / `FakeDiagnosticsLogger` の実装
+- [x] 3.4 (P) `ManualClock` / `StubMoCapSourceConfigFactoryForTests` / `FakeDiagnosticsLogger` の実装
   - `ManualClock`：`IClock`、内部時刻を `_now` として保持、`Advance(TimeSpan)` で進める。
   - `StubMoCapSourceConfigFactoryForTests`：`IMoCapSourceConfigFactory`、テスト用 Stub Descriptor を返す。
   - `FakeDiagnosticsLogger`：`IDiagnosticsLogger`（`ui-toolkit-shell` 由来、未使用なら本 spec 内で定義）、ログ履歴を `_entries: List<(string category, string message, ...)>` に記録。
