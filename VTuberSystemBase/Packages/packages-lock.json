@@ -349,6 +349,7 @@
         "jp.co.unvgi.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+        "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
         "com.unity.addressables": "2.0.0"
@@ -370,6 +371,15 @@
         "jp.co.unvgi.vtuber-system-base.character-selection-tab": "0.1.0",
         "jp.co.unvgi.realtimeavatarcontroller": "0.2.0-fork.1",
         "com.unity.addressables": "2.0.0"
+      }
+    },
+    "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory": {
+      "version": "file:com.hidano.vtuber-system-base.rac-movin-mocap-factory",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "jp.co.unvgi.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+        "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.7"
       }
     },
     "jp.co.unvgi.vtuber-system-base.stage-lighting-volume-output-adapter": {

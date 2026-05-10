@@ -75,3 +75,9 @@ Recordings
 .tmp-codex-prompt.txt
 tmp-codex-logs/
 .codex-prompts/
+
+# uloop CLI output artifacts
+VTuberSystemBase/.uloop/
+
+# Claude Code harness ephemeral files
+.claude/scheduled_tasks.lock
