@@ -39,7 +39,7 @@ rac-main-output-adapter
 
 - `com.hidano.vtuber-system-base.core-ipc-foundation`（Abstractions: `MessageKind`, `MessageEnvelope`, `IsExternalInit`）
 - `com.hidano.vtuber-system-base.output-renderer-shell`（Abstractions: `IOutputCommandDispatcher`, `IOutputSceneRoots`, `IOutputDiagnostics`）
-- `jp.hidano.vtuber-system-base.character-selection-tab` — Contracts asmdef のみ（topic 定数 + payload DTO）
+- `com.hidano.vtuber-system-base.character-selection-tab` — Contracts asmdef のみ（topic 定数 + payload DTO）
 - `com.hidano.realtimeavatarcontroller` 0.2.0（`RealtimeAvatarController.Core.asmdef` を参照）
 
 環境: Unity 6.3 URP / Windows x86 / スタンドアロンと Editor PlayMode 両対応
@@ -85,7 +85,7 @@ rac-main-output-adapter
 ## Boundary Context
 
 - **In scope**:
-  - 本 spec パッケージ（`jp.hidano.vtuber-system-base.rac-main-output-adapter`）のアセンブリ構成（`Runtime` のみ、Engine 参照あり）。
+  - 本 spec パッケージ（`com.hidano.vtuber-system-base.rac-main-output-adapter`）のアセンブリ構成（`Runtime` のみ、Engine 参照あり）。
   - `character-selection-tab` Contracts asmdef の参照購読と `IOutputCommandDispatcher.RegisterStateHandler<T>` / `RegisterEventHandler<T>` / `RegisterRequestHandler<TReq,TRes>` への登録。
   - RAC `SlotManager` のメイン出力側ライフサイクル管理（生成・Dispose・状態購読）。
   - RAC `ISlotErrorChannel` 購読と `slot/{id}/error` への翻訳。
@@ -126,7 +126,7 @@ rac-main-output-adapter
 
 #### Acceptance Criteria
 
-1. The RAC Main Output Adapter shall UPM パッケージ `jp.hidano.vtuber-system-base.rac-main-output-adapter` として配布可能で、`Packages/manifest.json` で `com.hidano.vtuber-system-base.core-ipc-foundation` / `com.hidano.vtuber-system-base.output-renderer-shell` / `jp.hidano.vtuber-system-base.character-selection-tab` / `com.hidano.realtimeavatarcontroller` を依存に持つ構造とする。
+1. The RAC Main Output Adapter shall UPM パッケージ `com.hidano.vtuber-system-base.rac-main-output-adapter` として配布可能で、`Packages/manifest.json` で `com.hidano.vtuber-system-base.core-ipc-foundation` / `com.hidano.vtuber-system-base.output-renderer-shell` / `com.hidano.vtuber-system-base.character-selection-tab` / `com.hidano.realtimeavatarcontroller` を依存に持つ構造とする。
 2. The RAC Main Output Adapter shall Runtime asmdef を `VTuberSystemBase.RacMainOutputAdapter.Runtime` として 1 つ持ち、参照先を `VTuberSystemBase.CoreIpc.Abstractions` / `VTuberSystemBase.OutputRendererShell.Runtime` の Abstractions 部 / `VTuberSystemBase.CharacterSelectionTab.Contracts`（GUID `1e7b25ecbf9f4963b5275a52b2623640`）/ RAC `RealtimeAvatarController.Core` に限定し、UI 側 asmdef・他タブ asmdef・`core-ipc-foundation` 具体実装への直接参照を構造的に禁止する。
 3. The RAC Main Output Adapter shall asmdef の `noEngineReferences` を `false` とし、`UnityEngine.Object` / `Transform` / `GameObject` の直接操作を許容する（RA-1）。
 4. When `OutputSceneBootstrapper` が `Start` を完了したとき、the RAC Main Output Adapter shall `IOutputCommandDispatcher` に対して `slot/+/assignment`（state）/ `slot/+/settings/+`（state）/ `slot/+/command`（event）/ `avatars/+/schema`（request）の各 topic にハンドラを登録する（RA-12）。

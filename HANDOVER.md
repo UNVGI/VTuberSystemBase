@@ -77,22 +77,22 @@
 
 #### P0-2: UI Shell パッケージ rename
 
-- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/` → `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/` (ディレクトリ rename)
-- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/package.json` の `name` フィールド更新
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/` → `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/` (ディレクトリ rename)
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/package.json` の `name` フィールド更新
 - `Packages/packages-lock.json` (top-level entry + 4 depended-by entries 全置換)
 - 依存パッケージ 4 件の `package.json`：`stage-lighting-volume-tab`, `character-selection-tab`, `camera-switcher-tab`, `integrated-demo`
-- `Packages/jp.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md`
+- `Packages/com.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md`
 
 #### P1-D: RAC AdapterRoundTrip
 
-- `Packages/jp.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Senders/SlotCatalogPublisher.cs` (`OnStateChanged` の Slot 追加検知ロジック)
-- `Packages/jp.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Receivers/SlotAssignmentApplier.cs` (`UnregisterDynamic` の SemaphoreSlim 非破棄)
+- `Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Senders/SlotCatalogPublisher.cs` (`OnStateChanged` の Slot 追加検知ロジック)
+- `Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Receivers/SlotAssignmentApplier.cs` (`UnregisterDynamic` の SemaphoreSlim 非破棄)
 
 #### P1-F: Performance / JsonPresetStorage
 
-- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/PerformanceMetricsTests.cs` (`AsyncLoad_HundredConcurrentInflight` の catalog probe)
-- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/UiToolkitShell.Tests.asmdef` (`Unity.Addressables` 参照追加)
-- `Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-tab/Tests/Runtime/JsonPresetStorageTests.cs` (`Save_FailsCleanly` の assertion 拡張)
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/PerformanceMetricsTests.cs` (`AsyncLoad_HundredConcurrentInflight` の catalog probe)
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/Tests/UiToolkitShell.Tests.asmdef` (`Unity.Addressables` 参照追加)
+- `Packages/com.hidano.vtuber-system-base.stage-lighting-volume-tab/Tests/Runtime/JsonPresetStorageTests.cs` (`Save_FailsCleanly` の assertion 拡張)
 
 #### P0-1: MainDemo.unity
 
@@ -110,6 +110,6 @@
 
 - `docs/integration-plan.md` — 統合開発計画 v1.0
 - `docs/requirements.md` — VTuberSystemBase 要件定義書
-- `Packages/jp.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md` — MainDemo.unity 構築手順 (Display 1 含む完全版)
+- `Packages/com.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md` — MainDemo.unity 構築手順 (Display 1 含む完全版)
 - `https://github.com/hatayama/unity-cli-loop` — uloop README
 - 前回の `HANDOVER.md`（commit `402a2f0`、本ノートで上書き）— Wave 3a〜3e + URP/IntegratedDemo セッション

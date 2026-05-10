@@ -279,7 +279,7 @@ output adapter Runtime ──X──> core-ipc-foundation Core (concrete transpo
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter/
+Packages/com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter/
 ├── package.json
 ├── README.md
 ├── link.xml                                       # IL2CPP strip 抑止（UnityEngine.Rendering namespace 保護）
@@ -1406,7 +1406,7 @@ public readonly record struct StageLoadFailedDto(
 
 本 spec は新規 spec のため移行戦略は不要。利用者プロジェクトでの導入手順は README に整備：
 
-1. `manifest.json` に `jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter` 追加。
+1. `manifest.json` に `com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter` 追加。
 2. `OutputSceneBootstrapper` のシーンに `StageLightingVolumeOutputAdapterBootstrapper` を `AddComponent`。
 3. Addressables Group に「stage」ラベル付きで Stage Prefab を登録。サムネイルは `{stageKey}.thumbnail` で命名。
 4. 必要に応じて独自 `VolumeComponent` を `[VolumeComponentMenu]` で URP に登録。

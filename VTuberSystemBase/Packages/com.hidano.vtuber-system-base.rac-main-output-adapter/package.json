@@ -1,0 +1,27 @@
+{
+  "name": "com.hidano.vtuber-system-base.rac-main-output-adapter",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase RAC Main Output Adapter",
+  "description": "Main-output-side adapter that bridges character-selection-tab IPC contracts to the RealtimeAvatarController (RAC) SlotManager. Subscribes slot/{id}/assignment/settings/command and avatars/{key}/schema topics through the output-renderer-shell IOutputCommandDispatcher, drives RAC SlotManager to add/remove avatars, and publishes slots/catalog, avatars/catalog, slot/{id}/status, slot/{id}/error back to the UI side. The adapter owns RAC runtime lifetime under IOutputSceneRoots.Characters; it does not implement UI tabs, IPC transport, or render shell internals.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "rac",
+    "avatar",
+    "main-output",
+    "adapter"
+  ],
+  "dependencies": {
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
+    "com.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+    "com.hidano.realtimeavatarcontroller": "0.2.0",
+    "com.unity.addressables": "2.0.0"
+  }
+}

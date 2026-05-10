@@ -5,7 +5,7 @@
 ## 1. Foundation: パッケージ骨格と共有抽象の整備
 
 - [x] 1.1 UPM パッケージ骨格と asmdef 参照方向の確立
-  - `jp.hidano.vtuber-system-base.camera-switcher-output-adapter` UPM パッケージ（package.json）を新規作成し、`Runtime/Abstractions`、`Runtime/Domain`、`Runtime/Adapters`、`Runtime/Runtime`、`Editor`、`Tests/Runtime`、`Samples~/MockedOscSenderSample` のディレクトリ骨格を配置する。
+  - `com.hidano.vtuber-system-base.camera-switcher-output-adapter` UPM パッケージ（package.json）を新規作成し、`Runtime/Abstractions`、`Runtime/Domain`、`Runtime/Adapters`、`Runtime/Runtime`、`Editor`、`Tests/Runtime`、`Samples~/MockedOscSenderSample` のディレクトリ骨格を配置する。
   - `Abstractions` / `Domain` / `Runtime`（実体クラス）/ `Editor` / `Tests.Runtime` の 5 つの asmdef を作成し、`Abstractions ← Domain ← Runtime`、`Tests.Runtime → Runtime + Domain + Abstractions` の参照方向を確立する。Editor は `#if UNITY_EDITOR` のみ参照する。
   - Runtime asmdef から `output-renderer-shell` Abstractions（GUID 参照）/ `core-ipc-foundation` Abstractions（GUID `286be82527bb75547a774598be8243ab`）/ `camera-switcher-tab.Contracts`（GUID 参照）/ `com.hidano.uosc` / `com.hidano.ucapi4unity` を `references` に登録、`overrideReferences:true` + `precompiledReferences` で `System.Text.Json` 系を取り込む。
   - `.meta` ファイルの GUID は `[guid]::NewGuid().ToString('N')` で都度ランダム生成する（CLAUDE.md ルール、連続パターン禁止）。

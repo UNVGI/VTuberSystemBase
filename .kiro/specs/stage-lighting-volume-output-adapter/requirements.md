@@ -57,7 +57,7 @@ stage-lighting-volume-output-adapter
 | ID | トピック | 決定内容 | 根拠 | リスク |
 | --- | --- | --- | --- | --- |
 | SLOA-1 | Contracts asmdef の所属 | **`stage-lighting-volume-tab` パッケージ内の Contracts asmdef を参照する** （新規 Contracts asmdef は作らない）。本 spec の Runtime asmdef は `VTuberSystemBase.StageLightingVolumeTab.Contracts` を `references` に追加する。 | UI 側と出力側で「単一の契約ソース」を共有することが SL の design.md（Boundary Commitments）の明示的前提。Wave 3a で Contracts asmdef 切り出しが完了済み。新規 Contracts を作ると DTO 重複と双方の同期コストが発生する。 | 低 |
-| SLOA-2 | パッケージ命名 | **`jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter`** とする。`character-selection-tab` / `stage-lighting-volume-tab` と命名規約を揃える。 | リポジトリ既存パッケージとの一貫性。`com.hidano.*` は基盤 3 パッケージ専用、`jp.hidano.*` は Wave 3 以降のタブ・アダプタ系に統一。 | 低 |
+| SLOA-2 | パッケージ命名 | **`com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter`** とする。`character-selection-tab` / `stage-lighting-volume-tab` と命名規約を揃える。 | リポジトリ既存パッケージとの一貫性。`com.hidano.*` は基盤 3 パッケージ専用、`jp.hidano.*` は Wave 3 以降のタブ・アダプタ系に統一。 | 低 |
 | SLOA-3 | URP 依存の扱い | **`UnityEngine.Rendering.Universal` および `Unity.RenderPipelines.Core.Runtime` を Runtime asmdef の参照に明示追加する**。Contracts asmdef は URP 直接依存を持たないため、URP API 呼出は本 spec 内に閉じ込める。 | URP の `VolumeManager`, `VolumeProfile.Add<T>()`, `VolumeComponent`, `VolumeParameter<T>` を扱うため必須。Contracts は Unity 標準型（`RenderTexture` まで）に留まっており分離が成立している。 | 中（URP メジャー更新で API 変更を被る可能性。`docs/integration-plan.md` §7.3 のリスク 1 と整合し、`manifest.json` でバージョン固定して再検証トリガとする） |
 | SLOA-4 | Stage Prefab の解放戦略 | **新ステージ Instantiate 完了後、旧ステージ GameObject を破棄する前に必ず `Addressables.ReleaseInstance(oldGameObject)` を呼ぶ**。`Object.Destroy` のみではアセットハンドルがリークする。`stage/active` 受信時の処理は (1) 新ステージの `InstantiateAsync` 開始 → (2) 完了後に旧ステージ Release → (3) `stage/current` state 更新 → (4) `stage/loaded` event publish の順とする。 | `Addressables.InstantiateAsync` は内部で AssetBundle ロード参照カウントを増やすため、`Object.Destroy` のみではアンロードトリガが立たない。Unity Addressables 2.x の公式仕様。 | 高（解放漏れは長時間運用でメモリリーク。実装フェーズで `IInstantiationProvider` のテストを必須化する） |
 | SLOA-5 | Stage 切替中の中間状態 | **新ステージのロードが完了するまでは旧ステージを破棄しない（lazy swap）**。ロード中は `stage/current` を「旧ステージのまま」で publish し続け、完了後に新ステージへ更新する。失敗時は `stage/load-failed` event を publish して旧ステージのまま継続する。 | 配信中の切替で「ステージ無し」の真っ暗な瞬間が生じることを構造的に回避（SL-11）。配信適合性に直結。 | 中（同時に複数の load 要求が来た場合の調停ロジックが必要。最後の要求のみ採用する FIFO 直列化方針を実装フェーズで確定） |
@@ -141,7 +141,7 @@ stage-lighting-volume-output-adapter
 
 #### Acceptance Criteria
 
-1. The Output Adapter shall UPM パッケージ `jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter` として `Packages/` 配下に配置されること（SLOA-2）。
+1. The Output Adapter shall UPM パッケージ `com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter` として `Packages/` 配下に配置されること（SLOA-2）。
 2. The Output Adapter shall Runtime asmdef `VTuberSystemBase.StageLightingVolumeOutputAdapter.Runtime` を 1 つだけ提供し、参照は `VTuberSystemBase.StageLightingVolumeTab.Contracts` / `VTuberSystemBase.OutputRendererShell.Runtime` / `VTuberSystemBase.CoreIpc.Abstractions` / `Unity.RenderPipelines.Universal.Runtime` / `Unity.RenderPipelines.Core.Runtime` / `Unity.Addressables` / `SceneViewStyleCameraController.Runtime` に限定する（SLOA-1, SLOA-3）。
 3. The Output Adapter shall `stage-lighting-volume-tab` の `Runtime` asmdef（UI 側 ViewModel/View）を一切参照しないこと（UI と出力の双方向参照を避けるため）。
 4. The Output Adapter shall 新規 Contracts asmdef を作成せず、`stage-lighting-volume-tab` の既存 Contracts asmdef（`VTuberSystemBase.StageLightingVolumeTab.Contracts`）を契約共有源として参照すること（SLOA-1）。

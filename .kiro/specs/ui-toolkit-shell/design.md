@@ -192,7 +192,7 @@ graph TB
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/
+Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/
 ├── Runtime/
 │   ├── Bootstrap/
 │   │   ├── UiShellBootstrapper.cs         # 初期化ランタイムエントリポイント、PlayMode ライフサイクル

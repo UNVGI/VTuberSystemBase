@@ -31,7 +31,7 @@ camera-switcher-output-adapter
 - `com.hidano.uosc` v1.0.0+ — `uOscServer.onDataReceived(Message)` を受け取る。`Message.values[0]` は `byte[]`（blob）。
 
 参照する Contracts:
-- `jp.hidano.vtuber-system-base.camera-switcher-tab` パッケージ内の `Runtime/Contracts/` asmdef（`VTuberSystemBase.CameraSwitcherTab.Contracts`、GUID は当該 asmdef を参照）。`CameraIpcTopics` / `CameraId` / `CameraType` / `OscAddressBuilder` / `Payloads/*` を本 spec の Runtime asmdef がそのまま参照する。
+- `com.hidano.vtuber-system-base.camera-switcher-tab` パッケージ内の `Runtime/Contracts/` asmdef（`VTuberSystemBase.CameraSwitcherTab.Contracts`、GUID は当該 asmdef を参照）。`CameraIpcTopics` / `CameraId` / `CameraType` / `OscAddressBuilder` / `Payloads/*` を本 spec の Runtime asmdef がそのまま参照する。
 
 環境: Unity 6.3 URP / Windows x86 / スタンドアロンと Editor PlayMode 両対応。
 言語: 日本語（CLAUDE.md の規約に従う）。

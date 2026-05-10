@@ -75,7 +75,7 @@
 - `Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/TestSupport/AutoBootstrapDisabler.cs` (新規, `UNITY_INCLUDE_TESTS` 制約 asmdef 内)
 - `Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/CoalesceSemanticsTests.cs` (defensive `[SetUp]` 追加)
 - `Packages/com.vtuber-system-base.core-ipc-foundation/Tests/Runtime/PerformanceLoadTests.cs` (end snapshot に GC.Collect 追加)
-- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiCommandClientTests.cs` (timeout test を `async Task` に変換)
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/UiCommandClientTests.cs` (timeout test を `async Task` に変換)
 
 ### tasks.md (sync 済)
 

@@ -247,7 +247,7 @@ Runtime / Composition Root (CameraSwitcherOutputAdapterBootstrapper MonoBehaviou
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/
+Packages/com.hidano.vtuber-system-base.camera-switcher-output-adapter/
 ├── package.json
 ├── README.md                                      # 利用者向け概要 + 既定ポート（127.0.0.1:9000、仮置き）
 ├── Runtime/
@@ -335,7 +335,7 @@ Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/
 
 ### Modified Files
 
-- `Packages/jp.hidano.vtuber-system-base.camera-switcher-tab/Runtime/Contracts/`：**変更しない**。Wave 3a で切り出された Contracts asmdef をそのまま参照する。
+- `Packages/com.hidano.vtuber-system-base.camera-switcher-tab/Runtime/Contracts/`：**変更しない**。Wave 3a で切り出された Contracts asmdef をそのまま参照する。
 - `Packages/com.hidano.vtuber-system-base.output-renderer-shell/`：**変更しない**。`IOutputCommandDispatcher` / `IOutputSceneRoots` の公開 API のみ利用する（Wave 3e で `IDisplayRoutingService` の RDS 実装が追加される可能性はあるが本 spec とは独立）。
 
 **Dependency direction**（asmdef 参照関係）:
@@ -1097,7 +1097,7 @@ flowchart TB
 - `D:\Personal\Repositries\VTuberSystemBase\docs\integration-plan.md` — Wave 3c の本 spec、§3.1 結節点 Camera 表、§7.2 オープンイシュー
 - `D:\Personal\Repositries\VTuberSystemBase\.kiro\specs\camera-switcher-tab\design.md` — 対向 UI 側の設計（IPC / OSC 契約の単一ソース）
 - `D:\Personal\Repositries\VTuberSystemBase\.kiro\specs\camera-switcher-tab\requirements.md` — 上流要件（CSW-1〜CSW-16）
-- `D:\Personal\Repositries\VTuberSystemBase\VTuberSystemBase\Packages\jp.hidano.vtuber-system-base.camera-switcher-tab\Runtime\Contracts\` — 共有 Contracts asmdef（topic / payload / CameraId / OscAddressBuilder）
+- `D:\Personal\Repositries\VTuberSystemBase\VTuberSystemBase\Packages\com.hidano.vtuber-system-base.camera-switcher-tab\Runtime\Contracts\` — 共有 Contracts asmdef（topic / payload / CameraId / OscAddressBuilder）
 - `D:\Personal\Repositries\VTuberSystemBase\.kiro\specs\output-renderer-shell\design.md` — `IOutputCommandDispatcher` / `IOutputSceneRoots` の契約
 - `D:\Personal\Repositries\VTuberSystemBase\.kiro\specs\core-ipc-foundation\design.md` — D-3 / D-5 / D-7 / D-9 / D-10
 - `D:\Personal\Repositries\VTuberSystemBase\VTuberSystemBase\Library\PackageCache\com.hidano.uosc@f7a52f0c524d\Runtime\uOscServer.cs` — `onDataReceived` のメインスレッド配信実装の根拠

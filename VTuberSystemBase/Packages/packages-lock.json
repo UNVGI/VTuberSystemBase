@@ -9,7 +9,7 @@
     },
     "com.hidano.realtimeavatarcontroller": {
       "version": "0.2.0",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://registry.npmjs.com"
@@ -26,7 +26,7 @@
     },
     "com.hidano.scene-view-style-camera-controller": {
       "version": "1.0.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.inputsystem": "1.4.0"
@@ -45,9 +45,19 @@
       },
       "url": "https://registry.npmjs.com"
     },
+    "com.hidano.ulipsync-asio": {
+      "version": "3.1.5-custom.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.4.11",
+        "com.unity.mathematics": "1.2.5"
+      },
+      "url": "https://registry.npmjs.com"
+    },
     "com.hidano.uosc": {
       "version": "1.0.0",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://registry.npmjs.com"
@@ -63,6 +73,15 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.hidano.vtuber-system-base.ui-toolkit-shell": {
+      "version": "file:com.hidano.vtuber-system-base.ui-toolkit-shell",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.addressables": "2.6.0",
+        "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0"
+      }
     },
     "com.neuecc.unirx": {
       "version": "7.1.0",
@@ -282,174 +301,152 @@
     },
     "com.unity.ugui": {
       "version": "2.0.0",
-      "depth": 2,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "jp.co.unvgi.realtimeavatarcontroller": {
-      "version": "0.2.0-fork.1",
-      "depth": 1,
-      "source": "registry",
+    "com.vrmc.gltf": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Packages/UniGLTF#v0.131.0",
+      "depth": 0,
+      "source": "git",
       "dependencies": {
-        "jp.co.unvgi.uosc": "1.0.0"
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.test-framework": "1.4.6",
+        "com.unity.mathematics": "1.2.6"
       },
-      "url": "https://npm.unvgi.com"
+      "hash": "3b99078d26b362733ad9bf463f98c83b8a1b4c9f"
     },
-    "jp.co.unvgi.realtimeavatarcontroller.movin": {
-      "version": "0.1.7",
+    "com.vrmc.univrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Packages/VRM#v0.131.0",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {
-        "jp.co.unvgi.realtimeavatarcontroller": "0.2.0-fork.1"
+        "com.vrmc.gltf": "0.131.0",
+        "com.unity.ugui": "1.0.0"
       },
-      "url": "https://npm.unvgi.com"
+      "hash": "3b99078d26b362733ad9bf463f98c83b8a1b4c9f"
     },
-    "jp.co.unvgi.scene-view-style-camera-controller": {
-      "version": "1.0.1",
+    "com.vrmc.vrm": {
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Packages/VRM10#v0.131.0",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {
-        "com.unity.inputsystem": "1.4.0"
+        "com.unity.timeline": "1.7.6",
+        "com.vrmc.gltf": "0.131.0"
       },
-      "url": "https://npm.unvgi.com"
+      "hash": "3b99078d26b362733ad9bf463f98c83b8a1b4c9f"
     },
-    "jp.co.unvgi.ulipsync-asio": {
-      "version": "3.1.5-custom.2",
+    "io.github.hatayama.uloopmcp": {
+      "version": "2.1.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.burst": "1.4.11",
-        "com.unity.mathematics": "1.2.5"
+        "com.unity.nuget.newtonsoft-json": "3.2.1",
+        "com.unity.ugui": "1.0.0"
       },
-      "url": "https://npm.unvgi.com"
+      "url": "https://package.openupm.com"
     },
-    "jp.co.unvgi.uosc": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://npm.unvgi.com"
-    },
-    "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": {
-      "version": "file:com.hidano.vtuber-system-base.core-ipc-foundation",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "jp.co.unvgi.vtuber-system-base.output-renderer-shell": {
-      "version": "file:com.hidano.vtuber-system-base.output-renderer-shell",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "jp.co.unvgi.vtuber-system-base.ui-toolkit-shell": {
-      "version": "file:jp.hidano.vtuber-system-base.ui-toolkit-shell",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.addressables": "2.6.0",
-        "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0"
-      }
-    },
-    "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.camera-switcher-output-adapter",
+    "com.hidano.vtuber-system-base.camera-switcher-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.camera-switcher-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
         "com.hidano.uosc": "1.0.0",
         "com.hidano.ucapi4unity": "0.1.0-preview.1"
       }
     },
-    "jp.hidano.vtuber-system-base.camera-switcher-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.camera-switcher-tab",
+    "com.hidano.vtuber-system-base.camera-switcher-tab": {
+      "version": "file:com.hidano.vtuber-system-base.camera-switcher-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.uosc": "1.0.0",
         "com.hidano.ucapi4unity": "0.1.0-preview.1",
         "com.hidano.scene-view-style-camera-controller": "1.0.1"
       }
     },
-    "jp.hidano.vtuber-system-base.character-selection-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.character-selection-tab",
+    "com.hidano.vtuber-system-base.character-selection-tab": {
+      "version": "file:com.hidano.vtuber-system-base.character-selection-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.integrated-demo": {
-      "version": "file:jp.hidano.vtuber-system-base.integrated-demo",
+    "com.hidano.vtuber-system-base.integrated-demo": {
+      "version": "file:com.hidano.vtuber-system-base.integrated-demo",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.rac-main-output-adapter": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.rac-main-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.rac-main-output-adapter",
+    "com.hidano.vtuber-system-base.rac-main-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.rac-main-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
         "com.hidano.realtimeavatarcontroller": "0.2.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter",
+    "com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
         "com.hidano.scene-view-style-camera-controller": "1.0.1",
         "com.unity.addressables": "2.0.0",
         "com.unity.render-pipelines.universal": "17.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.stage-lighting-volume-tab",
+    "com.hidano.vtuber-system-base.stage-lighting-volume-tab": {
+      "version": "file:com.hidano.vtuber-system-base.stage-lighting-volume-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.scene-view-style-camera-controller": "1.0.1",
         "com.unity.addressables": "2.0.0",
         "com.unity.render-pipelines.universal": "17.3.0"
       }
     },
-    "jp.hidano.vtuber-system-base.ui-toolkit-shell": {
-      "version": "file:jp.hidano.vtuber-system-base.ui-toolkit-shell",
+    "jp.keijiro.klak.spout": {
+      "version": "2.0.6",
       "depth": 0,
-      "source": "embedded",
+      "source": "registry",
       "dependencies": {
-        "com.unity.addressables": "2.6.0",
-        "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0"
-      }
+        "com.unity.modules.screencapture": "1.0.0"
+      },
+      "url": "https://registry.npmjs.com"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
