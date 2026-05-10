@@ -11,6 +11,7 @@ using VTuberSystemBase.CharacterSelectionTab.Tests.TestDoubles;
 using VTuberSystemBase.UiToolkitShell.Commands;
 
 using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.Contracts.AvatarCatalogEntry;
+using ConnectionStatusCode = VTuberSystemBase.UiToolkitShell.Commands.ConnectionStatusCode;
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {
     [TestFixture]
