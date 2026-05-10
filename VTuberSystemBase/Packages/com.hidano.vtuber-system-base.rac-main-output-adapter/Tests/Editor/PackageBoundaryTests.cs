@@ -15,7 +15,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Editor
     public sealed class PackageBoundaryTests
     {
         private const string RuntimeAsmdefAssetPath =
-            "Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/VTuberSystemBase.RacMainOutputAdapter.Runtime.asmdef";
+            "Packages/jp.co.unvgi.vtuber-system-base.rac-main-output-adapter/Runtime/VTuberSystemBase.RacMainOutputAdapter.Runtime.asmdef";
 
         private static readonly string[] ForbiddenAssemblyNames =
         {
