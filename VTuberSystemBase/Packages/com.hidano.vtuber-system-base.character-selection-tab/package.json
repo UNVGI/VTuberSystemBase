@@ -1,5 +1,5 @@
 {
-  "name": "com.hidano.vtuber-system-base.character-selection-tab",
+  "name": "jp.co.unvgi.vtuber-system-base.character-selection-tab",
   "version": "0.1.0",
   "displayName": "VTuberSystemBase Character Selection Tab",
   "description": "Display 1 UI tab for the VTuberSystemBase that maps MoCap actor slots to avatars and exposes per-avatar settings via the RealtimeAvatarController. Provides the Contracts assembly (IPC topic constants and payload DTOs) shared between the UI side and the main-output-side RAC adapter, plus the UI implementation that consumes the ui-toolkit-shell facades. The main-output-side adapter (RAC driving) is out of scope for this package.",
@@ -18,8 +18,8 @@
     "rac"
   ],
   "dependencies": {
-    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-    "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "jp.co.unvgi.vtuber-system-base.ui-toolkit-shell": "0.1.0",
     "com.unity.addressables": "2.0.0"
   }
 }
