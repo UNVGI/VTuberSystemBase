@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using RealtimeAvatarController.Core;
+using UnityEngine;
+using VTuberSystemBase.RacMainOutputAdapter.Defaults;
 
 namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Doubles
 {
@@ -73,11 +76,28 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Doubles
             return new List<string>(_factories.Keys);
         }
 
+        /// <inheritdoc/>
+        public bool TryGetFactory(string sourceTypeId, out IMoCapSourceFactory factory)
+        {
+            return _factories.TryGetValue(sourceTypeId, out factory);
+        }
+
         private struct Entry { public IMoCapSource Source; public int RefCount; }
 
         private sealed class StubFactory : IMoCapSourceFactory
         {
             public IMoCapSource Create(MoCapSourceConfigBase config) => new StubMoCapSource();
+
+            public MoCapSourceConfigBase CreateDefaultConfig()
+                => ScriptableObject.CreateInstance<StubMoCapSourceConfig>();
+
+            public IDisposable CreateApplierBridge(IMoCapSource source, GameObject avatar, MoCapSourceConfigBase config)
+                => new NoOpDisposable();
+
+            private sealed class NoOpDisposable : IDisposable
+            {
+                public void Dispose() { }
+            }
         }
     }
 }
