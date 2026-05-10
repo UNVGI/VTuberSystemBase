@@ -6,6 +6,7 @@ using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.CoreIpc.Core;
 using VTuberSystemBase.OutputRendererShell.Scene;
 using VTuberSystemBase.RacMainOutputAdapter.Bootstrapper;
+using VTuberSystemBase.RacMovinMoCapFactory;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime;
 using VTuberSystemBase.StageLightingVolumeOutputAdapter.Bootstrap;
 
@@ -212,6 +213,12 @@ namespace VTuberSystemBase.IntegratedDemo
             // Inspector 配線を想定したフィールドなので、コードからは reflection で渡す。
             BindBusProviderToRacHostViaReflection(_racHost);
 
+            // MOVIN MoCap Factory Provider を Host と同一 GameObject に配置し、
+            // reflection で Host の Provider field へ注入する。
+            var movinProvider = GetComponent<MovinMoCapSourceConfigFactoryProvider>()
+                ?? gameObject.AddComponent<MovinMoCapSourceConfigFactoryProvider>();
+            BindMocapProviderToRacHostViaReflection(_racHost, movinProvider);
+
             // Stage adapter Bootstrapper - Awake は no-op、Start で TryStart。
             _stageHost = GetComponent<StageLightingVolumeOutputAdapterBootstrapper>()
                 ?? gameObject.AddComponent<StageLightingVolumeOutputAdapterBootstrapper>();
@@ -296,6 +303,33 @@ namespace VTuberSystemBase.IntegratedDemo
             catch (Exception ex)
             {
                 Debug.LogWarning($"[IntegratedDemoBootstrap] Reflection bind to RacMainOutputAdapterHost failed: {ex.Message}");
+            }
+        }
+
+        private void BindMocapProviderToRacHostViaReflection(
+            RacMainOutputAdapterHost host,
+            MovinMoCapSourceConfigFactoryProvider provider)
+        {
+            try
+            {
+                var field = typeof(RacMainOutputAdapterHost).GetField(
+                    "_mocapFactoryProviderBehaviour",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                if (field != null)
+                {
+                    field.SetValue(host, provider);
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        "[IntegratedDemoBootstrap] _mocapFactoryProviderBehaviour field not found on RacMainOutputAdapterHost; "
+                        + "MOVIN factory injection skipped (StubMoCapSourceConfigFactory will be used).");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(
+                    $"[IntegratedDemoBootstrap] Reflection bind of MOVIN provider to RacMainOutputAdapterHost failed: {ex.Message}");
             }
         }
 
