@@ -341,6 +341,16 @@
       },
       "hash": "3b99078d26b362733ad9bf463f98c83b8a1b4c9f"
     },
+    "io.github.hatayama.uloopmcp": {
+      "version": "2.1.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": {
       "version": "file:jp.hidano.vtuber-system-base.camera-switcher-output-adapter",
       "depth": 0,
