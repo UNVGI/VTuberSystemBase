@@ -4,6 +4,7 @@ using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.UiToolkitShell.Bootstrap;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using VTuberSystemBase.UiToolkitShell.Panels;
+using LogLevel = VTuberSystemBase.UiToolkitShell.Diagnostics.LogLevel;
 
 namespace VTuberSystemBase.IntegratedDemo
 {

@@ -10,7 +10,7 @@ using VTuberSystemBase.CharacterSelectionTab.State;
 using VTuberSystemBase.CharacterSelectionTab.Tests.TestDoubles;
 using VTuberSystemBase.UiToolkitShell.Commands;
 
-using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.State.AvatarCatalogEntry;
+using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.Contracts.AvatarCatalogEntry;
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {
     [TestFixture]

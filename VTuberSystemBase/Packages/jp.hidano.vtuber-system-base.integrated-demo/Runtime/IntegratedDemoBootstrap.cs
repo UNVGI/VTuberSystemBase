@@ -99,7 +99,7 @@ namespace VTuberSystemBase.IntegratedDemo
                 if (_outputSceneBootstrapper != null
                     && _outputSceneBootstrapper.Diagnostics != null
                     && _outputSceneBootstrapper.Diagnostics.CurrentPhase ==
-                        VTuberSystemBase.OutputRendererShell.Diagnostics.OutputSceneInitPhase.Complete)
+                        VTuberSystemBase.OutputRendererShell.Abstractions.OutputSceneInitPhase.Complete)
                 {
                     break;
                 }

@@ -10,7 +10,7 @@ using VTuberSystemBase.CharacterSelectionTab.Services;
 using VTuberSystemBase.CharacterSelectionTab.State;
 using VTuberSystemBase.UiToolkitShell.AssetLoading;
 
-using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.State.AvatarCatalogEntry;
+using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.Contracts.AvatarCatalogEntry;
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {
     /// <summary>
