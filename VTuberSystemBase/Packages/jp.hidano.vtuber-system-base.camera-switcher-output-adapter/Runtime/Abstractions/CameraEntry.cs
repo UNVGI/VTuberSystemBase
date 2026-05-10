@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions
 {
     /// <summary>

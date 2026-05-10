@@ -10,6 +10,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Fakes;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
 {
     /// <summary>

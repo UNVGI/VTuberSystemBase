@@ -8,6 +8,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Runtime
 {
     [TestFixture]

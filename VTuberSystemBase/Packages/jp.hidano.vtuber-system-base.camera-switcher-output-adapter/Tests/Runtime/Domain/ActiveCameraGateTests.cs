@@ -9,6 +9,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Domain;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Domain
 {
     [TestFixture]

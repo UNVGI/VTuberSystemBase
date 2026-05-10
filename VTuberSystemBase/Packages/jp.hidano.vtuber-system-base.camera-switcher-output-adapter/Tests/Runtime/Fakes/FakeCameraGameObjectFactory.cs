@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Fakes
 {
     /// <summary>

@@ -11,6 +11,7 @@ using VTuberSystemBase.CameraSwitcherTab.Contracts;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Domain
 {
     public enum AdapterStatus
