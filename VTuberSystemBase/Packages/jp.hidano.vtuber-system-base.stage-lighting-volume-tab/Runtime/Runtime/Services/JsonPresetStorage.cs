@@ -157,9 +157,11 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Services
 
                 await WriteAllTextAsync(tempPath, json, ct).ConfigureAwait(false);
 
-                // Atomic swap: File.Move with overwrite is atomic on Windows / NTFS as
-                // long as both paths live on the same volume.
-                File.Move(tempPath, _filePath, overwrite: true);
+                // Best-effort atomic swap: delete existing then move. On the same
+                // volume File.Move is atomic; the brief window between Delete and
+                // Move is acceptable as the temp file is the only writer.
+                if (File.Exists(_filePath)) File.Delete(_filePath);
+                File.Move(tempPath, _filePath);
 
                 return SaveResult.Ok();
             }

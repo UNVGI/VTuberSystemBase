@@ -19,7 +19,7 @@ namespace VTuberSystemBase.CameraSwitcherTab.Adapters.Time
 
         public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
 
-        public double MonotonicSeconds => Application.isPlaying ? Time.timeAsDouble : 0.0;
+        public double MonotonicSeconds => Application.isPlaying ? UnityEngine.Time.timeAsDouble : 0.0;
 
         public event Action<DateTimeOffset>? OnTick;
 

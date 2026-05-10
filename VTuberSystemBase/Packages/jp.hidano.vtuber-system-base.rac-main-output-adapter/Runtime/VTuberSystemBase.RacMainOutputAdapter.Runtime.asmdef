@@ -9,6 +9,7 @@
         "GUID:5875fcfffbaf4bb68170e2da9b68bad0",
         "UniRx",
         "UniTask",
+        "UniTask.Addressables",
         "Unity.Addressables",
         "Unity.ResourceManager"
     ],

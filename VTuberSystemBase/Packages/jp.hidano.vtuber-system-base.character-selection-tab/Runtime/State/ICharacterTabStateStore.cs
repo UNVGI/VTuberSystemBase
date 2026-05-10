@@ -38,6 +38,7 @@ namespace VTuberSystemBase.CharacterSelectionTab.State
 
         void SetSelectedSlot(string? slotId);
         void FlushBufferedSetting(string slotId, string settingKey);
+        void MarkInteracting(string slotId, string settingKey);
 
         event Action<StateChangeScope> OnChanged;
     }

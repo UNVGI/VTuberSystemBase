@@ -54,14 +54,33 @@ namespace VTuberSystemBase.CharacterSelectionTab.State
         /// </summary>
         public JsonElement ToJson()
         {
-            using var stream = new System.IO.MemoryStream();
-            using (var writer = new Utf8JsonWriter(stream))
+            var stream = new System.IO.MemoryStream();
+            try
             {
-                WriteJson(writer);
+                var writer = new Utf8JsonWriter(stream);
+                try
+                {
+                    WriteJson(writer);
+                }
+                finally
+                {
+                    writer.Dispose();
+                }
+                stream.Position = 0;
+                var doc = JsonDocument.Parse(stream);
+                try
+                {
+                    return doc.RootElement.Clone();
+                }
+                finally
+                {
+                    doc.Dispose();
+                }
             }
-            stream.Position = 0;
-            using var doc = JsonDocument.Parse(stream);
-            return doc.RootElement.Clone();
+            finally
+            {
+                stream.Dispose();
+            }
         }
 
         private void WriteJson(Utf8JsonWriter writer)

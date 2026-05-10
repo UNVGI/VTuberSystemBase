@@ -83,7 +83,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume
         {
             try
             {
-                var attr = t.GetCustomAttribute<VolumeComponentMenuAttribute>();
+                var attr = t.GetCustomAttribute<VolumeComponentMenu>();
                 if (attr != null && !string.IsNullOrEmpty(attr.menu))
                 {
                     var idx = attr.menu.LastIndexOf('/');
