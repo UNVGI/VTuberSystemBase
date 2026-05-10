@@ -4,6 +4,7 @@ using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Scene;
 using VTuberSystemBase.RacMainOutputAdapter.Diagnostics;
+using VTuberSystemBase.RacMainOutputAdapter.ExtensionPoints;
 using VTuberSystemBase.RacMainOutputAdapter.Internal;
 
 namespace VTuberSystemBase.RacMainOutputAdapter.Bootstrapper
@@ -37,6 +38,11 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Bootstrapper
         [Tooltip("ICoreIpcBus を提供する MonoBehaviour（任意）。実装は ICoreIpcBusProvider を継承する。空のとき OverrideMessageSink でコード経由差替を行う。")]
         [SerializeField]
         private MonoBehaviour _coreIpcBusProviderBehaviour;
+
+        [Header("MoCap Factory Provider (optional)")]
+        [Tooltip("IMoCapSourceConfigFactory を提供する MonoBehaviour（任意）。実装は IMoCapSourceConfigFactoryProvider を継承する。空のとき StubMoCapSourceConfigFactory にフォールバックする。")]
+        [SerializeField]
+        private MonoBehaviour _mocapFactoryProviderBehaviour;
 
         [Header("Diagnostics")]
         [Tooltip("初期ログレベル。")]
@@ -120,6 +126,24 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Bootstrapper
                     sceneRoots: roots,
                     messageSink: sink,
                     logger: logger);
+
+                // MoCap Factory Provider 解決（任意）。Provider 不在時は Stub フォールバックに任せる。
+                if (_mocapFactoryProviderBehaviour is IMoCapSourceConfigFactoryProvider mocapProvider)
+                {
+                    var mocapFactory = mocapProvider.Factory;
+                    if (mocapFactory != null)
+                    {
+                        _bootstrapper.OverrideServices(mocapFactory: mocapFactory);
+                        UnityEngine.Debug.Log(
+                            $"[RacMainOutputAdapterHost] MoCap factory provider resolved: {_mocapFactoryProviderBehaviour.GetType().Name}");
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogWarning(
+                            $"[RacMainOutputAdapterHost] MoCap factory provider {_mocapFactoryProviderBehaviour.GetType().Name}.Factory returned null; falling back to StubMoCapSourceConfigFactory.");
+                    }
+                }
+
                 _bootstrapper.Initialize();
             }
             catch (Exception ex)
