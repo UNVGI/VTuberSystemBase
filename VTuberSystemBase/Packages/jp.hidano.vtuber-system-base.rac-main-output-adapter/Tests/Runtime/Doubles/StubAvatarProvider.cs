@@ -43,9 +43,9 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Doubles
             // EditMode では DestroyImmediate、PlayMode では Destroy が必要。
             // テストフィクスチャは Tests.Runtime（PlayMode）を想定するため Destroy で問題ない。
             if (Application.isPlaying)
-                Object.Destroy(avatar);
+                UnityEngine.Object.Destroy(avatar);
             else
-                Object.DestroyImmediate(avatar);
+                UnityEngine.Object.DestroyImmediate(avatar);
         }
 
         /// <inheritdoc/>

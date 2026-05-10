@@ -74,7 +74,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Bootstrapper
                 UnityEngine.Debug.LogWarning(
                     $"[RacMainOutputAdapterHost] duplicate instance detected (count={existing.Length}); destroying this one.");
                 _selfDestroyed = true;
-                Object.Destroy(this);
+                UnityEngine.Object.Destroy(this);
                 return;
             }
         }
