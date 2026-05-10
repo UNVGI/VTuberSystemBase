@@ -6,6 +6,8 @@
         "GUID:c9117e022296498e9e1dd30888446ef1",
         "GUID:8dd1f7ecef3d4c6cae1a52cee5304e5f",
         "GUID:286be82527bb75547a774598be8243ab",
+        "UcApi4Unity.UnityCamera",
+        "UcApi.Core",
         "Unity.RenderPipelines.Universal.Runtime",
         "Unity.RenderPipelines.Core.Runtime"
     ],
