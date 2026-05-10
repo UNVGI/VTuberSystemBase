@@ -9,15 +9,15 @@
 
 ## Foundation Phase
 
-- [ ] 1. パッケージ骨格を作成し Unity がローカルパッケージとして検出できる状態にする
-- [ ] 1.1 `rac-movin-mocap-factory` パッケージのディレクトリと `package.json` を新規作成する
+- [x] 1. パッケージ骨格を作成し Unity がローカルパッケージとして検出できる状態にする
+- [x] 1.1 `rac-movin-mocap-factory` パッケージのディレクトリと `package.json` を新規作成する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-movin-mocap-factory/` ディレクトリを作成する
   - `package.json` を新規作成し、`name = "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory"`、`version = "0.1.0"`、`displayName`、`description`、`unity = "6000.3"`、`dependencies` に `jp.co.unvgi.vtuber-system-base.rac-main-output-adapter: 0.1.0` と `jp.co.unvgi.realtimeavatarcontroller.movin: 0.1.7` を含める
   - `package.json.meta` をランダム 32-hex GUID（global CLAUDE.md 規定）で生成する
   - 観測可能な完了条件: Unity Package Manager がエラーなく当該パッケージを表示し、依存解決が成功する状態
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [ ] 1.2 Runtime asmdef と補助ファイル（AssemblyInfo / IsExternalInit）を配置する
+- [x] 1.2 Runtime asmdef と補助ファイル（AssemblyInfo / IsExternalInit）を配置する
   - `Runtime/jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory.asmdef` を作成し、`name = "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory"`、`references` に `VTuberSystemBase.RacMainOutputAdapter.Runtime` / `RealtimeAvatarController.Core` / `RealtimeAvatarController.MoCap.Movin` を含める（autoReferenced: true、includePlatforms / excludePlatforms 空、allowUnsafeCode: false）
   - `Runtime/AssemblyInfo.cs` に `InternalsVisibleTo("jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory.tests")` を記述
   - `Runtime/IsExternalInit.cs` に C# 9 init-only プロパティ用 shim（`namespace System.Runtime.CompilerServices { internal static class IsExternalInit {} }`）を記述
@@ -25,7 +25,7 @@
   - 観測可能な完了条件: Unity が `jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory` という Runtime アセンブリを生成しコンパイル成功する状態
   - _Requirements: 1.4_
 
-- [ ] 1.3 Tests/EditMode asmdef を配置する
+- [x] 1.3 Tests/EditMode asmdef を配置する
   - `Tests/EditMode/jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory.tests.asmdef` を作成
   - `name = "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory.tests"`、`references` に `jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory`、`VTuberSystemBase.RacMainOutputAdapter.Runtime`、`RealtimeAvatarController.Core`、`RealtimeAvatarController.MoCap.Movin` を列挙
   - `optionalUnityReferences` に `TestAssemblies`、`precompiledReferences` に `nunit.framework.dll`、`includePlatforms` を `Editor` のみに限定、`defineConstraints` に `UNITY_INCLUDE_TESTS` を設定
@@ -35,7 +35,7 @@
 
 ## Contract Phase
 
-- [ ] 2. `rac-main-output-adapter` に `IMoCapSourceConfigFactoryProvider` 契約インタフェースを追加する
+- [x] 2. `rac-main-output-adapter` に `IMoCapSourceConfigFactoryProvider` 契約インタフェースを追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/ExtensionPoints/IMoCapSourceConfigFactoryProvider.cs` を新規作成する
   - 名前空間は `VTuberSystemBase.RacMainOutputAdapter.ExtensionPoints` とし、`IMoCapSourceConfigFactory Factory { get; }` プロパティのみを公開する（design.md `IMoCapSourceConfigFactoryProvider` Service Interface 参照）
   - クラスドキュメントコメントに「`Factory` は未初期化時に null を返してよく、Host 側はその場合 Stub フォールバックする」旨を明記
@@ -45,7 +45,7 @@
 
 ## Core Phase
 
-- [ ] 3. (P) `MovinMoCapSourceConfigFactory` POCO 実装を追加する
+- [x] 3. (P) `MovinMoCapSourceConfigFactory` POCO 実装を追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-movin-mocap-factory/Runtime/MovinMoCapSourceConfigFactory.cs` を新規作成
   - 名前空間は `VTuberSystemBase.RacMovinMoCapFactory`、`sealed class` として `IMoCapSourceConfigFactory` を実装（design.md `MovinMoCapSourceConfigFactory` Service Interface のスニペット準拠）
   - コンストラクタで `port` (default 11235) / `rootBoneName` (default "") / `boneClass` (default "") を受け取り、null 文字列は `string.Empty` に正規化して保持
@@ -57,7 +57,7 @@
   - _Boundary: rac-movin-mocap-factory/Runtime/MovinMoCapSourceConfigFactory_
   - _Depends: 1.2, 2_
 
-- [ ] 4. (P) `MovinMoCapSourceConfigFactoryProvider` MonoBehaviour を追加する
+- [x] 4. (P) `MovinMoCapSourceConfigFactoryProvider` MonoBehaviour を追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-movin-mocap-factory/Runtime/MovinMoCapSourceConfigFactoryProvider.cs` を新規作成
   - 名前空間は `VTuberSystemBase.RacMovinMoCapFactory`、`sealed class : MonoBehaviour, IMoCapSourceConfigFactoryProvider`
   - `[DisallowMultipleComponent]` および `[AddComponentMenu("VTuberSystemBase/RAC MOVIN MoCap Factory Provider")]` を付与
@@ -71,7 +71,7 @@
 
 ## Integration Phase
 
-- [ ] 5. `RacMainOutputAdapterHost` に MoCap Factory Provider 用 DI seam を追加する
+- [x] 5. `RacMainOutputAdapterHost` に MoCap Factory Provider 用 DI seam を追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Bootstrapper/RacMainOutputAdapterHost.cs` を編集
   - `[Header("MoCap Factory Provider (optional)")]` ブロックを追加し、`[Tooltip("...")]` 付きの `[SerializeField] private MonoBehaviour _mocapFactoryProviderBehaviour;` を新設（既存 `_coreIpcBusProviderBehaviour` の直後など、対称性のある位置に配置）
   - `Start()` 内、既存の `_bootstrapper.OverrideServices(dispatcher, sceneRoots, messageSink, logger)` 呼出の **直後**、`_bootstrapper.Initialize()` の **直前** に design.md 「Modification Detail」スニペット相当のロジックを追加（`_mocapFactoryProviderBehaviour is IMoCapSourceConfigFactoryProvider mocapProvider` で型チェック → `provider.Factory` 取得 → 非 null なら `OverrideServices(mocapFactory: ...)` を呼び `Debug.Log`、null なら `Debug.LogWarning` のみで Stub フォールバック）
@@ -81,15 +81,15 @@
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 7.1, 8.3_
   - _Depends: 2_
 
-- [ ] 6. `IntegratedDemoBootstrap` に MOVIN Provider の自動配線処理を追加する
-- [ ] 6.1 `integrated-demo/package.json` の `dependencies` に新パッケージを追加する
+- [x] 6. `IntegratedDemoBootstrap` に MOVIN Provider の自動配線処理を追加する
+- [x] 6.1 `integrated-demo/package.json` の `dependencies` に新パッケージを追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.integrated-demo/package.json` を編集し、`dependencies` に `"jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory": "0.1.0"` を追加
   - 既存 dependencies の並び順・フォーマットを維持
   - 観測可能な完了条件: Unity Package Manager の `integrated-demo` 詳細ペインに新依存が表示され、依存解決エラーが出ない状態
   - _Requirements: 1.3, 6.1_
   - _Depends: 1.1_
 
-- [ ] 6.2 `IntegratedDemoBootstrap.cs` に Provider AddComponent + reflection 注入処理を追加する
+- [x] 6.2 `IntegratedDemoBootstrap.cs` に Provider AddComponent + reflection 注入処理を追加する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.integrated-demo/Runtime/IntegratedDemoBootstrap.cs` を編集
   - `EnsureMainOutputAdapters()` 内、`BindBusProviderToRacHostViaReflection(_racHost);` の **直後**、`_stageHost = ...` の **直前** に MOVIN Provider 配線スニペット（design.md 「Modification Detail」準拠）を挿入し、`GetComponent<MovinMoCapSourceConfigFactoryProvider>() ?? gameObject.AddComponent<...>()` パターンで Provider を確保
   - 新規 private method `BindMocapProviderToRacHostViaReflection(RacMainOutputAdapterHost host, MovinMoCapSourceConfigFactoryProvider provider)` を追加し、`typeof(RacMainOutputAdapterHost).GetField("_mocapFactoryProviderBehaviour", BindingFlags.Instance | BindingFlags.NonPublic)` で取得した FieldInfo に Provider を `SetValue` する
@@ -101,7 +101,7 @@
 
 ## Validation Phase
 
-- [ ] 7. EditMode テストで Factory POCO の契約を検証する
+- [x] 7. EditMode テストで Factory POCO の契約を検証する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-movin-mocap-factory/Tests/EditMode/MovinMoCapSourceConfigFactoryTests.cs` を新規作成
   - `Build_ReturnsDescriptorWithMovinSourceTypeId`: `new MovinMoCapSourceConfigFactory().Build("slot-A").SourceTypeId` が `MovinMoCapSourceFactory.MovinSourceTypeId`（"MOVIN"）と等しいこと
   - `Build_ReturnsDescriptorWithMovinConfig`: `Build("slot-A").Config is MovinMoCapSourceConfig` が真であること
@@ -115,7 +115,7 @@
   - _Requirements: 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 9.1, 9.2, 9.5, 9.7_
   - _Depends: 1.3, 3_
 
-- [ ] 8. EditMode テストで Provider MonoBehaviour の契約と値伝搬を検証する
+- [x] 8. EditMode テストで Provider MonoBehaviour の契約と値伝搬を検証する
   - `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.rac-movin-mocap-factory/Tests/EditMode/MovinMoCapSourceConfigFactoryProviderTests.cs` を新規作成
   - `DefaultPortIsExpectedValue`: 新規 `GameObject` に `MovinMoCapSourceConfigFactoryProvider` を `AddComponent` し、reflection で `port` private field を読み 11235 と等しいこと
   - `Factory_PropagatesSerializedValues`: reflection で `port=12345`, `rootBoneName="Hips"`, `boneClass="Humanoid"` をセットし、`provider.Factory.Build("slot-A").Config` 上の `MovinMoCapSourceConfig` が期待値を持つこと
@@ -136,7 +136,7 @@
   - _Requirements: 5.3, 7.1, 9.6_
   - _Depends: 1.3, 3, 5_
 
-- [ ] 10. ビルド・テストの最終検証を実施する
+- [x] 10. ビルド・テストの最終検証を実施する
   - Unity CLI またはエディタで以下を実行して結果を記録する:
     1. プロジェクト全体のコンパイル（`-batchmode -quit -projectPath VTuberSystemBase` などで型エラーがないこと）
     2. EditMode テスト実行: `jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory.tests` アセンブリの全 PASS
