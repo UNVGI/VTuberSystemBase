@@ -60,7 +60,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Integration
                 keyResolver: _keyResolver,
                 schemaProvider: _schemaProvider,
                 settingsAdapter: _settingsAdapter,
-                mocapFactory: new Defaults.StubMoCapSourceConfigFactory(),
+                mocapFactory: new VTuberSystemBase.RacMainOutputAdapter.Defaults.StubMoCapSourceConfigFactory(),
                 logger: new FakeDiagnosticsLogger());
             _boot.Initialize();
         }

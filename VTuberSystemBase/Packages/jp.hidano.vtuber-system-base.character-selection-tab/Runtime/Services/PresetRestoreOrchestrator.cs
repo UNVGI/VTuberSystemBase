@@ -8,7 +8,7 @@ using VTuberSystemBase.CharacterSelectionTab.Ipc;
 using VTuberSystemBase.CharacterSelectionTab.State;
 using VTuberSystemBase.UiToolkitShell.Commands;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
-using ConnectionStatusCode = VTuberSystemBase.CharacterSelectionTab.State.ConnectionStatusCode;
+using ConnectionStatusCode = VTuberSystemBase.UiToolkitShell.Commands.ConnectionStatusCode;
 
 namespace VTuberSystemBase.CharacterSelectionTab.Services
 {

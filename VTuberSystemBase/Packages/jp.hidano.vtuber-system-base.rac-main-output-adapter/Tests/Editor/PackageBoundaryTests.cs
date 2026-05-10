@@ -2,6 +2,7 @@ using System.IO;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Compilation;
+using UnityEditorInternal;
 
 namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Editor
 {

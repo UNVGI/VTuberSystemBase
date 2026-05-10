@@ -9,6 +9,7 @@ using UnityEngine.TestTools;
 using uOSC;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Osc;
+using Thread = System.Threading.Thread;
 
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Adapters
 {

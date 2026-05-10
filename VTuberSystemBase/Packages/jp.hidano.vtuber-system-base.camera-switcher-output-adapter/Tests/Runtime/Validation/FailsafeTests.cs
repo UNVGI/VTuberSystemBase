@@ -48,7 +48,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
             _volumeBinder?.DestroyAllCreated();
             _sceneRoots?.DestroyHierarchy();
             _dispatcher?.Dispose();
-            if (_config != null) Object.Destroy(_config);
+            if (_config != null) UnityEngine.Object.Destroy(_config);
         }
 
         [UnityTest]

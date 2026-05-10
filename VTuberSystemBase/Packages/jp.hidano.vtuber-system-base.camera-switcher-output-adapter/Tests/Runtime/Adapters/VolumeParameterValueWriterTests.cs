@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.TestTools;
+using VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume;
 
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Adapters
@@ -95,7 +96,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Adapters
                 var json = JsonDocument.Parse("1").RootElement;
                 var result = writer.Write(bloom, "totallyMadeUpField", json);
                 Assert.That(result.Success, Is.False);
-                Assert.That(result.Reason, Is.EqualTo(Abstractions.VolumeBindFailureReasons.ParamNotFound));
+                Assert.That(result.Reason, Is.EqualTo(VolumeBindFailureReasons.ParamNotFound));
             }
             finally { Object.Destroy(bloom); }
         }
@@ -111,7 +112,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Adapters
                 var json = JsonDocument.Parse("\"not-a-number\"").RootElement;
                 var result = writer.Write(bloom, nameof(Bloom.intensity), json);
                 Assert.That(result.Success, Is.False);
-                Assert.That(result.Reason, Is.EqualTo(Abstractions.VolumeBindFailureReasons.ParamTypeMismatch));
+                Assert.That(result.Reason, Is.EqualTo(VolumeBindFailureReasons.ParamTypeMismatch));
             }
             finally { Object.Destroy(bloom); }
         }

@@ -67,6 +67,9 @@ namespace VTuberSystemBase.CameraSwitcherTab.Tests.TestDoubles
                 _sub = sub;
             }
 
+            public string Topic => _sub.Topic;
+            public bool IsActive => _sub.IsActive;
+
             public void Dispose()
             {
                 _sub.IsActive = false;
