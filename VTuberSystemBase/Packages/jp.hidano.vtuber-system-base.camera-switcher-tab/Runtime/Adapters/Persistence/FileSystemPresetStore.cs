@@ -11,6 +11,7 @@ using VTuberSystemBase.CameraSwitcherTab.Contracts;
 using VTuberSystemBase.CameraSwitcherTab.Contracts.Results;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherTab.Adapters.Persistence
 {
     /// <summary>

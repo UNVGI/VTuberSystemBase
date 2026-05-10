@@ -16,6 +16,7 @@ using VTuberSystemBase.UiToolkitShell.Commands;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using VTuberSystemBase.UiToolkitShell.Panels;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherTab.Bootstrap
 {
     /// <summary>

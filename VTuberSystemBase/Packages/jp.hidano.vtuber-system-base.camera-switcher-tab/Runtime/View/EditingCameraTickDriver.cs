@@ -4,6 +4,7 @@ using VTuberSystemBase.CameraSwitcherTab.Adapters.Ucapi;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 using VTuberSystemBase.CameraSwitcherTab.Domain;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherTab.View
 {
     /// <summary>

@@ -2,6 +2,7 @@
 using UnityEngine;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
 namespace VTuberSystemBase.CameraSwitcherTab.Adapters.Ucapi
 {
     /// <summary>
