@@ -96,7 +96,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume
 
             try
             {
-                if (!profile.TryGet(type, out var component) || component == null)
+                if (!profile.TryGet(type, out VolumeComponent component) || component == null)
                     return VolumeBindResult.Error(VolumeBindFailureReasons.UnknownOverrideType,
                         $"override not attached: {overrideTypeName}");
                 component.active = enabled;
