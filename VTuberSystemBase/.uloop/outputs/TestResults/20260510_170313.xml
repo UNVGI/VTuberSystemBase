@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="16" result="Failed" total="16" passed="15" failed="1" skipped="0" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.090">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.090" total="16" passed="15" failed="1" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.072" total="16" passed="15" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.070" total="16" passed="15" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="StageLightingVolumeTab" fullname="VTuberSystemBase.StageLightingVolumeTab" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.069" total="16" passed="15" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.068" total="16" passed="15" failed="1" skipped="0">
+            <test-suite type="TestSuite" name="PlayMode" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.067" total="16" passed="15" failed="1" skipped="0">
+              <test-suite type="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" name="PreviewPanelControllerTests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.043" total="6" passed="5" failed="1" skipped="0">
+                <test-case name="Dispose_StopsForwardingRenderTextureChanges" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.Dispose_StopsForwardingRenderTextureChanges" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.010" />
+                <test-case name="OnActivated_PublishesPreviewCommandSetEnabledTrue" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.OnActivated_PublishesPreviewCommandSetEnabledTrue" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.005" />
+                <test-case name="OnDeactivated_PublishesPreviewCommandSetEnabledFalse" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.OnDeactivated_PublishesPreviewCommandSetEnabledFalse" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.000" />
+                <test-case name="RenderTextureBound_PanelStyleBackgroundReflectsRT" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT" result="Failed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.017">
+                  <failure>
+                    <message>  Expected: same as &lt; (UnityEngine.RenderTexture)&gt;
+  But was:  null
+</message>
+                    <stack-trace>at VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT () [0x00047] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-tab\Tests\PlayMode\PreviewPanelControllerTests.cs:85
+</stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="RenderTextureNull_PanelShowsPlaceholderClass" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureNull_PanelShowsPlaceholderClass" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.000" />
+                <test-case name="ResetView_PublishesPreviewCommandResetView" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.ResetView_PublishesPreviewCommandResetView" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.000" />
+              </test-suite>
+              <test-suite type="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests" name="VolumeOverrideParamFactoryTests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.021" total="10" passed="10" failed="0" skipped="0">
+                <test-case name="Bool_ReturnsToggle" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Bool_ReturnsToggle" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.003" />
+                <test-case name="ClampedFloat_ReturnsFloatField_AndUsesClampedFloatKind" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.ClampedFloat_ReturnsFloatField_AndUsesClampedFloatKind" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.003" />
+                <test-case name="Color_ReturnsCompositeContainerWithFourFloatChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Color_ReturnsCompositeContainerWithFourFloatChannels" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.001" />
+                <test-case name="Enum_ReturnsDropdownFieldWithChoices" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Enum_ReturnsDropdownFieldWithChoices" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.003" />
+                <test-case name="Float_ReturnsFloatField_AndPropagatesChanges" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Float_ReturnsFloatField_AndPropagatesChanges" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.002" />
+                <test-case name="Int_ReturnsIntegerField" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Int_ReturnsIntegerField" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.003" />
+                <test-case name="Unknown_ReturnsNull_AndLogs" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Unknown_ReturnsNull_AndLogs" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.001" />
+                <test-case name="Vector2_ReturnsCompositeWithTwoChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector2_ReturnsCompositeWithTwoChannels" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.001" />
+                <test-case name="Vector3_ReturnsCompositeWithThreeChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector3_ReturnsCompositeWithThreeChannels" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.001" />
+                <test-case name="Vector4_ReturnsCompositeWithFourChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector4_ReturnsCompositeWithFourChannels" result="Passed" start-time="2026-05-10 08:03:13" end-time="2026-05-10 08:03:13" duration="0.001" />
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PlayerCard template (task 4.2). One clone per Slot. SlotListPresenter toggles
+  empty / assigned / error / in-flight modifier classes via USS.
+  Required `name` attributes (unit-test queryable):
+    - vsb-player-card                 : root, class modifiers attached here
+    - vsb-player-card__title          : Slot id label
+    - vsb-player-card__avatar         : assigned avatar display name (or '(empty)')
+    - vsb-player-card__warning        : warning badge (visible only on error)
+    - vsb-player-card__buttons        : action button row container
+    - vsb-player-card__settings-btn   : opens SettingsPanel for this slot
+    - vsb-player-card__reset-btn      : sends slot/{id}/command Reset
+    - vsb-player-card__reload-btn     : sends slot/{id}/command Reload
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-player-card" class="vsb-player-card vsb-player-card--empty">
+        <Label name="vsb-player-card__title" class="vsb-player-card__title" text="(slot)" />
+        <Label name="vsb-player-card__avatar" class="vsb-player-card__avatar" text="(empty)" />
+        <Label name="vsb-player-card__warning" class="vsb-player-card__warning" text="" />
+        <VisualElement name="vsb-player-card__buttons" class="vsb-player-card__buttons">
+            <Button name="vsb-player-card__settings-btn" class="vsb-player-card__settings-btn" text="Settings" />
+            <Button name="vsb-player-card__reset-btn" class="vsb-player-card__reset-btn" text="Reset" />
+            <Button name="vsb-player-card__reload-btn" class="vsb-player-card__reload-btn" text="Reload" />
+        </VisualElement>
+    </VisualElement>
+</UXML>

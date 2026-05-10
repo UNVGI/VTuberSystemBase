@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  One Local Volume override block (e.g. Bloom, Tonemapping). The header
+  carries the title + enabled toggle; the body region is populated dynamically
+  by LocalVolumeEditorView based on the per-param VolumeParamSchema.
+-->
+<UXML xmlns="UnityEngine.UIElements">
+    <VisualElement name="vsb-volume-override-item" class="vsb-volume-override-item">
+        <VisualElement name="vsb-volume-override-item__header" class="vsb-volume-override-item__header">
+            <Toggle name="vsb-volume-override-item__enabled" class="vsb-volume-override-item__enabled" />
+            <Label name="vsb-volume-override-item__title" class="vsb-volume-override-item__title" />
+            <Button name="vsb-volume-override-item__remove" class="vsb-volume-override-item__remove" text="Remove" />
+        </VisualElement>
+        <VisualElement name="vsb-volume-override-item__body" class="vsb-volume-override-item__body" />
+    </VisualElement>
+</UXML>

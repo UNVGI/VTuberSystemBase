@@ -1,0 +1,192 @@
+/*
+ * Character Selection Tab default USS (task 4.1, design.md §View).
+ *
+ * USS selectors follow the ui-toolkit-shell `vsb-` BEM convention so user projects can
+ * layer their skin USS via UiToolkitShellSkinProfile.CharacterTabStyleSheets. Renaming
+ * classes is a SemVer major-equivalent breaking change.
+ */
+
+.vsb-char-tab {
+    flex-grow: 1;
+    flex-direction: column;
+    background-color: rgb(24, 24, 24);
+    color: rgb(220, 220, 220);
+}
+
+.vsb-char-tab__preset-bar {
+    flex-shrink: 0;
+    flex-direction: row;
+    height: 32px;
+    background-color: rgb(30, 30, 30);
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(60, 60, 60);
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.vsb-char-tab__main {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.vsb-char-tab__player-cards {
+    width: 240px;
+    flex-shrink: 0;
+    flex-direction: column;
+    background-color: rgb(28, 28, 28);
+    border-right-width: 1px;
+    border-right-color: rgb(60, 60, 60);
+    padding: 8px;
+}
+
+.vsb-char-tab__avatar-catalog {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: rgb(26, 26, 26);
+    padding: 8px;
+}
+
+.vsb-char-tab__settings-panel {
+    width: 320px;
+    flex-shrink: 0;
+    flex-direction: column;
+    background-color: rgb(28, 28, 28);
+    border-left-width: 1px;
+    border-left-color: rgb(60, 60, 60);
+    padding: 8px;
+}
+
+.vsb-char-tab__diagnostics {
+    flex-shrink: 0;
+    flex-direction: row;
+    height: 24px;
+    background-color: rgb(20, 20, 20);
+    border-top-width: 1px;
+    border-top-color: rgb(60, 60, 60);
+    padding-left: 8px;
+    padding-right: 8px;
+    -unity-text-align: middle-left;
+    color: rgb(160, 160, 160);
+}
+
+/* ---- Player card ---- */
+
+.vsb-player-card {
+    flex-direction: column;
+    margin-bottom: 4px;
+    padding: 6px;
+    background-color: rgb(36, 36, 36);
+    border-width: 1px;
+    border-color: rgb(60, 60, 60);
+    border-radius: 4px;
+}
+
+.vsb-player-card--empty {
+    border-color: rgb(80, 80, 80);
+    opacity: 0.85;
+}
+
+.vsb-player-card--assigned {
+    border-color: rgb(80, 140, 200);
+}
+
+.vsb-player-card--error {
+    border-color: rgb(200, 90, 90);
+}
+
+.vsb-player-card--in-flight {
+    border-color: rgb(220, 180, 80);
+}
+
+.vsb-player-card--selected {
+    border-color: rgb(255, 255, 255);
+}
+
+.vsb-player-card__title {
+    -unity-font-style: bold;
+}
+
+.vsb-player-card__avatar {
+    color: rgb(180, 180, 180);
+}
+
+.vsb-player-card__warning {
+    color: rgb(220, 130, 130);
+    -unity-font-style: bold;
+}
+
+.vsb-player-card__buttons {
+    flex-direction: row;
+    margin-top: 4px;
+}
+
+/* ---- Avatar catalog item ---- */
+
+.vsb-avatar-item {
+    width: 96px;
+    height: 120px;
+    margin: 4px;
+    flex-direction: column;
+    background-color: rgb(36, 36, 36);
+    border-width: 1px;
+    border-color: rgb(60, 60, 60);
+    border-radius: 4px;
+}
+
+.vsb-avatar-item--selected {
+    border-color: rgb(255, 255, 255);
+}
+
+.vsb-avatar-item--loading {
+    opacity: 0.6;
+}
+
+.vsb-avatar-item--fallback {
+    border-color: rgb(180, 140, 80);
+}
+
+.vsb-avatar-item__thumbnail {
+    width: 96px;
+    height: 96px;
+    background-color: rgb(50, 50, 50);
+}
+
+.vsb-avatar-item__label {
+    height: 24px;
+    -unity-text-align: middle-center;
+}
+
+/* ---- Settings panel rows ---- */
+
+.vsb-char-tab__setting-row {
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.vsb-char-tab__setting-row__label {
+    color: rgb(180, 180, 180);
+}
+
+.vsb-char-tab__setting-row__input {
+    flex-grow: 1;
+}
+
+/* ---- Preset bar ---- */
+
+.vsb-preset-bar {
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.vsb-preset-bar__active {
+    -unity-font-style: bold;
+    margin-right: 8px;
+}
+
+.vsb-preset-bar__error {
+    color: rgb(220, 90, 90);
+    margin-left: 8px;
+}

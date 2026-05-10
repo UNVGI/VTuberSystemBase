@@ -4,28 +4,28 @@
 
 ## 1. Foundation: パッケージ雛形と共通抽象の整備
 
-- [ ] 1.1 UPM パッケージ骨格と asmdef 境界の確立
+- [x] 1.1 UPM パッケージ骨格と asmdef 境界の確立
   - UPM パッケージ（`jp.hidano.vtuber-system-base.character-selection-tab`）の `package.json`・Runtime/Editor/Tests ディレクトリ・README を作成し、design.md の File Structure Plan に従うフォルダ階層を用意する。
   - Runtime asmdef を `VTuberSystemBase.CharacterSelectionTab.Runtime` として作成し、参照先を `UiToolkitShell.Runtime` / `UiToolkitShell.CommonUi` / `VTuberSystemBase.CoreIpc.Abstractions` / `com.unity.addressables`（間接）に限定、`output-renderer-shell` 実装・他タブ spec・core-ipc 具体実装・RAC 本体への直接参照を構造的に禁止する。
   - Tests.Runtime asmdef、Editor asmdef、および `InternalsVisibleTo` 設定を整え、Unity 6.3 で空プロジェクトからコンパイル可能な状態にする。
   - 観測可能な完了条件: パッケージを Unity 6.3 プロジェクトに配置したときコンパイルエラーなしでロードされ、禁止参照を加えるとコンパイルエラーとなることを確認できる。
   - _Requirements: 1.7, 10.7_
 
-- [ ] 1.2 ランタイム DTO とドメイン値型の定義
+- [x] 1.2 ランタイム DTO とドメイン値型の定義
   - `SettingValue`（Float/Int/Bool/Color/Enum/Vector3 の discriminated union 相当 struct）とその `ToJson` / `FromJson` を実装する。
   - `SlotSnapshot`, `SlotStatus`, `InFlightOperationKind`, `InFlightToken`, `InFlightOutcome`, `StateChangeScope`, `ConnectionStatusCode`, `AvatarCatalogEntry`, `SettingSchemaEntry`, `SettingType` を定義する。
   - `CharacterTabConfig`（PresetDebounce=500ms, AssignmentTimeout=5s, SchemaRequestTimeout=5s, InteractionIdleThreshold=200ms, PresetScopeId, DefaultThumbnailAddressableKey の既定値付き）を実装する。
   - 観測可能な完了条件: 各値型のラウンドトリップ（生成 → JSON → 復元）テストが緑色で通る。
   - _Requirements: 4.10, 5.2, 5.6_
 
-- [ ] 1.3 IPC トピックビルダとペイロード DTO 群の実装
+- [x] 1.3 IPC トピックビルダとペイロード DTO 群の実装
   - `CharacterTopics` の定数と `SlotAssignment` / `SlotStatus` / `SlotSettingValue` / `SlotSettingsPrefix` / `SlotCommand` / `SlotError` / `AvatarSchema` ビルダを実装し、`Safe(value)` で ASCII 英数字 + `- _ .` 以外を percent-encode する。
   - `SlotCatalogPayload`, `SlotCatalogEntry`, `AvatarCatalogPayload`, `SlotAssignmentPayload`, `SlotStatusPayload`, `SlotSettingValuePayload`, `SlotCommandPayload`, `SlotErrorPayload`, `AvatarSchemaRequestPayload`, `AvatarSettingsSchemaPayload`, `SettingSchemaEntry` DTO を `[Serializable]` + `init` プロパティで定義する。
   - 未知列挙値・未知フィールドは前方互換で無視する方針を DTO 実装で担保（列挙には `Unknown` 値または文字列持ち回し）。
   - 観測可能な完了条件: `CharacterTopicBuilderTests` が空文字・特殊文字・通常値に対して期待通りのトピック文字列を返し、各 payload DTO の JSON シリアライズ/デシリアライズ往復テストが通る。
   - _Requirements: 2.1, 3.1, 4.2, 4.3, 4.4, 5.3, 5.8, 7.2, 8.1, 9.2, 9.3, 9.4_
 
-- [ ] 1.4 テストダブル群の整備（TDD 基盤）
+- [x] 1.4 テストダブル群の整備（TDD 基盤）
   - `FakeUiCommandClient`（PublishState/PublishEvent/RequestAsync 記録、応答ペイロード投入用 API 付き）を実装する。
   - `FakeUiSubscriptionClient`（topic → コールバック登録、テストから `Emit(topic, payload)` で状態 state / event を注入可能）を実装する。
   - `FakeAsyncAssetLoader`（key に対して成功 Sprite / `KeyNotFound` / `TypeMismatch` を設定でき、scope 単位解放を検証可能）を実装する。
@@ -35,7 +35,7 @@
 
 ## 2. Core State & Services
 
-- [ ] 2.1 CharacterTabStateStore と状態スコープ通知の実装
+- [x] 2.1 CharacterTabStateStore と状態スコープ通知の実装
   - `ICharacterTabStateStore` と具象クラスを実装し、`ApplySlotCatalog` / `ApplyAvatarCatalog` / `ApplyAssignment` / `ApplyStatus` / `ApplySettingValue(isFromRemote)` / `ApplyError` / `TryBeginInFlight` / `EndInFlight` / `SetActivePreset` / `SetConnectionStatus` を提供する。
   - Slot ID 昇順での表示順安定化、未知 `slotId` への Apply は警告ログ + 無視、同一 Slot への重複 InFlight は `TryBeginInFlight=false` で拒否する挙動を実装する。
   - `OnChanged(StateChangeScope)` を必要最小スコープのみで発火、メインスレッド専有契約（ワーカー書込は `InvalidOperationException`）を enforce する。
@@ -44,7 +44,7 @@
   - _Requirements: 2.1, 2.3, 2.8, 2.9, 3.9, 4.5, 4.7, 4.10, 5.7_
   - _Boundary: CharacterTabStateStore_
 
-- [ ] 2.2 (P) IClock / SystemClock と InteractionGuard の実装
+- [x] 2.2 (P) IClock / SystemClock と InteractionGuard の実装
   - `IClock` / `SystemClock`（`DateTimeOffset.UtcNow` 既定）を実装し、テストから `ManualClock` で差替可能にする。
   - `IInteractionGuard` を実装し、`MarkInteracting(slotId, settingKey)` / `EndInteracting` / `Tick(now)` により 200ms アイドル自動 end、`OnChanged(InteractingChangedEventArgs)` を発火する。
   - `settingKey` 単位の追跡、複数 Slot × 複数 key の同時進行を許容、単調時刻前提を実装する。
@@ -52,7 +52,7 @@
   - _Requirements: 5.7, 11.7_
   - _Boundary: InteractionGuard, SystemClock_
 
-- [ ] 2.3 (P) DynamicSettingControlFactory による設定 UI 動的生成
+- [x] 2.3 (P) DynamicSettingControlFactory による設定 UI 動的生成
   - `IDynamicSettingControlFactory.Build(SettingSchemaEntry, SettingValue)` を実装し、Float/Int → `VsbSlider`、Bool → `Toggle`、Color → `VsbColorPicker`、Enum → `VsbToggleGroup`、Vector3 → 3 連スライダー、`Kind == "command"` → ボタンの型マッピングを行う。
   - 生成 Root に `vsb-char-tab__setting-row` クラスを付与し、子要素に label と入力コントロールを配置する。
   - `min > max`・未知 `SettingType`・必須フィールド欠落を検知したら診断ログに記録し、該当コントロールを非活性化または `null` Root でスキップ用 `SettingControl` を返す。
@@ -61,7 +61,7 @@
   - _Requirements: 5.2, 5.6, 5.11, 7.5_
   - _Boundary: DynamicSettingControlFactory_
 
-- [ ] 2.4 (P) AvatarThumbnailResolver と既定サムネイルフォールバック
+- [x] 2.4 (P) AvatarThumbnailResolver と既定サムネイルフォールバック
   - `IAvatarThumbnailResolver.LoadThumbnail(avatarKey, scopeId, onCompleted)` / `Release` / `ReleaseAll` を実装し、内部では `IAsyncAssetLoader.LoadAsync<Sprite>("{avatarKey}.thumbnail", scopeId, ...)` を呼ぶ。
   - 成功時 `AvatarThumbnailResult { Success=true, IsFallback=false }`、`KeyNotFound` / 型不一致時は `DefaultAvatarThumbnail.asset`（Addressables 固定 key）を返して `IsFallback=true` とし、診断ログに `Thumbnail.Fallback(avatarKey, reason)` を記録する。
   - 重複ロードは上流の重複抑止に委譲し、同一 `(avatarKey, scopeId)` の多重要求でもシングルハンドルに集約されることを検証する。
@@ -70,7 +70,7 @@
   - _Requirements: 3.4, 3.4a, 6.2, 6.3, 6.4, 6.5, 6.6, 9.5_
   - _Boundary: AvatarThumbnailResolver_
 
-- [ ] 2.5 (P) JsonPresetStorage のファイル I/O 実装
+- [x] 2.5 (P) JsonPresetStorage のファイル I/O 実装
   - `IPresetStorage` を実装する `JsonPresetStorage` を作成し、既定パス `Application.persistentDataPath/character-selection-tab/presets/`、`{presetId}.json`（UTF-8 JSON, GUID ファイル名）+ `_active.json` の配置規約を採用する。
   - `LoadAllAsync` / `LoadActivePresetIdAsync` / `SaveAsync`（一時ファイル → `File.Move` アトミック書込） / `DeleteAsync` / `SetActiveAsync` / `CheckHealthAsync` を実装する。
   - JSON パース失敗時は同ディレクトリに `{presetId}.json.bak.{unixms}` としてリネームし、診断ログ `Preset.Load(..., corrupted=true)` を記録、`StorageHealthReport.CorruptedCount / BackedUpFiles` に反映する。
@@ -79,7 +79,7 @@
   - _Requirements: 8.7, 8.9, 8.10, 9.6_
   - _Boundary: JsonPresetStorage_
 
-- [ ] 2.6 PresetStoreLogic によるプリセット CRUD とデバウンス
+- [x] 2.6 PresetStoreLogic によるプリセット CRUD とデバウンス
   - `IPresetStoreLogic` を実装し、`ListPresets` / `GetActivePreset` / `CreateAsync` / `RenameAsync` / `DuplicateAsync` / `DeleteAsync` / `SetActiveAsync` / `MarkSlotAssignmentChanged` / `MarkSettingValueChanged` / `FlushPendingAsync` と `OnSaved` / `OnLoaded` イベントを公開する。
   - 名称検証: trim 済み非空、重複不可（`DuplicateName`）、アクティブプリセット削除拒否（`CannotDeleteActive`）。
   - 変更マークから 500ms デバウンス（`IClock`）後に `IPresetStorage.SaveAsync` を呼び、書込中の追加変更はフラッシュ完了後に再デバウンスする。
@@ -91,7 +91,7 @@
 
 ## 3. IPC Integration Layer
 
-- [ ] 3.1 CharacterTabIpcBinder による購読集約と送信薄ラッパ
+- [x] 3.1 CharacterTabIpcBinder による購読集約と送信薄ラッパ
   - `ICharacterTabIpcBinder.SubscribeAll` / `UnsubscribeAll` で `slots/catalog` / `avatars/catalog` / `slot/+/assignment` / `slot/+/status` / `slot/+/settings/+` / `slot/+/error` を登録し、`ISubscriptionToken` を辞書で保持する。
   - 新規 Slot 発見時に `AddDynamicSubscriptions(slotId)`、Slot 削除時に対応トークンを Dispose するロジックを実装する。
   - 受信コールバックでは `CharacterTabStateStore.Apply*` に振り分け、`slot/{id}/error` 受信時は `ApplyError` + 該当 InFlight の `Failed` 解除、`slot/{id}/status` 受信時は `ApplyStatus` + InFlight 解除を行う。
@@ -101,7 +101,7 @@
   - _Requirements: 2.1, 3.1, 3.9, 4.2, 4.3, 4.4, 4.6, 4.9, 5.3, 5.8, 7.1, 7.2, 7.4, 7.8, 9.2, 9.3, 9.4_
   - _Depends: 2.1_
 
-- [ ] 3.2 PresetRestoreOrchestrator の実装と接続確立連動
+- [x] 3.2 PresetRestoreOrchestrator の実装と接続確立連動
   - `IPresetRestoreOrchestrator.ReplayActivePresetAsync` を実装し、アクティブプリセットの Slot ごとに `PublishState slot/{id}/assignment` を送信、続いて `slot/{id}/settings/{key}` を順次送信する。
   - `IConnectionStatus.OnStatusChanged` を購読し `Connecting → Connected` 遷移で 1 度自動起動、再接続時もアクティブプリセットで整合を取る。
   - 保存された `avatarKey` が `AvatarCatalog` に存在しない場合、当該 Slot のみ `null` 送信（empty） + 警告ログ、`UnresolvedAvatarKeys` に追加し、他 Slot は継続する。
@@ -112,7 +112,7 @@
 
 ## 4. View Assets (UXML / USS)
 
-- [ ] 4.1 (P) キャラクタータブ Root UXML / USS の実装
+- [x] 4.1 (P) キャラクタータブ Root UXML / USS の実装
   - `CharacterTab.uxml` を作成し、プレイヤーカード領域・アバター候補領域・設定パネル領域・プリセットバー・診断領域を含むレイアウトを構築する。
   - `CharacterTab.uss` を作成し、`ui-toolkit-shell` の USS セレクタ命名規約（`vsb-` プレフィクス + BEM 風 `vsb-char-tab__*`）を遵守し、スキン差し替え経路（UI-3）から見た目を変更可能にする。
   - `ViewQueryHelpers.cs` を作成し、VisualElement Query の定型化ヘルパを提供する。
@@ -120,7 +120,7 @@
   - _Requirements: 1.1, 1.2, 1.8_
   - _Boundary: View/CharacterTab_
 
-- [ ] 4.2 (P) PlayerCard / AvatarCatalogItem / SettingRow / PresetBar 各 UXML テンプレートの実装
+- [x] 4.2 (P) PlayerCard / AvatarCatalogItem / SettingRow / PresetBar 各 UXML テンプレートの実装
   - `PlayerCard.uxml`：Slot 識別子ラベル、アバター表示名、設定ボタン、reset/reload ボタン、警告バッジ、empty/assigned/error 状態切替用 USS クラスフック（`vsb-player-card--empty` / `--assigned` / `--error`）を含む。
   - `AvatarCatalogItem.uxml`：サムネイル画像、表示名、選択ハイライト用クラス、ロード中プレースホルダ要素を含む。
   - `SettingRow.uxml`：設定項目 1 行のテンプレ（label + スロット用コンテナ、`DynamicSettingControlFactory` が子を挿入）。
@@ -129,7 +129,7 @@
   - _Requirements: 1.1, 1.2, 2.2, 2.4, 2.7, 3.2, 3.3, 5.2, 8.1a, 8.1b_
   - _Boundary: View/Templates_
 
-- [ ] 4.3 (P) DefaultAvatarThumbnail アセット登録
+- [x] 4.3 (P) DefaultAvatarThumbnail アセット登録
   - 本 spec パッケージ同梱の `DefaultAvatarThumbnail.asset`（Sprite）を作成し、固定 Addressables key（`CharacterTabConfig.DefaultThumbnailAddressableKey`）に登録する。
   - Bootstrap 時に preload 存在検証を行い、失敗時は診断エラーを出す仕組みをドキュメント化する。
   - 観測可能な完了条件: Addressables Analyze で Default key が解決可能であり、未解決時には起動時診断で警告が出る挙動がテストから確認できる。
@@ -138,7 +138,7 @@
 
 ## 5. Presenters: UI 挙動の実装
 
-- [ ] 5.1 SlotListPresenter によるプレイヤーカード描画と操作ハンドリング
+- [x] 5.1 SlotListPresenter によるプレイヤーカード描画と操作ハンドリング
   - `StateStore.OnChanged(SlotCatalog | SlotStatus | Assignment | InFlight)` を購読し、`PlayerCard.uxml` を初回 Clone + 以降は差分更新で描画する。
   - empty / assigned / error の 3 状態を USS クラス切替で可視化、Slot ID 昇順で表示順を固定する。
   - カードクリックで `AssignmentFlowPresenter.SelectSlot(slotId)` を呼び、設定ボタンで `SettingsPanelPresenter.OpenForAsync(slotId)`、reset/reload ボタンで `AssignmentFlowPresenter.RequestOperationAsync(slotId, kind)` を呼ぶ。
@@ -147,7 +147,7 @@
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 7.1, 7.2_
   - _Depends: 2.1, 4.2_
 
-- [ ] 5.2 AvatarCatalogPresenter によるアバター候補グリッドとサムネイル解決
+- [x] 5.2 AvatarCatalogPresenter によるアバター候補グリッドとサムネイル解決
   - `StateStore.OnChanged(AvatarCatalog)` を購読して `AvatarCatalogItem.uxml` を Clone/差分更新する。
   - 各アイテムで `IAvatarThumbnailResolver.LoadThumbnail(avatarKey, "tab:character", callback)` を起動し、読込中はプレースホルダ表示、完了で Sprite を適用する。
   - 候補重複 `avatarKey` は Store 側で一意化済みの前提を保険として検知し診断ログに記録する（Req 3.8）。
@@ -158,7 +158,7 @@
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.4a, 3.5, 3.6, 3.7, 3.8, 3.9, 6.3, 6.7_
   - _Depends: 2.1, 2.4, 4.2_
 
-- [ ] 5.3 AssignmentFlowPresenter による割当 2 ステップ UX と送信
+- [x] 5.3 AssignmentFlowPresenter による割当 2 ステップ UX と送信
   - `SelectSlot` / `ClearSelectedSlot` / `RequestAssignment(avatarKey)` / `RequestOperationAsync(slotId, Reset|Reload)` を実装する。
   - `RequestAssignment` は `StateStore.TryBeginInFlight(Assignment)` 成功時のみ `IUiCommandClient.PublishState slot/{id}/assignment` を送信し、`IClock` でタイムアウト 5 秒タイマを起動する。
   - `RequestOperationAsync` は `PublishEvent slot/{id}/command` を送信し、`SendResult` を返却、Reload は UI をローディング表示に切替える。
@@ -170,7 +170,7 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.10, 6.1, 6.8, 7.4, 9.2, 9.3_
   - _Depends: 2.1, 2.2, 3.1_
 
-- [ ] 5.4 SettingsPanelPresenter による動的設定 UI と値変更送信
+- [x] 5.4 SettingsPanelPresenter による動的設定 UI と値変更送信
   - `OpenForAsync(slotId)` で `CharacterTabIpcBinder.RequestAvatarSchemaAsync(avatarKey, 5s)` を呼びスキーマを取得、`DynamicSettingControlFactory.Build` で VisualElement ツリーを構築し View にアタッチ、`SlotSnapshot.SettingValues` で初期値を復元する。
   - `ValueChanged` イベントで `IUiCommandClient.PublishState slot/{id}/settings/{key}` を送信し、`InteractionGuard.MarkInteracting` を発火する。`PointerUp` または 200ms アイドルで `EndInteracting` し、バッファされたリモート state を適用する。
   - スキーマの `Kind == "command"` 項目は `PublishEvent slot/{id}/settings/{key}` で送信し連続値と別トピック扱いとする。
@@ -182,7 +182,7 @@
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10, 5.11, 7.4, 7.5, 9.2, 9.3_
   - _Depends: 2.1, 2.2, 2.3, 3.1_
 
-- [ ] 5.5 PresetManagerPresenter による CRUD UI とアクティブ化
+- [x] 5.5 PresetManagerPresenter による CRUD UI とアクティブ化
   - `RenderPresetBar` で `PresetStoreLogic.ListPresets()` を描画し、アクティブプリセット名を `PresetBar.uxml` 上に可視化する。
   - `CreatePresetAsync` / `RenamePresetAsync` / `DuplicatePresetAsync` / `DeletePresetAsync` / `ActivatePresetAsync` を実装し、`PresetOperationResult` で成功・失敗（`DuplicateName` / `NotFound` / `StorageFailure` / `InvalidName` / `CannotDeleteActive`）を返す。
   - 重複名称時は作成を拒否し UI にバリデーションエラーを表示する。アクティブプリセットの削除は拒否する。
@@ -192,7 +192,7 @@
   - _Requirements: 8.1a, 8.1b, 8.1c, 8.1d_
   - _Depends: 2.6, 3.2, 4.2_
 
-- [ ] 5.6 (P) TabDiagnosticsPresenter による診断パネル描画
+- [x] 5.6 (P) TabDiagnosticsPresenter による診断パネル描画
   - `CharacterTabDiagnostics.Capture()` から `TabDiagnosticsSnapshot`（Slot 数・割当済み数・エラー数・InFlight 件数・最終保存時刻・接続状態・アクティブプリセット ID・破損バックアップ件数）を取得し、タブ下部の診断領域に描画する。
   - `StateStore.OnChanged(Connection)` / `PresetStoreLogic.OnSaved` を 1 秒スロットルで購読して再描画する。
   - 接続断中はプレイヤーカード領域と協調してプレースホルダ表示を担う。
@@ -203,7 +203,7 @@
 
 ## 6. Composition Root と Lifecycle 統合
 
-- [ ] 6.1 CharacterTabBootstrapper による Composition Root と購読ライフサイクル
+- [x] 6.1 CharacterTabBootstrapper による Composition Root と購読ライフサイクル
   - コンストラクタで `ITabLifecycleHandle` / `IUiCommandClient` / `IUiSubscriptionClient` / `IConnectionStatus` / `IAsyncAssetLoader` / `IDiagnosticsLogger` / `IPresetStorage` / `IClock`（+ テスト用 override）を受け取り、Store → Services → Presenters → IpcBinder → RestoreOrchestrator の順で構築する。
   - `CharacterTabConfig` の境界値検証（負値・ゼロ禁止）を行い、違反時は既定値フォールバック + 診断ログ。
   - `OnActivated`/`OnDeactivated`/`Dispose` に応じて Presenter のアニメーション・タイマ再開、購読は常時維持（タブ非アクティブ中もバックグラウンド最新化）、`Dispose` で Presenter カスケード解放 + `CharacterTabIpcBinder.UnsubscribeAll()` + `AssetLoader.ReleaseAll("tab:character")` + `PresetStoreLogic.FlushPendingAsync()` を実行する。
@@ -213,7 +213,7 @@
   - _Requirements: 1.1, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 7.7, 8.4, 9.1_
   - _Depends: 3.1, 3.2, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 6.2 アプリ終了フラッシュと Standalone / PlayMode 両対応
+- [x] 6.2 アプリ終了フラッシュと Standalone / PlayMode 両対応
   - `Application.quitting` と Editor の `playModeStateChanged == ExitingPlayMode` の両方で `PresetStoreLogic.FlushPendingAsync` を冪等に呼び出すフックを実装する。
   - Edit モードでは実行時ロジック（UI 初期化・IPC 購読・永続化読込）を起動しないことを `ui-toolkit-shell` の PlayMode 限定駆動契約で構造的に担保し、単体テストで検証する。
   - PlayMode 開始・停止を 5 回繰り返しても購読重複・UI 要素重複生成・ファイルロック残存がないことをテストで確認する（ドメインリロード跨ぎの状態維持を禁止）。
@@ -224,7 +224,7 @@
 
 ## 7. Failure Handling & Observability Integration
 
-- [ ] 7.1 不可用アバターと RAC エラー受信時の Slot 縮退統合
+- [x] 7.1 不可用アバターと RAC エラー受信時の Slot 縮退統合
   - `CharacterTabIpcBinder` が受信する `slot/{id}/error`（RAC エラー）と、`PresetRestoreOrchestrator` が検出する保存済み `avatarKey` 未解決について、Store 上の該当 Slot を empty または error 状態に遷移させ、`SlotListPresenter` が警告バッジを表示する配線を完成させる。
   - `AvatarThumbnailResolver` のフォールバックが `AvatarCatalogPresenter` で可視化され、他候補・他 Slot の動作を阻害しないことを統合テストで検証する。
   - 失敗事由（topic / slotId / avatarKey / errorCode）を含む診断ログを `LogCategory.TabSpec` に記録する。
@@ -232,7 +232,7 @@
   - _Requirements: 7.1, 7.2, 7.3, 7.9, 9.4, 9.5_
   - _Depends: 3.1, 3.2, 5.1, 5.2_
 
-- [ ] 7.2 IPC 切断 / 回復時の UI 縮退と自動再取得
+- [x] 7.2 IPC 切断 / 回復時の UI 縮退と自動再取得
   - `IConnectionStatus.OnStatusChanged` を Bootstrapper で購読し、切断中は Slot 割当・設定送信 UI を非活性化（プリセット CRUD のローカル操作は継続）する配線を実装する。
   - 回復時は `CharacterTabIpcBinder` が Slot 一覧・アバター候補を再取得する購読状態を保持し、`PresetRestoreOrchestrator` がアクティブプリセットを再送する。
   - Command 送信 API が接続未確立 / サイズ上限超過エラーを返した際は診断ログ記録のみで UI クラッシュ・描画停止を発生させない。
@@ -241,7 +241,7 @@
   - _Requirements: 7.4, 7.6, 7.7, 7.8, 7.9_
   - _Depends: 6.1, 7.1_
 
-- [ ] 7.3 診断 API と観測性ログの整備
+- [x] 7.3 診断 API と観測性ログの整備
   - `ICharacterTabDiagnostics.Capture()` を実装し、`TabDiagnosticsSnapshot`（Slot 数・割当済み・エラー数・InFlight 件数・最終保存時刻・接続状態・アクティブプリセット・破損バックアップ件数）を副作用なく生成する。
   - design.md の Monitoring セクションで列挙されたログ項目（Init.*, Assign.*, SettingSchema.*, Setting.Change, Preset.*, Thumbnail.*, Ipc.*, Restore.*, Connection.*）を `IDiagnosticsLogger` 経由で記録し、メイン出力サーフェスへ描画する経路を持たないことを構造的に保証する。
   - ログレベルは `ui-toolkit-shell` の設定から外部切替可能とする。
@@ -252,7 +252,7 @@
 
 ## 8. 単体検証と回帰テスト
 
-- [ ] 8.1 Integration テスト: 初期同期・割当ラウンドトリップ・設定スキーマ・プリセット・切断回復
+- [x] 8.1 Integration テスト: 初期同期・割当ラウンドトリップ・設定スキーマ・プリセット・切断回復
   - モック IPC で `slots/catalog` / `avatars/catalog` を発行 → Store 更新 → Presenter の UI 反映を 1 本で検証する統合テストを実装する。
   - `FakeUiCommandClient` に記録された割当 `PublishState` に対応する `slot/{id}/status` を `FakeUiSubscriptionClient` から流し、UI が `Assigned` 状態へ遷移するラウンドトリップテストを実装する。
   - モック `RequestAsync` がスキーマを返すと `DynamicSettingControlFactory` が VsbSlider 等を生成し View にアタッチされることを検証する。
@@ -262,7 +262,7 @@
   - _Requirements: 11.1, 11.2, 11.5, 11.6, 11.7_
   - _Depends: 6.2, 7.2, 7.3_
 
-- [ ] 8.2 PlayMode サンプルシーンと手動検証手順
+- [x] 8.2 PlayMode サンプルシーンと手動検証手順
   - `CharacterTabPlayModeSample.unity` をモック UI シェル構成で作成し、プレイヤーカード表示 → アバター選択 → 割当確定 → 設定スライダー操作までを手動で確認できる手順を README に整備する。
   - `UiToolkitShellSkinProfile.CharacterTabStyleSheets` に利用者 USS を注入する差し替え検証手順をサンプルに含める。
   - PlayMode 開始・停止 5 回の反復が手動でも確認できる手順を README に記載する。

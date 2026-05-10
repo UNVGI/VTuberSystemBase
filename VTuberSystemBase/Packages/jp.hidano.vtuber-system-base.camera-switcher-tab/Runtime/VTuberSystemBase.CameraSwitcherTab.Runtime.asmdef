@@ -1,0 +1,27 @@
+{
+    "name": "VTuberSystemBase.CameraSwitcherTab.Runtime",
+    "rootNamespace": "VTuberSystemBase.CameraSwitcherTab",
+    "references": [
+        "GUID:c9117e022296498e9e1dd30888446ef1",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "GUID:a818a5dd2f716524e84c14c1b46c3430",
+        "GUID:e8063cf3a345f9c46b7c7c4f14d54285",
+        "GUID:2e3e0626734e26f42a277eae0f0bc283",
+        "GUID:398fac1736544b33ab8b7d5c148315b3",
+        "GUID:5565bd48c43b54243998069cd41328f8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

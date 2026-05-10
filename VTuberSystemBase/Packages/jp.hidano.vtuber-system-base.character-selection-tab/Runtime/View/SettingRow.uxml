@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SettingRow template (task 4.2). DynamicSettingControlFactory typically builds
+  rows in code, but this template provides a reference shape for users that
+  prefer to author static UXML. Required `name` attributes:
+    - vsb-char-tab__setting-row              : row root, class includes vsb-char-tab__setting-row
+    - vsb-char-tab__setting-row__label       : label
+    - vsb-char-tab__setting-row__input       : container the factory inserts the input control into
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-char-tab__setting-row" class="vsb-char-tab__setting-row">
+        <Label name="vsb-char-tab__setting-row__label" class="vsb-char-tab__setting-row__label" text="(label)" />
+        <VisualElement name="vsb-char-tab__setting-row__input" class="vsb-char-tab__setting-row__input" />
+    </VisualElement>
+</UXML>

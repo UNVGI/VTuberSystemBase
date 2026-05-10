@@ -1,0 +1,28 @@
+{
+  "name": "jp.hidano.vtuber-system-base.camera-switcher-tab",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase Camera Switcher Tab",
+  "description": "Display 1 UI tab for the VTuberSystemBase that manages render-output cameras (create / delete / select active), per-camera URP Local Volume override editing, named preset CRUD, and multi-camera preview. Provides the Contracts assembly (IPC topic constants, OSC address builder and payload DTOs) shared between the UI side and the main-output-side camera adapter, plus the UI implementation that consumes the ui-toolkit-shell facades. The main-output-side adapter (Unity Camera authoring + UCAPI/OSC reception) is out of scope for this package.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "ui-toolkit",
+    "camera-switcher",
+    "tab",
+    "ucapi",
+    "osc"
+  ],
+  "dependencies": {
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "com.hidano.uosc": "1.0.0",
+    "com.hidano.ucapi4unity": "0.1.0-preview.1",
+    "com.hidano.scene-view-style-camera-controller": "1.0.1"
+  }
+}

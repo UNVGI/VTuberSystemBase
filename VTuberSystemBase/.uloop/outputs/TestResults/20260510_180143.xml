@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="2" result="Failed" total="2" passed="0" failed="2" skipped="0" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.075">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.075" total="2" passed="0" failed="2" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.RacMainOutputAdapter.Tests.Runtime.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.RacMainOutputAdapter.Tests.Runtime.dll" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.068" total="2" passed="0" failed="2" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.066" total="2" passed="0" failed="2" skipped="0">
+        <test-suite type="TestSuite" name="RacMainOutputAdapter" fullname="VTuberSystemBase.RacMainOutputAdapter" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.064" total="2" passed="0" failed="2" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.RacMainOutputAdapter.Tests" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.063" total="2" passed="0" failed="2" skipped="0">
+            <test-suite type="TestSuite" name="Integration" fullname="VTuberSystemBase.RacMainOutputAdapter.Tests.Integration" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.061" total="2" passed="0" failed="2" skipped="0">
+              <test-suite type="VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests" name="AdapterRoundTripTests" fullname="VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.061" total="2" passed="0" failed="2" skipped="0">
+                <test-case name="Assignment_AssignsSlot_PublishesAssigningAndAssigned" fullname="VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests.Assignment_AssignsSlot_PublishesAssigningAndAssigned" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.037">
+                  <failure>
+                    <message>  Expected: True
+  But was:  False
+</message>
+                    <stack-trace>at VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests.&lt;Assignment_AssignsSlot_PublishesAssigningAndAssigned&gt;b__9_0 () [0x0016f] in .\Packages\jp.hidano.vtuber-system-base.rac-main-output-adapter\Tests\Runtime\Integration\AdapterRoundTripTests.cs:105
+at Cysharp.Threading.Tasks.UniTask+ExceptionResultSource.GetResult (System.Int16 token) [0x0001e] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTask.Factory.cs:326
+at Cysharp.Threading.Tasks.UniTask+Awaiter.GetResult () [0x00015] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTask.cs:316
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.RunTask (Cysharp.Threading.Tasks.UniTask task) [0x00024] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTaskExtensions.cs:807
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.MoveNext () [0x0003a] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTaskExtensions.cs:838
+at UnityEngine.TestTools.TestEnumerator+&lt;Execute&gt;d__7.MoveNext () [0x0004e] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+</stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="Assignment_UnknownAvatarKey_PublishesError" fullname="VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests.Assignment_UnknownAvatarKey_PublishesError" result="Failed" start-time="2026-05-10 09:01:43" end-time="2026-05-10 09:01:43" duration="0.023">
+                  <failure>
+                    <message>  slot/B1/error{KeyNotFound} should be published.
+  Expected: True
+  But was:  False
+</message>
+                    <stack-trace>at VTuberSystemBase.RacMainOutputAdapter.Tests.Integration.AdapterRoundTripTests.&lt;Assignment_UnknownAvatarKey_PublishesError&gt;b__10_0 () [0x0049c] in .\Packages\jp.hidano.vtuber-system-base.rac-main-output-adapter\Tests\Runtime\Integration\AdapterRoundTripTests.cs:192
+at Cysharp.Threading.Tasks.UniTaskCompletionSourceCore`1[TResult].GetResult (System.Int16 token) [0x00067] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTaskCompletionSource.cs:244
+at Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask`1[TStateMachine].GetResult (System.Int16 token) [0x00002] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\CompilerServices\StateMachineRunner.cs:218
+at Cysharp.Threading.Tasks.UniTask+Awaiter.GetResult () [0x00015] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTask.cs:316
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.RunTask (Cysharp.Threading.Tasks.UniTask task) [0x00024] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTaskExtensions.cs:807
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.MoveNext () [0x0003a] in .\Library\PackageCache\com.cysharp.unitask@15a4a7657f99\Runtime\UniTaskExtensions.cs:838
+at UnityEngine.TestTools.TestEnumerator+&lt;Execute&gt;d__7.MoveNext () [0x0004e] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+</stack-trace>
+                  </failure>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

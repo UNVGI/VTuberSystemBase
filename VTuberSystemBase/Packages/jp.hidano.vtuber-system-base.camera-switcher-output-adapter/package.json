@@ -1,0 +1,35 @@
+{
+  "name": "jp.hidano.vtuber-system-base.camera-switcher-output-adapter",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase Camera Switcher Output Adapter",
+  "description": "Main-output-side adapter that bridges OSC (UCAPI Flat Record) and IPC (core-ipc-foundation) traffic from the camera-switcher-tab UI into the output-renderer-shell scene. Owns a uOSC.uOscServer for /ucapi/camera/{cameraId}/flat reception, allocates cameraIds, manages Camera GameObjects under CamerasRoot, drives Local Volume override application via Reflection, and handles camera/command, camera/{id}/metadata/{key}, camera/{id}/volume/* and camera/{id}/volume/overrides/metadata IPC handlers. UI tab work and OSC sender are out of scope.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "output",
+    "camera-switcher",
+    "ucapi",
+    "osc",
+    "urp"
+  ],
+  "dependencies": {
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
+    "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+    "com.hidano.uosc": "1.0.0",
+    "com.hidano.ucapi4unity": "0.1.0-preview.1"
+  },
+  "samples": [
+    {
+      "displayName": "Mocked OSC Sender",
+      "description": "Same-process uOscClient that emits UCAPI Flat Records to 127.0.0.1:9000 to validate the receive pipeline without the camera-switcher-tab UI.",
+      "path": "Samples~/MockedOscSenderSample"
+    }
+  ]
+}

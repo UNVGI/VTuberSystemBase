@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Camera Switcher Tab root UXML (task 3.1, design.md §View File Structure Plan).
+  Layout regions:
+    - vsb-cam-tab__preview-multi   : Multi-preview row (small thumbnails)
+    - vsb-cam-tab__preview-active  : Large active-camera preview
+    - vsb-cam-tab__camera-list     : CameraListView renders CameraCard.uxml clones here
+    - vsb-cam-tab__volume-editor   : LocalVolumeEditorView mounts dynamic Override UI here
+    - vsb-cam-tab__preset-panel    : PresetPanelView mounts PresetRow.uxml clones here
+    - vsb-cam-tab__diagnostics     : DiagnosticsBadgeView renders the OSC/IPC status badge
+
+  USS class names follow ui-toolkit-shell `vsb-` BEM convention so user projects
+  can layer skin overrides; renaming a class is a SemVer-major change.
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-cam-tab" class="vsb-cam-tab" style="flex-grow: 1;">
+        <VisualElement name="vsb-cam-tab__preview" class="vsb-cam-tab__preview">
+            <VisualElement name="vsb-cam-tab__preview-active" class="vsb-cam-tab__preview-active" />
+            <VisualElement name="vsb-cam-tab__preview-multi" class="vsb-cam-tab__preview-multi" />
+        </VisualElement>
+        <VisualElement name="vsb-cam-tab__main" class="vsb-cam-tab__main">
+            <VisualElement name="vsb-cam-tab__camera-list" class="vsb-cam-tab__camera-list" />
+            <VisualElement name="vsb-cam-tab__volume-editor" class="vsb-cam-tab__volume-editor" />
+            <VisualElement name="vsb-cam-tab__preset-panel" class="vsb-cam-tab__preset-panel" />
+        </VisualElement>
+        <VisualElement name="vsb-cam-tab__diagnostics" class="vsb-cam-tab__diagnostics" />
+    </VisualElement>
+</UXML>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Camera card template (one row per camera). Cloned by CameraListView.
+  Selected / editing / active indicators are toggled via USS classes:
+    vsb-camera-card--selected / --editing / --active
+-->
+<UXML xmlns="UnityEngine.UIElements">
+    <VisualElement name="vsb-camera-card" class="vsb-camera-card">
+        <Label name="vsb-camera-card__index" class="vsb-camera-card__index" />
+        <Label name="vsb-camera-card__name" class="vsb-camera-card__name" />
+        <Label name="vsb-camera-card__type" class="vsb-camera-card__type" />
+        <Button name="vsb-camera-card__activate" class="vsb-camera-card__activate" text="Activate" />
+        <Button name="vsb-camera-card__edit" class="vsb-camera-card__edit" text="Edit" />
+        <Button name="vsb-camera-card__delete" class="vsb-camera-card__delete" text="Delete" />
+    </VisualElement>
+</UXML>

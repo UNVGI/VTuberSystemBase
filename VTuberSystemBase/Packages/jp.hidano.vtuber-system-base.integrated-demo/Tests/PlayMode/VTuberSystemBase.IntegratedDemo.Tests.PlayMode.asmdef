@@ -1,0 +1,29 @@
+{
+    "name": "VTuberSystemBase.IntegratedDemo.Tests.PlayMode",
+    "rootNamespace": "VTuberSystemBase.IntegratedDemo.Tests",
+    "references": [
+        "GUID:45fbccc9c1164b07a8777462f4ba478f",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:37cfd27057e369e42b714633ff48512f",
+        "GUID:8dd1f7ecef3d4c6cae1a52cee5304e5f",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "VTuberSystemBase.RacMainOutputAdapter.Runtime",
+        "VTuberSystemBase.StageLightingVolumeOutputAdapter.Runtime",
+        "VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

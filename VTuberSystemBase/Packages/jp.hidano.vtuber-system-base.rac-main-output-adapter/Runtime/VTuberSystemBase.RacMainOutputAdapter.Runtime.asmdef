@@ -1,0 +1,29 @@
+{
+    "name": "VTuberSystemBase.RacMainOutputAdapter.Runtime",
+    "rootNamespace": "VTuberSystemBase.RacMainOutputAdapter",
+    "references": [
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:8dd1f7ecef3d4c6cae1a52cee5304e5f",
+        "GUID:1e7b25ecbf9f4963b5275a52b2623640",
+        "GUID:8e838212506e43d4b3d698693e67ef1c",
+        "GUID:5875fcfffbaf4bb68170e2da9b68bad0",
+        "UniRx",
+        "UniTask",
+        "UniTask.Addressables",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

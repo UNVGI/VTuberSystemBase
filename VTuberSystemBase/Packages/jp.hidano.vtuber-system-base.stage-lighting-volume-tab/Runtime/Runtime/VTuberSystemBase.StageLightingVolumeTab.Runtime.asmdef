@@ -1,0 +1,28 @@
+{
+    "name": "VTuberSystemBase.StageLightingVolumeTab.Runtime",
+    "rootNamespace": "VTuberSystemBase.StageLightingVolumeTab",
+    "references": [
+        "GUID:45bef70d2f2b44319f83a1d2c94b44a9",
+        "GUID:286be82527bb75547a774598be8243ab",
+        "GUID:e95a7c634e3a4a2418485fe836064aee",
+        "GUID:a818a5dd2f716524e84c14c1b46c3430",
+        "SceneViewStyleCameraController",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "System.Text.Json.dll",
+        "System.Text.Encodings.Web.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

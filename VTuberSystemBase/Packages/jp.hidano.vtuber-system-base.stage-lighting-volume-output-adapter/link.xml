@@ -1,0 +1,9 @@
+<!--
+  IL2CPP strip 抑止: VolumeParameter<T> 派生型のフィールドをリフレクションで参照するため、
+  URP Runtime / URP Core Runtime アセンブリの全型/メンバを保持する。
+  利用者プロジェクト独自の VolumeComponent は別途追加 link.xml で対応する。
+-->
+<linker>
+  <assembly fullname="Unity.RenderPipelines.Core.Runtime" preserve="all" />
+  <assembly fullname="Unity.RenderPipelines.Universal.Runtime" preserve="all" />
+</linker>

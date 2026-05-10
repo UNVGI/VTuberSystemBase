@@ -4,7 +4,8 @@
     "references": [
         "VTuberSystemBase.CoreIpc.Abstractions",
         "Unity.RenderPipelines.Universal.Runtime",
-        "Unity.RenderPipelines.Core.Runtime"
+        "Unity.RenderPipelines.Core.Runtime",
+        "Hidano.RuntimeDisplaySelector"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

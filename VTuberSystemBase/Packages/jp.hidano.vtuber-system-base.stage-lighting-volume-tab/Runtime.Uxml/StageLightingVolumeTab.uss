@@ -1,0 +1,85 @@
+/*
+ * stage-lighting-volume-tab styles. Skin-friendly defaults; downstream skins can
+ * override every selector via ui-toolkit-shell's UiToolkitShellSkinProfile.
+ * Naming follows BEM with a vsb-slv- prefix per Requirement 1.2.
+ */
+
+.vsb-slv-tab {
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.vsb-slv-section-title {
+    -unity-font-style: bold;
+    margin-bottom: 4px;
+}
+
+.vsb-slv-preview {
+    min-height: 200px;
+    background-color: rgb(20, 20, 20);
+}
+
+.vsb-slv-preview--placeholder {
+    background-color: rgb(40, 40, 40);
+}
+
+.vsb-slv-preset-section,
+.vsb-slv-stage-section,
+.vsb-slv-light-list-section,
+.vsb-slv-light-editor,
+.vsb-slv-volume-section {
+    padding: 6px;
+    margin-bottom: 4px;
+    border-bottom-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.vsb-slv-preset-list,
+.vsb-slv-stage-list,
+.vsb-slv-light-list,
+.vsb-slv-volume-list {
+    flex-direction: column;
+}
+
+.vsb-slv-preset-toolbar {
+    flex-direction: row;
+    margin-top: 4px;
+}
+
+.vsb-slv-button {
+    margin-right: 4px;
+}
+
+.vsb-slv-light-list-item,
+.vsb-slv-preset-list-item,
+.vsb-slv-stage-list-item {
+    flex-direction: row;
+    padding: 2px 4px;
+}
+
+.vsb-slv-light-list-item--selected,
+.vsb-slv-preset-list-item--active {
+    background-color: rgba(80, 140, 220, 0.25);
+}
+
+.vsb-slv-light-list-item--placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.vsb-slv-validation-error {
+    color: rgb(220, 80, 80);
+    font-size: 10px;
+}
+
+.vsb-slv-warning-badge {
+    color: rgb(220, 160, 60);
+}
+
+.vsb-slv-overlay--switching {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="2" result="Failed" total="2" passed="1" failed="1" skipped="0" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.083">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.083" total="2" passed="1" failed="1" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.IntegratedDemo.Tests.PlayMode.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.IntegratedDemo.Tests.PlayMode.dll" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.072" total="2" passed="1" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.070" total="2" passed="1" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="IntegratedDemo" fullname="VTuberSystemBase.IntegratedDemo" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.069" total="2" passed="1" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.IntegratedDemo.Tests" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.069" total="2" passed="1" failed="1" skipped="0">
+            <test-suite type="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests" name="IntegratedDemoSmokeTests" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.067" total="2" passed="1" failed="1" skipped="0">
+              <test-case name="AdapterHosts_AreAttached" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests.AdapterHosts_AreAttached" result="Failed" start-time="2026-05-10 08:13:52" end-time="2026-05-10 08:13:53" duration="0.050">
+                <failure>
+                  <message>  Camera adapter Bootstrapper should be attached as a child GameObject after OutputSceneBootstrapper completes initialization.
+  Expected: not null
+  But was:  null
+</message>
+                  <stack-trace>at VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests+&lt;AdapterHosts_AreAttached&gt;d__3.MoveNext () [0x00164] in .\Packages\jp.hidano.vtuber-system-base.integrated-demo\Tests\PlayMode\IntegratedDemoSmokeTests.cs:70
+at UnityEngine.TestTools.TestEnumerator+&lt;Execute&gt;d__7.MoveNext () [0x0004e] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+</stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Awake_DoesNotThrow_WhenSkinProfileIsNull" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests.Awake_DoesNotThrow_WhenSkinProfileIsNull" result="Passed" start-time="2026-05-10 08:13:53" end-time="2026-05-10 08:13:53" duration="0.007" />
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

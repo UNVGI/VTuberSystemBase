@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Character Selection Tab root UXML (task 4.1, design.md §View File Structure Plan).
+  Layout regions:
+    - vsb-char-tab__player-cards   : SlotListPresenter renders PlayerCard.uxml clones here
+    - vsb-char-tab__avatar-catalog : AvatarCatalogPresenter renders AvatarCatalogItem.uxml clones here
+    - vsb-char-tab__settings-panel : SettingsPanelPresenter mounts dynamic setting UI here
+    - vsb-char-tab__preset-bar     : PresetManagerPresenter mounts PresetBar.uxml here
+    - vsb-char-tab__diagnostics    : TabDiagnosticsPresenter renders TabDiagnosticsSnapshot here
+  USS class names follow ui-toolkit-shell `vsb-` prefix + BEM convention; users override them via
+  UiToolkitShellSkinProfile.CharacterTabStyleSheets.
+-->
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:engine="UnityEngine.UIElements"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <VisualElement name="vsb-char-tab" class="vsb-char-tab" style="flex-grow: 1;">
+        <VisualElement name="vsb-char-tab__preset-bar" class="vsb-char-tab__preset-bar" />
+        <VisualElement name="vsb-char-tab__main" class="vsb-char-tab__main" style="flex-grow: 1; flex-direction: row;">
+            <VisualElement name="vsb-char-tab__player-cards" class="vsb-char-tab__player-cards" />
+            <VisualElement name="vsb-char-tab__avatar-catalog" class="vsb-char-tab__avatar-catalog" />
+            <VisualElement name="vsb-char-tab__settings-panel" class="vsb-char-tab__settings-panel" />
+        </VisualElement>
+        <VisualElement name="vsb-char-tab__diagnostics" class="vsb-char-tab__diagnostics" />
+    </VisualElement>
+</UXML>

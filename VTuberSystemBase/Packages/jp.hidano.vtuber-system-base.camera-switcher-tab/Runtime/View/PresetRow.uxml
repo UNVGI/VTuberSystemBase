@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Preset row template. Cloned by PresetPanelView for each persisted preset name.
+-->
+<UXML xmlns="UnityEngine.UIElements">
+    <VisualElement name="vsb-preset-row" class="vsb-preset-row">
+        <Label name="vsb-preset-row__name" class="vsb-preset-row__name" />
+        <Button name="vsb-preset-row__activate" class="vsb-preset-row__activate" text="Activate" />
+        <Button name="vsb-preset-row__rename" class="vsb-preset-row__rename" text="Rename" />
+        <Button name="vsb-preset-row__duplicate" class="vsb-preset-row__duplicate" text="Duplicate" />
+        <Button name="vsb-preset-row__delete" class="vsb-preset-row__delete" text="Delete" />
+    </VisualElement>
+</UXML>

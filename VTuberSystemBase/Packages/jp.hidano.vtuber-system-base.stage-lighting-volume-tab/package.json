@@ -1,0 +1,28 @@
+{
+  "name": "jp.hidano.vtuber-system-base.stage-lighting-volume-tab",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase Stage Lighting Volume Tab",
+  "description": "Display 1 UI tab for the VTuberSystemBase that controls stage selection, lighting (Directional/Point/Spot/Area lights with intensity, color, rotation, range, spot angle), URP Volume overrides, and a stage preview render texture, plus a JSON-backed preset store. Provides the Contracts assembly (IPC topic constants, DTOs, the StagePreviewHostLocator service abstraction, and preset persistence DTOs) shared between the UI side and the main-output-side StageLightingVolume adapter, plus the UI implementation that consumes the ui-toolkit-shell facades. The main-output-side adapter (Light/Volume/Stage driving and StagePreviewHost MonoBehaviour) is out of scope for this package.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "ui-toolkit",
+    "stage-lighting",
+    "volume",
+    "tab",
+    "urp"
+  ],
+  "dependencies": {
+    "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
+    "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "com.hidano.scene-view-style-camera-controller": "1.0.1",
+    "com.unity.addressables": "2.0.0",
+    "com.unity.render-pipelines.universal": "17.3.0"
+  }
+}

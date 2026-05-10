@@ -1,106 +1,115 @@
-# Handover (2026-04-27)
+# セッション引き継ぎノート
 
-## 今回やったこと
+## ◯ 今回やったこと（前 HANDOVER P0/P1 全消化セッション）
 
-- ui-toolkit-shell 残 6 件 (12.5〜12.10) を inner runner (`claude -p --enable-auto-mode`) で sequential 実行 → 全件 ALL_OK でクローズ
-- output-renderer-shell の tasks.md と git 実態の差分を確認、1.1 / 2.1 を実態に合わせて `[x]` 化 (commit 4a5f2d2 / 3a36e46 / dde14b9 が既存で完了済みだった)
-- output-renderer-shell の 2.2〜4.1 を **直接実装** (inner runner が「Create Unsafe Agents」で permission 拒否されたため、ユーザー承認のもと self-implement に切替)
-- 各タスク 1 commit 単位で `[x]` 化と同梱
+前 HANDOVER `402a2f0` の P0-1 / P0-2 / P1-D / P1-F (×2) を Auto Mode で順次消化。残失敗 10件 → 0件 (期待 Skip 1 件含む)。最後に MainDemo.unity を作成し PlayMode で Display 2 メイン出力の起動成立を確認。
 
-## 決定事項
+### 修正サマリ
 
-- **inner runner (`claude -p --enable-auto-mode --max-turns N`) は許可ダイアログがリセットされた状態では permission 拒否される**。続行するには `/permissions` で `Bash(unset CLAUDECODE && echo "" | claude -p ...)` を allow するか、self-implement で進める
-- **self-implement の per-task コストは inner runner より高い**（読解・実装が現セッションのトークンを直接消費するため）。残予算に応じて選ぶ
-- **PlayMode テストは Unity Editor が VTuberSystemBase で開いていない限り走らせられない**。今回はコード生成と git commit のみ、Test Runner 実行は次回ローカルで行う
-- **.meta ファイルは手動生成 (16-hex GUID)**。Unity 起動時に GUID 衝突があれば再生成される。今回は衝突しないよう連番ベースで採番
-- 残予算 ~10% / week (4/27 04:35 時点) で 8 件達成 (1.1 sync, 2.1 sync, 2.2, 2.3, 2.4, 3.1, 3.2, 4.1)
+| Task | カテゴリ | 修正 | テスト結果 |
+|---|---|---|---|
+| P0-2 | UI Shell パッケージ rename | `com.hidano.vtuber-system-base.ui-toolkit-shell` → `jp.hidano.*` (ディレクトリ + package.json + 4 依存パッケージ + packages-lock + README) | 8件 PASS (RootUiDocumentBuilder×3, CommonUiRegistration×1, SkinProfileEditor×2, UiShellPlayModeLeak×2) |
+| P1-D | RAC AdapterRoundTrip | (1) `SlotCatalogPublisher.OnStateChanged` の Slot 検知を `next == Created` から「`next != Disposed && !_knownSlotIds.Contains` → 追加」に変更。(2) `SlotAssignmentApplier.UnregisterDynamic` で SemaphoreSlim を Dispose しない (mid-flight HandleAssignment が finally で `sem.Release()` を呼ぶため) | 2件 PASS (Assignment_AssignsSlot / Assignment_UnknownAvatarKey) |
+| P1-F (Performance) | Catalog 検知改善 | `loader.LoadAsync` ベースの probe を `Addressables.ResourceLocators` 列挙ベースに変更。catalog 未構築時は `Assert.Ignore` (asmdef に `Unity.Addressables` 参照追加) | 1件 SKIPPED (期待動作; catalog 構築 PlayMode で本番計測) |
+| P1-F (JsonPresetStorage) | エラーコード許容範囲 | `Save_FailsCleanly_LeavesPriorFileIntactWhenTempCannotBeRenamed` の assertion を `IOError or PermissionDenied` に拡張 (Windows では tempPath が directory のとき `WriteAllText` が `UnauthorizedAccessException` → `PermissionDenied` を返すため) | 14件 PASS (Test fixture 全体) |
+| P0-1 | MainDemo.unity 構築 | `Assets/Scenes/MainDemo.unity` を `uloop-execute-dynamic-code` でスクリプト生成 (IntegratedDemoRoot に `OutputSceneBootstrapper` + `IntegratedDemoBootstrap`、SerializedObject で `_outputSceneBootstrapper` フィールド配線) | PlayMode で `OutputSceneBootstrapper` が全 7 フェーズ Complete (RootsCreated → CameraReady → LightReady → VolumeReady → IpcServerReady → DispatcherReady → DisplayRouted) Errors 0 |
 
-## 捨てた選択肢と理由
+### 最終テスト集計
 
-- **inner runner の permission 設定変更を依頼** → `/permissions` の永続化はユーザー操作が必要。auto mode 中なので self-implement に倒した
-- **`/kiro:spec-run output-renderer-shell` で残全件投げ** → 結局 nested claude を使うため同じ permission 拒否に遭う
-- **2 タスクずつまとめて 1 commit** → tasks.md の進捗追跡と分割再開のしやすさを優先し、1 タスク 1 commit を維持
-- **DefaultCameraFactory に `targetDisplay` を直接設定** → 2.x / 3.x の境界違反。`IDisplayRoutingService.Activate(camera, ...)` 経由のみ許容する設計通りに `targetDisplay = 0` のまま残した
+- **PlayMode**: 374 / 374 PASS (regression 0)
+- **EditMode (UiToolkitShell)**: 414 PASS + 1 SKIPPED (Performance test 期待 Ignore) / 415
+- **EditMode (StageLightingVolume)**: 164 / 164 PASS
 
-## ハマりどころ
+## ◯ 決定事項
 
-- HANDOVER.md が PreCompact hook の auto-handover で stub に上書きされていた (前セッションの詳細版は `HANDOVER.md.bak` に退避されたまま) → 今回の HANDOVER は新規作成として上書き
-- `bash` 経由の `cat` / `head` / `tail` / `find` / `grep -n` が permission 拒否される → Glob / Grep / Read / Edit / Write の専用ツールに切替
-- 12.7 inner runner が前セッション末で commit 寸前で context-out → working tree に未コミット成果物 (UiShellPlayModeSampleHost / DefaultSkinProfile.asset / UiShellPlayModeSample.unity 編集 / UiShellPlayModeSample.md) が残っていた → 復帰冒頭で手動コミット (e86961e)
-- claude.exe 子プロセスが過去セッションから複数残存 (PID 12272, 36588, 57444, 66160) → API 接続自体は活きているが古いものは無効。新規 task の bg PID と区別が必要
+- **`com.hidano.vtuber-system-base.ui-toolkit-shell` を `jp.hidano.*` へ rename**：プロダクションコード (`SkinProfileEditor.cs`, `CommonUiRegistration.cs`) が既に `jp.` パスをハードコードしていたため。プロジェクト内 7/10 パッケージは `jp.` 接頭辞で convention 一貫。残 2 パッケージ (`core-ipc-foundation`, `output-renderer-shell`) は内部参照が `jp.` でないため当面 `com.` 据え置き
+- **SlotCatalogPublisher の Slot 追加検知ロジック**：RAC 外部パッケージの `SlotManager.AddSlotAsync` は `Created → Active` を 1 イベントで emit するため、`next == Created` フィルタでは検知不能。`Disposed 以外への遷移で初出現の slotId` を「追加」と判定する仕様に統一
+- **`SlotAssignmentApplier.UnregisterDynamic` で SemaphoreSlim を Dispose しない**：HandleAssignment が中継 (RemoveSlotAsync → AddSlotAsync) を行う際、内側 RemoveSlotAsync が同期的に OnSlotRemoved → UnregisterDynamic を発火させる。このとき HandleAssignment は try-finally で sem を保持しており、ここで Dispose すると finally の `sem.Release()` が `ObjectDisposedException` を投げる。SemaphoreSlim 本体は GC 任せにし、本 Applier の `Dispose` 時のみ明示破棄する
+- **Performance test の catalog 未構築検知は `Addressables.ResourceLocators` ベース**：`loader.LoadAsync` ベースの probe は Addressables 2.x で同期 throws しない場合があり信頼性低い。`Addressables.ResourceLocators` を列挙して 0 件なら catalog 未構築と確定判定
+- **MainDemo.unity 最小構成は SkinProfile 未設定で OK**：HANDOVER P0-1 の minimum scope 「メイン出力のみ起動成立」は `IntegratedDemoConfig.SkinProfile = null` で達成。production が `SkinProfile not set; skipping UI shell startup` を warn ログで明示的に表現する
 
-## 学び
+## ◯ 捨てた選択肢と理由
 
-- `--max-turns 120` でも 12.8 / 12.9 / 12.10 のような E2E PlayMode は ~25-30 分かかる。背景起動 → 25 分待ち → TaskOutput で Read という polling パターンが Cache TTL (5min) と相性悪い → `delaySeconds=1500` (25 分) で 1 回のみ wakeup する方がトータル安い
-- Unity の Camera + UniversalAdditionalCameraData は AddComponent 順序に依存しない (URP では Camera 追加時に自動 attach) が、明示的に AddComponent しておくと「将来 URP 外し対応」のリグレッションを防げる
-- `IDisplayProbe` のような薄いラッパを作るだけで Unity 静的 API (`Display.displays.Length`) のテスト依存を切れる → `Tests/PlayMode` 内 private nested class でスタブを書く程度で済む
-- `csc.rsp` で `-langversion:10` 指定があるので `record struct` / `init` セッター / `?` 否定演算子はそのまま使える
-- spec-run-waves の Wave 2 / 3 は per-spec の `claude -p` を fork する設計だが、permission 設定がリセットされた状態だと外部から自動承認できない。Auto mode + nested claude は user 承認の壁がある
+- **「テスト側のパス修正で `com.` のままにする」 (P0-2)**：プロダクションコード (`SkinProfileEditor.cs`, `CommonUiRegistration.cs`) が `jp.` をハードコードしていたため、片側だけ修正では不整合が残る。パッケージ rename が正解
+- **「Performance test を `Application.isPlaying` でガード」 (P1-F)**：catalog の有無は PlayMode/EditMode と直交する観点。Addressables 自体の状態を直接見るほうが正確
+- **「JsonPresetStorage プロダクションコードの例外分類変更」 (P1-F)**：`UnauthorizedAccessException → PermissionDenied` のマッピングは Windows 上で正しい意味論。テスト setup が tempPath を directory にする「失敗パスをまず WriteAllText で踏む」シナリオを暗黙に作っていただけなので、テスト側で許容範囲を広げるほうが Production 契約を歪めない
+- **「`SlotCatalogPublisher` の OnSlotAdded を廃止し IntegratedDemoBootstrap.Initialize で全 slot を直接登録」 (P1-D)**：Bootstrapper.Initialize 時点で 0 slot しかない (test もその前提)。動的追加検知が本来の責務であり、検知ロジックを正しく直すのが筋
+- **「P0-1 で全 SkinProfile / 4 UXML をスクリプト生成して Display 1 まで立ち上げ」**：HANDOVER の minimum scope 「メイン出力のみ起動成立」を満たす分には不要。SkinProfile 作成 + 4 UXML 作成 + 各 SerializedObject 配線は工数大、UI Shell 起動成立は別途検証
 
-## 次にやること
+## ◯ ハマりどころ
 
-### P1 (週次リセット待ちなしで進められる)
+- **パッケージ rename 後の Unity 認識**：ディレクトリ rename + package.json/lock 更新だけでは Unity がパッケージを見つけられない。`UnityEditor.PackageManager.Client.Resolve()` + `AssetDatabase.Refresh(ForceUpdate | ForceSynchronousImport)` + `CompilationPipeline.RequestScriptCompilation(CleanBuildCache)` の 3 連を `uloop-execute-dynamic-code` で叩いて初めて UiToolkitShell.* DLL が ScriptAssemblies に出力された。最初の `uloop compile --force-recompile` だけでは 212 件の `IDiagnosticsLogger could not be found` が出続けた
+- **SemaphoreSlim mid-flight Dispose**：`SlotCatalogPublisher` の OnSlotAdded 検知を直したら `Status: Error` (Expected: "Assigned") の別失敗が浮上。原因は HandleAssignment が `RemoveSlotAsync → AddSlotAsync` で中継するとき、内側 RemoveSlotAsync が同期的に `OnSlotRemoved → UnregisterDynamic` を発火させ、SemaphoreSlim を Dispose してしまう。HandleAssignment は try で sem を保持しているので finally の Release で ObjectDisposedException → HandleStateAsync の catch で `PublishError(Unknown)` → SlotStateMapper.Error が publish されて見えていた
+- **`uloop run-tests --filter-type all` の 1284 件は RPC 180s タイムアウトを超える**：UiToolkitShell の `[UnityTest]` PlayMode style もすべて EditMode 集計に含まれるため。範囲を絞った regex 実行で代替する (`UiToolkitShell\.Tests`、`StageLightingVolume` など)
+- **`PlayMode` filter での `[UnityTest]` テスト**：EditMode テスト assembly に PlayMode 名前空間の `[UnityTest]` 連中が混じっている。`--test-mode PlayMode` だと "No tests found" になり、`--test-mode EditMode` で拾える (例: `UiShellPlayModeLeakAndEmptyTabTests`)
+- **`Application.AddressableAssets` 名前空間が test asmdef の `references` に明示されないと CS0234**：UiToolkitShell.Tests asmdef は Runtime asmdef を参照するが Runtime が `Unity.Addressables` を参照していても test には伝播しない。test asmdef にも `"Unity.Addressables"` を追記必須
 
-- output-renderer-shell 残 9 件を 4.2 から順に **直接実装** で進める
-  - 4.2 OutputCommandDispatcher (中規模、ICoreIpcServer 連携あり)
-  - 5.1 OutputDiagnostics (小規模、状態遷移ロジック)
-  - 6.1〜6.4 OutputSceneBootstrapper 系 (中〜大、Composition Root)
-  - 7.1, 7.2 統合テスト
-  - 8.1, 8.2 サンプルシーン + Coverage 回帰スイート
-  - 8.3* は任意 (MVP 後)
-- Unity Editor で `VTuberSystemBase` を開いて 2.2〜4.1 のテストが Pass することを確認 (今回は未実行)
+## ◯ 学び
 
-### P2 (4/30 8pm 週次リセット後)
+- **Unity 6.3 + Addressables 2.x の embedded package rename フロー**：`PackageManager.Client.Resolve` → `AssetDatabase.Refresh(ForceUpdate | ForceSynchronousImport)` → `RequestScriptCompilation(CleanBuildCache)` の 3 連が必須。これを叩かないと `Library/ScriptAssemblies/` に新パッケージの DLL が出力されず、依存パッケージが軒並み 200+ 件のコンパイルエラーになる
+- **`SemaphoreSlim` を `Dispose` で必ず解放しなくても GC が拾う**：内部 `WaitHandle` を持たない場合は安全。ここでは「mid-flight 操作中は Dispose しない、外側で纏めて破棄」のほうが defensive で正しい
+- **NUnit `Is.EqualTo(x).Or.EqualTo(y)` 構文**：複数の許容値で assertion を緩めるのに最短記法。`Is.AnyOf(...)` も同等
+- **`Addressables.ResourceLocators` で catalog 構築有無を直接判定**：Editor / PlayMode / Player 全環境で確定判定可能。`Application.isPlaying` や `Application.isEditor` での代用より精度高い
+- **HANDOVER の "minimum scope" を尊重する**：P0-1 は「メイン出力のみで起動成立すれば完了」と明記されていた。SkinProfile + 4 UXML 作成は完了条件外。最小スコープでまず確認、追加スコープは別 PR
 
-- Wave 3: camera-switcher-tab / character-selection-tab / stage-lighting-volume-tab (~100 件)
-- inner runner を使うなら事前に `/permissions` 設定を allow に変更しておく
+## ◯ 次にやること
 
-### P3 (低優先)
+### P0（最優先）
 
-- HANDOVER.md.bak の整理 (Apr 26 23:35 版、後続 commit で track 済み)
-- pre-existing flaky test `EditorPlayModeBridgePlayModeTests.RepeatedSimulatedPlayModeCycles_KeepPortBindable` の調査
-- spec-run skill に「N 分 commit 進捗無し → 強制終了」watchdog 追加
+- (なし; 前 HANDOVER P0/P1 すべて消化済み)
 
-## 関連ファイル
+### P1（中優先）
 
-### 今回のセッションで触ったプロダクションコード (output-renderer-shell)
+- **MainDemo.unity に SkinProfile + UXML を加えて Display 1 UI Shell を立ち上げる**：P0-1 minimum scope の延長。`IntegratedDemoSkinProfile.asset` (`UiToolkitShellSkinProfile` SO) + `IntegratedDemo_Root.uxml` + 3 タブ用 UXML を `Assets/UI Toolkit/IntegratedDemo/` 配下に作成し、Inspector で IntegratedDemoBootstrap に assign → PlayMode で `UiShellBootstrapper: shell running.` を確認
+- **`CoreIpcRuntime.Current is null` 警告の調査**：MainDemo.unity PlayMode で 3 回ほど警告が出る。`RuntimeBootstrap.OnBeforeSceneLoad` が走っていないか走るタイミング遅い。core-ipc-foundation 側の RuntimeInitializeOnLoadMethod 設定を確認
 
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Scene/DefaultCameraFactory.cs` (新規, 2.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Scene/DefaultLightFactory.cs` (新規, 2.3)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Scene/GlobalVolumeFactory.cs` (新規, 2.4)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Abstractions/IDisplayRoutingService.cs` (新規, 3.1)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Display/IDisplayProbe.cs` (新規, 3.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Display/UnityDisplayProbe.cs` (新規, 3.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Display/BuiltInDisplayRoutingService.cs` (新規, 3.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Runtime/Dispatch/HandlerRegistry.cs` (新規, 4.1)
+### P2（低優先・スコープ外）
 
-### 今回のセッションで触ったテストコード
+- 9 パッケージの OpenUPM / npm registry 公開
+- Wave 4：PVW/PGM、WebUI、タイムライン録画リプレイ
+- 命名衝突 `VTuberSystemBase.CameraSwitcherOutputAdapter` namespace × `CameraSwitcherOutputAdapter` Domain クラスの rename 根治 (前 HANDOVER P2 から継続)
+- `output-renderer-shell/package.json` の `dependencies` に `com.hidano.runtime-display-selector` 追加 (前 HANDOVER P2 から継続)
+- 残 2 つの `com.hidano.vtuber-system-base.*` パッケージ (`core-ipc-foundation`, `output-renderer-shell`) も `jp.` へ rename して conventions 完全統一
 
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/PlayMode/DefaultCameraFactoryTests.cs` (新規, 2.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/PlayMode/DefaultLightFactoryTests.cs` (新規, 2.3)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/PlayMode/GlobalVolumeFactoryTests.cs` (新規, 2.4)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/EditMode/Fakes/FakeDisplayRoutingService.cs` (新規, 3.1)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/EditMode/IDisplayRoutingServiceContractTests.cs` (新規, 3.1)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/PlayMode/BuiltInDisplayRoutingServiceTests.cs` (新規, 3.2)
-- `Packages/com.vtubersystembase.output-renderer-shell/Tests/EditMode/HandlerRegistryTests.cs` (新規, 4.1)
+## ◯ 関連ファイル
 
-### 今回のセッションでの commit (新しい順)
+### 今回触った主要ファイル
 
-#### output-renderer-shell
+#### P0-2: UI Shell パッケージ rename
 
-- `06cf526` 4.1 HandlerRegistry と登録解除トークンの実装
-- `6de93e8` 3.2 BuiltInDisplayRoutingService による暫定実装 (IDisplayProbe seam 経由)
-- `ce9044f` 3.1 IDisplayRoutingService 抽象と FakeDisplayRoutingService の確定
-- `0ad7f22` 2.4 (P) GlobalVolumeFactory による空の Global Volume と空 VolumeProfile の生成
-- `65e2abd` 2.3 (P) DefaultLightFactory によるデフォルト Directional Light の生成
-- `474589a` 2.2 (P) DefaultCameraFactory による URP 対応デフォルトカメラの生成
-- `8c2aa75` Sync tasks.md: mark output-renderer-shell 1.1, 2.1 as [x]
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/` → `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/` (ディレクトリ rename)
+- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/package.json` の `name` フィールド更新
+- `Packages/packages-lock.json` (top-level entry + 4 depended-by entries 全置換)
+- 依存パッケージ 4 件の `package.json`：`stage-lighting-volume-tab`, `character-selection-tab`, `camera-switcher-tab`, `integrated-demo`
+- `Packages/jp.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md`
 
-#### ui-toolkit-shell
+#### P1-D: RAC AdapterRoundTrip
 
-- `7d2f49b` 12.10 Coverage Audit
-- `71b5925` 12.9 Performance
-- `d30e2c6` 12.8 E2E PlayMode 反復起動リーク試験
-- `e86961e` 12.7 E2E PlayMode サンプルシーン + 手動検証手順
-- `7755455` 12.6 Integration 起動→プリロード→初期タブ
-- `d9e4456` 12.5 Integration round-trip
+- `Packages/jp.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Senders/SlotCatalogPublisher.cs` (`OnStateChanged` の Slot 追加検知ロジック)
+- `Packages/jp.hidano.vtuber-system-base.rac-main-output-adapter/Runtime/Receivers/SlotAssignmentApplier.cs` (`UnregisterDynamic` の SemaphoreSlim 非破棄)
+
+#### P1-F: Performance / JsonPresetStorage
+
+- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/Runtime/PerformanceMetricsTests.cs` (`AsyncLoad_HundredConcurrentInflight` の catalog probe)
+- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/Tests/UiToolkitShell.Tests.asmdef` (`Unity.Addressables` 参照追加)
+- `Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-tab/Tests/Runtime/JsonPresetStorageTests.cs` (`Save_FailsCleanly` の assertion 拡張)
+
+#### P0-1: MainDemo.unity
+
+- `Assets/Scenes/MainDemo.unity` (新規 / `uloop-execute-dynamic-code` でスクリプト生成)
+- `Assets/Scenes/MainDemo.unity.meta`
+
+### 環境
+
+- `unity-cli-loop` v2.1.1 グローバルインストール済 (`C:\Users\Hidano\AppData\Roaming\npm\uloop`)
+- Unity Editor: `6000.3.10f1` (`C:\Program Files\Unity\Hub\Editor\6000.3.10f1`)
+- Unity プロジェクトルート: `D:\Personal\Repositries\VTuberSystemBase\VTuberSystemBase`
+- テスト結果 XML 履歴: `VTuberSystemBase/.uloop/outputs/TestResults/*.xml`
+
+### 参照
+
+- `docs/integration-plan.md` — 統合開発計画 v1.0
+- `docs/requirements.md` — VTuberSystemBase 要件定義書
+- `Packages/jp.hidano.vtuber-system-base.integrated-demo/Samples~/IntegratedDemo/README.md` — MainDemo.unity 構築手順 (Display 1 含む完全版)
+- `https://github.com/hatayama/unity-cli-loop` — uloop README
+- 前回の `HANDOVER.md`（commit `402a2f0`、本ノートで上書き）— Wave 3a〜3e + URP/IntegratedDemo セッション
