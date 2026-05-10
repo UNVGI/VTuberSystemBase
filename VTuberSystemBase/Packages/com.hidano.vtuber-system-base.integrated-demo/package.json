@@ -25,6 +25,7 @@
     "jp.co.unvgi.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+    "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
     "com.unity.addressables": "2.0.0"
