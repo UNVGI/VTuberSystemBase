@@ -5,7 +5,7 @@
 ## 1. Foundation: パッケージ雛形と参照境界の確立
 
 - [x] 1.1 UPM パッケージ骨格と asmdef 境界の確立
-  - UPM パッケージ（`jp.hidano.vtuber-system-base.rac-main-output-adapter`）の `package.json` を作成し、`dependencies` に `com.hidano.vtuber-system-base.core-ipc-foundation` / `com.hidano.vtuber-system-base.output-renderer-shell` / `jp.hidano.vtuber-system-base.character-selection-tab` / `com.hidano.realtimeavatarcontroller`（バージョンは manifest と一致させる）を列挙する。
+  - UPM パッケージ（`com.hidano.vtuber-system-base.rac-main-output-adapter`）の `package.json` を作成し、`dependencies` に `com.hidano.vtuber-system-base.core-ipc-foundation` / `com.hidano.vtuber-system-base.output-renderer-shell` / `com.hidano.vtuber-system-base.character-selection-tab` / `com.hidano.realtimeavatarcontroller`（バージョンは manifest と一致させる）を列挙する。
   - Runtime asmdef（`VTuberSystemBase.RacMainOutputAdapter.Runtime`）を作成し、`references` に GUID 参照で以下のみを列挙する：`286be82527bb75547a774598be8243ab`（CoreIpc.Abstractions）/ `8dd1f7ecef3d4c6cae1a52cee5304e5f`（OutputRendererShell.Runtime）/ `1e7b25ecbf9f4963b5275a52b2623640`（CharacterSelectionTab.Contracts）/ RAC `RealtimeAvatarController.Core` の name 参照（GUID 取得して GUID 参照に揃える）。`overrideReferences = true`、`precompiledReferences` に `System.Text.Json.dll` / `System.Text.Encodings.Web.dll` / `System.Runtime.CompilerServices.Unsafe.dll`、`noEngineReferences = false`、`autoReferenced = true` を設定する。
   - Tests.Runtime asmdef（`VTuberSystemBase.RacMainOutputAdapter.Tests.Runtime`）と Tests.Editor asmdef（同 `.Tests.Editor`）を作成し、`InternalsVisibleTo` を Runtime asmdef に対して有効化する。
   - パッケージルート / Runtime / Tests / Samples~ 各フォルダの `.meta` と asmdef `.meta` の GUID は **PowerShell `[guid]::NewGuid().ToString('N')` で都度生成** する。連続パターン・派生 GUID は禁止（CLAUDE.md ルール）。

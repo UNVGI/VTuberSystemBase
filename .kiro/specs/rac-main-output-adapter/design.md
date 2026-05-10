@@ -35,7 +35,7 @@
 
 ### This Spec Owns
 
-- 本 spec パッケージ（`jp.hidano.vtuber-system-base.rac-main-output-adapter`）の `package.json` と Runtime asmdef の構成（Engine 参照あり）。
+- 本 spec パッケージ（`com.hidano.vtuber-system-base.rac-main-output-adapter`）の `package.json` と Runtime asmdef の構成（Engine 参照あり）。
 - `RacMainOutputAdapterBootstrapper`（Composition Root）と `OutputSceneBootstrapper` の `Start` / `OnDestroy` への結線。
 - `IOutputCommandDispatcher` への 4 系統ハンドラ登録（state × 2、event × 1、request × 1）。
 - RAC `SlotManager` のメイン出力側ライフサイクル管理（生成・状態購読・Dispose）。
@@ -235,7 +235,7 @@ Composition Root (RacMainOutputAdapterBootstrapper)
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.rac-main-output-adapter/
+Packages/com.hidano.vtuber-system-base.rac-main-output-adapter/
 ├── package.json
 ├── package.json.meta
 ├── README.md
@@ -1111,4 +1111,4 @@ public readonly record struct RacAdapterDiagnosticsSnapshot(
 - `VTuberSystemBase/Library/PackageCache/com.hidano.realtimeavatarcontroller@2c13b3316175/Runtime/Core/Slot/SlotManager.cs`
 - `VTuberSystemBase/Library/PackageCache/com.hidano.realtimeavatarcontroller@2c13b3316175/Runtime/Core/Locator/RegistryLocator.cs`
 - `VTuberSystemBase/Library/PackageCache/com.hidano.realtimeavatarcontroller@2c13b3316175/Runtime/Core/Error/ISlotErrorChannel.cs`
-- `VTuberSystemBase/Packages/jp.hidano.vtuber-system-base.character-selection-tab/Runtime/Contracts/`（参照する Contracts asmdef、GUID `1e7b25ecbf9f4963b5275a52b2623640`）
+- `VTuberSystemBase/Packages/com.hidano.vtuber-system-base.character-selection-tab/Runtime/Contracts/`（参照する Contracts asmdef、GUID `1e7b25ecbf9f4963b5275a52b2623640`）

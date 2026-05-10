@@ -233,7 +233,7 @@ Types & Contracts  →  Ports  →  Coordinator (Domain State Machine)  →  Vie
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.camera-switcher-tab/
+Packages/com.hidano.vtuber-system-base.camera-switcher-tab/
 ├── package.json
 ├── Runtime/
 │   ├── Abstractions/                                  # Ports 層（1 つ目の asmdef、純 C# 抽象）
@@ -346,7 +346,7 @@ Packages/jp.hidano.vtuber-system-base.camera-switcher-tab/
 
 ### Modified Files
 
-- `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/.../DefaultSkinProfile.asset`（同梱例として）— **変更しない**。利用者プロジェクトが別途 `UiToolkitShellSkinProfile` アセットを作成し、`CameraSwitcherTabVisualTreeAsset` / `CameraSwitcherTabStyleSheets` に本 spec の UXML/USS を差し込む運用とする（`ui-toolkit-shell` の Skin 差し替え規約に従う）。
+- `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/.../DefaultSkinProfile.asset`（同梱例として）— **変更しない**。利用者プロジェクトが別途 `UiToolkitShellSkinProfile` アセットを作成し、`CameraSwitcherTabVisualTreeAsset` / `CameraSwitcherTabStyleSheets` に本 spec の UXML/USS を差し込む運用とする（`ui-toolkit-shell` の Skin 差し替え規約に従う）。
 
 **Dependency direction**（asmdef 参照関係）:
 - `Abstractions` asmdef: 純 C# 抽象 + DTO、何にも参照しない。

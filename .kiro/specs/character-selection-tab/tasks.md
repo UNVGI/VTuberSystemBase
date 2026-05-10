@@ -5,7 +5,7 @@
 ## 1. Foundation: パッケージ雛形と共通抽象の整備
 
 - [x] 1.1 UPM パッケージ骨格と asmdef 境界の確立
-  - UPM パッケージ（`jp.hidano.vtuber-system-base.character-selection-tab`）の `package.json`・Runtime/Editor/Tests ディレクトリ・README を作成し、design.md の File Structure Plan に従うフォルダ階層を用意する。
+  - UPM パッケージ（`com.hidano.vtuber-system-base.character-selection-tab`）の `package.json`・Runtime/Editor/Tests ディレクトリ・README を作成し、design.md の File Structure Plan に従うフォルダ階層を用意する。
   - Runtime asmdef を `VTuberSystemBase.CharacterSelectionTab.Runtime` として作成し、参照先を `UiToolkitShell.Runtime` / `UiToolkitShell.CommonUi` / `VTuberSystemBase.CoreIpc.Abstractions` / `com.unity.addressables`（間接）に限定、`output-renderer-shell` 実装・他タブ spec・core-ipc 具体実装・RAC 本体への直接参照を構造的に禁止する。
   - Tests.Runtime asmdef、Editor asmdef、および `InternalsVisibleTo` 設定を整え、Unity 6.3 で空プロジェクトからコンパイル可能な状態にする。
   - 観測可能な完了条件: パッケージを Unity 6.3 プロジェクトに配置したときコンパイルエラーなしでロードされ、禁止参照を加えるとコンパイルエラーとなることを確認できる。

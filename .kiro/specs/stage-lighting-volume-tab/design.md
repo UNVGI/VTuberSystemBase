@@ -237,7 +237,7 @@ Main output adapter (out of scope)  ──→  tab spec Contracts (this spec)
 ### Directory Structure
 
 ```
-Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-tab/
+Packages/com.hidano.vtuber-system-base.stage-lighting-volume-tab/
 ├── package.json
 ├── Runtime/
 │   ├── Contracts/                          # 1 つ目 asmdef: 純 DTO + 定数

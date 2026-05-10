@@ -74,8 +74,8 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "jp.hidano.vtuber-system-base.ui-toolkit-shell": {
-      "version": "file:jp.hidano.vtuber-system-base.ui-toolkit-shell",
+    "com.hidano.vtuber-system-base.ui-toolkit-shell": {
+      "version": "file:com.hidano.vtuber-system-base.ui-toolkit-shell",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
@@ -351,89 +351,89 @@
       },
       "url": "https://package.openupm.com"
     },
-    "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.camera-switcher-output-adapter",
+    "com.hidano.vtuber-system-base.camera-switcher-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.camera-switcher-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
         "com.hidano.uosc": "1.0.0",
         "com.hidano.ucapi4unity": "0.1.0-preview.1"
       }
     },
-    "jp.hidano.vtuber-system-base.camera-switcher-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.camera-switcher-tab",
+    "com.hidano.vtuber-system-base.camera-switcher-tab": {
+      "version": "file:com.hidano.vtuber-system-base.camera-switcher-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.uosc": "1.0.0",
         "com.hidano.ucapi4unity": "0.1.0-preview.1",
         "com.hidano.scene-view-style-camera-controller": "1.0.1"
       }
     },
-    "jp.hidano.vtuber-system-base.character-selection-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.character-selection-tab",
+    "com.hidano.vtuber-system-base.character-selection-tab": {
+      "version": "file:com.hidano.vtuber-system-base.character-selection-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.integrated-demo": {
-      "version": "file:jp.hidano.vtuber-system-base.integrated-demo",
+    "com.hidano.vtuber-system-base.integrated-demo": {
+      "version": "file:com.hidano.vtuber-system-base.integrated-demo",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
-        "jp.hidano.vtuber-system-base.rac-main-output-adapter": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
-        "jp.hidano.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": "0.1.0",
+        "com.hidano.vtuber-system-base.camera-switcher-output-adapter": "0.1.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.rac-main-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.rac-main-output-adapter",
+    "com.hidano.vtuber-system-base.rac-main-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.rac-main-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
         "com.hidano.realtimeavatarcontroller": "0.2.0",
         "com.unity.addressables": "2.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": {
-      "version": "file:jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter",
+    "com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter": {
+      "version": "file:com.hidano.vtuber-system-base.stage-lighting-volume-output-adapter",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
+        "com.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
         "com.hidano.scene-view-style-camera-controller": "1.0.1",
         "com.unity.addressables": "2.0.0",
         "com.unity.render-pipelines.universal": "17.0.0"
       }
     },
-    "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": {
-      "version": "file:jp.hidano.vtuber-system-base.stage-lighting-volume-tab",
+    "com.hidano.vtuber-system-base.stage-lighting-volume-tab": {
+      "version": "file:com.hidano.vtuber-system-base.stage-lighting-volume-tab",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.scene-view-style-camera-controller": "1.0.1",
         "com.unity.addressables": "2.0.0",
         "com.unity.render-pipelines.universal": "17.3.0"

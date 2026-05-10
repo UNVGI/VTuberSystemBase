@@ -11,7 +11,7 @@
 
 - [x] 1. Foundation: UPM パッケージ骨格と 2 asmdef 分割、テスト基盤、モック基盤の整備
 - [x] 1.1 UPM パッケージ骨格と 2 つの Runtime asmdef（Contracts / Runtime）を作成する
-  - `Packages/jp.hidano.vtuber-system-base.stage-lighting-volume-tab/` 配下に `package.json` を作成し、依存として `core-ipc-foundation`・`ui-toolkit-shell`・Unity UIElements・URP・System.Text.Json・SceneViewStyleCameraController を宣言する
+  - `Packages/com.hidano.vtuber-system-base.stage-lighting-volume-tab/` 配下に `package.json` を作成し、依存として `core-ipc-foundation`・`ui-toolkit-shell`・Unity UIElements・URP・System.Text.Json・SceneViewStyleCameraController を宣言する
   - `Runtime/Contracts/VTuberSystemBase.StageLightingVolumeTab.Contracts.asmdef` を追加し、Unity 標準型のみ参照可能な純 DTO 層として閉じる（`core-ipc-foundation.Core` 等の具体実装 asmdef への参照を禁止）
   - `Runtime/Runtime/VTuberSystemBase.StageLightingVolumeTab.Runtime.asmdef` を追加し、Contracts asmdef と `ui-toolkit-shell.Runtime` / `ui-toolkit-shell.CommonUi` / `core-ipc-foundation.Abstractions` を参照する
   - Runtime.Uxml / Editor / Tests のディレクトリを空で作成し、今後のタスクの受け皿を用意する

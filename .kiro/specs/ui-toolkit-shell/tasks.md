@@ -7,7 +7,7 @@
 ## 1. Foundation: パッケージ骨格とアセンブリ境界の確立
 
 - [x] 1.1 パッケージディレクトリと Runtime 向け asmdef を作成する
-  - `Packages/jp.hidano.vtuber-system-base.ui-toolkit-shell/` 配下に Runtime / Runtime.UxmlUss / Runtime.CommonUi / Editor / Tests のルートフォルダを用意する
+  - `Packages/com.hidano.vtuber-system-base.ui-toolkit-shell/` 配下に Runtime / Runtime.UxmlUss / Runtime.CommonUi / Editor / Tests のルートフォルダを用意する
   - `UiToolkitShell.Runtime.asmdef` を作成し、参照先を UI Toolkit（`UnityEngine.UIElements`）、Unity Addressables、`core-ipc-foundation` の抽象 asmdef に限定する
   - `core-ipc-foundation` 具体実装 asmdef・`output-renderer-shell`・タブ spec への参照が引けない構成であることを asmdef 設定画面で確認する
   - 観測可能な完了状態: Unity Editor を開いた際に 5 つのフォルダと Runtime asmdef が認識され、Console に参照エラーが出ない
@@ -21,7 +21,7 @@
   - _Requirements: 1.5, 5.8, 5.10, 7.5, 10.5_
 
 - [x] 1.3 package.json とライセンス/バージョン情報を整備する
-  - `package.json` に feature 名・Unity 最低バージョン（6.3）・依存（`com.unity.addressables` 2.x, `jp.hidano.vtuber-system-base.core-ipc-foundation` 抽象）を記述する
+  - `package.json` に feature 名・Unity 最低バージョン（6.3）・依存（`com.unity.addressables` 2.x, `com.hidano.vtuber-system-base.core-ipc-foundation` 抽象）を記述する
   - `CHANGELOG.md` の雛形を置く（本タスクは実装メタデータのみ、機能コード生成を伴わない）
   - 観測可能な完了状態: Package Manager ウィンドウでローカルパッケージとして認識され、依存解決が成功する
   - _Requirements: 1.5, 7.5_
