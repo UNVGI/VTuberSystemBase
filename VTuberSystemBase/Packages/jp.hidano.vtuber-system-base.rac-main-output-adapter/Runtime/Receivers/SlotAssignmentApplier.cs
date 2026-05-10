@@ -82,6 +82,14 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Receivers
         }
 
         /// <summary><paramref name="slotId"/> 用の動的ハンドラを解除する。</summary>
+        /// <remarks>
+        /// HandleAssignment が中継 (RemoveSlotAsync → AddSlotAsync) を行う際、
+        /// 内側 RemoveSlotAsync が同期的に OnSlotRemoved → 本メソッドを発火させる。
+        /// このとき HandleAssignment は <see cref="_semaphores"/> から取得した sem を try 内で
+        /// 保持し続けており、ここで Dispose すると finally の Release() が ObjectDisposedException
+        /// を投げる。したがって辞書からは外すが、SemaphoreSlim 本体は GC 任せにし、
+        /// 本 Applier の <see cref="Dispose"/> 時のみ明示破棄する。
+        /// </remarks>
         public void UnregisterDynamic(string slotId)
         {
             if (_registrations.TryGetValue(slotId, out var reg))
@@ -89,11 +97,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Receivers
                 reg.Dispose();
                 _registrations.Remove(slotId);
             }
-            if (_semaphores.TryGetValue(slotId, out var sem))
-            {
-                sem.Dispose();
-                _semaphores.Remove(slotId);
-            }
+            _semaphores.Remove(slotId);
             _currentAvatarKeys.Remove(slotId);
         }
 

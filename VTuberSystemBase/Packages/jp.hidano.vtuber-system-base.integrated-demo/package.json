@@ -20,7 +20,7 @@
   "dependencies": {
     "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
     "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-    "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
     "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
     "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
     "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",

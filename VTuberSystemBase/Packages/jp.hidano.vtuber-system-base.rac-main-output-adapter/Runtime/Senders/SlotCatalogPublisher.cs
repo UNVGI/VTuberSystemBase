@@ -88,11 +88,14 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Senders
                 var slotId = ev.SlotId;
                 var prev = ev.PreviousState;
                 var next = ev.NewState;
-                if (next == SlotState.Created)
+                // SlotManager.AddSlotAsync は registry 登録（Created）→ TransitionState(Active) を
+                // 1 イベント (Created → Active) で発火するため、`next == Created` では検知できない。
+                // 「Disposed 以外への遷移で初めて見る slotId」を「追加」、`Disposed` を「削除」と判定する。
+                if (next != SlotState.Disposed)
                 {
                     if (_knownSlotIds.Add(slotId)) OnSlotAdded?.Invoke(slotId);
                 }
-                else if (next == SlotState.Disposed)
+                else
                 {
                     if (_knownSlotIds.Remove(slotId)) OnSlotRemoved?.Invoke(slotId);
                 }

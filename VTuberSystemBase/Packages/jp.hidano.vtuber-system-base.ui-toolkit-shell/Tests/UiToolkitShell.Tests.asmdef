@@ -7,7 +7,8 @@
         "UiToolkitShell.Runtime",
         "UiToolkitShell.CommonUi",
         "UiToolkitShell.Editor",
-        "VTuberSystemBase.CoreIpc.Abstractions"
+        "VTuberSystemBase.CoreIpc.Abstractions",
+        "Unity.Addressables"
     ],
     "includePlatforms": [
         "Editor"

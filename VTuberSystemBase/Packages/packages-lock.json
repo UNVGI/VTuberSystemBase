@@ -74,8 +74,8 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.hidano.vtuber-system-base.ui-toolkit-shell": {
-      "version": "file:com.hidano.vtuber-system-base.ui-toolkit-shell",
+    "jp.hidano.vtuber-system-base.ui-toolkit-shell": {
+      "version": "file:jp.hidano.vtuber-system-base.ui-toolkit-shell",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
@@ -369,7 +369,7 @@
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.uosc": "1.0.0",
         "com.hidano.ucapi4unity": "0.1.0-preview.1",
         "com.hidano.scene-view-style-camera-controller": "1.0.1"
@@ -381,7 +381,7 @@
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.unity.addressables": "2.0.0"
       }
     },
@@ -392,7 +392,7 @@
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "com.hidano.vtuber-system-base.output-renderer-shell": "0.1.0",
-        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "jp.hidano.vtuber-system-base.character-selection-tab": "0.1.0",
         "jp.hidano.vtuber-system-base.stage-lighting-volume-tab": "0.1.0",
         "jp.hidano.vtuber-system-base.camera-switcher-tab": "0.1.0",
@@ -433,7 +433,7 @@
       "source": "embedded",
       "dependencies": {
         "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-        "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+        "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "com.hidano.scene-view-style-camera-controller": "1.0.1",
         "com.unity.addressables": "2.0.0",
         "com.unity.render-pipelines.universal": "17.3.0"

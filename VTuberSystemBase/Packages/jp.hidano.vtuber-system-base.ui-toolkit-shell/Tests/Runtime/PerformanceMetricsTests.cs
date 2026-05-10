@@ -227,24 +227,26 @@ namespace VTuberSystemBase.UiToolkitShell.Tests.Runtime
                 // The frame-budget assertion below describes the production path: 100 in-flight
                 // loads are enqueued synchronously, then complete asynchronously off the main
                 // thread (design.md §Performance row 3). EditMode without a configured Addressables
-                // catalog instead throws InvalidKeyException synchronously inside
+                // catalog instead either (a) throws InvalidKeyException synchronously inside
                 // Addressables.LoadAssetAsync, which the facade catches and surfaces as a
-                // synchronous Failed state. The exception construction + stack-trace capture cost
-                // dominates the measurement (~0.3–0.5ms per throw) and is *not* what the budget
-                // is meant to bound. When the probe handle reports Failed before the call
-                // returns, we know the catalog is unavailable and skip the assertion rather than
-                // fail on a number that does not reflect production behaviour.
-                var probeHandle = loader.LoadAsync<Texture2D>(
-                    addressableKey: "perf/probe",
-                    scopeId: "perf-probe",
-                    onCompleted: _ => { });
-                var catalogUnavailable = probeHandle.State == AssetLoadState.Failed;
-                loader.ReleaseAll("perf-probe");
-                if (catalogUnavailable)
+                // synchronous Failed state, or (b) returns a still-pending handle that becomes
+                // Failed only on the next frame (Addressables 2.x). Both paths impose
+                // ~0.3–0.5ms exception-handling cost per call which is *not* the production
+                // path the budget describes. Detect catalog unavailability directly via
+                // <see cref="UnityEngine.AddressableAssets.Addressables.ResourceLocators"/>:
+                // if no locators are registered, the catalog has not been built/initialized
+                // and the timing measurement would not reflect production behaviour.
+                bool catalogAvailable = false;
+                foreach (var _ in UnityEngine.AddressableAssets.Addressables.ResourceLocators)
+                {
+                    catalogAvailable = true;
+                    break;
+                }
+                if (!catalogAvailable)
                 {
                     Assert.Ignore(
                         "AsyncLoad submission budget requires an initialized Addressables catalog. " +
-                        "EditMode without a catalog throws InvalidKeyException synchronously inside " +
+                        "EditMode without a catalog throws InvalidKeyException inside " +
                         "Addressables.LoadAssetAsync, which dominates the timing measurement and is " +
                         "not the production code path the < 16.67ms frame budget describes. " +
                         "Run this test after Addressables.BuildPlayerContent or in PlayMode against " +

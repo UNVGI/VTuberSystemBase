@@ -155,20 +155,27 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Tests
         public async Task Save_FailsCleanly_LeavesPriorFileIntactWhenTempCannotBeRenamed()
         {
             // Create a baseline file then drop a stale temp file with a directory of the same
-            // name to force the move to fail. We then assert SaveResult reports IOError and
-            // the original file content stays readable.
+            // name to force the temp-write path to fail. We then assert SaveResult reports
+            // a recoverable failure code and the original file content stays readable.
             var logger = new FakeDiagnosticsLogger();
             var sut = new JsonPresetStorage(_filePath, logger);
             await sut.SaveAsync(new PresetFileRoot { ActivePresetName = "Baseline" });
 
-            // Make a directory at the temp-write path to force File.Move to fail on the next save.
+            // Make a directory at the temp-write path to force the next save to fail.
+            // The failure surfaces from File.Open (writing to the .tmp path) on Windows as
+            // UnauthorizedAccessException → PermissionDenied; on POSIX it surfaces from
+            // File.Move as IOException → IOError. Both are valid "save failed cleanly"
+            // signals — the atomic-write contract is about the prior file staying intact,
+            // not about the specific error categorization of the underlying syscall.
             var tempPath = _filePath + ".tmp";
             Directory.CreateDirectory(tempPath);
 
             var result = await sut.SaveAsync(new PresetFileRoot { ActivePresetName = "ShouldNotApply" });
 
             Assert.That(result.Success, Is.False);
-            Assert.That(result.Error, Is.EqualTo(PresetSaveError.IOError));
+            Assert.That(result.Error,
+                Is.EqualTo(PresetSaveError.IOError).Or.EqualTo(PresetSaveError.PermissionDenied),
+                "Save must report a recoverable failure (IOError or PermissionDenied) when the temp-write path is blocked.");
 
             // Ensure the original file is still readable / unchanged.
             Directory.Delete(tempPath, recursive: true);

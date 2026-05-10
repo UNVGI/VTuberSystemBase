@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "com.hidano.vtuber-system-base.core-ipc-foundation": "0.1.0",
-    "com.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
+    "jp.hidano.vtuber-system-base.ui-toolkit-shell": "0.1.0",
     "com.unity.addressables": "2.0.0"
   }
 }

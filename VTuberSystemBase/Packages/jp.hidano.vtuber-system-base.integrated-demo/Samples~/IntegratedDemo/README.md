@@ -9,7 +9,7 @@
 - 以下 9 パッケージがプロジェクトに追加されている (manifest.json)：
   - `com.hidano.vtuber-system-base.core-ipc-foundation`
   - `com.hidano.vtuber-system-base.output-renderer-shell`
-  - `com.hidano.vtuber-system-base.ui-toolkit-shell`
+  - `jp.hidano.vtuber-system-base.ui-toolkit-shell`
   - `jp.hidano.vtuber-system-base.character-selection-tab`
   - `jp.hidano.vtuber-system-base.stage-lighting-volume-tab`
   - `jp.hidano.vtuber-system-base.camera-switcher-tab`

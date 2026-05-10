@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="1" result="Failed" total="1" passed="0" failed="1" skipped="0" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.774">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.774" total="1" passed="0" failed="1" skipped="0">
+    <test-suite type="TestSuite" name="UiToolkitShell.Tests.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/UiToolkitShell.Tests.dll" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.676" total="1" passed="0" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.576" total="1" passed="0" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="UiToolkitShell" fullname="VTuberSystemBase.UiToolkitShell" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.477" total="1" passed="0" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.UiToolkitShell.Tests" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.376" total="1" passed="0" failed="1" skipped="0">
+            <test-suite type="TestSuite" name="Runtime" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.277" total="1" passed="0" failed="1" skipped="0">
+              <test-suite type="VTuberSystemBase.UiToolkitShell.Tests.Runtime.PerformanceMetricsTests" name="PerformanceMetricsTests" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.PerformanceMetricsTests" result="Failed" start-time="2026-05-10 09:09:18" end-time="2026-05-10 09:09:19" duration="0.177" total="1" passed="0" failed="1" skipped="0">
+                <test-case name="AsyncLoad_HundredConcurrentInflight_MainThreadStaysUnderFrameBudget" fullname="VTuberSystemBase.UiToolkitShell.Tests.Runtime.PerformanceMetricsTests.AsyncLoad_HundredConcurrentInflight_MainThreadStaysUnderFrameBudget" result="Failed" start-time="2026-05-10 09:09:19" end-time="2026-05-10 09:09:19" duration="0.075">
+                  <failure>
+                    <message>  100 LoadAsync submissions took 41.251ms; this is the entire main-thread work the UI does in one frame while triggering ~100MB worth of concurrent asset I/O. Budget is &lt; 16.67ms.
+  Expected: less than 16.670000000000002d
+  But was:  41.251200000000004d
+</message>
+                    <stack-trace>at VTuberSystemBase.UiToolkitShell.Tests.Runtime.PerformanceMetricsTests.AsyncLoad_HundredConcurrentInflight_MainThreadStaysUnderFrameBudget () [0x00110] in .\Packages\jp.hidano.vtuber-system-base.ui-toolkit-shell\Tests\Runtime\PerformanceMetricsTests.cs:274
+</stack-trace>
+                  </failure>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
