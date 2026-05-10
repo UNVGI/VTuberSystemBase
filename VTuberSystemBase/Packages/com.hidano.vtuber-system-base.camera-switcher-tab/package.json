@@ -6,9 +6,7 @@
   "unity": "6000.3",
   "type": "library",
   "author": {
-    "name": "Hidano",
-    "email": "n.hidano@hidano-dev.com",
-    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+    "name": "UNVGI Inc."
   },
   "keywords": [
     "vtuber",
@@ -22,7 +20,7 @@
     "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.ui-toolkit-shell": "0.1.0",
     "jp.co.unvgi.uosc": "1.0.0",
-    "jp.co.unvgi.ucapi4unity": "0.1.0-preview.1",
+    "com.hidano.ucapi4unity": "0.1.0-preview.1",
     "jp.co.unvgi.scene-view-style-camera-controller": "1.0.1"
   }
 }

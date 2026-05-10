@@ -21,7 +21,7 @@
     "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.output-renderer-shell": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.character-selection-tab": "0.1.0",
-    "jp.co.unvgi.realtimeavatarcontroller": "0.2.0",
+    "jp.co.unvgi.realtimeavatarcontroller": "0.2.0-fork.1",
     "com.unity.addressables": "2.0.0"
   }
 }

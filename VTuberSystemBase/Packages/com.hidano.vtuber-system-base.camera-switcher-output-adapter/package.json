@@ -23,7 +23,7 @@
     "jp.co.unvgi.vtuber-system-base.output-renderer-shell": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": "0.1.0",
     "jp.co.unvgi.uosc": "1.0.0",
-    "jp.co.unvgi.ucapi4unity": "0.1.0-preview.1"
+    "com.hidano.ucapi4unity": "0.1.0-preview.1"
   },
   "samples": [
     {

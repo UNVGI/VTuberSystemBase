@@ -1,16 +1,14 @@
 {
   "dependencies": {
     "com.cysharp.unitask": "2.5.10",
-    "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.7",
-    "jp.co.unvgi.runtime-display-selector": "0.1.1",
-    "jp.co.unvgi.scene-view-style-camera-controller": "1.0.1",
-    "jp.co.unvgi.ucapi4unity": "0.1.0-preview.1",
-    "jp.co.unvgi.ulipsync-asio": "3.1.5-custom.2",
-    "jp.co.unvgi.uosc": "1.0.0",
+    "com.hidano.runtime-display-selector": "0.1.1",
     "com.neuecc.unirx": "7.1.0",
+    "com.unity.ide.rider": "3.0.34",
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.test-framework": "1.4.5",
-    "com.unity.ide.rider": "3.0.34",
+    "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.7",
+    "jp.co.unvgi.scene-view-style-camera-controller": "1.0.1",
+    "jp.keijiro.klak.spout": "2.0.6",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
@@ -55,11 +53,25 @@
       ]
     },
     {
+      "name": "npm (hidano)",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "com.hidano"
+      ]
+    },
+    {
       "name": "OpenUPM",
       "url": "https://package.openupm.com",
       "scopes": [
         "com.neuecc",
         "com.cysharp"
+      ]
+    },
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "jp.keijiro"
       ]
     }
   ]
