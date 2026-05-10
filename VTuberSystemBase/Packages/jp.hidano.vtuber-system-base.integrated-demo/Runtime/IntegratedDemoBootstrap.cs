@@ -167,6 +167,12 @@ namespace VTuberSystemBase.IntegratedDemo
         {
             if (_outputSceneBootstrapper == null)
             {
+                // 1) 同 GameObject (Inspector でドロップしたケース or テストハーネス) を最優先で再利用。
+                _outputSceneBootstrapper = GetComponent<OutputSceneBootstrapper>();
+            }
+            if (_outputSceneBootstrapper == null)
+            {
+                // 2) シーン内に既存の OutputSceneBootstrapper があれば共有する。
 #if UNITY_2022_2_OR_NEWER
                 _outputSceneBootstrapper = UnityEngine.Object.FindAnyObjectByType<OutputSceneBootstrapper>();
 #else
@@ -175,11 +181,8 @@ namespace VTuberSystemBase.IntegratedDemo
             }
             if (_outputSceneBootstrapper == null)
             {
-                // 同 GameObject に追加する：DisallowMultipleComponent 警告を避けるため別 GameObject の方が無難だが、
-                // README で「IntegratedDemoBootstrap は OutputSceneBootstrapper と同 GameObject 推奨」を明記して
-                // ここでは AddComponent を試みる。重複検出は OutputSceneBootstrapper 側で自己破棄される。
-                var hostGo = new GameObject("MainOutputScene");
-                _outputSceneBootstrapper = hostGo.AddComponent<OutputSceneBootstrapper>();
+                // 3) 無ければ同 GameObject に AddComponent する (README で「同一 GameObject 推奨」を明記)。
+                _outputSceneBootstrapper = gameObject.AddComponent<OutputSceneBootstrapper>();
             }
 
             // Inject the IPC bus into the OutputSceneBootstrapper before its Awake runs.
@@ -234,26 +237,34 @@ namespace VTuberSystemBase.IntegratedDemo
                         + "OutputSceneBootstrapper subsystems are still null.");
                     return;
                 }
-                var bus = _busProvider?.Bus;
-                if (bus == null)
-                {
-                    Debug.LogWarning(
-                        "[IntegratedDemoBootstrap] Cannot create CameraSwitcherOutputAdapter: "
-                        + "ICoreIpcBus is null (CoreIpcRuntime not initialized?).");
-                    return;
-                }
 
-                // Camera adapter を inactive な child GameObject で生成し、InjectForTesting
-                // 完了後に activate する（Awake → TryStart の順序を踏むため）。
+                // Camera adapter を inactive な child GameObject で生成し、Inject 完了後に activate
+                // する（Awake → TryStart の順序を踏むため）。Bus がまだ揃っていない場合でも
+                // child GameObject + AddComponent は実行する：シーン構造は Bus 有無に独立であり、
+                // テストハーネスや CoreIpcRuntime 初期化遅延ケースでも GameObject 探索が成立する。
                 var camGo = new GameObject("CameraSwitcherOutputAdapterHost");
                 camGo.transform.SetParent(transform, worldPositionStays: false);
                 camGo.SetActive(false);
                 _cameraHost = camGo.AddComponent<CameraSwitcherOutputAdapterBootstrapper>();
-                _cameraHost.InjectForTesting(
-                    bus,
-                    _outputSceneBootstrapper.Dispatcher!,
-                    _outputSceneBootstrapper.Roots!);
-                camGo.SetActive(true);
+
+                var bus = _busProvider?.Bus;
+                if (bus != null)
+                {
+                    _cameraHost.InjectForTesting(
+                        bus,
+                        _outputSceneBootstrapper.Dispatcher!,
+                        _outputSceneBootstrapper.Roots!);
+                    camGo.SetActive(true);
+                }
+                else
+                {
+                    // Bus が null のままで activate すると Awake → TryStart →
+                    // CamerasListPublisher(bus, ...) で ArgumentNullException が走る。
+                    // GameObject だけ残し、Bus が後で揃ったときに activate する。
+                    Debug.LogWarning(
+                        "[IntegratedDemoBootstrap] CameraSwitcherOutputAdapter GameObject created but ICoreIpcBus is null; "
+                        + "leaving the host inactive until the bus becomes available.");
+                }
             }
             catch (Exception ex)
             {

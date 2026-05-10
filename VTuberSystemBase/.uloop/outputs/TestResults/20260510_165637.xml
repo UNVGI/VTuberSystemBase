@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="21" result="Failed" total="21" passed="17" failed="4" skipped="0" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.086">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.086" total="21" passed="17" failed="4" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.dll" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.037" total="5" passed="4" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.032" total="5" passed="4" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="StageLightingVolumeOutputAdapter" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.027" total="5" passed="4" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.023" total="5" passed="4" failed="1" skipped="0">
+            <test-suite type="TestSuite" name="Editor" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.018" total="5" passed="4" failed="1" skipped="0">
+              <test-suite type="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests" name="VolumeParameterReflectionSetterTests" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.011" total="5" passed="4" failed="1" skipped="0">
+                <test-case name="ApplyValue_ColorFilter_SetsColorValue" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_ColorFilter_SetsColorValue" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.003" />
+                <test-case name="ApplyValue_FloatIntensity_SetsValueAndOverrideState" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_FloatIntensity_SetsValueAndOverrideState" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.003">
+                  <failure>
+                    <message>  Expected: True
+  But was:  False
+</message>
+                    <stack-trace>at VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_FloatIntensity_SetsValueAndOverrideState () [0x0007e] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-output-adapter\Tests\Editor\VolumeParameterReflectionSetterTests.cs:41
+</stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="ApplyValue_KindMismatch_ReturnsFalse" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_KindMismatch_ReturnsFalse" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="ApplyValue_TonemappingMode_Enum_SetsMode" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_TonemappingMode_Enum_SetsMode" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="ApplyValue_UnknownField_ReturnsFalse" fullname="VTuberSystemBase.StageLightingVolumeOutputAdapter.Tests.Editor.VolumeParameterReflectionSetterTests.ApplyValue_UnknownField_ReturnsFalse" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.000" />
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="TestSuite" name="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.033" total="16" passed="13" failed="3" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.032" total="16" passed="13" failed="3" skipped="0">
+        <test-suite type="TestSuite" name="StageLightingVolumeTab" fullname="VTuberSystemBase.StageLightingVolumeTab" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.031" total="16" passed="13" failed="3" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.030" total="16" passed="13" failed="3" skipped="0">
+            <test-suite type="TestSuite" name="PlayMode" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.028" total="16" passed="13" failed="3" skipped="0">
+              <test-suite type="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" name="PreviewPanelControllerTests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.009" total="6" passed="5" failed="1" skipped="0">
+                <test-case name="Dispose_StopsForwardingRenderTextureChanges" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.Dispose_StopsForwardingRenderTextureChanges" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.003" />
+                <test-case name="OnActivated_PublishesPreviewCommandSetEnabledTrue" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.OnActivated_PublishesPreviewCommandSetEnabledTrue" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="OnDeactivated_PublishesPreviewCommandSetEnabledFalse" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.OnDeactivated_PublishesPreviewCommandSetEnabledFalse" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.000" />
+                <test-case name="RenderTextureBound_PanelStyleBackgroundReflectsRT" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001">
+                  <failure>
+                    <message>  Expected: same as &lt; (UnityEngine.RenderTexture)&gt;
+  But was:  null
+</message>
+                    <stack-trace>at VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT () [0x0003e] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-tab\Tests\PlayMode\PreviewPanelControllerTests.cs:84
+</stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="RenderTextureNull_PanelShowsPlaceholderClass" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureNull_PanelShowsPlaceholderClass" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.000" />
+                <test-case name="ResetView_PublishesPreviewCommandResetView" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.ResetView_PublishesPreviewCommandResetView" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.000" />
+              </test-suite>
+              <test-suite type="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests" name="VolumeOverrideParamFactoryTests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.018" total="10" passed="8" failed="2" skipped="0">
+                <test-case name="Bool_ReturnsToggle" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Bool_ReturnsToggle" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.002" />
+                <test-case name="ClampedFloat_ReturnsFloatField_AndUsesClampedFloatKind" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.ClampedFloat_ReturnsFloatField_AndUsesClampedFloatKind" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.002">
+                  <failure>
+                    <message>System.InvalidOperationException : Nullable object must have a value.</message>
+                    <stack-trace>  at System.Nullable`1[T].get_Value () [0x00008] in &lt;41d29b352f6a475ab1bf7c6628b82790&gt;:0 
+  at VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.ClampedFloat_ReturnsFloatField_AndUsesClampedFloatKind () [0x000ca] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-tab\Tests\PlayMode\VolumeOverrideParamFactoryTests.cs:62 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&amp;)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in &lt;41d29b352f6a475ab1bf7c6628b82790&gt;:0 </stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="Color_ReturnsCompositeContainerWithFourFloatChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Color_ReturnsCompositeContainerWithFourFloatChannels" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="Enum_ReturnsDropdownFieldWithChoices" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Enum_ReturnsDropdownFieldWithChoices" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.002" />
+                <test-case name="Float_ReturnsFloatField_AndPropagatesChanges" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Float_ReturnsFloatField_AndPropagatesChanges" result="Failed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001">
+                  <failure>
+                    <message>  Expected: True
+  But was:  False
+</message>
+                    <stack-trace>at VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Float_ReturnsFloatField_AndPropagatesChanges () [0x000ca] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-tab\Tests\PlayMode\VolumeOverrideParamFactoryTests.cs:47
+</stack-trace>
+                  </failure>
+                </test-case>
+                <test-case name="Int_ReturnsIntegerField" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Int_ReturnsIntegerField" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.004" />
+                <test-case name="Unknown_ReturnsNull_AndLogs" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Unknown_ReturnsNull_AndLogs" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="Vector2_ReturnsCompositeWithTwoChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector2_ReturnsCompositeWithTwoChannels" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="Vector3_ReturnsCompositeWithThreeChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector3_ReturnsCompositeWithThreeChannels" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+                <test-case name="Vector4_ReturnsCompositeWithFourChannels" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.VolumeOverrideParamFactoryTests.Vector4_ReturnsCompositeWithFourChannels" result="Passed" start-time="2026-05-10 07:56:37" end-time="2026-05-10 07:56:37" duration="0.001" />
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -38,22 +38,11 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume
         {
             if (_cache != null) return;
             var dict = new Dictionary<string, Type>(StringComparer.Ordinal);
-            try
+            foreach (var t in VolumeComponentTypeCollector.Collect())
             {
-                var manager = VolumeManager.instance;
-                if (manager?.baseComponentTypeArray != null)
-                {
-                    foreach (var t in manager.baseComponentTypeArray)
-                    {
-                        if (t == null) continue;
-                        // Last write wins on duplicates — URP's array shouldn't have any.
-                        dict[t.Name] = t;
-                    }
-                }
-            }
-            catch
-            {
-                // Defensive: if VolumeManager initialisation fails we leave the cache empty.
+                if (t == null) continue;
+                // Last write wins on duplicates — URP's array shouldn't have any.
+                dict[t.Name] = t;
             }
             _cache = dict;
         }

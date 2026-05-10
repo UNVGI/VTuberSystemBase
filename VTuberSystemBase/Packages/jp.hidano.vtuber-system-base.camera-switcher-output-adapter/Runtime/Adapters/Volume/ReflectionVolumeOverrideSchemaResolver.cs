@@ -38,7 +38,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume
 
         private static IReadOnlyList<VolumeOverrideSchema> BuildSchemas()
         {
-            var types = VolumeManager.instance?.baseComponentTypeArray ?? Array.Empty<Type>();
+            var types = CollectVolumeComponentTypes();
             var result = new List<VolumeOverrideSchema>(types.Length);
 
             foreach (var t in types)
@@ -147,6 +147,8 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Adapters.Volume
                 EnumValues = enumValues,
             };
         }
+
+        private static Type[] CollectVolumeComponentTypes() => VolumeComponentTypeCollector.Collect();
 
         private static Type? ResolveInnerType(Type parameterType)
         {

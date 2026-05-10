@@ -17,8 +17,11 @@ namespace VTuberSystemBase.StageLightingVolumeOutputAdapter.Volume
     /// </summary>
     internal static class VolumeParameterReflectionSetter
     {
-        private static readonly FieldInfo? OverrideStateField = typeof(VolumeParameter)
-            .GetField("overrideState", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+        // URP 17 の VolumeParameter.overrideState は virtual property であり field ではない。
+        // バックエンドフィールド m_OverrideState は protected なので、PropertyInfo 経由で
+        // setter を呼ぶ。
+        private static readonly PropertyInfo? OverrideStateProperty = typeof(VolumeParameter)
+            .GetProperty("overrideState", BindingFlags.Public | BindingFlags.Instance);
 
         public static bool ApplyValue(VolumeComponent component, string paramName, VolumeOverrideParamValueDto value, AdapterLogger? logger = null)
         {
@@ -64,8 +67,8 @@ namespace VTuberSystemBase.StageLightingVolumeOutputAdapter.Volume
                 {
                     return false;
                 }
-                // Set overrideState = true (field is on the base type).
-                OverrideStateField?.SetValue(volumeParameter, true);
+                // Set overrideState = true (property defined on the base type).
+                OverrideStateProperty?.SetValue(volumeParameter, true);
                 return true;
             }
             catch (Exception ex)

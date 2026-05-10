@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="1" result="Failed" total="1" passed="0" failed="1" skipped="0" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.040">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.040" total="1" passed="0" failed="1" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.dll" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.035" total="1" passed="0" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.034" total="1" passed="0" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="StageLightingVolumeTab" fullname="VTuberSystemBase.StageLightingVolumeTab" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.033" total="1" passed="0" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.033" total="1" passed="0" failed="1" skipped="0">
+            <test-suite type="TestSuite" name="PlayMode" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.032" total="1" passed="0" failed="1" skipped="0">
+              <test-suite type="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" name="PreviewPanelControllerTests" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.031" total="1" passed="0" failed="1" skipped="0">
+                <test-case name="RenderTextureBound_PanelStyleBackgroundReflectsRT" fullname="VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT" result="Failed" start-time="2026-05-10 08:08:58" end-time="2026-05-10 08:08:58" duration="0.023">
+                  <failure>
+                    <message>  Expected: same as &lt; (UnityEngine.RenderTexture)&gt;
+  But was:  null
+</message>
+                    <stack-trace>at VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode.PreviewPanelControllerTests.RenderTextureBound_PanelStyleBackgroundReflectsRT () [0x0009b] in .\Packages\jp.hidano.vtuber-system-base.stage-lighting-volume-tab\Tests\PlayMode\PreviewPanelControllerTests.cs:87
+</stack-trace>
+                  </failure>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -43,6 +43,7 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode
                 new VolumeOverrideParamValueDto(ParamKind.Float, null, null, 1.5f, null, null, null),
                 val => captured = val);
             Assert.That(v, Is.InstanceOf<FloatField>());
+            using var scope = new PanelAttachScope(v!);
             ((FloatField)v!).value = 5f;
             Assert.That(captured.HasValue, Is.True);
             Assert.That(captured!.Value.FloatValue, Is.EqualTo(5f));
@@ -58,6 +59,7 @@ namespace VTuberSystemBase.StageLightingVolumeTab.Tests.PlayMode
                 new VolumeOverrideParamValueDto(ParamKind.ClampedFloat, null, null, 0.5f, null, null, null),
                 val => captured = val);
             Assert.That(v, Is.InstanceOf<FloatField>());
+            using var scope = new PanelAttachScope(v!);
             ((FloatField)v!).value = 0.7f;
             Assert.That(captured!.Value.Kind, Is.EqualTo(ParamKind.ClampedFloat));
         }

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="2" result="Failed" total="2" passed="1" failed="1" skipped="0" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.075">
+  <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.075" total="2" passed="1" failed="1" skipped="0">
+    <test-suite type="TestSuite" name="VTuberSystemBase.IntegratedDemo.Tests.PlayMode.dll" fullname="D:/Personal/Repositries/VTuberSystemBase/VTuberSystemBase/Library/ScriptAssemblies/VTuberSystemBase.IntegratedDemo.Tests.PlayMode.dll" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.064" total="2" passed="1" failed="1" skipped="0">
+      <test-suite type="TestSuite" name="VTuberSystemBase" fullname="VTuberSystemBase" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.062" total="2" passed="1" failed="1" skipped="0">
+        <test-suite type="TestSuite" name="IntegratedDemo" fullname="VTuberSystemBase.IntegratedDemo" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.061" total="2" passed="1" failed="1" skipped="0">
+          <test-suite type="TestSuite" name="Tests" fullname="VTuberSystemBase.IntegratedDemo.Tests" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.060" total="2" passed="1" failed="1" skipped="0">
+            <test-suite type="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests" name="IntegratedDemoSmokeTests" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.059" total="2" passed="1" failed="1" skipped="0">
+              <test-case name="AdapterHosts_AreAttached" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests.AdapterHosts_AreAttached" result="Failed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.040">
+                <failure>
+                  <message>Unhandled log message: '[Exception] ArgumentNullException: Value cannot be null.
+Parameter name: bus'. Use UnityEngine.TestTools.LogAssert.Expect</message>
+                  <stack-trace>VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CamerasListPublisher..ctor (VTuberSystemBase.CoreIpc.Abstractions.ICoreIpcBus bus, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.ICameraSwitcherOutputAdapterClock clock) (at ./Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/Runtime/Domain/CamerasListPublisher.cs:22)
+VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter..ctor (VTuberSystemBase.OutputRendererShell.Abstractions.IOutputCommandDispatcher dispatcher, VTuberSystemBase.OutputRendererShell.Abstractions.IOutputSceneRoots sceneRoots, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.ICameraIdAllocator allocator, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.IOscReceiverHost oscHost, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.ILocalVolumeBinder volumeBinder, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.IVolumeOverrideSchemaResolver schemaResolver, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.ICameraGameObjectFactory factory, VTuberSystemBase.CoreIpc.Abstractions.ICoreIpcBus bus, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.ICameraSwitcherOutputAdapterClock clock, VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions.CameraSwitcherOutputAdapterConfig config) (at ./Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/Runtime/Domain/CameraSwitcherOutputAdapter.cs:77)
+VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.CameraSwitcherOutputAdapterBootstrapper.TryStart () (at ./Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/Runtime/CameraSwitcherOutputAdapterBootstrapper.cs:89)
+VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.CameraSwitcherOutputAdapterBootstrapper:TryStart() (at ./Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/Runtime/CameraSwitcherOutputAdapterBootstrapper.cs:102)
+VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.CameraSwitcherOutputAdapterBootstrapper:Awake() (at ./Packages/jp.hidano.vtuber-system-base.camera-switcher-output-adapter/Runtime/CameraSwitcherOutputAdapterBootstrapper.cs:63)
+UnityEngine.GameObject:SetActive(Boolean)
+VTuberSystemBase.IntegratedDemo.IntegratedDemoBootstrap:EnsureCameraAdapterAfterOutputReady() (at ./Packages/jp.hidano.vtuber-system-base.integrated-demo/Runtime/IntegratedDemoBootstrap.cs:264)
+VTuberSystemBase.IntegratedDemo.&lt;StartAdaptersAfterOutputReady&gt;d__21:MoveNext() (at ./Packages/jp.hidano.vtuber-system-base.integrated-demo/Runtime/IntegratedDemoBootstrap.cs:123)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr)
+
+</stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="Awake_DoesNotThrow_WhenSkinProfileIsNull" fullname="VTuberSystemBase.IntegratedDemo.Tests.IntegratedDemoSmokeTests.Awake_DoesNotThrow_WhenSkinProfileIsNull" result="Passed" start-time="2026-05-10 08:15:15" end-time="2026-05-10 08:15:15" duration="0.009" />
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
