@@ -6,6 +6,7 @@ using VTuberSystemBase.CharacterSelectionTab.Contracts;
 using VTuberSystemBase.CharacterSelectionTab.State;
 using VTuberSystemBase.UiToolkitShell.CommonUi.Controls;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
+using SettingSchemaEntry = VTuberSystemBase.CharacterSelectionTab.State.SettingSchemaEntry;
 
 namespace VTuberSystemBase.CharacterSelectionTab.Services
 {
