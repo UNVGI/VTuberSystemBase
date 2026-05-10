@@ -6,6 +6,7 @@ using System.Threading;
 using VTuberSystemBase.CharacterSelectionTab.Contracts;
 using VTuberSystemBase.CharacterSelectionTab.State;
 
+using AvatarCatalogEntry = VTuberSystemBase.CharacterSelectionTab.State.AvatarCatalogEntry;
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {
     /// <summary>

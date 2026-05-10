@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using VTuberSystemBase.UiToolkitShell.Bootstrap;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 using VTuberSystemBase.UiToolkitShell.Panels;
+using VTuberSystemBase.UiToolkitShell.Skin;
 
 // Tab packages.
 using VTuberSystemBase.CharacterSelectionTab.Bootstrap;

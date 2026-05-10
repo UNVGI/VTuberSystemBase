@@ -9,6 +9,7 @@ using VTuberSystemBase.CharacterSelectionTab.Tests.TestDoubles;
 using VTuberSystemBase.UiToolkitShell.AssetLoading;
 using VTuberSystemBase.UiToolkitShell.Commands;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
+using ConnectionStatusCode = VTuberSystemBase.UiToolkitShell.Commands.ConnectionStatusCode;
 
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {

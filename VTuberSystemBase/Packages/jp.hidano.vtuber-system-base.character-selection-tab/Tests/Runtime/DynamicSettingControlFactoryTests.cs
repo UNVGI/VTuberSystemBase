@@ -8,6 +8,7 @@ using VTuberSystemBase.CharacterSelectionTab.Tests.TestDoubles;
 using VTuberSystemBase.UiToolkitShell.CommonUi.Controls;
 using VTuberSystemBase.UiToolkitShell.Diagnostics;
 
+using SettingSchemaEntry = VTuberSystemBase.CharacterSelectionTab.State.SettingSchemaEntry;
 namespace VTuberSystemBase.CharacterSelectionTab.Tests
 {
     /// <summary>

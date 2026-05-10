@@ -97,7 +97,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Integration
             settings.displayName = "A1";
             settings.weight = 1f;
             settings.avatarProviderDescriptor = _keyResolver.Resolve("miku");
-            settings.moCapSourceDescriptor = new Defaults.StubMoCapSourceConfigFactory().Build("A1");
+            settings.moCapSourceDescriptor = new VTuberSystemBase.RacMainOutputAdapter.Defaults.StubMoCapSourceConfigFactory().Build("A1");
             await sm.AddSlotAsync(settings);
 
             // OnSlotAdded → assignmentApplier.RegisterDynamic("A1") が起動済
@@ -119,7 +119,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Integration
             settings.displayName = "A1";
             settings.weight = 1f;
             settings.avatarProviderDescriptor = _keyResolver.Resolve("miku");
-            settings.moCapSourceDescriptor = new Defaults.StubMoCapSourceConfigFactory().Build("A1");
+            settings.moCapSourceDescriptor = new VTuberSystemBase.RacMainOutputAdapter.Defaults.StubMoCapSourceConfigFactory().Build("A1");
             await sm.AddSlotAsync(settings);
             Assert.That(_dispatcher.HasHandler(CharacterTopics.SlotAssignment("A1"), MessageKind.State), Is.True);
 
@@ -158,7 +158,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Integration
             settings.displayName = "B1";
             settings.weight = 1f;
             settings.avatarProviderDescriptor = _keyResolver.Resolve("miku");
-            settings.moCapSourceDescriptor = new Defaults.StubMoCapSourceConfigFactory().Build("B1");
+            settings.moCapSourceDescriptor = new VTuberSystemBase.RacMainOutputAdapter.Defaults.StubMoCapSourceConfigFactory().Build("B1");
             await sm.AddSlotAsync(settings);
 
             // 動的登録復活のため一旦削除して再追加
@@ -168,7 +168,7 @@ namespace VTuberSystemBase.RacMainOutputAdapter.Tests.Integration
             settings.displayName = "B1";
             settings.weight = 1f;
             settings.avatarProviderDescriptor = _keyResolver.Resolve("miku");
-            settings.moCapSourceDescriptor = new Defaults.StubMoCapSourceConfigFactory().Build("B1");
+            settings.moCapSourceDescriptor = new VTuberSystemBase.RacMainOutputAdapter.Defaults.StubMoCapSourceConfigFactory().Build("B1");
             await sm.AddSlotAsync(settings);
 
             int before = _sink.Entries.Count;
