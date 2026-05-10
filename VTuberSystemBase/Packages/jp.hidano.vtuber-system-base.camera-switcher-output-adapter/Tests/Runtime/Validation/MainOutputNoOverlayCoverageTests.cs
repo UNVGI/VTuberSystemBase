@@ -15,6 +15,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
 using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
 {
     /// <summary>
@@ -40,10 +41,10 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
             var bus = new FakeCoreIpcBus();
             var clock = new FakeClock();
             var config = ScriptableObject.CreateInstance<CameraSwitcherOutputAdapterConfig>();
-            CameraSwitcherOutputAdapter? adapter = null;
+            CameraSwitcherOutputAdapterCore? adapter = null;
             try
             {
-                adapter = new CameraSwitcherOutputAdapter(
+                adapter = new CameraSwitcherOutputAdapterCore(
                     dispatcher, sceneRoots, allocator, oscHost, binder, schemaResolver, factory, bus, clock, config);
                 var initTask = adapter.InitializeAsync();
                 yield return new WaitUntil(() => initTask.IsCompleted);

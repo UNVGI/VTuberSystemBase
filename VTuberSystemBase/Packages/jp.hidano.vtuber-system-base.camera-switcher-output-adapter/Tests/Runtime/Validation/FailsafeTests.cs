@@ -10,6 +10,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Fakes;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
 {
     /// <summary>
@@ -127,8 +128,8 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
             Assert.That(adapter.Failures.CountOf(FailureKind.ReflectionFailed), Is.GreaterThanOrEqualTo(1));
         }
 
-        private CameraSwitcherOutputAdapter NewAdapter(IVolumeOverrideSchemaResolver schemaResolver) =>
-            new CameraSwitcherOutputAdapter(
+        private CameraSwitcherOutputAdapterCore NewAdapter(IVolumeOverrideSchemaResolver schemaResolver) =>
+            new CameraSwitcherOutputAdapterCore(
                 _dispatcher, _sceneRoots, new FakeCameraIdAllocator(), _oscHost, _volumeBinder,
                 schemaResolver, _factory, _bus, new FakeClock(), _config);
     }

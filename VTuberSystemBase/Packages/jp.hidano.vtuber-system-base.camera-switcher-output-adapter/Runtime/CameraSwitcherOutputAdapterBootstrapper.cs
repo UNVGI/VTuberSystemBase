@@ -10,6 +10,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.Diagnostics;
 using VTuberSystemBase.CoreIpc.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 using VTuberSystemBase.OutputRendererShell.Scene;
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime
 {
@@ -29,13 +30,13 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime
         [Header("Optional Bus Override (testing)")]
         [SerializeField] private bool _autoStart = true;
 
-        private CameraSwitcherOutputAdapter? _adapter;
+        private CameraSwitcherOutputAdapterCore? _adapter;
         private IpcHandlerRegistration? _ipcRegistration;
         private CameraSwitcherOutputAdapterDiagnostics? _diagnostics;
         private UoscReceiverHostAdapter? _oscHost;
         private bool _disposed;
 
-        public CameraSwitcherOutputAdapter? Adapter => _adapter;
+        public CameraSwitcherOutputAdapterCore? Adapter => _adapter;
         public CameraSwitcherOutputAdapterDiagnostics? Diagnostics => _diagnostics;
 
         // Test-side injection points (set before Awake / EnsureInitialized).
@@ -85,7 +86,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime
                 var schemaResolver = new ReflectionVolumeOverrideSchemaResolver();
                 var factory = new CameraGameObjectFactory(volumeBinder, _config!.DefaultSensorSize);
 
-                _adapter = new CameraSwitcherOutputAdapter(
+                _adapter = new CameraSwitcherOutputAdapterCore(
                     dispatcher, sceneRoots, allocator, _oscHost, volumeBinder, schemaResolver,
                     factory, bus!, new SystemUtcClock(), _config);
 

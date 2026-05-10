@@ -9,6 +9,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Fakes;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
 {
     /// <summary>
@@ -42,7 +43,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
                 {
                     var allocator = new FakeCameraIdAllocator();
                     var factory = new FakeCameraGameObjectFactory();
-                    var adapter = new CameraSwitcherOutputAdapter(
+                    var adapter = new CameraSwitcherOutputAdapterCore(
                         dispatcher, sceneRoots, allocator, oscHost, binder, schemaResolver,
                         factory, bus, clock, config);
                     var initTask = adapter.InitializeAsync();

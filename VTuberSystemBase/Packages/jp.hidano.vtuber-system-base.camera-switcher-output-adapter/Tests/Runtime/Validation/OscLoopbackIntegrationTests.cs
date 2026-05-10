@@ -17,6 +17,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
 using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
 {
     /// <summary>
@@ -46,11 +47,11 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Validation
             var bus = new FakeCoreIpcBus();
             var clock = new FakeClock();
             var config = ScriptableObject.CreateInstance<CameraSwitcherOutputAdapterConfig>();
-            CameraSwitcherOutputAdapter? adapter = null;
+            CameraSwitcherOutputAdapterCore? adapter = null;
             GameObject? clientGo = null;
             try
             {
-                adapter = new CameraSwitcherOutputAdapter(
+                adapter = new CameraSwitcherOutputAdapterCore(
                     dispatcher, sceneRoots, allocator, oscHost, binder, schemaResolver, factory, bus, clock, config);
                 // Replace OSC port via reflection of config? Instead start OSC manually with our test port.
                 // We use a focused StartAsync directly.

@@ -5,12 +5,13 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Domain;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 using VTuberSystemBase.OutputRendererShell.Abstractions;
 
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime
 {
     /// <summary>
     /// Wraps the static (non per-camera) <see cref="IOutputCommandDispatcher"/>
     /// registrations for the camera-switcher output adapter. Per-camera dynamic
-    /// registrations are owned by <see cref="CameraSwitcherOutputAdapter"/> itself.
+    /// registrations are owned by <see cref="CameraSwitcherOutputAdapterCore"/> itself.
     /// </summary>
     /// <remarks>
     /// The class is a thin facade over the dispatcher: it stores the returned
@@ -29,7 +30,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime
         /// <c>camera/preview/command</c>, <c>camera/preset/command</c>) to the
         /// adapter's handlers.
         /// </summary>
-        public void RegisterAll(IOutputCommandDispatcher dispatcher, CameraSwitcherOutputAdapter adapter)
+        public void RegisterAll(IOutputCommandDispatcher dispatcher, CameraSwitcherOutputAdapterCore adapter)
         {
             if (dispatcher == null) throw new ArgumentNullException(nameof(dispatcher));
             if (adapter == null) throw new ArgumentNullException(nameof(adapter));

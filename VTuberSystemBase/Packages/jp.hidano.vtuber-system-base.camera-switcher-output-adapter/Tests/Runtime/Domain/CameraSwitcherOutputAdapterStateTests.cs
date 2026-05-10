@@ -10,6 +10,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Utilities;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
 using CameraType = VTuberSystemBase.CameraSwitcherTab.Contracts.CameraType;
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Domain
 {
     [TestFixture]
@@ -25,7 +26,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Domain
         private FakeCoreIpcBus _bus = null!;
         private FakeClock _clock = null!;
         private CameraSwitcherOutputAdapterConfig _config = null!;
-        private CameraSwitcherOutputAdapter _adapter = null!;
+        private CameraSwitcherOutputAdapterCore _adapter = null!;
 
         [SetUp]
         public void SetUp()
@@ -42,7 +43,7 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Tests.Domain
             _clock = new FakeClock(1000);
             _config = ScriptableObject.CreateInstance<CameraSwitcherOutputAdapterConfig>();
 
-            _adapter = new CameraSwitcherOutputAdapter(
+            _adapter = new CameraSwitcherOutputAdapterCore(
                 _dispatcher, _sceneRoots, _allocator, _oscHost, _volumeBinder,
                 _schemaResolver, _factory, _bus, _clock, _config);
         }

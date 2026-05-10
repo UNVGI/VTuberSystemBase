@@ -4,6 +4,7 @@ using VTuberSystemBase.CameraSwitcherOutputAdapter.Abstractions;
 using VTuberSystemBase.CameraSwitcherOutputAdapter.Domain;
 using VTuberSystemBase.CameraSwitcherTab.Contracts;
 
+using CameraSwitcherOutputAdapterCore = VTuberSystemBase.CameraSwitcherOutputAdapter.Domain.CameraSwitcherOutputAdapter;
 namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.Diagnostics
 {
     /// <summary>
@@ -12,12 +13,12 @@ namespace VTuberSystemBase.CameraSwitcherOutputAdapter.Runtime.Diagnostics
     /// </summary>
     public sealed class CameraSwitcherOutputAdapterDiagnostics
     {
-        private readonly CameraSwitcherOutputAdapter _adapter;
+        private readonly CameraSwitcherOutputAdapterCore _adapter;
         private readonly IOscReceiverHost _oscHost;
         private readonly IpcHandlerRegistration _registration;
 
         public CameraSwitcherOutputAdapterDiagnostics(
-            CameraSwitcherOutputAdapter adapter,
+            CameraSwitcherOutputAdapterCore adapter,
             IOscReceiverHost oscHost,
             IpcHandlerRegistration registration)
         {
