@@ -123,7 +123,7 @@ namespace VTuberSystemBase.StageLightingVolumeOutputAdapter.Volume
                 }
                 if (!profile.TryGet(type, out VolumeComponent component))
                 {
-                    component = profile.Add(type, overrideState: true);
+                    component = profile.Add(type, overrides: true);
                     _addedComponentTypes.Add(type);
                 }
                 component.active = cmd.Payload;
@@ -150,7 +150,7 @@ namespace VTuberSystemBase.StageLightingVolumeOutputAdapter.Volume
                 if (profile == null) return;
                 if (!profile.TryGet(type, out VolumeComponent component))
                 {
-                    component = profile.Add(type, overrideState: true);
+                    component = profile.Add(type, overrides: true);
                     _addedComponentTypes.Add(type);
                 }
                 VolumeParameterReflectionSetter.ApplyValue(component, paramName, cmd.Payload, _logger);
