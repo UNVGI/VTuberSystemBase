@@ -32,5 +32,3 @@ namespace VTuberSystemBase.OutputRendererShell.Abstractions
         RuntimeDisplaySelector = 1,
     }
 }
-</content>
-</invoke>

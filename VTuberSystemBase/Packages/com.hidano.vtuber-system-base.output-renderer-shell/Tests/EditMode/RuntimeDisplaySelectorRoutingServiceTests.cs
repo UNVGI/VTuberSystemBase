@@ -250,5 +250,3 @@ namespace VTuberSystemBase.OutputRendererShell.EditModeTests
         }
     }
 }
-</content>
-</invoke>

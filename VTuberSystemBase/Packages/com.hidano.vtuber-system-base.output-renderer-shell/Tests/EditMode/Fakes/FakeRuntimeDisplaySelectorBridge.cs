@@ -48,5 +48,3 @@ namespace VTuberSystemBase.OutputRendererShell.EditModeTests.Fakes
         }
     }
 }
-</content>
-</invoke>

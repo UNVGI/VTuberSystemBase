@@ -209,5 +209,4 @@ namespace VTuberSystemBase.OutputRendererShell.PlayModeTests
         }
     }
 }
-</content>
-</invoke>
+

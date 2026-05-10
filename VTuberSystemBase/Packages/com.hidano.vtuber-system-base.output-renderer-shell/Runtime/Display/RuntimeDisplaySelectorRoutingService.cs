@@ -244,5 +244,3 @@ namespace VTuberSystemBase.OutputRendererShell.Display
         }
     }
 }
-</content>
-</invoke>
