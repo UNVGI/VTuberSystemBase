@@ -7,8 +7,8 @@
   "type": "library",
   "author": {
     "name": "Hidano",
-    "email": "n.hidano@hidano-dev.com",
-    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase",
+    "email": "n.hidano@hidano-dev.com"
   },
   "keywords": [
     "vtuber",
@@ -23,7 +23,7 @@
     "jp.co.unvgi.vtuber-system-base.output-renderer-shell": "0.1.0",
     "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": "0.1.0",
     "jp.co.unvgi.uosc": "1.0.0",
-    "com.hidano.ucapi4unity": "0.1.0-preview.1"
+    "com.hidano.ucapi4unity": "0.1.0-preview.2"
   },
   "samples": [
     {

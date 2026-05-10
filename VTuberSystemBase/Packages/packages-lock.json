@@ -18,22 +18,14 @@
       "url": "https://registry.npmjs.com"
     },
     "com.hidano.ucapi4unity": {
-      "version": "0.1.0-preview.1",
+      "version": "0.1.0-preview.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.hidano.uosc": "1.0.0",
         "com.unity.cinemachine": "3.1.5",
         "com.unity.render-pipelines.universal": "17.0.3",
         "com.unity.timeline": "1.8.10"
       },
-      "url": "https://registry.npmjs.com"
-    },
-    "com.hidano.uosc": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://registry.npmjs.com"
     },
     "com.neuecc.unirx": {
@@ -304,7 +296,7 @@
         "jp.co.unvgi.vtuber-system-base.output-renderer-shell": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": "0.1.0",
         "jp.co.unvgi.uosc": "1.0.0",
-        "com.hidano.ucapi4unity": "0.1.0-preview.1"
+        "com.hidano.ucapi4unity": "0.1.0-preview.2"
       }
     },
     "jp.co.unvgi.vtuber-system-base.camera-switcher-tab": {
@@ -315,7 +307,7 @@
         "jp.co.unvgi.vtuber-system-base.core-ipc-foundation": "0.1.0",
         "jp.co.unvgi.vtuber-system-base.ui-toolkit-shell": "0.1.0",
         "jp.co.unvgi.uosc": "1.0.0",
-        "com.hidano.ucapi4unity": "0.1.0-preview.1",
+        "com.hidano.ucapi4unity": "0.1.0-preview.2",
         "jp.co.unvgi.scene-view-style-camera-controller": "1.0.1"
       }
     },
