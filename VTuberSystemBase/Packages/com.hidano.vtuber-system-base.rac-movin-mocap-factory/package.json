@@ -1,0 +1,24 @@
+{
+  "name": "jp.co.unvgi.vtuber-system-base.rac-movin-mocap-factory",
+  "version": "0.1.0",
+  "displayName": "VTuberSystemBase RAC MOVIN MoCap Factory",
+  "description": "Bridge package that provides the MOVIN MoCap source config factory for the RAC main output adapter. It depends on rac-main-output-adapter and realtimeavatarcontroller.movin, and is scoped to factory/provider integration without changing MOVIN runtime registration or Stub fallback behavior.",
+  "unity": "6000.3",
+  "type": "library",
+  "author": {
+    "name": "Hidano",
+    "email": "n.hidano@hidano-dev.com",
+    "url": "https://github.com/Hidano-Dev/VTuberSystemBase"
+  },
+  "keywords": [
+    "vtuber",
+    "rac",
+    "movin",
+    "mocap",
+    "factory"
+  ],
+  "dependencies": {
+    "jp.co.unvgi.vtuber-system-base.rac-main-output-adapter": "0.1.0",
+    "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.7"
+  }
+}

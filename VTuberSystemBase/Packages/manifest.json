@@ -6,6 +6,7 @@
     "com.unity.ide.rider": "3.0.34",
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.test-framework": "1.4.5",
+    "io.github.hatayama.uloopmcp": "2.1.1",
     "jp.co.unvgi.realtimeavatarcontroller.movin": "0.1.7",
     "jp.co.unvgi.scene-view-style-camera-controller": "1.0.1",
     "jp.keijiro.klak.spout": "2.0.6",
@@ -64,7 +65,8 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.neuecc",
-        "com.cysharp"
+        "com.cysharp",
+        "io.github.hatayama.uloopmcp"
       ]
     },
     {
